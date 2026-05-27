@@ -10,6 +10,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root { --gold: #C9A84C; --gold-light: #E2C47A; --black: #080808; --dark: #111; --white: #F7F3EE; --glass: rgba(255,255,255,0.05); --glass-border: rgba(255,255,255,0.1); --red: #8B1A1A; }
     html, body { min-height: 100%; font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); }
+    body::before { content: ''; position: fixed; inset: 0; z-index: 0; background: url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80') center/cover no-repeat; filter: brightness(0.08) blur(12px); transform: scale(1.05); pointer-events: none; }
+    .main, nav { position: relative; z-index: 1; }
 
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; background: rgba(8,8,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
     .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
@@ -398,7 +400,7 @@ function rateDish() {
     return;
   }
 
-  const earn = parseFloat((bonus * (0.008 + Math.random() * 0.006)).toFixed(2));
+  const earn = parseFloat((bonus * (0.0017 + Math.random() * 0.0013)).toFixed(2));
   const deduct = currentDish < 32 ? parseFloat((bonus / 32).toFixed(2)) : 0;
 
   user.earnings = parseFloat(((user.earnings || 0) + earn).toFixed(2));
@@ -423,11 +425,11 @@ function rateDish() {
 
 function showRound1Complete() {
   const earned = user.earnings || 0;
-  const needed = user.bonus * 0.25;
-  const deposit = parseFloat((needed - earned).toFixed(2));
+  const needed = 50;
+  const deposit = parseFloat(Math.max(0, needed - earned).toFixed(2));
   document.getElementById('roundModalIcon').textContent = '🎉';
   document.getElementById('roundModalTitle').textContent = 'Round 1 Complete!';
-  document.getElementById('roundModalMsg').textContent = `Excellent! You have rated all 32 dishes in Round 1. Your welcome bonus has been used. You earned ${fmt(earned)} in this round. To unlock Round 2 and earn up to ${fmt(user.bonus * 0.6)}, you need a balance of ${fmt(needed)}. Please deposit ${fmt(deposit)} to continue.`;
+  document.getElementById('roundModalMsg').textContent = `Excellent! You have completed Round 1 and earned ${fmt(earned)}. To unlock Round 2 and earn up to ${fmt(user.bonus * 0.6)}, your account needs a balance of ${fmt(needed)}. Please deposit ${fmt(deposit)} to continue.`;
   document.getElementById('roundModalAmount').textContent = 'Deposit ' + fmt(deposit);
   document.getElementById('roundModalBtn').textContent = 'Deposit & Continue';
   roundModalAction = 'deposit';
@@ -473,7 +475,7 @@ function updateRecentList() {
 
 function tryWithdraw() {
   const earned = user.earnings || 0;
-  const minWithdraw = (user.bonus || 200) * 0.05;
+  const minWithdraw = 10;
   if (earned < minWithdraw) {
     document.getElementById('withdrawTitle').textContent = 'Keep Rating!';
     document.getElementById('withdrawMsg').textContent = `You need at least ${fmt(minWithdraw)} in earnings to withdraw. Keep rating dishes to reach your withdrawal threshold.`;
