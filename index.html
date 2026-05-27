@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Afrique Guide – Discover & Rate Africa's Finest Cuisine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E2C47A;
+      --black: #080808;
+      --dark: #111111;
+      --white: #F7F3EE;
+      --glass: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.1);
+      --red: #8B1A1A;
+    }
+    html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 52px;
+      background: rgba(8,8,8,0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-emblem {
+      width: 46px; height: 46px; border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; color: var(--gold); font-weight: 700;
+      background: rgba(201,168,76,0.08);
+    }
+    .logo-text { display: flex; flex-direction: column; }
+    .logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--white); letter-spacing: 0.06em; font-weight: 600; }
+    .logo-tag { font-size: 0.58rem; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; margin-top: 2px; font-weight: 300; }
+    .nav-auth { display: flex; gap: 12px; }
+    .btn-ghost { padding: 9px 22px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--white); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-gold { padding: 9px 24px; background: var(--gold); color: var(--black); border: 1px solid var(--gold); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; font-weight: 500; transition: background 0.2s; }
+    .btn-gold:hover { background: var(--gold-light); }
+
+    .hero { position: relative; height: 100vh; overflow: hidden; }
+    .slides { position: absolute; inset: 0; }
+    .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; animation: slideShow 45s infinite; filter: brightness(0.3); }
+    .slide:nth-child(1) { background-image: url('https://source.unsplash.com/1600x900/?african-food,feast'); animation-delay: 0s; }
+    .slide:nth-child(2) { background-image: url('https://source.unsplash.com/1600x900/?jollof-rice,nigerian-food'); animation-delay: 15s; }
+    .slide:nth-child(3) { background-image: url('https://source.unsplash.com/1600x900/?kenyan-food,nyama-choma'); animation-delay: 30s; }
+    @keyframes slideShow { 0%{opacity:0;transform:scale(1)} 5%{opacity:1} 28%{opacity:1;transform:scale(1.06)} 33%{opacity:0;transform:scale(1.06)} 100%{opacity:0} }
+
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.15) 40%, rgba(8,8,8,0.7) 100%); z-index: 1; }
+
+    .hero-content {
+      position: absolute; inset: 0; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 0 24px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 22px;
+    }
+    .eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 700; line-height: 1.05;
+      max-width: 900px; margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--white) 60%, var(--gold-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 1rem; font-weight: 300;
+      color: rgba(247,243,238,0.65);
+      max-width: 500px; line-height: 1.8; margin-bottom: 44px;
+    }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .btn-lg { padding: 15px 40px; font-size: 0.82rem; letter-spacing: 0.12em; }
+    .btn-outline-lg { padding: 15px 32px; font-size: 0.78rem; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: rgba(247,243,238,0.7); border-radius: 2px; cursor: pointer; font-family: 'DM Sans', sans-serif; text-transform: uppercase; text-decoration: none; letter-spacing: 0.1em; transition: all 0.2s; }
+    .btn-outline-lg:hover { border-color: var(--white); color: var(--white); }
+
+    .scroll-hint { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; z-index: 10; }
+    .scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, var(--gold), transparent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+    .strip {
+      display: flex; justify-content: center;
+      background: rgba(201,168,76,0.06);
+      border-top: 1px solid rgba(201,168,76,0.2);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .strip-item { padding: 30px 44px; text-align: center; border-right: 1px solid rgba(201,168,76,0.15); flex: 1; max-width: 260px; }
+    .strip-item:last-child { border-right: none; }
+    .strip-icon { font-size: 1.4rem; margin-bottom: 8px; }
+    .strip-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; margin-bottom: 5px; color: var(--gold-light); }
+    .strip-desc { font-size: 0.72rem; color: rgba(247,243,238,0.45); font-weight: 300; line-height: 1.6; }
+
+    .section { padding: 90px 60px; max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); margin-bottom: 50px; font-weight: 600; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .dish-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 4px; overflow: hidden; transition: transform 0.3s, border-color 0.3s; cursor: pointer; }
+    .dish-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+    .dish-card-img { width: 100%; height: 180px; object-fit: cover; filter: brightness(0.85); transition: filter 0.3s; }
+    .dish-card:hover .dish-card-img { filter: brightness(1); }
+    .dish-card-body { padding: 16px 18px; }
+    .dish-card-country { font-size: 0.63rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .dish-card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: 8px; font-weight: 600; }
+    .dish-card-rating { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: rgba(247,243,238,0.55); }
+    .stars { color: var(--gold); }
+
+    .how-it-works { background: rgba(255,255,255,0.02); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); padding: 80px 60px; }
+    .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 1000px; margin: 0 auto; }
+    .how-item { text-align: center; padding: 30px 20px; }
+    .how-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: rgba(201,168,76,0.25); font-weight: 700; line-height: 1; margin-bottom: 14px; }
+    .how-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold-light); margin-bottom: 10px; }
+    .how-desc { font-size: 0.78rem; color: rgba(247,243,238,0.5); line-height: 1.7; font-weight: 300; }
+
+    .cta-band { text-align: center; padding: 90px 24px; background: linear-gradient(135deg, rgba(139,26,26,0.15), rgba(201,168,76,0.08)); border-top: 1px solid var(--glass-border); }
+    .cta-band h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 16px; }
+    .cta-band p { color: rgba(247,243,238,0.55); font-size: 0.9rem; margin-bottom: 36px; font-weight: 300; }
+
+    footer { border-top: 1px solid var(--glass-border); padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); font-size: 0.72rem; color: rgba(247,243,238,0.3); }
+    footer a { color: inherit; text-decoration: none; }
+    footer a:hover { color: var(--gold); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .strip { flex-direction: column; align-items: center; }
+      .strip-item { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.15); max-width: 100%; }
+      .section { padding: 60px 20px; }
+      .how-it-works { padding: 60px 20px; }
+      .how-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo-wrap">
+    <div class="logo-emblem">AG</div>
+    <div class="logo-text">
+      <span class="logo-name">Afrique Guide</span>
+      <span class="logo-tag">Africa's Finest Cuisine</span>
+    </div>
+  </a>
+  <div class="nav-auth">
+    <a href="signin.html" class="btn-ghost">Sign In</a>
+    <a href="signup.html" class="btn-gold">Get Started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="slides">
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow"><span class="eyebrow-line"></span>The African Food Authority<span class="eyebrow-line"></span></p>
+    <h1 class="hero-title">Africa's Finest<br>Flavours, Ranked.</h1>
+    <p class="hero-sub">Discover, rate, and celebrate the richest culinary traditions across the African continent. From Nairobi to Lagos, every dish has a story worth telling.</p>
+    <div class="hero-ctas">
+      <a href="signup.html" class="btn-gold btn-lg">Start Rating</a>
+      <a href="signin.html" class="btn-ghost btn-lg">Sign In</a>
+      <a href="home.html" class="btn-outline-lg">Browse Dishes</a>
+    </div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<div class="strip">
+  <div class="strip-item"><div class="strip-icon">🌍</div><div class="strip-title">Pan-African</div><div class="strip-desc">Dishes from every corner of the continent, 54 countries represented.</div></div>
+  <div class="strip-item"><div class="strip-icon">⭐</div><div class="strip-title">Rate & Earn</div><div class="strip-desc">Rate dishes daily and earn real rewards directly to your mobile wallet.</div></div>
+  <div class="strip-item"><div class="strip-icon">🔥</div><div class="strip-title">Trending Now</div><div class="strip-desc">See which dishes are setting the continent on fire right now.</div></div>
+  <div class="strip-item"><div class="strip-icon">📱</div><div class="strip-title">M-Pesa Ready</div><div class="strip-desc">Withdraw earnings directly to M-Pesa, MTN Mobile Money and more.</div></div>
+</div>
+
+<div class="section">
+  <p class="section-label">Highly Rated This Week</p>
+  <h2 class="section-title">Trending African Dishes</h2>
+  <div class="cards-grid">
+    <div class="dish-card"><img class="dish-card-img" src="https://source.unsplash.com/600x400/?nyama-choma,kenyan-grilled-meat" alt="Nyama Choma"><div class="dish-card-body"><div class="dish-card-country">🇰🇪 Kenya</div><div class="dish-card-name">Nyama Choma</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 3.2k ratings</div></div></div>
+    <div class="dish-card"><img class="dish-card-img" src="https://source.unsplash.com/600x400/?jollof-rice,nigerian-food" alt="Jollof Rice"><div class="dish-card-body"><div class="dish-card-country">🇳🇬 Nigeria</div><div class="dish-card-name">Jollof Rice</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.8 · 5.1k ratings</div></div></div>
+    <div class="dish-card"><img class="dish-card-img" src="https://source.unsplash.com/600x400/?injera,ethiopian-food" alt="Injera Firfir"><div class="dish-card-body"><div class="dish-card-country">🇪🇹 Ethiopia</div><div class="dish-card-name">Injera Firfir</div><div class="dish-card-rating"><span class="stars">★★★★☆</span> 4.7 · 2.8k ratings</div></div></div>
+    <div class="dish-card"><img class="dish-card-img" src="https://source.unsplash.com/600x400/?tagine,moroccan-food" alt="Chicken Tagine"><div class="dish-card-body"><div class="dish-card-country">🇲🇦 Morocco</div><div class="dish-card-name">Chicken Tagine</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 4.0k ratings</div></div></div>
+  </div>
+</div>
+
+<div class="how-it-works">
+  <div style="text-align:center;max-width:600px;margin:0 auto 50px;">
+    <p class="section-label" style="justify-content:center;display:block;">How It Works</p>
+    <h2 class="section-title" style="margin-bottom:0;">Rate Dishes. Earn Rewards.</h2>
+  </div>
+  <div class="how-grid">
+    <div class="how-item">
+      <div class="how-num">01</div>
+      <div class="how-title">Create Your Account</div>
+      <div class="how-desc">Sign up in seconds. Choose your country and receive your welcome bonus instantly — no deposit needed to start.</div>
+    </div>
+    <div class="how-item">
+      <div class="how-num">02</div>
+      <div class="how-title">Rate African Dishes</div>
+      <div class="how-desc">96 dishes available daily across 3 rounds. Rate each dish and earn rewards with every submission.</div>
+    </div>
+    <div class="how-item">
+      <div class="how-num">03</div>
+      <div class="how-title">Withdraw Earnings</div>
+      <div class="how-desc">Withdraw directly to M-Pesa, MTN Mobile Money, or your preferred local payment method.</div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <h2>Ready to Taste the Continent?</h2>
+  <p>Join thousands of food lovers across Africa earning daily rewards.</p>
+  <a href="signup.html" class="btn-gold btn-lg">Create Free Account</a>
+</div>
+
+<footer>
+  <div>© 2025 Afrique Guide. All rights reserved.</div>
+  <div style="display:flex;gap:20px;">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms</a>
+    <a href="#">Support</a>
+  </div>
+</footer>
+
+</body>
+</html>

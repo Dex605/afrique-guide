@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In – Afrique Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --gold: #C9A84C; --gold-light: #E2C47A; --black: #080808; --white: #F7F3EE; --glass: rgba(255,255,255,0.05); --glass-border: rgba(255,255,255,0.1); }
+    html, body { min-height: 100%; font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); }
+    body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 40px 20px; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: 0; background: url('https://source.unsplash.com/1600x900/?african-food,dinner') center/cover no-repeat; filter: brightness(0.12); pointer-events: none; }
+
+    .card { position: relative; z-index: 1; background: rgba(11,11,11,0.92); border: 1px solid var(--glass-border); border-radius: 6px; padding: 44px 48px; width: 100%; max-width: 440px; backdrop-filter: blur(20px); }
+    .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 32px; }
+    .logo-emblem { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); font-weight: 700; }
+    .logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--white); letter-spacing: 0.05em; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; margin-bottom: 6px; }
+    .subtitle { font-size: 0.82rem; color: rgba(247,243,238,0.5); margin-bottom: 32px; font-weight: 300; }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247,243,238,0.55); margin-bottom: 7px; }
+    input { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 3px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+    input:focus { border-color: var(--gold); }
+    .btn-submit { width: 100%; padding: 14px; background: var(--gold); color: var(--black); border: none; border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    .btn-submit:hover { background: var(--gold-light); }
+    .signup-link { text-align: center; margin-top: 20px; font-size: 0.78rem; color: rgba(247,243,238,0.45); }
+    .signup-link a { color: var(--gold); text-decoration: none; }
+    .error-msg { background: rgba(139,26,26,0.2); border: 1px solid rgba(139,26,26,0.4); border-radius: 3px; padding: 10px 14px; font-size: 0.78rem; color: #ff8080; margin-bottom: 16px; display: none; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <a href="index.html" class="logo-wrap">
+    <div class="logo-emblem">AG</div>
+    <span class="logo-name">Afrique Guide</span>
+  </a>
+  <h1>Welcome Back</h1>
+  <p class="subtitle">Sign in to continue rating and earning</p>
+  <div class="error-msg" id="errorMsg">Invalid email or password.</div>
+  <div class="form-group">
+    <label>Email Address</label>
+    <input type="email" placeholder="you@example.com" id="email"/>
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" placeholder="Your password" id="password"/>
+  </div>
+  <button class="btn-submit" onclick="handleSignin()">Sign In</button>
+  <div class="signup-link">Don't have an account? <a href="signup.html">Sign Up</a></div>
+</div>
+<script>
+  function handleSignin() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const stored = localStorage.getItem('ag_user');
+    if (!stored) { showError(); return; }
+    const user = JSON.parse(stored);
+    if (user.email === email) {
+      localStorage.setItem('ag_logged_in', 'true');
+      window.location.href = 'home.html';
+    } else { showError(); }
+  }
+  function showError() {
+    const e = document.getElementById('errorMsg');
+    e.style.display = 'block';
+  }
+</script>
+</body>
+</html>
