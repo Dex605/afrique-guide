@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rate Brands – Afrique Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--gold:#C9A84C;--gold-light:#E2C47A;--black:#080808;--white:#F7F3EE;--glass:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--sidebar:220px}
+    html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden}
+    .app{display:flex;min-height:100vh}
+
+    .sidebar{width:var(--sidebar);flex-shrink:0;background:rgba(5,5,5,0.99);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform 0.3s}
+    .sb-logo{padding:18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+    .sb-em{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);font-weight:700}
+    .sb-name{font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--white)}
+    .sb-nav{flex:1;padding:12px 0;overflow-y:auto}
+    .nav-item{display:flex;align-items:center;gap:11px;padding:12px 18px;cursor:pointer;color:rgba(247,243,238,0.46);font-size:0.74rem;letter-spacing:0.05em;transition:all 0.2s;border-left:3px solid transparent;text-transform:uppercase;text-decoration:none}
+    .nav-item:hover{color:var(--white);background:rgba(255,255,255,0.03)}
+    .nav-item.active{color:var(--white);border-left-color:var(--gold);background:rgba(201,168,76,0.07)}
+    .nav-icon{font-size:0.9rem;width:18px;text-align:center}
+    .sb-footer{padding:14px;border-top:1px solid var(--border)}
+    .user-chip{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:4px}
+    .u-av{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:600;color:var(--black);flex-shrink:0}
+    .u-name{font-size:0.72rem;font-weight:500}
+    .u-id{font-size:0.56rem;color:rgba(247,243,238,0.35)}
+
+    .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column}
+    .topbar{padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(8,8,8,0.9);backdrop-filter:blur(14px);position:sticky;top:0;z-index:40}
+    .topbar-title{font-family:'Cormorant Garamond',serif;font-size:1rem}
+    .tb-right{display:flex;align-items:center;gap:12px}
+    .tb-bal{font-size:0.76rem;color:var(--gold)}
+    .tb-bal span{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700}
+    .btn-sm{padding:6px 14px;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;border-radius:2px;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;border:1px solid;transition:all 0.2s}
+    .btn-ghost-sm{background:rgba(255,255,255,0.04);color:var(--white);border-color:var(--border)}
+    .btn-ghost-sm:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-gold-sm{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:500}
+
+    .page-content{padding:24px;flex:1}
+
+    .round-bar{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);border-radius:4px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:22px}
+    .round-tabs{display:flex;gap:8px}
+    .rtab{padding:5px 16px;border-radius:2px;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:rgba(247,243,238,0.4)}
+    .rtab.active{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:500}
+    .rtab.done{border-color:rgba(201,168,76,0.3);color:rgba(201,168,76,0.45)}
+    .round-info{font-size:0.72rem;color:rgba(247,243,238,0.45)}
+    .round-info span{color:var(--gold-light);font-weight:500}
+    .prog-wrap{height:3px;background:rgba(255,255,255,0.05);border-radius:2px;margin-bottom:22px}
+    .prog-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width 0.5s ease}
+
+    .content-grid{display:grid;grid-template-columns:1fr 310px;gap:22px}
+
+    /* Brand card */
+    .brand-card-main{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    /* Blurred logo hero at top of rating card */
+    .bc-hero{height:140px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .bc-hero-bg{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:center;filter:blur(40px) brightness(0.25);transform:scale(3)}
+    .bc-hero-logo{position:relative;z-index:1;width:110px;height:80px;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,0,0,0.6))}
+    .brand-card-header{padding:18px 28px 14px;border-bottom:1px solid var(--border)}
+    .bc-country{font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+    .bc-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;margin-bottom:5px}
+    .bc-sector{font-size:0.72rem;color:rgba(247,243,238,0.45);font-weight:300}
+    .special-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.06));border:1px solid rgba(201,168,76,0.4);border-radius:3px;padding:5px 12px;font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);margin-top:8px}
+    .brand-story{padding:18px 28px;font-size:0.8rem;color:rgba(247,243,238,0.52);line-height:1.85;font-weight:300;border-bottom:1px solid var(--border)}
+    .brand-rating-ui{padding:20px 28px}
+    .r-label{font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(247,243,238,0.45);margin-bottom:12px}
+    .stars{display:flex;gap:10px;margin-bottom:20px}
+    .star{font-size:2rem;cursor:pointer;color:rgba(255,255,255,0.14);transition:color 0.15s,transform 0.15s}
+    .star:hover,.star.active{color:var(--gold);transform:scale(1.15)}
+    .btn-rate{width:100%;padding:14px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background 0.2s}
+    .btn-rate:hover{background:var(--gold-light)}
+    .btn-rate:disabled{background:rgba(201,168,76,0.28);color:rgba(0,0,0,0.35);cursor:not-allowed}
+
+    .balance-card{background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.22);border-radius:6px;padding:22px;margin-bottom:18px}
+    .bl-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+    .bl-amount{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--gold-light);margin-bottom:3px}
+    .bl-sub{font-size:0.68rem;color:rgba(247,243,238,0.36);margin-bottom:16px}
+    .bl-bonus-row{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.18);border-radius:3px;padding:8px 11px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;font-size:0.72rem}
+    .bl-bonus-row .lbl{color:rgba(247,243,238,0.5)}
+    .bl-bonus-row .val{color:var(--gold-light);font-weight:500}
+    .bl-row{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid rgba(255,255,255,0.05);font-size:0.72rem}
+    .bl-row .lbl{color:rgba(247,243,238,0.45)}
+    .bl-row .val{color:var(--white);font-weight:500}
+    .btn-withdraw{width:100%;padding:9px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:12px}
+    .btn-withdraw:hover{background:rgba(201,168,76,0.1)}
+    .recent-panel{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:18px}
+    .rp-title{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(247,243,238,0.36);margin-bottom:12px}
+    .recent-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+    .recent-item:last-child{border-bottom:none}
+    .ri-logo{width:26px;height:18px;object-fit:contain;flex-shrink:0;opacity:0.7}
+    .ri-name{font-size:0.75rem;flex:1}
+    .ri-earn{font-size:0.7rem;color:#4caf50;font-weight:500}
+
+    /* Modals */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)}
+    .modal-overlay.open{display:flex}
+    .modal{background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:36px;max-width:440px;width:100%;text-align:center}
+    .m-icon{font-size:2.4rem;margin-bottom:14px}
+    .m-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;margin-bottom:9px}
+    .m-msg{font-size:0.8rem;color:rgba(247,243,238,0.52);line-height:1.75;margin-bottom:20px;font-weight:300}
+    .m-amount{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--gold-light);margin:14px 0}
+    .m-neg{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:#ff6b6b;margin:14px 0}
+    .btn-primary{display:block;width:100%;padding:12px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background 0.2s;margin-bottom:9px;text-decoration:none}
+    .btn-primary:hover{background:var(--gold-light)}
+    .btn-sec{display:block;width:100%;padding:10px;background:transparent;border:1px solid var(--border);color:rgba(247,243,238,0.55);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.76rem;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;text-decoration:none}
+
+    .mob-menu-btn{display:none;background:none;border:none;color:var(--white);font-size:1.3rem;cursor:pointer}
+    @media(max-width:768px){
+      .sidebar{transform:translateX(-100%)}
+      .sidebar.open{transform:translateX(0)}
+      .main{margin-left:0}
+      .mob-menu-btn{display:block}
+      .content-grid{grid-template-columns:1fr}
+      .page-content{padding:16px}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-logo">
+      <div class="sb-em">AG</div>
+      <span class="sb-name">Afrique Guide</span>
+    </div>
+    <nav class="sb-nav">
+      <a href="home.html"   class="nav-item"><span class="nav-icon">🏠</span>Home</a>
+      <a href="rate.html"   class="nav-item active"><span class="nav-icon">⭐</span>Rate Brands</a>
+      <a href="brands.html" class="nav-item"><span class="nav-icon">🏢</span>All Brands</a>
+      <a href="wallet.html" class="nav-item"><span class="nav-icon">💰</span>Wallet</a>
+      <a href="#" class="nav-item" onclick="logout()"><span class="nav-icon">🚪</span>Sign Out</a>
+    </nav>
+    <div class="sb-footer">
+      <div class="user-chip">
+        <div class="u-av" id="userAv">?</div>
+        <div><div class="u-name" id="userName">Loading...</div><div class="u-id" id="userCountry"></div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mob-menu-btn" onclick="toggleSidebar()">☰</button>
+        <span class="topbar-title">Rate Brands & Earn</span>
+      </div>
+      <div class="tb-right">
+        <div class="tb-bal">Balance: <span id="navBal">—</span></div>
+        <a href="wallet.html" class="btn-sm btn-ghost-sm">Wallet</a>
+        <button class="btn-sm btn-gold-sm" onclick="location.href='wallet.html'">Deposit</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="round-bar">
+        <div class="round-tabs">
+          <div class="rtab" id="tab1">Round 1 — Bonus</div>
+          <div class="rtab" id="tab2">Round 2</div>
+          <div class="rtab" id="tab3">Round 3 — Premium</div>
+        </div>
+        <div class="round-info">Brand <span id="taskNum">1</span> of 32 &nbsp;·&nbsp; <span id="roundLabel">Welcome Round</span></div>
+      </div>
+      <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:3%"></div></div>
+
+      <div class="content-grid">
+        <!-- Brand rating card -->
+        <div class="brand-card-main">
+          <div class="bc-hero">
+            <div class="bc-hero-bg" id="bcHeroBg"></div>
+            <img class="bc-hero-logo" id="bcLogo" src="" alt="">
+          </div>
+          <div class="brand-card-header">
+            <div class="bc-country" id="bcCountry"></div>
+            <div class="bc-name" id="bcName"></div>
+            <div class="bc-sector" id="bcSector"></div>
+            <div class="special-badge" id="specialBadge" style="display:none">⭐ Premium Brand — Bonus Multiplier</div>
+          </div>
+          <div class="brand-story" id="bcStory"></div>
+          <div class="brand-rating-ui">
+            <div class="r-label">Rate This Brand — Select Stars</div>
+            <div class="stars" id="starsRow">
+              <span class="star" data-v="1">★</span>
+              <span class="star" data-v="2">★</span>
+              <span class="star" data-v="3">★</span>
+              <span class="star" data-v="4">★</span>
+              <span class="star" data-v="5">★</span>
+            </div>
+            <button class="btn-rate" id="rateBtn" disabled onclick="rateBrand()">Select Stars to Submit Rating</button>
+          </div>
+        </div>
+
+        <!-- Right panel -->
+        <div>
+          <div class="balance-card">
+            <div class="bl-label">Account Balance</div>
+            <div class="bl-amount" id="blAmount">—</div>
+            <div class="bl-sub">Your actual earnings</div>
+            <div class="bl-bonus-row"><span class="lbl">🎁 Welcome Bonus</span><span class="val" id="blBonus">—</span></div>
+            <div class="bl-row"><span class="lbl">Total Earned</span><span class="val" id="blEarned">—</span></div>
+            <div class="bl-row"><span class="lbl">Brands Rated</span><span class="val" id="blRated">0 / 96</span></div>
+            <button class="btn-withdraw" onclick="tryWithdraw()">Withdraw Earnings</button>
+          </div>
+          <div class="recent-panel">
+            <div class="rp-title">Recent Ratings</div>
+            <div id="recentList"><p style="font-size:0.72rem;color:rgba(247,243,238,0.3);text-align:center;padding:12px 0">Rate your first brand to start earning</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals -->
+<div class="modal-overlay" id="roundModal">
+  <div class="modal">
+    <div class="m-icon" id="mIcon">🎉</div>
+    <div class="m-title" id="mTitle"></div>
+    <div class="m-msg" id="mMsg"></div>
+    <div class="m-amount" id="mAmount"></div>
+    <button class="btn-primary" id="mBtn" onclick="handleModalAction()">Continue</button>
+  </div>
+</div>
+<div class="modal-overlay" id="specialModal">
+  <div class="modal">
+    <div class="m-icon">⚠️</div>
+    <div class="m-title">Premium Brand Alert</div>
+    <div class="m-msg" id="spMsg"></div>
+    <div class="m-neg" id="spAmount"></div>
+    <p style="font-size:0.68rem;color:rgba(247,243,238,0.35);margin-bottom:18px">Top up to unlock your multiplied earnings and continue.</p>
+    <a href="wallet.html" class="btn-primary">Top Up Now</a>
+    <button class="btn-sec" onclick="closeM('specialModal')">Contact Support</button>
+  </div>
+</div>
+<div class="modal-overlay" id="withdrawModal">
+  <div class="modal">
+    <div class="m-icon">💸</div>
+    <div class="m-title" id="wTitle"></div>
+    <div class="m-msg" id="wMsg"></div>
+    <div class="m-amount" id="wAmount"></div>
+    <a href="wallet.html" class="btn-primary">Go to Wallet</a>
+    <button class="btn-sec" onclick="closeM('withdrawModal')">Close</button>
+  </div>
+</div>
+
+<script src="brands.js"></script>
+<script>
+let user={},currentBrand=0,selectedRating=0,recentRatings=[],modalAction='';
+
+function init(){
+  const s=localStorage.getItem('ag_user');
+  if(!s){location.href='signin.html';return}
+  user=JSON.parse(s);
+  if(!user.tasksCompleted) user.tasksCompleted=0;
+  if(!user.earnings) user.earnings=0;
+  if(!user.bonusUsed) user.bonusUsed=0;
+  if(!user.bonusRemaining) user.bonusRemaining=user.bonus;
+  currentBrand=user.tasksCompleted;
+  // Update last seen
+  user.lastSeen=new Date().toISOString();
+  document.getElementById('userAv').textContent=user.name?user.name[0].toUpperCase():'?';
+  document.getElementById('userName').textContent=user.name||'User';
+  document.getElementById('userCountry').textContent=user.currency||'KES';
+  updateUI(); loadBrand(); setupStars();
+}
+
+function fmt(n){return (user.symbol||'KES')+' '+Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+function updateUI(){
+  const earn=user.earnings||0;
+  document.getElementById('navBal').textContent=fmt(earn);
+  document.getElementById('blAmount').textContent=fmt(earn);
+  document.getElementById('blBonus').textContent=fmt(user.bonusRemaining||0);
+  document.getElementById('blEarned').textContent=fmt(earn);
+  document.getElementById('blRated').textContent=(user.tasksCompleted||0)+' / 96';
+  const r=currentBrand<32?1:currentBrand<64?2:3;
+  const rs=r===1?0:r===2?32:64;
+  document.getElementById('tab1').className='rtab'+(r===1?' active':' done');
+  document.getElementById('tab2').className='rtab'+(r===2?' active':r>2?' done':'');
+  document.getElementById('tab3').className='rtab'+(r===3?' active':'');
+  document.getElementById('progBar').style.width=Math.max(3,((currentBrand-rs)/32)*100)+'%';
+  document.getElementById('taskNum').textContent=(currentBrand%32)+1;
+  document.getElementById('roundLabel').textContent=r===1?'Welcome Round':r===2?'Main Round':'Premium Round';
+}
+
+function loadBrand(){
+  if(currentBrand>=96){showComplete();return}
+  const b=BRANDS[currentBrand];
+  document.getElementById('bcLogo').src=b.logo;
+  document.getElementById('bcLogo').onerror=function(){this.onerror=null;this.src=b.fallback;};
+  document.getElementById('bcHeroBg').style.backgroundImage=`url('${b.logo}')`;
+  document.getElementById('bcCountry').textContent=b.country;
+  document.getElementById('bcName').textContent=b.name;
+  document.getElementById('bcSector').textContent=b.sector;
+  document.getElementById('bcStory').textContent=b.story;
+  document.getElementById('specialBadge').style.display=b.special?'inline-flex':'none';
+  selectedRating=0;
+  document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));
+  document.getElementById('rateBtn').disabled=true;
+  document.getElementById('rateBtn').textContent='Select Stars to Submit Rating';
+}
+
+function setupStars(){
+  document.querySelectorAll('.star').forEach(star=>{
+    star.addEventListener('click',()=>{
+      selectedRating=parseInt(star.dataset.v);
+      document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<selectedRating));
+      document.getElementById('rateBtn').disabled=false;
+      document.getElementById('rateBtn').textContent='Submit Rating (' + selectedRating + ' Star' + (selectedRating>1?'s':'') + ')';
+    });
+  });
+}
+
+function rateBrand(){
+  if(!selectedRating)return;
+  const b=BRANDS[currentBrand];
+  const bonus=user.bonus||200;
+  if(b.special){
+    const neg=parseFloat((bonus*(0.8+Math.random()*0.6)).toFixed(2));
+    user.earnings=parseFloat(((user.earnings||0)-neg).toFixed(2));
+    saveUser();updateUI();
+    document.getElementById('spMsg').textContent=`This premium brand has pushed your account balance to ${fmt(user.earnings)}. Top up ${fmt(neg)} to unlock your multiplied earnings and continue.`;
+    document.getElementById('spAmount').textContent=fmt(neg)+' required';
+    openM('specialModal');return;
+  }
+  const earn=parseFloat((bonus*(0.0017+Math.random()*0.0013)).toFixed(2));
+  const deduct=currentBrand<32?parseFloat((bonus/32).toFixed(2)):0;
+  user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));
+  user.bonusUsed=parseFloat(((user.bonusUsed||0)+deduct).toFixed(2));
+  user.bonusRemaining=parseFloat(((user.bonus||0)-(user.bonusUsed||0)).toFixed(2));
+  user.tasksCompleted=(user.tasksCompleted||0)+1;
+  currentBrand++;
+  recentRatings.unshift({name:b.name,logo:b.logo,earn});
+  if(recentRatings.length>5)recentRatings.pop();
+  renderRecent();saveUser();updateUI();
+  if(currentBrand===32){showRound1();return}
+  if(currentBrand===64){showRound2();return}
+  if(currentBrand>=96){showComplete();return}
+  loadBrand();
+}
+
+function showRound1(){
+  const earn=user.earnings||0;const needed=50;const deposit=Math.max(0,parseFloat((needed-earn).toFixed(2)));
+  document.getElementById('mIcon').textContent='🎉';
+  document.getElementById('mTitle').textContent='Round 1 Complete!';
+  document.getElementById('mMsg').textContent=`You completed Round 1 and earned ${fmt(earn)}. To unlock Round 2 and access higher earning brands, your account needs a minimum balance of ${fmt(needed)}. Please top up ${fmt(deposit)} to continue.`;
+  document.getElementById('mAmount').textContent='Deposit '+fmt(deposit);
+  document.getElementById('mBtn').textContent='Deposit & Unlock Round 2';
+  modalAction='deposit';openM('roundModal');
+}
+function showRound2(){
+  const earn=user.earnings||0;
+  document.getElementById('mIcon').textContent='🏅';
+  document.getElementById('mTitle').textContent='Round 2 Complete!';
+  document.getElementById('mMsg').textContent=`Impressive! You earned ${fmt(earn)} total. Round 3 unlocks the Premium brands with multiplied earnings. Continue to finish all 96 brands.`;
+  document.getElementById('mAmount').textContent='Total so far: '+fmt(earn);
+  document.getElementById('mBtn').textContent='Start Round 3 — Premium';
+  modalAction='round3';openM('roundModal');
+}
+function showComplete(){
+  document.getElementById('mIcon').textContent='🏆';
+  document.getElementById('mTitle').textContent='All 96 Brands Rated!';
+  document.getElementById('mMsg').textContent=`You have completed all 96 brands today. Your total earnings of ${fmt(user.earnings)} are ready for withdrawal. Come back tomorrow for a fresh set of ratings.`;
+  document.getElementById('mAmount').textContent=fmt(user.earnings)+' ready to withdraw';
+  document.getElementById('mBtn').textContent='Withdraw Earnings';
+  modalAction='withdraw';openM('roundModal');
+}
+function handleModalAction(){closeM('roundModal');if(modalAction==='deposit')location.href='wallet.html';else if(modalAction==='round3')loadBrand();else location.href='wallet.html'}
+function tryWithdraw(){
+  const earn=user.earnings||0;
+  if(earn<10){document.getElementById('wTitle').textContent='Keep Rating!';document.getElementById('wMsg').textContent=`You need at least ${fmt(10)} to withdraw. Keep rating brands!`;document.getElementById('wAmount').textContent=fmt(earn)+' so far';}
+  else{document.getElementById('wTitle').textContent='Withdraw Earnings';document.getElementById('wMsg').textContent=`You have ${fmt(earn)} ready. Visit your wallet to withdraw to M-Pesa, MTN MoMo, or Airtel Money.`;document.getElementById('wAmount').textContent=fmt(earn);}
+  openM('withdrawModal');
+}
+function renderRecent(){
+  document.getElementById('recentList').innerHTML = recentRatings.map(r=>`
+    <div class="recent-item">
+      <img class="ri-logo" src="${r.logo}" alt="" onerror="this.onerror=null;this.src=BRANDS.find(b=>b.name===this.alt)?.fallback||''">
+      <div class="ri-name">${r.name}</div>
+      <div class="ri-earn">+${fmt(r.earn)}</div>
+    </div>`).join('');
+}
+function openM(id){document.getElementById(id).classList.add('open')}
+function closeM(id){document.getElementById(id).classList.remove('open')}
+function saveUser(){
+  localStorage.setItem('ag_user',JSON.stringify(user));
+  const users=JSON.parse(localStorage.getItem('ag_users')||'[]');
+  const idx=users.findIndex(u=>u.email===user.email);
+  if(idx>=0)users[idx]={...user};
+  localStorage.setItem('ag_users',JSON.stringify(users));
+}
+function logout(){localStorage.removeItem('ag_logged_in');location.href='signin.html'}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
+init();
+</script>
+</body>
+</html>

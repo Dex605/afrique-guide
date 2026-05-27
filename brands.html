@@ -130,7 +130,7 @@ function renderBrands(filter){
     div.onclick = () => openModal(b);
     div.innerHTML = `
       <div class="brand-card-top">
-        <img class="brand-logo" src="${b.logo}" alt="${b.name}" onerror="this.style.opacity='0.3'">
+        <img class="brand-logo" src="${b.logo}" alt="${b.name}" onerror="this.onerror=null;this.src='${b.fallback}'">
         <div class="brand-name">${b.name}</div>
         <div class="brand-country">${b.country}</div>
         <div class="brand-sector">${b.sector}</div>
@@ -156,6 +156,7 @@ function filterBrands(f, btn){
 
 function openModal(b){
   document.getElementById('mLogo').src = b.logo;
+      document.getElementById('mLogo').onerror=function(){this.onerror=null;this.src=b.fallback;};
   document.getElementById('mName').textContent = b.name;
   document.getElementById('mMeta').textContent = b.country + ' · ' + b.sector;
   document.getElementById('mStars').textContent = '★'.repeat(Math.round(b.rating)) + '☆'.repeat(5-Math.round(b.rating)) + ' ' + b.rating;
