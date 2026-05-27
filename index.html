@@ -9,136 +9,141 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --gold: #C9A84C;
-      --gold-light: #E2C47A;
-      --black: #080808;
-      --dark: #111111;
-      --white: #F7F3EE;
-      --glass: rgba(255,255,255,0.06);
-      --glass-border: rgba(255,255,255,0.1);
-      --red: #8B1A1A;
+      --gold: #C9A84C; --gold-light: #E2C47A; --black: #080808;
+      --white: #F7F3EE; --glass: rgba(255,255,255,0.06); --glass-border: rgba(255,255,255,0.1);
     }
     html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
 
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 52px;
-      background: rgba(8,8,8,0.7);
-      backdrop-filter: blur(20px);
+      padding: 18px 52px;
+      background: rgba(8,8,8,0.75);
+      backdrop-filter: blur(22px);
       border-bottom: 1px solid var(--glass-border);
     }
     .logo-wrap { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-    .logo-emblem {
-      width: 46px; height: 46px; border-radius: 50%;
-      border: 1.5px solid var(--gold);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem; color: var(--gold); font-weight: 700;
-      background: rgba(201,168,76,0.08);
-    }
+    .logo-emblem { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold); font-weight: 700; background: rgba(201,168,76,0.08); }
     .logo-text { display: flex; flex-direction: column; }
-    .logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--white); letter-spacing: 0.06em; font-weight: 600; }
-    .logo-tag { font-size: 0.58rem; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; margin-top: 2px; font-weight: 300; }
-    .nav-auth { display: flex; gap: 12px; }
-    .btn-ghost { padding: 9px 22px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--white); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: all 0.2s; }
-    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
-    .btn-gold { padding: 9px 24px; background: var(--gold); color: var(--black); border: 1px solid var(--gold); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; font-weight: 500; transition: background 0.2s; }
-    .btn-gold:hover { background: var(--gold-light); }
+    .logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--white); letter-spacing: 0.06em; font-weight: 600; }
+    .logo-tag { font-size: 0.56rem; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; margin-top: 2px; font-weight: 300; }
 
+    .nav-center { display: flex; gap: 32px; list-style: none; }
+    .nav-center a { color: rgba(247,243,238,0.7); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-center a:hover { color: var(--gold); }
+
+    .nav-auth { display: flex; gap: 12px; align-items: center; }
+    .btn-ghost { padding: 8px 20px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--white); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-gold { padding: 8px 22px; background: var(--gold); color: var(--black); border: 1px solid var(--gold); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; font-weight: 500; transition: background 0.2s; }
+    .btn-gold:hover { background: var(--gold-light); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--white); }
+
+    /* HERO */
     .hero { position: relative; height: 100vh; overflow: hidden; }
     .slides { position: absolute; inset: 0; }
-    .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; animation: slideShow 45s infinite; filter: brightness(0.3); }
-    .slide:nth-child(1) { background-image: url('https://source.unsplash.com/1600x900/?african-food,feast'); animation-delay: 0s; }
-    .slide:nth-child(2) { background-image: url('https://source.unsplash.com/1600x900/?jollof-rice,nigerian-food'); animation-delay: 15s; }
-    .slide:nth-child(3) { background-image: url('https://source.unsplash.com/1600x900/?kenyan-food,nyama-choma'); animation-delay: 30s; }
-    @keyframes slideShow { 0%{opacity:0;transform:scale(1)} 5%{opacity:1} 28%{opacity:1;transform:scale(1.06)} 33%{opacity:0;transform:scale(1.06)} 100%{opacity:0} }
+    .slide {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0;
+      filter: blur(0px) brightness(0.38);
+      animation: heroSlide 36s infinite;
+      transition: opacity 2s ease-in-out;
+    }
+    .slide:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=1600&q=85'); animation-delay: 0s; }
+    .slide:nth-child(2) { background-image: url('https://images.unsplash.com/photo-1567364816519-0d5c8875ea51?w=1600&q=85'); animation-delay: 12s; }
+    .slide:nth-child(3) { background-image: url('https://images.unsplash.com/photo-1547592180-85f173990554?w=1600&q=85'); animation-delay: 24s; }
+    @keyframes heroSlide {
+      0% { opacity: 0; transform: scale(1); }
+      4% { opacity: 1; }
+      30% { opacity: 1; transform: scale(1.07); }
+      36% { opacity: 0; transform: scale(1.07); }
+      100% { opacity: 0; }
+    }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,8,8,0.25) 0%, rgba(8,8,8,0.1) 40%, rgba(8,8,8,0.75) 100%); z-index: 1; }
 
-    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.15) 40%, rgba(8,8,8,0.7) 100%); z-index: 1; }
-
-    .hero-content {
-      position: absolute; inset: 0; z-index: 10;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 0 24px;
-    }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 10px;
-      font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 22px;
-    }
-    .eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3rem, 7vw, 6.5rem);
-      font-weight: 700; line-height: 1.05;
-      max-width: 900px; margin-bottom: 24px;
-      background: linear-gradient(135deg, var(--white) 60%, var(--gold-light));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .hero-sub {
-      font-size: 1rem; font-weight: 300;
-      color: rgba(247,243,238,0.65);
-      max-width: 500px; line-height: 1.8; margin-bottom: 44px;
-    }
+    .hero-content { position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: 0.66rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
+    .eyebrow-line { width: 42px; height: 1px; background: var(--gold); }
+    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 700; line-height: 1.05; max-width: 900px; margin-bottom: 22px; background: linear-gradient(135deg, var(--white) 55%, var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: 1rem; font-weight: 300; color: rgba(247,243,238,0.65); max-width: 500px; line-height: 1.8; margin-bottom: 44px; }
     .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-    .btn-lg { padding: 15px 40px; font-size: 0.82rem; letter-spacing: 0.12em; }
-    .btn-outline-lg { padding: 15px 32px; font-size: 0.78rem; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: rgba(247,243,238,0.7); border-radius: 2px; cursor: pointer; font-family: 'DM Sans', sans-serif; text-transform: uppercase; text-decoration: none; letter-spacing: 0.1em; transition: all 0.2s; }
+    .btn-lg { padding: 14px 38px; font-size: 0.82rem; letter-spacing: 0.12em; }
+    .btn-outline-lg { padding: 14px 30px; font-size: 0.78rem; background: transparent; border: 1px solid rgba(255,255,255,0.22); color: rgba(247,243,238,0.7); border-radius: 2px; cursor: pointer; font-family: 'DM Sans', sans-serif; text-transform: uppercase; text-decoration: none; letter-spacing: 0.1em; transition: all 0.2s; }
     .btn-outline-lg:hover { border-color: var(--white); color: var(--white); }
 
     .scroll-hint { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; z-index: 10; }
     .scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, var(--gold), transparent); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
-    .strip {
-      display: flex; justify-content: center;
-      background: rgba(201,168,76,0.06);
-      border-top: 1px solid rgba(201,168,76,0.2);
-      border-bottom: 1px solid rgba(201,168,76,0.2);
-    }
-    .strip-item { padding: 30px 44px; text-align: center; border-right: 1px solid rgba(201,168,76,0.15); flex: 1; max-width: 260px; }
+    /* STRIP */
+    .strip { display: flex; justify-content: center; background: rgba(201,168,76,0.05); border-top: 1px solid rgba(201,168,76,0.18); border-bottom: 1px solid rgba(201,168,76,0.18); }
+    .strip-item { padding: 28px 40px; text-align: center; border-right: 1px solid rgba(201,168,76,0.12); flex: 1; max-width: 260px; }
     .strip-item:last-child { border-right: none; }
     .strip-icon { font-size: 1.4rem; margin-bottom: 8px; }
     .strip-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; margin-bottom: 5px; color: var(--gold-light); }
-    .strip-desc { font-size: 0.72rem; color: rgba(247,243,238,0.45); font-weight: 300; line-height: 1.6; }
+    .strip-desc { font-size: 0.7rem; color: rgba(247,243,238,0.42); font-weight: 300; line-height: 1.6; }
 
+    /* SECTIONS */
     .section { padding: 90px 60px; max-width: 1200px; margin: 0 auto; }
-    .section-label { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); margin-bottom: 50px; font-weight: 600; }
+    .section-label { font-size: 0.63rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.9rem, 3.5vw, 3.2rem); margin-bottom: 50px; font-weight: 600; }
 
+    /* DISH CARDS */
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
     .dish-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 4px; overflow: hidden; transition: transform 0.3s, border-color 0.3s; cursor: pointer; }
     .dish-card:hover { transform: translateY(-5px); border-color: var(--gold); }
-    .dish-card-img { width: 100%; height: 180px; object-fit: cover; filter: brightness(0.85); transition: filter 0.3s; }
+    .dish-card-img { width: 100%; height: 190px; object-fit: cover; filter: brightness(0.88); transition: filter 0.3s; display: block; }
     .dish-card:hover .dish-card-img { filter: brightness(1); }
     .dish-card-body { padding: 16px 18px; }
-    .dish-card-country { font-size: 0.63rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
-    .dish-card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: 8px; font-weight: 600; }
-    .dish-card-rating { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: rgba(247,243,238,0.55); }
+    .dish-card-country { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .dish-card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.12rem; margin-bottom: 8px; font-weight: 600; }
+    .dish-card-rating { display: flex; align-items: center; gap: 6px; font-size: 0.74rem; color: rgba(247,243,238,0.52); }
     .stars { color: var(--gold); }
 
-    .how-it-works { background: rgba(255,255,255,0.02); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); padding: 80px 60px; }
+    /* HOW IT WORKS */
+    .how-section { background: rgba(255,255,255,0.02); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); padding: 80px 60px; }
     .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 1000px; margin: 0 auto; }
-    .how-item { text-align: center; padding: 30px 20px; }
-    .how-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: rgba(201,168,76,0.25); font-weight: 700; line-height: 1; margin-bottom: 14px; }
+    .how-item { text-align: center; padding: 28px 20px; }
+    .how-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: rgba(201,168,76,0.22); font-weight: 700; line-height: 1; margin-bottom: 14px; }
     .how-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold-light); margin-bottom: 10px; }
-    .how-desc { font-size: 0.78rem; color: rgba(247,243,238,0.5); line-height: 1.7; font-weight: 300; }
+    .how-desc { font-size: 0.76rem; color: rgba(247,243,238,0.48); line-height: 1.7; font-weight: 300; }
 
-    .cta-band { text-align: center; padding: 90px 24px; background: linear-gradient(135deg, rgba(139,26,26,0.15), rgba(201,168,76,0.08)); border-top: 1px solid var(--glass-border); }
-    .cta-band h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 16px; }
-    .cta-band p { color: rgba(247,243,238,0.55); font-size: 0.9rem; margin-bottom: 36px; font-weight: 300; }
+    /* ABOUT */
+    .about-section { padding: 90px 60px; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .about-img-wrap { position: relative; border-radius: 4px; overflow: hidden; }
+    .about-img { width: 100%; height: 420px; object-fit: cover; filter: brightness(0.85); display: block; }
+    .about-img-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(201,168,76,0.15), transparent); }
+    .about-text .section-title { margin-bottom: 20px; }
+    .about-text p { font-size: 0.86rem; color: rgba(247,243,238,0.58); line-height: 1.85; font-weight: 300; margin-bottom: 16px; }
+    .about-stats { display: flex; gap: 30px; margin-top: 30px; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold-light); font-weight: 700; }
+    .stat-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,243,238,0.4); margin-top: 3px; }
 
-    footer { border-top: 1px solid var(--glass-border); padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); font-size: 0.72rem; color: rgba(247,243,238,0.3); }
+    /* CTA BAND */
+    .cta-band { text-align: center; padding: 90px 24px; background: linear-gradient(135deg, rgba(139,26,26,0.12), rgba(201,168,76,0.07)); border-top: 1px solid var(--glass-border); }
+    .cta-band h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 14px; }
+    .cta-band p { color: rgba(247,243,238,0.52); font-size: 0.88rem; margin-bottom: 36px; font-weight: 300; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--glass-border); padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); font-size: 0.7rem; color: rgba(247,243,238,0.28); }
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { color: var(--gold); }
 
-    @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
+    @media (max-width: 900px) {
+      .nav-center { display: none; }
+      .hamburger { display: flex; }
+      nav { padding: 16px 22px; }
       .strip { flex-direction: column; align-items: center; }
-      .strip-item { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.15); max-width: 100%; }
-      .section { padding: 60px 20px; }
-      .how-it-works { padding: 60px 20px; }
-      .how-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
+      .strip-item { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.12); max-width: 100%; width: 100%; }
+      .section { padding: 60px 22px; }
+      .how-section { padding: 60px 22px; }
+      .how-grid { grid-template-columns: 1fr; gap: 24px; }
+      .about-section { grid-template-columns: 1fr; padding: 60px 22px; gap: 30px; }
+      .about-img { height: 260px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 22px; }
     }
   </style>
 </head>
@@ -152,10 +157,18 @@
       <span class="logo-tag">Africa's Finest Cuisine</span>
     </div>
   </a>
+  <ul class="nav-center">
+    <li><a href="#about">About</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#trending">Trending</a></li>
+    <li><a href="home.html">Browse Dishes</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
   <div class="nav-auth">
     <a href="signin.html" class="btn-ghost">Sign In</a>
     <a href="signup.html" class="btn-gold">Get Started</a>
   </div>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
 </nav>
 
 <section class="hero">
@@ -179,48 +192,95 @@
 </section>
 
 <div class="strip">
-  <div class="strip-item"><div class="strip-icon">🌍</div><div class="strip-title">Pan-African</div><div class="strip-desc">Dishes from every corner of the continent, 54 countries represented.</div></div>
+  <div class="strip-item"><div class="strip-icon">🌍</div><div class="strip-title">Pan-African</div><div class="strip-desc">Dishes from every corner of the continent, 15 countries represented.</div></div>
   <div class="strip-item"><div class="strip-icon">⭐</div><div class="strip-title">Rate & Earn</div><div class="strip-desc">Rate dishes daily and earn real rewards directly to your mobile wallet.</div></div>
   <div class="strip-item"><div class="strip-icon">🔥</div><div class="strip-title">Trending Now</div><div class="strip-desc">See which dishes are setting the continent on fire right now.</div></div>
   <div class="strip-item"><div class="strip-icon">📱</div><div class="strip-title">M-Pesa Ready</div><div class="strip-desc">Withdraw earnings directly to M-Pesa, MTN Mobile Money and more.</div></div>
 </div>
 
-<div class="section">
+<div class="section" id="trending">
   <p class="section-label">Highly Rated This Week</p>
   <h2 class="section-title">Trending African Dishes</h2>
   <div class="cards-grid">
-    <div class="dish-card"><img class="dish-card-img" src="https://source.unsplash.com/600x400/?nyama-choma,kenyan-grilled-meat" alt="Nyama Choma"><div class="dish-card-body"><div class="dish-card-country">🇰🇪 Kenya</div><div class="dish-card-name">Nyama Choma</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 3.2k ratings</div></div></div>
-    <div class="dish-card"><img class="dish-card-img" src="https://source.unsplash.com/600x400/?jollof-rice,nigerian-food" alt="Jollof Rice"><div class="dish-card-body"><div class="dish-card-country">🇳🇬 Nigeria</div><div class="dish-card-name">Jollof Rice</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.8 · 5.1k ratings</div></div></div>
-    <div class="dish-card"><img class="dish-card-img" src="https://source.unsplash.com/600x400/?injera,ethiopian-food" alt="Injera Firfir"><div class="dish-card-body"><div class="dish-card-country">🇪🇹 Ethiopia</div><div class="dish-card-name">Injera Firfir</div><div class="dish-card-rating"><span class="stars">★★★★☆</span> 4.7 · 2.8k ratings</div></div></div>
-    <div class="dish-card"><img class="dish-card-img" src="https://source.unsplash.com/600x400/?tagine,moroccan-food" alt="Chicken Tagine"><div class="dish-card-body"><div class="dish-card-country">🇲🇦 Morocco</div><div class="dish-card-name">Chicken Tagine</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 4.0k ratings</div></div></div>
+    <div class="dish-card">
+      <img class="dish-card-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80" alt="Nyama Choma">
+      <div class="dish-card-body"><div class="dish-card-country">🇰🇪 Kenya</div><div class="dish-card-name">Nyama Choma</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 3.2k ratings</div></div>
+    </div>
+    <div class="dish-card">
+      <img class="dish-card-img" src="https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=600&q=80" alt="Jollof Rice">
+      <div class="dish-card-body"><div class="dish-card-country">🇳🇬 Nigeria</div><div class="dish-card-name">Jollof Rice</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.8 · 5.1k ratings</div></div>
+    </div>
+    <div class="dish-card">
+      <img class="dish-card-img" src="https://images.unsplash.com/photo-1567364816519-0d5c8875ea51?w=600&q=80" alt="Injera">
+      <div class="dish-card-body"><div class="dish-card-country">🇪🇹 Ethiopia</div><div class="dish-card-name">Injera & Doro Wat</div><div class="dish-card-rating"><span class="stars">★★★★☆</span> 4.7 · 2.8k ratings</div></div>
+    </div>
+    <div class="dish-card">
+      <img class="dish-card-img" src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=600&q=80" alt="Tagine">
+      <div class="dish-card-body"><div class="dish-card-country">🇲🇦 Morocco</div><div class="dish-card-name">Chicken Tagine</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 4.0k ratings</div></div>
+    </div>
+    <div class="dish-card">
+      <img class="dish-card-img" src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=600&q=80" alt="Shakshuka">
+      <div class="dish-card-body"><div class="dish-card-country">🇪🇬 Egypt</div><div class="dish-card-name">Shakshuka</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.8 · 3.5k ratings</div></div>
+    </div>
+    <div class="dish-card">
+      <img class="dish-card-img" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80" alt="Thieboudienne">
+      <div class="dish-card-body"><div class="dish-card-country">🇸🇳 Senegal</div><div class="dish-card-name">Thieboudienne</div><div class="dish-card-rating"><span class="stars">★★★★☆</span> 4.6 · 2.1k ratings</div></div>
+    </div>
+    <div class="dish-card">
+      <img class="dish-card-img" src="https://images.unsplash.com/photo-1562802378-063ec186a863?w=600&q=80" alt="Suya">
+      <div class="dish-card-body"><div class="dish-card-country">🇳🇬 Nigeria</div><div class="dish-card-name">Suya</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 4.4k ratings</div></div>
+    </div>
+    <div class="dish-card">
+      <img class="dish-card-img" src="https://images.unsplash.com/photo-1535400255456-984e4a761581?w=600&q=80" alt="Fufu">
+      <div class="dish-card-body"><div class="dish-card-country">🇬🇭 Ghana</div><div class="dish-card-name">Fufu & Egusi Soup</div><div class="dish-card-rating"><span class="stars">★★★★☆</span> 4.7 · 3.0k ratings</div></div>
+    </div>
   </div>
 </div>
 
-<div class="how-it-works">
+<div class="about-section" id="about">
+  <div class="about-img-wrap">
+    <img class="about-img" src="https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=800&q=80" alt="African food culture">
+    <div class="about-img-overlay"></div>
+  </div>
+  <div class="about-text">
+    <p class="section-label">About Afrique Guide</p>
+    <h2 class="section-title">Celebrating Africa's Culinary Heritage</h2>
+    <p>Afrique Guide is the continent's premier dish rating and discovery platform. We bring together food lovers from across Africa to celebrate, rate, and share the richest culinary traditions on earth.</p>
+    <p>From the spiced tagines of Morocco to the smoky nyama choma of Kenya, every dish on our platform tells a story of culture, community, and flavour. Rate dishes daily and earn real rewards paid directly to your mobile wallet.</p>
+    <div class="about-stats">
+      <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Countries</div></div>
+      <div class="stat"><div class="stat-num">96</div><div class="stat-label">Daily Dishes</div></div>
+      <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Support</div></div>
+      <div class="stat"><div class="stat-num">M-Pesa</div><div class="stat-label">Payouts</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="how-section" id="how">
   <div style="text-align:center;max-width:600px;margin:0 auto 50px;">
-    <p class="section-label" style="justify-content:center;display:block;">How It Works</p>
+    <p class="section-label">How It Works</p>
     <h2 class="section-title" style="margin-bottom:0;">Rate Dishes. Earn Rewards.</h2>
   </div>
   <div class="how-grid">
     <div class="how-item">
       <div class="how-num">01</div>
       <div class="how-title">Create Your Account</div>
-      <div class="how-desc">Sign up in seconds. Choose your country and receive your welcome bonus instantly — no deposit needed to start.</div>
+      <div class="how-desc">Sign up in seconds. Choose your country and receive a welcome bonus instantly. No deposit needed to start rating.</div>
     </div>
     <div class="how-item">
       <div class="how-num">02</div>
       <div class="how-title">Rate African Dishes</div>
-      <div class="how-desc">96 dishes available daily across 3 rounds. Rate each dish and earn rewards with every submission.</div>
+      <div class="how-desc">96 unique African dishes available daily across 3 rounds. Rate each dish and earn rewards with every submission.</div>
     </div>
     <div class="how-item">
       <div class="how-num">03</div>
       <div class="how-title">Withdraw Earnings</div>
-      <div class="how-desc">Withdraw directly to M-Pesa, MTN Mobile Money, or your preferred local payment method.</div>
+      <div class="how-desc">Withdraw directly to M-Pesa, MTN Mobile Money, or your preferred local payment method across 15 African countries.</div>
     </div>
   </div>
 </div>
 
-<div class="cta-band">
+<div class="cta-band" id="contact">
   <h2>Ready to Taste the Continent?</h2>
   <p>Join thousands of food lovers across Africa earning daily rewards.</p>
   <a href="signup.html" class="btn-gold btn-lg">Create Free Account</a>
@@ -228,12 +288,38 @@
 
 <footer>
   <div>© 2025 Afrique Guide. All rights reserved.</div>
-  <div style="display:flex;gap:20px;">
+  <div style="display:flex;gap:22px;">
+    <a href="#">About Us</a>
     <a href="#">Privacy Policy</a>
     <a href="#">Terms</a>
-    <a href="#">Support</a>
+    <a href="https://wa.me/254759485490" target="_blank">Support</a>
+    <a href="https://t.me/customercare_afriqueguide" target="_blank">Telegram</a>
   </div>
 </footer>
 
+<script>
+function toggleMenu() {
+  const c = document.querySelector('.nav-center');
+  c.style.display = c.style.display === 'flex' ? 'none' : 'flex';
+  c.style.flexDirection = 'column';
+  c.style.position = 'absolute';
+  c.style.top = '70px';
+  c.style.left = '0';
+  c.style.right = '0';
+  c.style.background = 'rgba(8,8,8,0.97)';
+  c.style.padding = '20px';
+  c.style.gap = '18px';
+  c.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
+}
+document.querySelectorAll('.nav-center a').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
 </body>
 </html>
