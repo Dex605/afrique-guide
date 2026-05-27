@@ -3,142 +3,121 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Afrique Guide – Discover & Rate Africa's Finest Cuisine</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Afrique Guide – Rate East Africa's Top Brands</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --gold: #C9A84C; --gold-light: #E2C47A; --black: #080808; --white: #F7F3EE; --glass: rgba(255,255,255,0.06); --glass-border: rgba(255,255,255,0.1); }
-    html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--gold:#C9A84C;--gold-light:#E2C47A;--black:#080808;--white:#F7F3EE;--glass:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.1)}
+    html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden}
 
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 18px 52px; background: rgba(8,8,8,0.75); backdrop-filter: blur(22px); border-bottom: 1px solid var(--glass-border); }
-    .logo-wrap { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-    .logo-emblem { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold); font-weight: 700; background: rgba(201,168,76,0.08); }
-    .logo-text { display: flex; flex-direction: column; }
-    .logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--white); letter-spacing: 0.06em; font-weight: 600; }
-    .logo-tag { font-size: 0.56rem; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; margin-top: 2px; font-weight: 300; }
-    .nav-center { display: flex; gap: 32px; list-style: none; }
-    .nav-center a { color: rgba(247,243,238,0.7); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
-    .nav-center a:hover { color: var(--gold); }
-    .nav-auth { display: flex; gap: 12px; align-items: center; }
-    .btn-ghost { padding: 8px 20px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--white); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: all 0.2s; }
-    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
-    .btn-gold { padding: 8px 22px; background: var(--gold); color: var(--black); border: 1px solid var(--gold); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; font-weight: 500; transition: background 0.2s; }
-    .btn-gold:hover { background: var(--gold-light); }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--white); }
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 52px;background:rgba(8,8,8,0.82);backdrop-filter:blur(22px);border-bottom:1px solid var(--border)}
+    .logo-wrap{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo-em{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);font-weight:700;background:rgba(201,168,76,0.08)}
+    .logo-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);letter-spacing:0.05em;font-weight:600}
+    .logo-tag{font-size:0.54rem;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-top:2px;font-weight:300}
+    .nav-links{display:flex;gap:28px;list-style:none}
+    .nav-links a{color:rgba(247,243,238,0.7);text-decoration:none;font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s}
+    .nav-links a:hover{color:var(--gold)}
+    .nav-auth{display:flex;gap:10px;align-items:center}
+    .btn-ghost{padding:8px 20px;border:1px solid var(--border);background:var(--glass);color:var(--white);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.74rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-gold{padding:8px 20px;background:var(--gold);color:var(--black);border:1px solid var(--gold);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.74rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;font-weight:500;transition:background 0.2s}
+    .btn-gold:hover{background:var(--gold-light)}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+    .hamburger span{display:block;width:22px;height:1.5px;background:var(--white)}
 
-    /* HERO - JS crossfade, zero black gaps */
-    .hero { position: relative; height: 100vh; overflow: hidden; background: #080808; }
-    .slides { position: absolute; inset: 0; }
-    .slide {
-      position: absolute; inset: 0;
-      background-size: cover; background-position: center;
-      opacity: 0;
-      filter: brightness(0.35);
-      transition: opacity 2.5s ease-in-out;
-      transform: scale(1.06);
-    }
-    .slide:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=85'); }
-    .slide:nth-child(2) { background-image: url('https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=1600&q=85'); }
-    .slide:nth-child(3) { background-image: url('https://images.unsplash.com/photo-1567364816519-0d5c8875ea51?w=1600&q=85'); }
-    .slide:nth-child(4) { background-image: url('https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=1600&q=85'); }
-    .slide:nth-child(5) { background-image: url('https://images.unsplash.com/photo-1562802378-063ec186a863?w=1600&q=85'); }
-    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,8,8,0.2) 0%, rgba(8,8,8,0.05) 35%, rgba(8,8,8,0.72) 100%); z-index: 1; }
-    .hero-content { position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px; }
-    .hero-eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: 0.66rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
-    .eyebrow-line { width: 42px; height: 1px; background: var(--gold); }
-    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 700; line-height: 1.05; max-width: 900px; margin-bottom: 22px; background: linear-gradient(135deg, var(--white) 55%, var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero-sub { font-size: 1rem; font-weight: 300; color: rgba(247,243,238,0.65); max-width: 500px; line-height: 1.8; margin-bottom: 44px; }
-    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-    .btn-lg { padding: 14px 38px; font-size: 0.82rem; letter-spacing: 0.12em; }
-    .scroll-hint { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; z-index: 10; }
-    .scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, var(--gold), transparent); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+    /* HERO */
+    .hero{position:relative;height:100vh;overflow:hidden;background:#080808}
+    .logo-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(4,1fr);gap:0;opacity:0.18;filter:blur(3px);transform:scale(1.05)}
+    .logo-cell{display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);overflow:hidden;transition:opacity 1.5s}
+    .logo-cell img{width:70%;height:70%;object-fit:contain;filter:grayscale(80%) brightness(1.4)}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,8,8,0.3) 0%,rgba(8,8,8,0.05) 40%,rgba(8,8,8,0.85) 100%);z-index:1}
+    .hero-content{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px}
+    .eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:0.64rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .eline{width:40px;height:1px;background:var(--gold)}
+    .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:700;line-height:1.05;max-width:860px;margin-bottom:20px;background:linear-gradient(135deg,var(--white) 55%,var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .hero-sub{font-size:0.96rem;font-weight:300;color:rgba(247,243,238,0.6);max-width:480px;line-height:1.8;margin-bottom:40px}
+    .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+    .btn-lg{padding:14px 38px;font-size:0.82rem;letter-spacing:0.12em}
+    .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.3);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;z-index:10}
+    .scroll-line{width:1px;height:42px;background:linear-gradient(to bottom,var(--gold),transparent);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:1}}
 
     /* STRIP */
-    .strip { display: flex; justify-content: center; background: rgba(201,168,76,0.05); border-top: 1px solid rgba(201,168,76,0.18); border-bottom: 1px solid rgba(201,168,76,0.18); }
-    .strip-item { padding: 28px 40px; text-align: center; border-right: 1px solid rgba(201,168,76,0.12); flex: 1; max-width: 260px; }
-    .strip-item:last-child { border-right: none; }
-    .strip-icon { font-size: 1.4rem; margin-bottom: 8px; }
-    .strip-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; margin-bottom: 5px; color: var(--gold-light); }
-    .strip-desc { font-size: 0.7rem; color: rgba(247,243,238,0.42); font-weight: 300; line-height: 1.6; }
+    .strip{display:flex;justify-content:center;background:rgba(201,168,76,0.05);border-top:1px solid rgba(201,168,76,0.15);border-bottom:1px solid rgba(201,168,76,0.15)}
+    .strip-item{padding:26px 36px;text-align:center;border-right:1px solid rgba(201,168,76,0.1);flex:1;max-width:250px}
+    .strip-item:last-child{border-right:none}
+    .si-icon{font-size:1.3rem;margin-bottom:7px}
+    .si-title{font-family:'Cormorant Garamond',serif;font-size:0.95rem;margin-bottom:4px;color:var(--gold-light)}
+    .si-desc{font-size:0.68rem;color:rgba(247,243,238,0.4);font-weight:300;line-height:1.6}
 
-    /* DISH CARDS */
-    .section { padding: 90px 60px; max-width: 1200px; margin: 0 auto; }
-    .section-label { font-size: 0.63rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.9rem, 3.5vw, 3.2rem); margin-bottom: 50px; font-weight: 600; }
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-    .dish-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 4px; overflow: hidden; transition: transform 0.3s, border-color 0.3s; cursor: pointer; }
-    .dish-card:hover { transform: translateY(-5px); border-color: var(--gold); }
-    .dish-card-img { width: 100%; height: 190px; object-fit: cover; filter: brightness(0.88); transition: filter 0.3s; display: block; }
-    .dish-card:hover .dish-card-img { filter: brightness(1); }
-    .dish-card-body { padding: 16px 18px; }
-    .dish-card-country { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
-    .dish-card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.12rem; margin-bottom: 8px; font-weight: 600; }
-    .dish-card-rating { display: flex; align-items: center; gap: 6px; font-size: 0.74rem; color: rgba(247,243,238,0.52); }
-    .stars { color: var(--gold); }
+    /* BRANDS SECTION */
+    .section{padding:80px 60px;max-width:1200px;margin:0 auto}
+    .sec-label{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.5vw,3rem);margin-bottom:44px;font-weight:600}
+    .brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+    .brand-card{background:var(--glass);border:1px solid var(--border);border-radius:4px;padding:24px 16px;text-align:center;cursor:pointer;transition:transform 0.3s,border-color 0.3s,background 0.3s;text-decoration:none;display:block}
+    .brand-card:hover{transform:translateY(-4px);border-color:var(--gold);background:rgba(201,168,76,0.08)}
+    .brand-logo{width:72px;height:72px;object-fit:contain;margin:0 auto 12px;display:block;filter:brightness(1.1)}
+    .brand-name{font-family:'Cormorant Garamond',serif;font-size:0.92rem;font-weight:600;margin-bottom:4px}
+    .brand-country{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .brand-sector{font-size:0.62rem;color:rgba(247,243,238,0.4);font-weight:300}
 
     /* ABOUT */
-    .about-section { padding: 90px 60px; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-    .about-img-wrap { position: relative; border-radius: 4px; overflow: hidden; }
-    .about-img { width: 100%; height: 420px; object-fit: cover; filter: brightness(0.85); display: block; }
-    .about-img-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(201,168,76,0.15), transparent); }
-    .about-text .section-title { margin-bottom: 20px; }
-    .about-text p { font-size: 0.86rem; color: rgba(247,243,238,0.58); line-height: 1.85; font-weight: 300; margin-bottom: 16px; }
-    .about-stats { display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap; }
-    .stat { text-align: center; }
-    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold-light); font-weight: 700; }
-    .stat-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(247,243,238,0.4); margin-top: 3px; }
+    .about-section{padding:80px 60px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+    .about-img{width:100%;height:400px;object-fit:cover;border-radius:4px;filter:brightness(0.85);display:block}
+    .about-text .sec-title{margin-bottom:16px}
+    .about-text p{font-size:0.84rem;color:rgba(247,243,238,0.55);line-height:1.85;font-weight:300;margin-bottom:14px}
+    .stats{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap}
+    .stat-num{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--gold-light);font-weight:700}
+    .stat-label{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(247,243,238,0.38);margin-top:2px}
 
     /* HOW */
-    .how-section { background: rgba(255,255,255,0.02); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); padding: 80px 60px; }
-    .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 1000px; margin: 0 auto; }
-    .how-item { text-align: center; padding: 28px 20px; }
-    .how-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: rgba(201,168,76,0.22); font-weight: 700; line-height: 1; margin-bottom: 14px; }
-    .how-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold-light); margin-bottom: 10px; }
-    .how-desc { font-size: 0.76rem; color: rgba(247,243,238,0.48); line-height: 1.7; font-weight: 300; }
+    .how-section{background:rgba(255,255,255,0.02);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:76px 60px}
+    .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;max-width:960px;margin:0 auto}
+    .how-item{text-align:center;padding:26px 18px}
+    .how-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;color:rgba(201,168,76,0.2);font-weight:700;margin-bottom:12px}
+    .how-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold-light);margin-bottom:9px}
+    .how-desc{font-size:0.74rem;color:rgba(247,243,238,0.46);line-height:1.7;font-weight:300}
 
     /* CTA */
-    .cta-band { text-align: center; padding: 90px 24px; background: linear-gradient(135deg, rgba(139,26,26,0.12), rgba(201,168,76,0.07)); border-top: 1px solid var(--glass-border); }
-    .cta-band h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 14px; }
-    .cta-band p { color: rgba(247,243,238,0.52); font-size: 0.88rem; margin-bottom: 36px; font-weight: 300; }
+    .cta-band{text-align:center;padding:84px 24px;background:linear-gradient(135deg,rgba(139,26,26,0.1),rgba(201,168,76,0.07));border-top:1px solid var(--border)}
+    .cta-band h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.4rem);margin-bottom:12px}
+    .cta-band p{color:rgba(247,243,238,0.5);font-size:0.86rem;margin-bottom:34px;font-weight:300}
 
-    footer { border-top: 1px solid var(--glass-border); padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); font-size: 0.7rem; color: rgba(247,243,238,0.28); }
-    footer a { color: inherit; text-decoration: none; }
-    footer a:hover { color: var(--gold); }
+    footer{border-top:1px solid var(--border);padding:26px 60px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.5);font-size:0.68rem;color:rgba(247,243,238,0.26)}
+    footer a{color:inherit;text-decoration:none}
+    footer a:hover{color:var(--gold)}
 
-    @media (max-width: 900px) {
-      .nav-center { display: none; position: absolute; top: 70px; left: 0; right: 0; background: rgba(8,8,8,0.97); padding: 20px; flex-direction: column; gap: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 99; }
-      .nav-center.open { display: flex; }
-      .hamburger { display: flex; }
-      nav { padding: 16px 22px; }
-      .strip { flex-wrap: wrap; }
-      .strip-item { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.12); max-width: 50%; flex-basis: 50%; }
-      .section { padding: 60px 22px; }
-      .how-section { padding: 60px 22px; }
-      .how-grid { grid-template-columns: 1fr; gap: 24px; }
-      .about-section { grid-template-columns: 1fr; padding: 60px 22px; gap: 30px; }
-      .about-img { height: 260px; }
-      footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 22px; }
+    @media(max-width:900px){
+      .nav-links,.nav-auth .btn-ghost{display:none}
+      .hamburger{display:flex}
+      nav{padding:14px 20px}
+      .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(8,8,8,0.97);padding:20px;gap:16px;border-bottom:1px solid var(--border);z-index:99}
+      .strip{flex-wrap:wrap}
+      .strip-item{max-width:50%;flex-basis:50%;border-right:none;border-bottom:1px solid rgba(201,168,76,0.1)}
+      .section{padding:56px 20px}
+      .about-section{grid-template-columns:1fr;padding:56px 20px;gap:28px}
+      .about-img{height:240px}
+      .how-section{padding:56px 20px}
+      .how-grid{grid-template-columns:1fr;gap:20px}
+      footer{flex-direction:column;gap:12px;text-align:center;padding:22px 20px}
     }
   </style>
 </head>
 <body>
-
 <nav>
   <a href="index.html" class="logo-wrap">
-    <div class="logo-emblem">AG</div>
-    <div class="logo-text">
-      <span class="logo-name">Afrique Guide</span>
-      <span class="logo-tag">Africa's Finest Cuisine</span>
+    <div class="logo-em">AG</div>
+    <div>
+      <div class="logo-name">Afrique Guide</div>
+      <div class="logo-tag">East Africa's Brand Authority</div>
     </div>
   </a>
-  <ul class="nav-center" id="navMenu">
+  <ul class="nav-links" id="navMenu">
     <li><a href="#about" onclick="closeMenu()">About Us</a></li>
     <li><a href="#how" onclick="closeMenu()">How It Works</a></li>
-    <li><a href="#trending" onclick="closeMenu()">Trending Dishes</a></li>
+    <li><a href="#brands" onclick="closeMenu()">Top Brands</a></li>
     <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
   </ul>
   <div class="nav-auth">
@@ -149,18 +128,12 @@
 </nav>
 
 <section class="hero">
-  <div class="slides">
-    <div class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-  </div>
+  <div class="logo-grid" id="logoGrid"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow"><span class="eyebrow-line"></span>The African Food Authority<span class="eyebrow-line"></span></p>
-    <h1 class="hero-title">Africa's Finest<br>Flavours, Ranked.</h1>
-    <p class="hero-sub">Discover, rate, and celebrate the richest culinary traditions across the African continent. From Nairobi to Lagos, every dish has a story worth telling.</p>
+    <p class="eyebrow"><span class="eline"></span>East Africa's Brand Authority<span class="eline"></span></p>
+    <h1 class="hero-title">Rate the Brands<br>Shaping East Africa.</h1>
+    <p class="hero-sub">Discover, rate, and celebrate the top 96 brands from Kenya, Tanzania, and Uganda. Share your opinion — and earn real rewards every day.</p>
     <div class="hero-ctas">
       <a href="signup.html" class="btn-gold btn-lg">Start Rating</a>
       <a href="signin.html" class="btn-ghost btn-lg">Sign In</a>
@@ -170,122 +143,69 @@
 </section>
 
 <div class="strip">
-  <div class="strip-item"><div class="strip-icon">🌍</div><div class="strip-title">Pan-African</div><div class="strip-desc">Dishes from 15 African countries, from Nairobi to Lagos to Marrakech.</div></div>
-  <div class="strip-item"><div class="strip-icon">⭐</div><div class="strip-title">Rate & Earn</div><div class="strip-desc">Rate dishes daily and earn real rewards to your mobile wallet.</div></div>
-  <div class="strip-item"><div class="strip-icon">🔥</div><div class="strip-title">Trending Now</div><div class="strip-desc">See which dishes are setting the continent on fire right now.</div></div>
-  <div class="strip-item"><div class="strip-icon">📱</div><div class="strip-title">M-Pesa Ready</div><div class="strip-desc">Withdraw earnings to M-Pesa, MTN Mobile Money and more.</div></div>
+  <div class="strip-item"><div class="si-icon">🏢</div><div class="si-title">96 Top Brands</div><div class="si-desc">Kenya, Tanzania & Uganda's most influential companies rated daily.</div></div>
+  <div class="strip-item"><div class="si-icon">⭐</div><div class="si-title">Rate & Earn</div><div class="si-desc">Rate brands daily and earn real rewards to your mobile wallet.</div></div>
+  <div class="strip-item"><div class="si-icon">📱</div><div class="si-title">M-Pesa Ready</div><div class="si-desc">Withdraw earnings to M-Pesa, MTN MoMo and more.</div></div>
+  <div class="strip-item"><div class="si-icon">🌍</div><div class="si-title">3 Countries</div><div class="si-desc">Kenya, Tanzania & Uganda — 3 currencies, one platform.</div></div>
 </div>
 
-<div class="section" id="trending">
-  <p class="section-label">Highly Rated This Week</p>
-  <h2 class="section-title">Trending African Dishes</h2>
-  <div class="cards-grid">
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Nyama_choma.jpg/800px-Nyama_choma.jpg" alt="Nyama Choma">
-      <div class="dish-card-body"><div class="dish-card-country">🇰🇪 Kenya</div><div class="dish-card-name">Nyama Choma</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 3.2k</div></div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Pilau_rice.jpg/800px-Pilau_rice.jpg" alt="Pilau">
-      <div class="dish-card-body"><div class="dish-card-country">🇰🇪 Kenya</div><div class="dish-card-name">Pilau</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.8 · 2.7k</div></div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Jollof_Rice.jpg/800px-Jollof_Rice.jpg" alt="Jollof Rice">
-      <div class="dish-card-body"><div class="dish-card-country">🇳🇬 Nigeria</div><div class="dish-card-name">Jollof Rice</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.8 · 5.1k</div></div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Chapati_making.jpg/800px-Chapati_making.jpg" alt="Chapati ya Kenya">
-      <div class="dish-card-body"><div class="dish-card-country">🇰🇪 Kenya</div><div class="dish-card-name">Chapati ya Kenya</div><div class="dish-card-rating"><span class="stars">★★★★☆</span> 4.6 · 1.9k</div></div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Injera%2C_a_pancake-like_bread%2C_is_a_staple_of_Ethiopian_cuisine.jpg/800px-Injera%2C_a_pancake-like_bread%2C_is_a_staple_of_Ethiopian_cuisine.jpg" alt="Injera & Doro Wat">
-      <div class="dish-card-body"><div class="dish-card-country">🇪🇹 Ethiopia</div><div class="dish-card-name">Injera & Doro Wat</div><div class="dish-card-rating"><span class="stars">★★★★☆</span> 4.7 · 2.8k</div></div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Shakshouka_by_Wonks_Ahoy_in_Melbourne%2C_Australia.jpg/800px-Shakshouka_by_Wonks_Ahoy_in_Melbourne%2C_Australia.jpg" alt="Shakshuka">
-      <div class="dish-card-body"><div class="dish-card-country">🇪🇬 Egypt</div><div class="dish-card-name">Shakshuka</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.8 · 3.5k</div></div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Fish_curry.jpg/800px-Fish_curry.jpg" alt="Mtuzi wa Samaki">
-      <div class="dish-card-body"><div class="dish-card-country">🇰🇪 Kenya</div><div class="dish-card-name">Mtuzi wa Samaki</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 2.4k</div></div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Chicken_tagine.jpg/800px-Chicken_tagine.jpg" alt="Chicken Tagine">
-      <div class="dish-card-body"><div class="dish-card-country">🇲🇦 Morocco</div><div class="dish-card-name">Chicken Tagine</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 4.0k</div></div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ugali_and_sukuma_wiki.jpg/800px-Ugali_and_sukuma_wiki.jpg" alt="Ugali na Sukuma Wiki">
-      <div class="dish-card-body"><div class="dish-card-country">🇰🇪 Kenya</div><div class="dish-card-name">Ugali na Sukuma Wiki</div><div class="dish-card-rating"><span class="stars">★★★★☆</span> 4.5 · 4.1k</div></div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Suya.jpg/800px-Suya.jpg" alt="Suya">
-      <div class="dish-card-body"><div class="dish-card-country">🇳🇬 Nigeria</div><div class="dish-card-name">Suya</div><div class="dish-card-rating"><span class="stars">★★★★★</span> 4.9 · 4.4k</div></div>
-    </div>
-
-  </div>
+<div class="section" id="brands">
+  <p class="sec-label">East Africa's Finest</p>
+  <h2 class="sec-title">Featured Brands</h2>
+  <div class="brands-grid" id="featuredBrands"></div>
 </div>
 
 <div class="about-section" id="about">
-  <div class="about-img-wrap">
-    <img class="about-img" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80" alt="African food culture">
-    <div class="about-img-overlay"></div>
+  <div>
+    <img class="about-img" src="https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=800&q=80" alt="East Africa business">
   </div>
   <div class="about-text">
-    <p class="section-label">About Afrique Guide</p>
-    <h2 class="section-title">Celebrating Africa's Culinary Heritage</h2>
-    <p>Afrique Guide is the continent's premier dish rating and discovery platform. We bring together food lovers from across Africa to celebrate, rate, and share the richest culinary traditions on earth.</p>
-    <p>From the spiced tagines of Morocco to the smoky nyama choma of Kenya, every dish tells a story of culture, community, and flavour. Rate dishes daily and earn real rewards paid directly to your mobile wallet.</p>
-    <div class="about-stats">
-      <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Countries</div></div>
-      <div class="stat"><div class="stat-num">96</div><div class="stat-label">Daily Dishes</div></div>
-      <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Support</div></div>
-      <div class="stat"><div class="stat-num">M-Pesa</div><div class="stat-label">Payouts</div></div>
+    <p class="sec-label">About Afrique Guide</p>
+    <h2 class="sec-title">The Voice of East African Consumers</h2>
+    <p>Afrique Guide is the region's premier brand rating and discovery platform. We bring together consumers from Kenya, Tanzania, and Uganda to rate, review, and celebrate the brands that shape daily life across East Africa.</p>
+    <p>From Safaricom's M-Pesa to Uganda Breweries' Nile Special, every brand tells a story of innovation, resilience, and impact. Rate brands daily, share your views, and earn real rewards paid directly to your mobile wallet.</p>
+    <div class="stats">
+      <div><div class="stat-num">96</div><div class="stat-label">Brands</div></div>
+      <div><div class="stat-num">3</div><div class="stat-label">Countries</div></div>
+      <div><div class="stat-num">24/7</div><div class="stat-label">Support</div></div>
+      <div><div class="stat-num">M-Pesa</div><div class="stat-label">Payouts</div></div>
     </div>
   </div>
 </div>
 
 <div class="how-section" id="how">
-  <div style="text-align:center;max-width:600px;margin:0 auto 50px;">
-    <p class="section-label">How It Works</p>
-    <h2 class="section-title" style="margin-bottom:0;">Rate Dishes. Earn Rewards.</h2>
+  <div style="text-align:center;max-width:560px;margin:0 auto 44px">
+    <p class="sec-label">How It Works</p>
+    <h2 class="sec-title" style="margin-bottom:0">Rate Brands. Earn Rewards.</h2>
   </div>
   <div class="how-grid">
     <div class="how-item">
       <div class="how-num">01</div>
       <div class="how-title">Create Your Account</div>
-      <div class="how-desc">Sign up in seconds. Choose your country and receive a welcome bonus instantly. No deposit needed to begin rating.</div>
+      <div class="how-desc">Sign up with your country, receive your welcome bonus instantly. No deposit needed to start rating.</div>
     </div>
     <div class="how-item">
       <div class="how-num">02</div>
-      <div class="how-title">Rate African Dishes</div>
-      <div class="how-desc">96 unique African dishes available daily across 3 rounds. Rate each dish and earn rewards with every submission.</div>
+      <div class="how-title">Rate 96 Brands Daily</div>
+      <div class="how-desc">96 East African brands available daily across 3 rounds. Rate each brand and earn rewards with every submission.</div>
     </div>
     <div class="how-item">
       <div class="how-num">03</div>
       <div class="how-title">Withdraw Earnings</div>
-      <div class="how-desc">Withdraw directly to M-Pesa, MTN Mobile Money, or your preferred local payment method across 15 African countries.</div>
+      <div class="how-desc">Withdraw directly to M-Pesa, MTN MoMo, or Airtel Money across Kenya, Tanzania and Uganda.</div>
     </div>
   </div>
 </div>
 
 <div class="cta-band" id="contact">
-  <h2>Ready to Taste the Continent?</h2>
-  <p>Join thousands of food lovers across Africa earning daily rewards.</p>
+  <h2>Ready to Rate East Africa?</h2>
+  <p>Join thousands of consumers earning daily rewards across Kenya, Tanzania and Uganda.</p>
   <a href="signup.html" class="btn-gold btn-lg">Create Free Account</a>
 </div>
 
 <footer>
   <div>© 2025 Afrique Guide. All rights reserved.</div>
-  <div style="display:flex;gap:22px;flex-wrap:wrap;justify-content:center;">
+  <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center">
     <a href="#about">About Us</a>
     <a href="#">Privacy Policy</a>
     <a href="#">Terms</a>
@@ -294,41 +214,48 @@
   </div>
 </footer>
 
+<script src="brands.js"></script>
 <script>
-function toggleMenu() {
-  document.getElementById('navMenu').classList.toggle('open');
+// Build logo grid background
+const grid = document.getElementById('logoGrid');
+const shuffled = [...BRANDS].sort(()=>Math.random()-0.5);
+for(let i=0;i<32;i++){
+  const b = shuffled[i % shuffled.length];
+  const cell = document.createElement('div');
+  cell.className = 'logo-cell';
+  cell.innerHTML = `<img src="${b.logo}" alt="${b.name}" onerror="this.style.display='none'">`;
+  grid.appendChild(cell);
 }
-function closeMenu() {
-  document.getElementById('navMenu').classList.remove('open');
-}
-document.querySelectorAll('.nav-center a').forEach(a => {
-  a.addEventListener('click', e => {
-    const href = a.getAttribute('href');
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      closeMenu();
-      const el = document.querySelector(href);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
+
+// Animate logo grid - pulse random cells
+setInterval(()=>{
+  const cells = document.querySelectorAll('.logo-cell');
+  cells.forEach(c => c.style.opacity = (0.05 + Math.random() * 0.25).toString());
+}, 2000);
+
+// Featured brands (first 12)
+const feat = document.getElementById('featuredBrands');
+BRANDS.slice(0,12).forEach(b=>{
+  const a = document.createElement('a');
+  a.href = 'brands.html#brand-'+b.id;
+  a.className = 'brand-card';
+  a.innerHTML = `
+    <img class="brand-logo" src="${b.logo}" alt="${b.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'><rect fill=\\'%23333\\' width=\\'100\\' height=\\'100\\'/><text fill=\\'%23C9A84C\\' font-size=\\'14\\' x=\\'50\\' y=\\'55\\' text-anchor=\\'middle\\' font-family=\\'sans-serif\\'>${b.name.substring(0,8)}</text></svg>'">
+    <div class="brand-name">${b.name}</div>
+    <div class="brand-country">${b.country}</div>
+    <div class="brand-sector">${b.sector}</div>
+  `;
+  feat.appendChild(a);
 });
 
-// JS crossfade slideshow - zero black gaps
-(function() {
-  const slides = document.querySelectorAll('.slide');
-  let current = 0;
-  // Show first slide immediately
-  slides[0].style.opacity = '1';
-  setInterval(() => {
-    const next = (current + 1) % slides.length;
-    // Fade in next BEFORE fading out current — overlap = no black gap
-    slides[next].style.opacity = '1';
-    setTimeout(() => {
-      slides[current].style.opacity = '0';
-      current = next;
-    }, 800);
-  }, 6000);
-})();
+function toggleMenu(){document.getElementById('navMenu').classList.toggle('open')}
+function closeMenu(){document.getElementById('navMenu').classList.remove('open')}
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const h=a.getAttribute('href');
+    if(h.startsWith('#')){e.preventDefault();closeMenu();document.querySelector(h)?.scrollIntoView({behavior:'smooth'})}
+  });
+});
 </script>
 </body>
 </html>

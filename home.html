@@ -3,498 +3,383 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rate Dishes – Afrique Guide</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Dashboard – Afrique Guide</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --gold: #C9A84C; --gold-light: #E2C47A; --black: #080808; --dark: #111; --white: #F7F3EE; --glass: rgba(255,255,255,0.05); --glass-border: rgba(255,255,255,0.1); --red: #8B1A1A; }
-    html, body { min-height: 100%; font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); }
-    body::before { content: ''; position: fixed; inset: 0; z-index: 0; background: url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80') center/cover no-repeat; filter: brightness(0.08) blur(12px); transform: scale(1.05); pointer-events: none; }
-    .main, nav { position: relative; z-index: 1; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--gold:#C9A84C;--gold-light:#E2C47A;--black:#080808;--white:#F7F3EE;--glass:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--sidebar:220px}
+    html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden}
 
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; background: rgba(8,8,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
-    .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .logo-emblem { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--gold); font-weight: 700; }
-    .logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); }
-    .nav-right { display: flex; align-items: center; gap: 20px; }
-    .nav-balance { font-size: 0.78rem; color: var(--gold); }
-    .nav-balance span { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; }
-    .btn-sm { padding: 7px 16px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; cursor: pointer; font-family: 'DM Sans', sans-serif; text-decoration: none; transition: all 0.2s; }
-    .btn-gold-sm { background: var(--gold); color: var(--black); border: 1px solid var(--gold); font-weight: 500; }
-    .btn-ghost-sm { background: var(--glass); color: var(--white); border: 1px solid var(--glass-border); }
-    .btn-ghost-sm:hover { border-color: var(--gold); color: var(--gold); }
+    .app{display:flex;min-height:100vh}
 
-    .main { padding-top: 80px; min-height: 100vh; }
+    /* SIDEBAR */
+    .sidebar{width:var(--sidebar);flex-shrink:0;background:rgba(6,6,6,0.98);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50}
+    .sb-logo{padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+    .sb-em{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:var(--gold);font-weight:700}
+    .sb-name{font-family:'Cormorant Garamond',serif;font-size:0.98rem;color:var(--white)}
+    .sb-nav{flex:1;padding:14px 0;overflow-y:auto}
+    .nav-item{display:flex;align-items:center;gap:11px;padding:12px 18px;cursor:pointer;color:rgba(247,243,238,0.48);font-size:0.76rem;letter-spacing:0.05em;transition:all 0.2s;border-left:3px solid transparent;text-transform:uppercase;text-decoration:none}
+    .nav-item:hover{color:var(--white);background:rgba(255,255,255,0.04)}
+    .nav-item.active{color:var(--white);border-left-color:var(--gold);background:rgba(201,168,76,0.08)}
+    .nav-icon{font-size:0.95rem;width:18px;text-align:center}
+    .sb-footer{padding:14px;border-top:1px solid var(--border)}
+    .user-chip{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:4px}
+    .u-av{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:600;color:var(--black);flex-shrink:0}
+    .u-name{font-size:0.72rem;font-weight:500}
+    .u-id{font-size:0.56rem;color:rgba(247,243,238,0.35)}
 
-    .top-bar { background: rgba(201,168,76,0.06); border-bottom: 1px solid rgba(201,168,76,0.15); padding: 14px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-    .round-tabs { display: flex; gap: 8px; }
-    .round-tab { padding: 6px 18px; border-radius: 2px; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--glass-border); background: transparent; color: rgba(247,243,238,0.45); cursor: default; }
-    .round-tab.active { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 500; }
-    .round-tab.done { border-color: rgba(201,168,76,0.3); color: rgba(201,168,76,0.5); }
-    .progress-info { font-size: 0.75rem; color: rgba(247,243,238,0.5); }
-    .progress-info span { color: var(--gold-light); font-weight: 500; }
+    /* MAIN */
+    .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column}
+    .topbar{padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(8,8,8,0.88);backdrop-filter:blur(14px);position:sticky;top:0;z-index:40}
+    .topbar-title{font-family:'Cormorant Garamond',serif;font-size:1rem}
+    .tb-right{display:flex;align-items:center;gap:12px}
+    .tb-bal{font-size:0.76rem;color:var(--gold)}
+    .tb-bal span{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700}
+    .btn-sm{padding:6px 14px;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;border-radius:2px;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;border:1px solid;transition:all 0.2s}
+    .btn-ghost-sm{background:rgba(255,255,255,0.04);color:var(--white);border-color:var(--border)}
+    .btn-gold-sm{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:500}
 
-    .progress-bar-wrap { height: 3px; background: rgba(255,255,255,0.06); }
-    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.5s ease; }
+    .page-content{padding:24px;flex:1}
 
-    .content { max-width: 1100px; margin: 0 auto; padding: 40px; display: grid; grid-template-columns: 1fr 340px; gap: 30px; }
+    /* ROUND BAR */
+    .round-bar{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);border-radius:4px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:22px}
+    .round-tabs{display:flex;gap:8px}
+    .rtab{padding:5px 16px;border-radius:2px;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:rgba(247,243,238,0.4)}
+    .rtab.active{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:500}
+    .rtab.done{border-color:rgba(201,168,76,0.3);color:rgba(201,168,76,0.45)}
+    .round-info{font-size:0.72rem;color:rgba(247,243,238,0.45)}
+    .round-info span{color:var(--gold-light);font-weight:500}
+    .prog-wrap{height:3px;background:rgba(255,255,255,0.05);border-radius:2px;margin-bottom:22px}
+    .prog-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width 0.5s ease}
 
-    .dish-card-main { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 6px; overflow: hidden; }
-    .dish-img { width: 100%; height: 340px; object-fit: cover; }
-    .dish-info { padding: 28px 30px; }
-    .dish-country { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
-    .dish-name { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; }
-    .dish-desc { font-size: 0.82rem; color: rgba(247,243,238,0.5); line-height: 1.7; margin-bottom: 24px; font-weight: 300; }
-    .special-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.08)); border: 1px solid rgba(201,168,76,0.4); border-radius: 3px; padding: 6px 14px; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 20px; }
+    /* CONTENT GRID */
+    .content-grid{display:grid;grid-template-columns:1fr 320px;gap:22px}
 
-    .star-rating { display: flex; gap: 10px; margin-bottom: 24px; }
-    .star { font-size: 2rem; cursor: pointer; color: rgba(255,255,255,0.15); transition: color 0.15s, transform 0.15s; }
-    .star:hover, .star.active { color: var(--gold); transform: scale(1.15); }
+    /* BRAND CARD */
+    .brand-card-main{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .brand-card-header{padding:28px;display:flex;align-items:center;gap:20px;border-bottom:1px solid var(--border)}
+    .bc-logo{width:90px;height:90px;object-fit:contain;background:rgba(255,255,255,0.06);border-radius:4px;padding:8px;flex-shrink:0}
+    .bc-country{font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .bc-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;margin-bottom:6px}
+    .bc-sector{font-size:0.72rem;color:rgba(247,243,238,0.45);font-weight:300}
+    .special-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.06));border:1px solid rgba(201,168,76,0.4);border-radius:3px;padding:5px 12px;font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);margin-top:8px}
+    .brand-story{padding:22px 28px;font-size:0.8rem;color:rgba(247,243,238,0.52);line-height:1.85;font-weight:300;border-bottom:1px solid var(--border)}
+    .brand-rating-ui{padding:22px 28px}
+    .r-label{font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(247,243,238,0.45);margin-bottom:12px}
+    .stars{display:flex;gap:10px;margin-bottom:20px}
+    .star{font-size:2rem;cursor:pointer;color:rgba(255,255,255,0.14);transition:color 0.15s,transform 0.15s}
+    .star:hover,.star.active{color:var(--gold);transform:scale(1.15)}
+    .btn-rate{width:100%;padding:14px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background 0.2s}
+    .btn-rate:hover{background:var(--gold-light)}
+    .btn-rate:disabled{background:rgba(201,168,76,0.28);color:rgba(0,0,0,0.35);cursor:not-allowed}
 
-    .btn-rate { width: 100%; padding: 15px; background: var(--gold); color: var(--black); border: none; border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; cursor: pointer; transition: background 0.2s; }
-    .btn-rate:hover { background: var(--gold-light); }
-    .btn-rate:disabled { background: rgba(201,168,76,0.3); color: rgba(0,0,0,0.4); cursor: not-allowed; }
+    /* SIDEBAR */
+    .sidebar-panel{}
+    .balance-card{background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.22);border-radius:6px;padding:22px;margin-bottom:18px}
+    .bl-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+    .bl-amount{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--gold-light);margin-bottom:3px}
+    .bl-sub{font-size:0.68rem;color:rgba(247,243,238,0.36);margin-bottom:16px}
+    .bl-bonus-row{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.18);border-radius:3px;padding:8px 11px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;font-size:0.72rem}
+    .bl-bonus-row .lbl{color:rgba(247,243,238,0.5)}
+    .bl-bonus-row .val{color:var(--gold-light);font-weight:500}
+    .bl-row{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid rgba(255,255,255,0.05);font-size:0.72rem}
+    .bl-row .lbl{color:rgba(247,243,238,0.45)}
+    .bl-row .val{color:var(--white);font-weight:500}
+    .btn-withdraw{width:100%;padding:9px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:12px}
+    .btn-withdraw:hover{background:rgba(201,168,76,0.1)}
 
-    .sidebar {}
-    .balance-card { background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04)); border: 1px solid rgba(201,168,76,0.25); border-radius: 6px; padding: 24px; margin-bottom: 20px; }
-    .balance-label { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
-    .balance-amount { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 700; color: var(--gold-light); margin-bottom: 4px; }
-    .balance-sub { font-size: 0.72rem; color: rgba(247,243,238,0.4); margin-bottom: 18px; }
-    .balance-row { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.75rem; }
-    .balance-row .bl { color: rgba(247,243,238,0.5); }
-    .balance-row .br { color: var(--white); font-weight: 500; }
-    .btn-withdraw { width: 100%; padding: 10px; background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; margin-top: 14px; }
-    .btn-withdraw:hover { background: rgba(201,168,76,0.1); }
+    .recent-panel{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:18px}
+    .rp-title{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(247,243,238,0.36);margin-bottom:12px}
+    .recent-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+    .recent-item:last-child{border-bottom:none}
+    .ri-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+    .ri-name{font-size:0.75rem;flex:1}
+    .ri-earn{font-size:0.7rem;color:#4caf50;font-weight:500}
 
-    .recent-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 6px; padding: 20px; }
-    .recent-title { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(247,243,238,0.4); margin-bottom: 14px; }
-    .recent-item { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .recent-item:last-child { border-bottom: none; }
-    .recent-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
-    .recent-dish { font-size: 0.78rem; flex: 1; }
-    .recent-earn { font-size: 0.75rem; color: #4caf50; font-weight: 500; }
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)}
+    .modal-overlay.open{display:flex}
+    .modal{background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:36px;max-width:440px;width:100%;text-align:center}
+    .m-icon{font-size:2.4rem;margin-bottom:14px}
+    .m-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;margin-bottom:9px}
+    .m-msg{font-size:0.8rem;color:rgba(247,243,238,0.52);line-height:1.75;margin-bottom:20px;font-weight:300}
+    .m-amount{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--gold-light);margin:14px 0}
+    .m-neg{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:#ff6b6b;margin:14px 0}
+    .btn-primary{display:block;width:100%;padding:12px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background 0.2s;margin-bottom:9px;text-decoration:none}
+    .btn-primary:hover{background:var(--gold-light)}
+    .btn-sec{display:block;width:100%;padding:10px;background:transparent;border:1px solid var(--border);color:rgba(247,243,238,0.55);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.76rem;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;text-decoration:none}
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); }
-    .modal-overlay.show { display: flex; }
-    .modal { background: #0e0e0e; border: 1px solid var(--glass-border); border-radius: 8px; padding: 40px; max-width: 440px; width: 100%; text-align: center; }
-    .modal-icon { font-size: 2.5rem; margin-bottom: 16px; }
-    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-bottom: 10px; }
-    .modal p { font-size: 0.82rem; color: rgba(247,243,238,0.55); line-height: 1.7; margin-bottom: 24px; font-weight: 300; }
-    .modal-amount { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold-light); margin: 16px 0; }
-    .modal .btn-gold { display: block; width: 100%; padding: 13px; background: var(--gold); color: var(--black); border: none; border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; cursor: pointer; transition: background 0.2s; text-decoration: none; margin-bottom: 10px; }
-    .modal .btn-gold:hover { background: var(--gold-light); }
-    .modal .btn-outline { display: block; width: 100%; padding: 11px; background: transparent; border: 1px solid var(--glass-border); color: rgba(247,243,238,0.6); border-radius: 3px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; text-decoration: none; }
-    .negative-amount { color: #ff6b6b; font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin: 16px 0; }
-
-    @media (max-width: 768px) {
-      nav { padding: 14px 20px; }
-      .top-bar { padding: 12px 20px; }
-      .content { grid-template-columns: 1fr; padding: 20px; }
-      .dish-img { height: 240px; }
+    /* MOBILE */
+    .mob-menu-btn{display:none;background:none;border:none;color:var(--white);font-size:1.3rem;cursor:pointer}
+    @media(max-width:768px){
+      .sidebar{transform:translateX(-100%);transition:transform 0.3s}
+      .sidebar.open{transform:translateX(0)}
+      .main{margin-left:0}
+      .mob-menu-btn{display:block}
+      .content-grid{grid-template-columns:1fr}
+      .page-content{padding:16px}
     }
   </style>
 </head>
 <body>
-
-<nav>
-  <a href="index.html" class="logo-wrap">
-    <div class="logo-emblem">AG</div>
-    <span class="logo-name">Afrique Guide</span>
-  </a>
-  <div class="nav-right">
-    <div class="nav-balance">Balance: <span id="navBalance">—</span></div>
-    <a href="wallet.html" class="btn-sm btn-ghost-sm">Wallet</a>
-    <button class="btn-sm btn-gold-sm" onclick="openDepositModal()">Deposit</button>
-  </div>
-</nav>
-
-<div class="main">
-  <div class="top-bar">
-    <div class="round-tabs">
-      <div class="round-tab active" id="tab1">Round 1 — Bonus</div>
-      <div class="round-tab" id="tab2">Round 2 — Deposit</div>
-      <div class="round-tab" id="tab3">Round 3 — Premium</div>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-logo">
+      <div class="sb-em">AG</div>
+      <span class="sb-name">Afrique Guide</span>
     </div>
-    <div class="progress-info">Dish <span id="taskNum">1</span> of 32 — <span id="roundLabel">Welcome Round</span></div>
-  </div>
-  <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:3%"></div></div>
+    <nav class="sb-nav">
+      <a href="home.html" class="nav-item active"><span class="nav-icon">⭐</span>Rate Brands</a>
+      <a href="brands.html" class="nav-item"><span class="nav-icon">🏢</span>All Brands</a>
+      <a href="wallet.html" class="nav-item"><span class="nav-icon">💰</span>Wallet</a>
+      <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span>Home</a>
+      <a href="#" class="nav-item" onclick="logout()"><span class="nav-icon">🚪</span>Sign Out</a>
+    </nav>
+    <div class="sb-footer">
+      <div class="user-chip">
+        <div class="u-av" id="userAv">?</div>
+        <div><div class="u-name" id="userName">Loading...</div><div class="u-id" id="userCountry"></div></div>
+      </div>
+    </div>
+  </aside>
 
-  <div class="content">
-    <div class="dish-card-main">
-      <img class="dish-img" id="dishImg" src="" alt=""/>
-      <div class="dish-info">
-        <div class="dish-country" id="dishCountry"></div>
-        <div class="dish-name" id="dishName"></div>
-        <div class="special-badge" id="specialBadge" style="display:none">⭐ Special Dish — Bonus Multiplier</div>
-        <div class="dish-desc" id="dishDesc"></div>
-        <div class="star-rating" id="starRating">
-          <span class="star" data-v="1">★</span>
-          <span class="star" data-v="2">★</span>
-          <span class="star" data-v="3">★</span>
-          <span class="star" data-v="4">★</span>
-          <span class="star" data-v="5">★</span>
+  <div class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mob-menu-btn" onclick="toggleSidebar()">☰</button>
+        <span class="topbar-title" id="topbarTitle">Rate Today's Brands</span>
+      </div>
+      <div class="tb-right">
+        <div class="tb-bal">Balance: <span id="navBal">—</span></div>
+        <a href="wallet.html" class="btn-sm btn-ghost-sm">Wallet</a>
+        <button class="btn-sm btn-gold-sm" onclick="location.href='wallet.html'">Deposit</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="round-bar">
+        <div class="round-tabs">
+          <div class="rtab active" id="tab1">Round 1 — Bonus</div>
+          <div class="rtab" id="tab2">Round 2</div>
+          <div class="rtab" id="tab3">Round 3 — Premium</div>
         </div>
-        <button class="btn-rate" id="rateBtn" onclick="rateDish()">Rate This Dish</button>
+        <div class="round-info">Brand <span id="taskNum">1</span> of 32 — <span id="roundLabel">Welcome Round</span></div>
       </div>
-    </div>
+      <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:3%"></div></div>
 
-    <div class="sidebar">
-      <div class="balance-card">
-        <div class="balance-label">Account Balance</div>
-        <div class="balance-amount" id="balanceAmount">—</div>
-        <div class="balance-sub">Your actual earnings</div>
-        <div class="balance-row" style="background:rgba(201,168,76,0.08);border-radius:3px;padding:8px 10px;margin:10px 0;border:1px solid rgba(201,168,76,0.2);">
-          <span class="bl">🎁 Welcome Bonus</span><span class="br" style="color:var(--gold-light)" id="bonusDisplay">—</span>
+      <div class="content-grid">
+        <div class="brand-card-main">
+          <div class="brand-card-header">
+            <img class="bc-logo" id="bcLogo" src="" alt="">
+            <div>
+              <div class="bc-country" id="bcCountry"></div>
+              <div class="bc-name" id="bcName"></div>
+              <div class="bc-sector" id="bcSector"></div>
+              <div class="special-badge" id="specialBadge" style="display:none">⭐ Premium Brand — Bonus Multiplier</div>
+            </div>
+          </div>
+          <div class="brand-story" id="bcStory"></div>
+          <div class="brand-rating-ui">
+            <div class="r-label">Rate This Brand</div>
+            <div class="stars" id="starsRow">
+              <span class="star" data-v="1">★</span>
+              <span class="star" data-v="2">★</span>
+              <span class="star" data-v="3">★</span>
+              <span class="star" data-v="4">★</span>
+              <span class="star" data-v="5">★</span>
+            </div>
+            <button class="btn-rate" id="rateBtn" disabled onclick="rateBrand()">Submit Rating</button>
+          </div>
         </div>
-        <div class="balance-row"><span class="bl">Total Earned</span><span class="br" id="totalEarned">—</span></div>
-        <div class="balance-row"><span class="bl">Bonus Used</span><span class="br" id="bonusUsed">—</span></div>
-        <div class="balance-row"><span class="bl">Dishes Rated Today</span><span class="br" id="ratedCount">0</span></div>
-        <button class="btn-withdraw" onclick="tryWithdraw()">Withdraw Earnings</button>
-      </div>
-      <div class="recent-card">
-        <div class="recent-title">Recent Ratings</div>
-        <div id="recentList"></div>
+
+        <div class="sidebar-panel">
+          <div class="balance-card">
+            <div class="bl-label">Account Balance</div>
+            <div class="bl-amount" id="blAmount">—</div>
+            <div class="bl-sub">Your actual earnings</div>
+            <div class="bl-bonus-row"><span class="lbl">🎁 Welcome Bonus</span><span class="val" id="blBonus">—</span></div>
+            <div class="bl-row"><span class="lbl">Total Earned</span><span class="val" id="blEarned">—</span></div>
+            <div class="bl-row"><span class="lbl">Bonus Used</span><span class="val" id="blBonusUsed">—</span></div>
+            <div class="bl-row"><span class="lbl">Brands Rated Today</span><span class="val" id="blRated">0</span></div>
+            <button class="btn-withdraw" onclick="tryWithdraw()">Withdraw Earnings</button>
+          </div>
+          <div class="recent-panel">
+            <div class="rp-title">Recent Ratings</div>
+            <div id="recentList"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Deposit needed modal -->
-<div class="modal-overlay" id="depositModal">
-  <div class="modal">
-    <div class="modal-icon">💰</div>
-    <h2 id="depositModalTitle">Round 2 Unlocked!</h2>
-    <p id="depositModalMsg">You have completed Round 1. To continue rating and earn more, deposit to proceed.</p>
-    <div class="modal-amount" id="depositModalAmount"></div>
-    <button class="btn-gold" onclick="goDeposit()">Deposit Now</button>
-    <a href="home.html" class="btn-outline" onclick="closeModal('depositModal')">Later</a>
-  </div>
-</div>
-
-<!-- Special dish negative modal -->
-<div class="modal-overlay" id="specialModal">
-  <div class="modal">
-    <div class="modal-icon">⚠️</div>
-    <h2>Special Dish Alert</h2>
-    <p id="specialModalMsg">This is a special high-value dish. To unlock the rating and claim your multiplied earnings, your account requires a top-up.</p>
-    <div class="negative-amount" id="specialModalAmount"></div>
-    <p style="font-size:0.72rem;color:rgba(247,243,238,0.4);margin-bottom:20px;">Top up this amount to unlock and continue earning.</p>
-    <button class="btn-gold" onclick="goDeposit()">Top Up Now</button>
-    <a href="home.html" class="btn-outline" onclick="closeModal('specialModal')">Contact Support</a>
-  </div>
-</div>
-
-<!-- Withdraw modal -->
-<div class="modal-overlay" id="withdrawModal">
-  <div class="modal">
-    <div class="modal-icon">🎉</div>
-    <h2 id="withdrawTitle">Withdraw Earnings</h2>
-    <p id="withdrawMsg"></p>
-    <div class="modal-amount" id="withdrawAmount"></div>
-    <a href="wallet.html" class="btn-gold">Go to Wallet</a>
-    <button class="btn-outline" onclick="closeModal('withdrawModal')">Close</button>
-  </div>
-</div>
-
-<!-- Round complete modal -->
+<!-- Modals -->
 <div class="modal-overlay" id="roundModal">
   <div class="modal">
-    <div class="modal-icon" id="roundModalIcon">✅</div>
-    <h2 id="roundModalTitle">Round Complete!</h2>
-    <p id="roundModalMsg"></p>
-    <div class="modal-amount" id="roundModalAmount"></div>
-    <button class="btn-gold" id="roundModalBtn" onclick="handleRoundAction()">Continue</button>
+    <div class="m-icon" id="mIcon">🎉</div>
+    <div class="m-title" id="mTitle">Round Complete!</div>
+    <div class="m-msg" id="mMsg"></div>
+    <div class="m-amount" id="mAmount"></div>
+    <button class="btn-primary" id="mBtn" onclick="handleModalAction()">Continue</button>
+  </div>
+</div>
+<div class="modal-overlay" id="specialModal">
+  <div class="modal">
+    <div class="m-icon">⚠️</div>
+    <div class="m-title">Premium Brand Alert</div>
+    <div class="m-msg" id="spMsg"></div>
+    <div class="m-neg" id="spAmount"></div>
+    <p style="font-size:0.68rem;color:rgba(247,243,238,0.35);margin-bottom:18px">Top up this amount to unlock and continue earning.</p>
+    <button class="btn-primary" onclick="location.href='wallet.html'">Top Up Now</button>
+    <button class="btn-sec" onclick="closeM('specialModal')">Contact Support</button>
+  </div>
+</div>
+<div class="modal-overlay" id="withdrawModal">
+  <div class="modal">
+    <div class="m-icon">💸</div>
+    <div class="m-title" id="wTitle">Withdraw</div>
+    <div class="m-msg" id="wMsg"></div>
+    <div class="m-amount" id="wAmount"></div>
+    <a href="wallet.html" class="btn-primary">Go to Wallet</a>
+    <button class="btn-sec" onclick="closeM('withdrawModal')">Close</button>
   </div>
 </div>
 
+<script src="brands.js"></script>
 <script>
-const dishes = [
-  // Round 1 — 32 dishes
-  {name:'Nyama Choma',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Nyama_choma.jpg/800px-Nyama_choma.jpg',desc:'Slow-roasted over open coals, this beloved Kenyan roadside classic is the heartbeat of any celebration.'},
-  {name:'Ugali na Sukuma Wiki',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ugali_and_sukuma_wiki.jpg/800px-Ugali_and_sukuma_wiki.jpg',desc:'Stiff maize porridge served alongside braised collard greens — the everyday staple of Kenyan households.'},
-  {name:'Jollof Rice',country:'🇳🇬 Nigeria',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Jollof_Rice.jpg/800px-Jollof_Rice.jpg',desc:'Richly spiced tomato rice cooked in one pot, the undisputed king of West African celebration dishes.'},
-  {name:'Injera Firfir',country:'🇪🇹 Ethiopia',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Injera%2C_a_pancake-like_bread%2C_is_a_staple_of_Ethiopian_cuisine.jpg/800px-Injera%2C_a_pancake-like_bread%2C_is_a_staple_of_Ethiopian_cuisine.jpg',desc:'Spongy fermented teff flatbread torn and mixed with spiced butter sauce — Ethiopia\'s national staple.'},
-  {name:'Chicken Tagine',country:'🇲🇦 Morocco',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Chicken_tagine.jpg/800px-Chicken_tagine.jpg',desc:'Slow-braised chicken with preserved lemon, olives, and a warming blend of Moroccan spices.'},
-  {name:'Thieboudienne',country:'🇸🇳 Senegal',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Thieboudienne.jpg/800px-Thieboudienne.jpg',desc:'Senegal\'s national dish — a fragrant one-pot of fish, vegetables, and broken rice in tomato broth.'},
-  {name:'Suya',country:'🇳🇬 Nigeria',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Suya.jpg/800px-Suya.jpg',desc:'Thin strips of spiced beef threaded onto skewers and grilled over hot coals by night-market vendors.'},
-  {name:'Egusi Soup',country:'🇬🇭 Ghana',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Egusi_soup.jpg/800px-Egusi_soup.jpg',desc:'Ground melon seed soup slow-cooked with leafy greens, palm oil, and smoked fish.'},
-  {name:'Chapati ya Kenya',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Chapati_making.jpg/800px-Chapati_making.jpg',desc:'Layered unleavened flatbread with a crisp exterior and soft, flaky interior — a Kenyan favourite.'},
-  {name:'Mtuzi wa Samaki',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Fish_curry.jpg/800px-Fish_curry.jpg',desc:'Coastal Swahili fish curry simmered in coconut milk with fresh tomatoes and aromatic spices.'},
-  {name:'Pilau',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Pilau_rice.jpg/800px-Pilau_rice.jpg',desc:'Fragrant spiced rice slow-cooked with whole spices, meat, and caramelised onions.'},
-  {name:'Biltong',country:'🇿🇦 South Africa',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Biltong_02.jpg/800px-Biltong_02.jpg',desc:'Air-dried cured meat seasoned with coriander, vinegar, and spices — a South African icon.'},
-  {name:'Braai Boerewors',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1558030006-450675393462?w=800&q=80',desc:'Coiled farmer\'s sausage grilled over wood coals — the centrepiece of the South African braai tradition.'},
-  {name:'Bunny Chow',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&q=80',desc:'A hollowed-out loaf of white bread filled with rich curry — Durban\'s iconic street food.'},
-  {name:'Doro Wat',country:'🇪🇹 Ethiopia',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Doro_wat.jpg/800px-Doro_wat.jpg',desc:'Ethiopia\'s most celebrated dish — chicken legs slow-cooked in berbere spice paste with hard-boiled eggs.'},
-  {name:'Fufu',country:'🇬🇭 Ghana',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Fufu_and_egusi_soup.jpg/800px-Fufu_and_egusi_soup.jpg',desc:'Smooth pounded cassava and plantain served alongside soups — a staple across West and Central Africa.'},
-  {name:'Peri-Peri Chicken',country:'🇲🇿 Mozambique',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Peri-peri_chicken.jpg/800px-Peri-peri_chicken.jpg',desc:'Fire-grilled chicken marinated in fiery African bird\'s-eye chilli — Mozambique\'s most famous export.'},
-  {name:'Matoke',country:'🇺🇬 Uganda',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Matoke.jpg/800px-Matoke.jpg',desc:'Green bananas steamed in banana leaves and mashed — Uganda\'s beloved national staple.'},
-  {name:'Muamba Chicken',country:'🇦🇴 Angola',img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80',desc:'Angolan chicken stew made with palm oil, garlic, okra, and hot chilli — rich and deeply flavourful.'},
-  {name:'Ndizi na Nyama',country:'🇹🇿 Tanzania',img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=80',desc:'Green plantain and tender meat slow-cooked in spiced coconut gravy — a Tanzanian coastal classic.'},
-  {name:'Kachumbari',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Kachumbari.jpg/800px-Kachumbari.jpg',desc:'Fresh East African tomato and onion salad with chilli and coriander — bright, crunchy, essential.'},
-  {name:'Mandazi',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Mandazi.jpg/800px-Mandazi.jpg',desc:'Lightly spiced triangular fried dough — East Africa\'s answer to the doughnut, perfect with chai.'},
-  {name:'Akara',country:'🇳🇬 Nigeria',img:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80',desc:'Crispy fried black-eyed pea fritters seasoned with onion and chilli — a Lagos breakfast staple.'},
-  {name:'Moi Moi',country:'🇳🇬 Nigeria',img:'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=800&q=80',desc:'Steamed black-eyed pea pudding blended with peppers, onions, and fish — soft, savoury, satisfying.'},
-  {name:'Kelewele',country:'🇬🇭 Ghana',img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=80',desc:'Spiced fried plantain cubes with ginger and chilli — Ghana\'s favourite evening street snack.'},
-  {name:'Shakshouka ya Afrika',country:'🇪🇬 Egypt',img:'https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=800&q=80',desc:'Eggs poached in a spiced tomato and pepper sauce — beloved from Cairo to Cape Town.'},
-  {name:'Ful Medames',country:'🇪🇬 Egypt',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Foul_Mudammas.jpg/800px-Foul_Mudammas.jpg',desc:'Slow-cooked fava beans with lemon, cumin, and olive oil — Egypt\'s ancient and enduring breakfast.'},
-  {name:'Couscous Royale',country:'🇲🇦 Morocco',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Couscous_berber.jpg/800px-Couscous_berber.jpg',desc:'Steamed semolina with seven vegetables and slow-cooked lamb — Morocco\'s Friday celebratory dish.'},
-  {name:'Sosaties',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1562802378-063ec186a863?w=800&q=80',desc:'Cape Malay marinated meat skewers with apricot and curry sauce — a South African braai essential.'},
-  {name:'Yassa Poulet',country:'🇸🇳 Senegal',img:'https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=800&q=80',desc:'Tangy grilled chicken marinated in lemon and caramelised onions — Senegal\'s most exported recipe.'},
-  {name:'Maharagwe',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Red_kidney_beans.jpg/800px-Red_kidney_beans.jpg',desc:'Red kidney beans slow-cooked in creamy coconut milk with spices — a coastal Kenyan staple.'},
-  {name:'Githeri',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Githeri.jpg/800px-Githeri.jpg',desc:'Boiled maize and beans simmered with vegetables — humble, nutritious, and deeply Kenyan.'},
+let user={}, currentBrand=0, selectedRating=0, recentRatings=[], modalAction='';
 
-  // Round 2 — 32 dishes
-  {name:'Nyoyo',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80',desc:'Boiled maize mixed with beans and served as a hearty snack or light meal across Kenya.'},
-  {name:'Samosa za Nyumbani',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&q=80',desc:'Crispy triangular pastries stuffed with spiced minced meat — a Kenyan party and street food staple.'},
-  {name:'Maandazi ya Mombasa',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&q=80',desc:'Coastal Mombasa doughnuts flavoured with coconut milk and cardamom, fried to golden perfection.'},
-  {name:'Mkate wa Sinia',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',desc:'Swahili rice bread baked in a flat pan — soft, slightly sweet, and perfect with Kenyan chai.'},
-  {name:'Biriani ya Mombasa',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80',desc:'Coastal Kenyan biryani layered with spiced rice, slow-cooked meat, and fried onions.'},
-  {name:'Ofe Akwu',country:'🇳🇬 Nigeria',img:'https://images.unsplash.com/photo-1535400255456-984e4a761581?w=800&q=80',desc:'Rich Nigerian palm nut soup made from whole palm fruits, cooked with assorted proteins.'},
-  {name:'Banga Soup',country:'🇳🇬 Nigeria',img:'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=800&q=80',desc:'Delta State palm fruit soup with periwinkles, dried fish, and fragrant spice leaves.'},
-  {name:'Efo Riro',country:'🇳🇬 Nigeria',img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',desc:'Yoruba stewed greens cooked in a rich tomato base with assorted meats and smoked fish.'},
-  {name:'Pepper Soup',country:'🇳🇬 Nigeria',img:'https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=800&q=80',desc:'A clear, intensely spiced broth with goat meat or fish — Nigeria\'s medicinal comfort food.'},
-  {name:'Pounded Yam',country:'🇳🇬 Nigeria',img:'https://images.unsplash.com/photo-1583623025817-d180a2221d0a?w=800&q=80',desc:'Smooth, elastic yam dough pounded until silky — the perfect partner for Nigerian soups.'},
-  {name:'Jerk Chicken wa Afrika',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80',desc:'African-spiced grilled chicken with a fiery rub of local herbs and chilli — East African street style.'},
-  {name:'Tilapia ya Ziwa',country:'🇺🇬 Uganda',img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=80',desc:'Fresh Lake Victoria tilapia fried whole and served with kachumbari — Uganda\'s lake-to-table classic.'},
-  {name:'Rolex',country:'🇺🇬 Uganda',img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',desc:'Uganda\'s famous street food — an omelette rolled inside a fresh chapati, sold on every corner.'},
-  {name:'Luwombo',country:'🇺🇬 Uganda',img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80',desc:'Meat or mushrooms steamed in banana leaves with groundnut sauce — a royal Buganda dish.'},
-  {name:'Nshima ya Zambia',country:'🇿🇲 Zambia',img:'https://images.unsplash.com/photo-1600881333168-2ef49b341f30?w=800&q=80',desc:'Thick maize porridge served with relishes of vegetables and dried or fresh fish.'},
-  {name:'Ifisashi',country:'🇿🇲 Zambia',img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',desc:'Zambian leafy greens cooked in a rich peanut sauce — simple, nourishing, deeply traditional.'},
-  {name:'Sadza ne Nyama',country:'🇿🇼 Zimbabwe',img:'https://images.unsplash.com/photo-1583623025817-d180a2221d0a?w=800&q=80',desc:'Stiff maize meal served with beef or chicken stew — Zimbabwe\'s everyday national dish.'},
-  {name:'Kapenta',country:'🇿🇼 Zimbabwe',img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=80',desc:'Tiny Lake Kariba sardines fried or stewed with tomatoes and onions — Zimbabwe\'s beloved relish.'},
-  {name:'Chakalaka',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',desc:'Spicy vegetable relish made with baked beans, carrots, and chilli — a South African braai staple.'},
-  {name:'Bobowtie',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',desc:'Cape Malay spiced minced meat baked under a savoury egg custard — South Africa\'s national dish.'},
-  {name:'Umngqusho',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1535400255456-984e4a761581?w=800&q=80',desc:'Nelson Mandela\'s favourite — dried corn kernels and sugar beans simmered until soft and creamy.'},
-  {name:'Mafé',country:'🇲🇱 Mali',img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80',desc:'West African peanut stew with tender lamb or beef, tomatoes, and sweet potato — deeply satisfying.'},
-  {name:'Thiakry',country:'🇸🇳 Senegal',img:'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&q=80',desc:'Creamy sweet millet couscous with yogurt and condensed milk — Senegal\'s beloved dessert.'},
-  {name:'Alloco',country:'🇨🇮 Côte d\'Ivoire',img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=80',desc:'Deep-fried ripe plantain served with spicy sauce and grilled fish — Abidjan\'s ultimate street snack.'},
-  {name:'Kedjenou',country:'🇨🇮 Côte d\'Ivoire',img:'https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=800&q=80',desc:'Chicken or guinea fowl slow-cooked in a sealed clay pot with vegetables — no added water, no stirring.'},
-  {name:'Tibeb',country:'🇪🇹 Ethiopia',img:'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80',desc:'Sautéed lamb or beef strips with onions, rosemary, and berbere — Ethiopia\'s quick and aromatic pan dish.'},
-  {name:'Kitfo',country:'🇪🇹 Ethiopia',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',desc:'Ethiopian-style minced beef seasoned with spiced butter and chilli powder — served raw or lightly cooked.'},
-  {name:'Shiro Wat',country:'🇪🇹 Ethiopia',img:'https://images.unsplash.com/photo-1535400255456-984e4a761581?w=800&q=80',desc:'Smooth chickpea and fava bean flour stew with spiced butter — Ethiopia\'s Lenten comfort food.'},
-  {name:'Harira',country:'🇲🇦 Morocco',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Harira_soup.jpg/800px-Harira_soup.jpg',desc:'Moroccan tomato, lentil, and chickpea soup with coriander and lemon — traditionally served to break fast.'},
-  {name:'Bastilla',country:'🇲🇦 Morocco',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Bastilla.jpg/800px-Bastilla.jpg',desc:'A sweet-savoury Moroccan pie filled with spiced pigeon or chicken, wrapped in crispy warka pastry.'},
-  {name:'Ras el Hanout Lamb',country:'🇲🇦 Morocco',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',desc:'Slow-roasted lamb shoulder rubbed with a complex 30-spice blend — the pride of Moroccan cuisine.'},
-  {name:'Koshari',country:'🇪🇬 Egypt',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Koshari.jpg/800px-Koshari.jpg',desc:'Egypt\'s beloved street food — a layered bowl of rice, lentils, pasta, and spicy tomato sauce.'},
-
-  // Round 3 — 32 dishes (8 are special)
-  {name:'Mutura',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Mutura.jpg/800px-Mutura.jpg',desc:'Kenyan blood sausage stuffed with spiced meat and grilled over charcoal — a Nairobi night-market favourite.'},
-  {name:'Omena ya Kisumu',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=80',desc:'Lake Victoria silver cyprinid fish fried or stewed with tomatoes and onions — a Western Kenya staple.'},
-  {name:'Mukimo',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Mukimo.jpg/800px-Mukimo.jpg',desc:'Mashed potatoes mixed with peas, corn, and pumpkin leaves — a Kikuyu celebration dish.'},
-  {name:'Nyiri Nyiri',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1600881333168-2ef49b341f30?w=800&q=80',desc:'Thick millet or sorghum porridge fermented overnight — a nourishing Kenyan traditional breakfast.'},
-  {name:'Wagyu ya Afrika',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1558030006-450675393462?w=800&q=80',desc:'Premium African cattle steak dry-aged and seared to perfection — the continent\'s finest beef experience.',special:true,mult:4},
-  {name:'Oxtail Stew',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80',desc:'Fall-off-the-bone oxtail slow-braised for hours in red wine and spices — a South African Sunday classic.'},
-  {name:'Suya Royale',country:'🇳🇬 Nigeria',img:'https://images.unsplash.com/photo-1562802378-063ec186a863?w=800&q=80',desc:'Premium A5 wagyu strips threaded on iron skewers and coated in a rare West African spice blend.',special:true,mult:5},
-  {name:'Abalone ya Kapu',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&q=80',desc:'Wild South African abalone harvested from the Cape coast, pan-fried in garlic butter.',special:true,mult:3},
-  {name:'Lobster ya Pwani',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800&q=80',desc:'Indian Ocean lobster grilled over coconut-shell coals with lime and chilli butter.'},
-  {name:'Irio',country:'🇰🇪 Kenya',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Mukimo.jpg/800px-Mukimo.jpg',desc:'Mashed peas and potatoes mixed with corn — a Kikuyu staple served alongside nyama choma.'},
-  {name:'Mandazi ya Pwani',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&q=80',desc:'Coconut-infused Swahili doughnuts from the Kenyan coast — golden, airy, and lightly sweetened.'},
-  {name:'Nyama ya Mbuzi',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80',desc:'Slow-roasted whole goat over open coals — the centrepiece of Kenyan weddings and celebrations.'},
-  {name:'Truffle Injera',country:'🇪🇹 Ethiopia',img:'https://images.unsplash.com/photo-1567364816519-0d5c8875ea51?w=800&q=80',desc:'Ethiopia\'s spongy injera elevated with shaved black truffle and clarified spiced butter.',special:true,mult:5},
-  {name:'Cape Malay Curry',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=800&q=80',desc:'Aromatic Cape Malay lamb curry with dried apricots and sweet spices — a Bo-Kaap treasure.'},
-  {name:'Biltong de Luxe',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',desc:'Hand-selected wagyu biltong aged for 21 days with mountain herbs — South Africa\'s most prized cured meat.',special:true,mult:4},
-  {name:'Kilimanjaro Lamb',country:'🇹🇿 Tanzania',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',desc:'Highland Tanzanian lamb slow-roasted with Kilimanjaro herbs and served on a bed of coconut rice.'},
-  {name:'Zanzibar Seafood Platter',country:'🇹🇿 Tanzania',img:'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800&q=80',desc:'A Zanzibar feast of prawns, calamari, octopus, and fish grilled with spiced coconut butter.',special:true,mult:3},
-  {name:'Pilau Tamu',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80',desc:'Festival-style Kenyan pilau with caramelised onions, whole spices, and tender slow-cooked beef.'},
-  {name:'Mchakamchaka',country:'🇹🇿 Tanzania',img:'https://images.unsplash.com/photo-1562802378-063ec186a863?w=800&q=80',desc:'Tanzanian grilled offal mixed with onions and chilli — a bold street food for adventurous palates.'},
-  {name:'Nile Perch Royale',country:'🇺🇬 Uganda',img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=80',desc:'Massive Lake Victoria Nile perch fillet baked in banana leaves with East African spices.',special:true,mult:4},
-  {name:'Teff Porridge Premium',country:'🇪🇹 Ethiopia',img:'https://images.unsplash.com/photo-1600881333168-2ef49b341f30?w=800&q=80',desc:'Ethiopian heritage grain cooked with local honey and served warm — nutrient-dense and deeply satisfying.'},
-  {name:'Mtura Royale',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1562802378-063ec186a863?w=800&q=80',desc:'Premium Kenyan blood and meat sausage stuffed with aromatic herbs — a chef\'s elevated street classic.'},
-  {name:'Bobotie Couture',country:'🇿🇦 South Africa',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',desc:'A fine-dining take on the Cape Malay classic with lamb, apricot, and saffron egg custard.'},
-  {name:'Moroccan Pigeon Pie',country:'🇲🇦 Morocco',img:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&q=80',desc:'The full royal bastilla — three layers of pigeon, almonds, and crisp warqa pastry dusted with sugar.',special:true,mult:5},
-  {name:'Tilapia Farcie',country:'🇺🇬 Uganda',img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=80',desc:'Lake-fresh tilapia stuffed with herb rice and grilled over charcoal — a Ugandan chef specialty.'},
-  {name:'Piri Piri Royale',country:'🇲🇿 Mozambique',img:'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800&q=80',desc:'Mozambican lobster tail basted in house piri piri sauce and flame-grilled over coconut coals.'},
-  {name:'Harira de Luxe',country:'🇲🇦 Morocco',img:'https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=800&q=80',desc:'Royal Moroccan harira with saffron, hand-picked herbs, and slow-simmered lamb bone broth.'},
-  {name:'Gold Leaf Wagyu Brochette',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1558030006-450675393462?w=800&q=80',desc:'Nairobi fine dining pinnacle — A5 wagyu skewers finished with edible gold leaf and truffle salt.',special:true,mult:6},
-  {name:'Fufu Signature',country:'🇬🇭 Ghana',img:'https://images.unsplash.com/photo-1535400255456-984e4a761581?w=800&q=80',desc:'Chef\'s signature fufu with light soup made from garden eggs, crab, and hand-ground spices.'},
-  {name:'Jollof Grand Cru',country:'🇳🇬 Nigeria',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Jollof_Rice.jpg/800px-Jollof_Rice.jpg',desc:'Nigerian smoky jollof rice made in a cast iron pot over wood fire — the legendary party jollof.'},
-  {name:'Nyama Choma Couture',country:'🇰🇪 Kenya',img:'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80',desc:'Premium dry-aged Kenyan beef rib slow-roasted over charcoal and served with artisan ugali.'},
-  {name:'Injera Feast',country:'🇪🇹 Ethiopia',img:'https://images.unsplash.com/photo-1567364816519-0d5c8875ea51?w=800&q=80',desc:'A full Ethiopian sharing platter — injera spread with twelve stews, wots, and tibs around one tray.'},
-];
-
-let user = {};
-let currentDish = 0;
-let selectedRating = 0;
-let recentRatings = [];
-let roundModalAction = '';
-
-function init() {
-  const stored = localStorage.getItem('ag_user');
-  if (!stored) { window.location.href = 'signin.html'; return; }
-  user = JSON.parse(stored);
-  if (!user.tasksCompleted) user.tasksCompleted = 0;
-  if (!user.earnings) user.earnings = 0;
-  if (!user.bonusUsed) user.bonusUsed = 0;
-  currentDish = user.tasksCompleted;
-  updateUI();
-  loadDish();
-  setupStars();
+function init(){
+  const s=localStorage.getItem('ag_user');
+  if(!s){location.href='signin.html';return}
+  user=JSON.parse(s);
+  if(!user.tasksCompleted) user.tasksCompleted=0;
+  if(!user.earnings) user.earnings=0;
+  if(!user.bonusUsed) user.bonusUsed=0;
+  if(!user.bonusRemaining) user.bonusRemaining=user.bonus;
+  currentBrand=user.tasksCompleted;
+  document.getElementById('userAv').textContent=user.name?user.name[0].toUpperCase():'?';
+  document.getElementById('userName').textContent=user.name||'User';
+  document.getElementById('userCountry').textContent=user.currency||'KES';
+  updateUI(); loadBrand(); setupStars();
 }
 
-function fmt(n) {
-  return user.currency + ' ' + Math.abs(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+function fmt(n){return (user.symbol||'KES')+' '+Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+function updateUI(){
+  const earn=user.earnings||0;
+  document.getElementById('navBal').textContent=fmt(earn);
+  document.getElementById('blAmount').textContent=fmt(earn);
+  document.getElementById('blBonus').textContent=fmt(user.bonusRemaining||0);
+  document.getElementById('blEarned').textContent=fmt(earn);
+  document.getElementById('blBonusUsed').textContent=fmt(user.bonusUsed||0);
+  document.getElementById('blRated').textContent=user.tasksCompleted||0;
+  const r=currentBrand<32?1:currentBrand<64?2:3;
+  document.getElementById('tab1').className='rtab'+(r===1?' active':' done');
+  document.getElementById('tab2').className='rtab'+(r===2?' active':r>2?' done':'');
+  document.getElementById('tab3').className='rtab'+(r===3?' active':'');
+  const rs=r===1?0:r===2?32:64;
+  document.getElementById('progBar').style.width=Math.max(3,((currentBrand-rs)/32)*100)+'%';
+  document.getElementById('taskNum').textContent=(currentBrand%32)+1;
+  document.getElementById('roundLabel').textContent=r===1?'Welcome Round':r===2?'Main Round':'Premium Round';
 }
 
-function updateUI() {
-  const bal = user.earnings || 0;
-  document.getElementById('navBalance').textContent = fmt(bal);
-  document.getElementById('balanceAmount').textContent = fmt(bal);
-  document.getElementById('bonusDisplay').textContent = fmt(user.bonusRemaining !== undefined ? user.bonusRemaining : user.bonus);
-  document.getElementById('totalEarned').textContent = fmt(user.earnings || 0);
-  document.getElementById('bonusUsed').textContent = fmt(user.bonusUsed || 0);
-  document.getElementById('ratedCount').textContent = user.tasksCompleted || 0;
-
-  const round = currentDish < 32 ? 1 : currentDish < 64 ? 2 : 3;
-  document.getElementById('tab1').className = 'round-tab' + (round === 1 ? ' active' : ' done');
-  document.getElementById('tab2').className = 'round-tab' + (round === 2 ? ' active' : round > 2 ? ' done' : '');
-  document.getElementById('tab3').className = 'round-tab' + (round === 3 ? ' active' : '');
-
-  const roundStart = round === 1 ? 0 : round === 2 ? 32 : 64;
-  const progress = ((currentDish - roundStart) / 32) * 100;
-  document.getElementById('progressBar').style.width = Math.max(3, progress) + '%';
-  document.getElementById('taskNum').textContent = (currentDish % 32) + 1;
-  document.getElementById('roundLabel').textContent = round === 1 ? 'Welcome Round' : round === 2 ? 'Main Round' : 'Premium Round';
+function loadBrand(){
+  if(currentBrand>=96){showComplete();return}
+  const b=BRANDS[currentBrand];
+  document.getElementById('bcLogo').src=b.logo;
+  document.getElementById('bcCountry').textContent=b.country;
+  document.getElementById('bcName').textContent=b.name;
+  document.getElementById('bcSector').textContent=b.sector;
+  document.getElementById('bcStory').textContent=b.story;
+  document.getElementById('specialBadge').style.display=b.special?'inline-flex':'none';
+  selectedRating=0;
+  document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));
+  document.getElementById('rateBtn').disabled=true;
 }
 
-function loadDish() {
-  if (currentDish >= 96) { showComplete(); return; }
-  const d = dishes[currentDish];
-  document.getElementById('dishImg').src = d.img;
-  document.getElementById('dishImg').alt = d.name;
-  document.getElementById('dishCountry').textContent = d.country;
-  document.getElementById('dishName').textContent = d.name;
-  document.getElementById('dishDesc').textContent = d.desc;
-  document.getElementById('specialBadge').style.display = d.special ? 'inline-flex' : 'none';
-  selectedRating = 0;
-  document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
-  document.getElementById('rateBtn').disabled = true;
-}
-
-function setupStars() {
-  document.querySelectorAll('.star').forEach(star => {
-    star.addEventListener('click', () => {
-      selectedRating = parseInt(star.dataset.v);
-      document.querySelectorAll('.star').forEach((s, i) => {
-        s.classList.toggle('active', i < selectedRating);
-      });
-      document.getElementById('rateBtn').disabled = false;
+function setupStars(){
+  document.querySelectorAll('.star').forEach(star=>{
+    star.addEventListener('click',()=>{
+      selectedRating=parseInt(star.dataset.v);
+      document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<selectedRating));
+      document.getElementById('rateBtn').disabled=false;
     });
   });
 }
 
-function rateDish() {
-  if (!selectedRating) return;
-  const d = dishes[currentDish];
-  const round = currentDish < 32 ? 1 : currentDish < 64 ? 2 : 3;
-  const bonus = user.bonus || 200;
-
-  if (d.special) {
-    const negAmount = parseFloat((bonus * (0.8 + Math.random() * 0.6)).toFixed(2));
-    user.balance = (user.balance || 0) - negAmount;
-    saveUser();
-    updateUI();
-    document.getElementById('specialModalMsg').textContent = `This premium dish has pushed your account balance to ${fmt(user.balance)}. Top up ${fmt(negAmount)} to unlock your ${d.mult}x multiplied earnings and continue.`;
-    document.getElementById('specialModalAmount').textContent = fmt(negAmount) + ' required';
-    showModal('specialModal');
-    return;
+function rateBrand(){
+  if(!selectedRating)return;
+  const b=BRANDS[currentBrand];
+  const bonus=user.bonus||200;
+  if(b.special){
+    const neg=parseFloat((bonus*(0.8+Math.random()*0.6)).toFixed(2));
+    user.earnings=parseFloat(((user.earnings||0)-neg).toFixed(2));
+    saveUser();updateUI();
+    document.getElementById('spMsg').textContent=`This premium brand has pushed your account to ${fmt(user.earnings)}. Top up ${fmt(neg)} to unlock your ${b.mult}x multiplied earnings and continue.`;
+    document.getElementById('spAmount').textContent=fmt(neg)+' required';
+    openM('specialModal');return;
   }
-
-  const earn = parseFloat((bonus * (0.0017 + Math.random() * 0.0013)).toFixed(2));
-  const deduct = currentDish < 32 ? parseFloat((bonus / 32).toFixed(2)) : 0;
-
-  user.earnings = parseFloat(((user.earnings || 0) + earn).toFixed(2));
-  user.balance = parseFloat(((user.balance || 0) + earn - deduct).toFixed(2));
-  user.bonusUsed = parseFloat(((user.bonusUsed || 0) + deduct).toFixed(2));
-  user.bonusRemaining = parseFloat(((user.bonus || 0) - (user.bonusUsed || 0)).toFixed(2));
-  user.tasksCompleted = (user.tasksCompleted || 0) + 1;
-  currentDish++;
-
-  recentRatings.unshift({ name: d.name, earn: earn });
-  if (recentRatings.length > 5) recentRatings.pop();
-  updateRecentList();
-  saveUser();
-  updateUI();
-
-  if (currentDish === 32) { showRound1Complete(); return; }
-  if (currentDish === 64) { showRound2Complete(); return; }
-  if (currentDish === 96) { showComplete(); return; }
-
-  loadDish();
+  const earn=parseFloat((bonus*(0.0017+Math.random()*0.0013)).toFixed(2));
+  const deduct=currentBrand<32?parseFloat((bonus/32).toFixed(2)):0;
+  user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));
+  user.bonusUsed=parseFloat(((user.bonusUsed||0)+deduct).toFixed(2));
+  user.bonusRemaining=parseFloat(((user.bonus||0)-(user.bonusUsed||0)).toFixed(2));
+  user.tasksCompleted=(user.tasksCompleted||0)+1;
+  currentBrand++;
+  recentRatings.unshift({name:b.name,earn});
+  if(recentRatings.length>5)recentRatings.pop();
+  renderRecent();saveUser();updateUI();
+  if(currentBrand===32){showRound1();return}
+  if(currentBrand===64){showRound2();return}
+  if(currentBrand===96){showComplete();return}
+  loadBrand();
 }
 
-function showRound1Complete() {
-  const earned = user.earnings || 0;
-  const needed = 50;
-  const deposit = parseFloat(Math.max(0, needed - earned).toFixed(2));
-  document.getElementById('roundModalIcon').textContent = '🎉';
-  document.getElementById('roundModalTitle').textContent = 'Round 1 Complete!';
-  document.getElementById('roundModalMsg').textContent = `Excellent! You have completed Round 1 and earned ${fmt(earned)}. To unlock Round 2 and earn up to ${fmt(user.bonus * 0.6)}, your account needs a balance of ${fmt(needed)}. Please deposit ${fmt(deposit)} to continue.`;
-  document.getElementById('roundModalAmount').textContent = 'Deposit ' + fmt(deposit);
-  document.getElementById('roundModalBtn').textContent = 'Deposit & Continue';
-  roundModalAction = 'deposit';
-  showModal('roundModal');
+function showRound1(){
+  const earned=user.earnings||0;const needed=50;const deposit=Math.max(0,parseFloat((needed-earned).toFixed(2)));
+  document.getElementById('mIcon').textContent='🎉';
+  document.getElementById('mTitle').textContent='Round 1 Complete!';
+  document.getElementById('mMsg').textContent=`You have completed Round 1 and earned ${fmt(earned)}. To unlock Round 2 and earn up to ${fmt(user.bonus*0.6)}, your account needs a balance of ${fmt(needed)}. Please deposit ${fmt(deposit)} to continue.`;
+  document.getElementById('mAmount').textContent='Deposit '+fmt(deposit);
+  document.getElementById('mBtn').textContent='Deposit & Continue';
+  modalAction='deposit';openM('roundModal');
 }
-
-function showRound2Complete() {
-  const totalEarned = user.earnings || 0;
-  const withdraw = parseFloat((totalEarned * 0.6).toFixed(2));
-  const keep = parseFloat((totalEarned * 0.4).toFixed(2));
-  document.getElementById('roundModalIcon').textContent = '💸';
-  document.getElementById('roundModalTitle').textContent = 'Round 2 Complete!';
-  document.getElementById('roundModalMsg').textContent = `Outstanding! You have completed Round 2. You can now withdraw ${fmt(withdraw)} and keep ${fmt(keep)} in your account to unlock Round 3 — the Premium Round with special multiplier dishes.`;
-  document.getElementById('roundModalAmount').textContent = 'Withdraw ' + fmt(withdraw);
-  document.getElementById('roundModalBtn').textContent = 'Continue to Round 3';
-  roundModalAction = 'round3';
-  showModal('roundModal');
+function showRound2(){
+  const earned=user.earnings||0;const w=parseFloat((earned*0.6).toFixed(2));const k=parseFloat((earned*0.4).toFixed(2));
+  document.getElementById('mIcon').textContent='💸';
+  document.getElementById('mTitle').textContent='Round 2 Complete!';
+  document.getElementById('mMsg').textContent=`Outstanding! You can now withdraw ${fmt(w)} and keep ${fmt(k)} in your account to unlock Round 3 — the Premium Round with special multiplier brands.`;
+  document.getElementById('mAmount').textContent='Withdraw '+fmt(w);
+  document.getElementById('mBtn').textContent='Continue to Round 3';
+  modalAction='round3';openM('roundModal');
 }
-
-function showComplete() {
-  document.getElementById('roundModalIcon').textContent = '🏆';
-  document.getElementById('roundModalTitle').textContent = 'All 96 Dishes Rated!';
-  document.getElementById('roundModalMsg').textContent = `Incredible! You have completed all 96 dishes today. Your total earnings of ${fmt(user.earnings)} are ready. Come back tomorrow for a new set of 96 dishes.`;
-  document.getElementById('roundModalAmount').textContent = fmt(user.earnings) + ' earned today';
-  document.getElementById('roundModalBtn').textContent = 'Withdraw All';
-  roundModalAction = 'withdraw';
-  showModal('roundModal');
+function showComplete(){
+  document.getElementById('mIcon').textContent='🏆';
+  document.getElementById('mTitle').textContent='All 96 Brands Rated!';
+  document.getElementById('mMsg').textContent=`Incredible! You have rated all 96 brands today. Your total earnings of ${fmt(user.earnings)} are ready. Come back tomorrow for a new set.`;
+  document.getElementById('mAmount').textContent=fmt(user.earnings)+' earned today';
+  document.getElementById('mBtn').textContent='Withdraw All';
+  modalAction='withdraw';openM('roundModal');
 }
-
-function handleRoundAction() {
-  closeModal('roundModal');
-  if (roundModalAction === 'deposit') { goDeposit(); }
-  else if (roundModalAction === 'round3') { loadDish(); }
-  else if (roundModalAction === 'withdraw') { window.location.href = 'wallet.html'; }
+function handleModalAction(){
+  closeM('roundModal');
+  if(modalAction==='deposit')location.href='wallet.html';
+  else if(modalAction==='round3')loadBrand();
+  else if(modalAction==='withdraw')location.href='wallet.html';
 }
-
-function updateRecentList() {
-  const list = document.getElementById('recentList');
-  list.innerHTML = recentRatings.map(r =>
-    `<div class="recent-item"><div class="recent-dot"></div><div class="recent-dish">${r.name}</div><div class="recent-earn">+${fmt(r.earn)}</div></div>`
-  ).join('');
+function tryWithdraw(){
+  const earned=user.earnings||0;const min=10;
+  if(earned<min){document.getElementById('wTitle').textContent='Keep Rating!';document.getElementById('wMsg').textContent=`You need at least ${fmt(min)} in earnings to withdraw. Keep rating brands to reach your minimum.`;document.getElementById('wAmount').textContent=fmt(earned)+' earned so far';}
+  else{document.getElementById('wTitle').textContent='Withdraw Earnings';document.getElementById('wMsg').textContent=`You have ${fmt(earned)} available. Visit your wallet to withdraw.`;document.getElementById('wAmount').textContent=fmt(earned);}
+  openM('withdrawModal');
 }
-
-function tryWithdraw() {
-  const earned = user.earnings || 0;
-  const minWithdraw = 10;
-  if (earned < minWithdraw) {
-    document.getElementById('withdrawTitle').textContent = 'Keep Rating!';
-    document.getElementById('withdrawMsg').textContent = `You need at least ${fmt(minWithdraw)} in earnings to withdraw. Keep rating dishes to reach your withdrawal threshold.`;
-    document.getElementById('withdrawAmount').textContent = fmt(earned) + ' earned so far';
-  } else {
-    document.getElementById('withdrawTitle').textContent = 'Withdraw Earnings';
-    document.getElementById('withdrawMsg').textContent = `You have ${fmt(earned)} available. Visit your wallet to withdraw to your mobile money account.`;
-    document.getElementById('withdrawAmount').textContent = fmt(earned);
-  }
-  showModal('withdrawModal');
-}
-
-function openDepositModal() { window.location.href = 'wallet.html'; }
-function goDeposit() { closeModal('depositModal'); closeModal('specialModal'); closeModal('roundModal'); window.location.href = 'wallet.html'; }
-
-function showModal(id) { document.getElementById(id).classList.add('show'); }
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-function saveUser() { localStorage.setItem('ag_user', JSON.stringify(user)); }
-
+function renderRecent(){document.getElementById('recentList').innerHTML=recentRatings.map(r=>`<div class="recent-item"><div class="ri-dot"></div><div class="ri-name">${r.name}</div><div class="ri-earn">+${fmt(r.earn)}</div></div>`).join('')}
+function openM(id){document.getElementById(id).classList.add('open')}
+function closeM(id){document.getElementById(id).classList.remove('open')}
+function saveUser(){localStorage.setItem('ag_user',JSON.stringify(user));const users=JSON.parse(localStorage.getItem('ag_users')||'[]');const idx=users.findIndex(u=>u.email===user.email);if(idx>=0)users[idx]={...user};localStorage.setItem('ag_users',JSON.stringify(users))}
+function logout(){localStorage.removeItem('ag_logged_in');location.href='signin.html'}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
 init();
 </script>
 </body>
