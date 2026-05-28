@@ -19,22 +19,39 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .nav-item:hover{color:var(--cream);background:rgba(255,255,255,.03)}
 .nav-item.active{color:var(--cream);border-left-color:var(--gold);background:rgba(201,168,76,.07)}
 .sb-foot{padding:14px;border-top:1px solid var(--border)}
-.u-chip{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px}
+.u-chip{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px;cursor:pointer}
 .u-av{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;color:var(--black);flex-shrink:0}
-.u-name{font-size:.72rem;font-weight:500}
-.u-id{font-size:.54rem;color:rgba(242,237,228,.35)}
+.u-name{font-size:.72rem;font-weight:500}.u-id{font-size:.54rem;color:rgba(242,237,228,.35)}
 .main{margin-left:var(--sb);flex:1;display:flex;flex-direction:column}
 .topbar{padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(6,6,8,.9);backdrop-filter:blur(14px);position:sticky;top:0;z-index:40}
 .tb-left{display:flex;align-items:center;gap:12px}
 .mob-btn{display:none;background:none;border:none;color:var(--cream);font-size:1.2rem;cursor:pointer}
 .tb-title{font-family:var(--serif);font-size:1rem;font-weight:700}
-.tb-right{display:flex;align-items:center;gap:10px}
-.tb-bal{font-size:.76rem;color:var(--gold)}
+.tb-right{display:flex;align-items:center;gap:8px}
+.tb-bal{font-size:.76rem;color:var(--gold);margin-right:4px}
 .tb-bal span{font-family:var(--serif);font-size:1rem;font-weight:700}
 .btn-sm{padding:7px 16px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;cursor:pointer;font-family:var(--sans);text-decoration:none;transition:all .2s;border:1px solid}
 .btn-g-sm{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:600}
 .btn-o-sm{background:rgba(255,255,255,.04);color:var(--cream);border-color:var(--border2)}
 .btn-o-sm:hover{border-color:var(--gold);color:var(--gold)}
+.icon-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;flex-shrink:0}
+.icon-btn:hover{background:rgba(201,168,76,.1);border-color:var(--border)}
+.icon-btn svg{width:16px;height:16px;stroke:var(--cream);fill:none;stroke-width:1.8}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#FF5B5B;border:1.5px solid var(--black)}
+.dropdown-wrap{position:relative}
+.dropdown{position:absolute;top:calc(100% + 8px);right:0;width:230px;background:#16161E;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:200;display:none;animation:ddIn .2s ease}
+.dropdown.open{display:block}
+@keyframes ddIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.dd-user{padding:14px 16px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px}
+.dd-av{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--black);flex-shrink:0}
+.dd-uname{font-size:.82rem;font-weight:600;color:var(--cream)}
+.dd-uemail{font-size:.62rem;color:rgba(242,237,228,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
+.dd-item{display:flex;align-items:center;gap:12px;padding:11px 16px;font-size:.76rem;color:rgba(242,237,228,.65);cursor:pointer;transition:background .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--sans)}
+.dd-item:hover{background:rgba(255,255,255,.05);color:var(--cream)}
+.dd-item .di{width:18px;text-align:center;font-size:.85rem;flex-shrink:0}
+.dd-item.danger{color:#ff7070}
+.dd-item.danger:hover{background:rgba(255,80,80,.08)}
+.dd-sep{height:1px;background:var(--border2);margin:4px 0}
 .page{padding:22px;flex:1}
 .round-bar{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.14);border-radius:4px;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px}
 .rtabs{display:flex;gap:8px}
@@ -64,15 +81,13 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .btn-rate{width:100%;padding:13px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .2s}
 .btn-rate:hover{background:var(--gold-l)}
 .btn-rate:disabled{background:rgba(201,168,76,.25);color:rgba(0,0,0,.35);cursor:not-allowed}
-.side-panel{}
 .bal-card{background:linear-gradient(135deg,rgba(201,168,76,.11),rgba(201,168,76,.04));border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:20px;margin-bottom:16px}
 .bl-label{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
 .bl-amount{font-family:var(--serif);font-size:2.1rem;font-weight:700;color:var(--gold-l);margin-bottom:2px}
 .bl-sub{font-size:.66rem;color:rgba(242,237,228,.34);margin-bottom:14px}
 .bl-bonus{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.16);border-radius:3px;padding:7px 11px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;font-size:.7rem}
 .bl-row{display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid rgba(255,255,255,.04);font-size:.7rem}
-.bl-row .lbl{color:var(--muted)}
-.bl-row .val{font-weight:500}
+.bl-row .lbl{color:var(--muted)}.bl-row .val{font-weight:500}
 .btn-wd{width:100%;padding:8px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:2px;font-family:var(--sans);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:10px}
 .btn-wd:hover{background:rgba(201,168,76,.1)}
 .recent-panel{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:6px;padding:16px}
@@ -80,8 +95,39 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .r-item{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .r-item:last-child{border-bottom:none}
 .r-logo{width:26px;height:18px;object-fit:contain;flex-shrink:0;opacity:.75}
-.r-name{font-size:.74rem;flex:1}
-.r-earn{font-size:.68rem;color:#4caf50;font-weight:500}
+.r-name{font-size:.74rem;flex:1}.r-earn{font-size:.68rem;color:#4caf50;font-weight:500}
+/* panels */
+.panel-ov{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:flex-end;padding:64px 16px 0}
+.panel-ov.open{display:flex}
+.panel-box{background:#16161E;border:1px solid var(--border);border-radius:8px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;animation:ddIn .25s ease}
+.panel-head{padding:18px 20px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.panel-title{font-family:var(--serif);font-size:1.15rem;font-weight:700}
+.panel-x{background:none;border:none;color:rgba(242,237,228,.3);font-size:1.4rem;cursor:pointer;line-height:1;transition:color .2s}
+.panel-x:hover{color:var(--cream)}
+.panel-body{padding:20px}
+.pfield{margin-bottom:16px}
+.pfield label{display:block;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,237,228,.38);margin-bottom:6px}
+.pfield input,.pfield textarea{width:100%;padding:10px 13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.84rem;outline:none;transition:border-color .2s}
+.pfield input:focus,.pfield textarea:focus{border-color:var(--gold)}
+.pfield textarea{resize:vertical;min-height:80px}
+.pbtn{padding:10px 22px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .2s}
+.pbtn:hover{background:var(--gold-l)}
+.pbtn-o{padding:10px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:var(--sans);font-size:.75rem;text-transform:uppercase;cursor:pointer;margin-left:8px}
+.pinfo{font-size:.78rem;color:var(--muted);line-height:1.8;margin-bottom:14px}
+.pinfo strong{color:var(--cream)}
+.notif-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border2)}
+.notif-item:last-child{border-bottom:none}
+.ni-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px}
+.ni-dot.read{background:rgba(242,237,228,.2)}
+.ni-text{font-size:.78rem;color:var(--muted);line-height:1.6}
+.ni-time{font-size:.62rem;color:rgba(242,237,228,.25);margin-top:3px}
+.lang-option{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border:1px solid var(--border2);border-radius:4px;margin-bottom:8px;cursor:pointer;transition:all .2s;font-size:.8rem}
+.lang-option:hover,.lang-option.sel{border-color:var(--gold);background:rgba(201,168,76,.07);color:var(--cream)}
+.lang-option.sel::after{content:'✓';color:var(--gold)}
+.tos-text{font-size:.76rem;color:var(--muted);line-height:1.88;font-weight:300}
+.tos-text h3{font-family:var(--serif);font-size:1rem;color:var(--cream);margin:18px 0 8px}
+.tos-text h3:first-child{margin-top:0}
+/* modals */
 .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)}
 .modal-ov.open{display:flex}
 .modal{background:var(--dark);border:1px solid var(--border);border-radius:8px;padding:34px;max-width:440px;width:100%;text-align:center;animation:mIn .3s ease}
@@ -94,7 +140,7 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .btn-p{display:block;width:100%;padding:12px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;margin-bottom:9px;text-decoration:none}
 .btn-p:hover{background:var(--gold-l)}
 .btn-s{display:block;width:100%;padding:10px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:var(--sans);font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;text-decoration:none}
-@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mob-btn{display:block}.content-grid{grid-template-columns:1fr}.page{padding:14px}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mob-btn{display:block}.content-grid{grid-template-columns:1fr}.page{padding:14px}.panel-box{max-width:100%}.panel-ov{padding:56px 12px 0}}
   </style>
 </head>
 <body>
@@ -105,15 +151,37 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
       <a href="home.html" class="nav-item">🏠 Home</a>
       <a href="rate.html" class="nav-item active">⭐ Rate Brands</a>
       <a href="wallet.html" class="nav-item">💰 Wallet</a>
-      <a href="#" class="nav-item" onclick="logout()">🚪 Sign Out</a>
     </nav>
-    <div class="sb-foot"><div class="u-chip"><div class="u-av" id="uAv">G</div><div><div class="u-name" id="uName">User</div><div class="u-id" id="uCur">USD</div></div></div></div>
+    <div class="sb-foot"><div class="u-chip" onclick="openPanel('profilePanel')"><div class="u-av" id="uAv">G</div><div><div class="u-name" id="uName">User</div><div class="u-id" id="uCur">USD</div></div></div></div>
   </aside>
 
   <div class="main">
     <div class="topbar">
       <div class="tb-left"><button class="mob-btn" onclick="toggleSb()">☰</button><span class="tb-title">Rate Brands and Earn</span></div>
-      <div class="tb-right"><div class="tb-bal">Balance: <span id="navBal">0.00</span></div><a href="wallet.html" class="btn-sm btn-o-sm">Wallet</a><button class="btn-sm btn-g-sm" onclick="location.href='wallet.html'">Deposit</button></div>
+      <div class="tb-right">
+        <div class="tb-bal">Balance: <span id="navBal">0.00</span></div>
+        <a href="wallet.html" class="btn-sm btn-o-sm">Wallet</a>
+        <div class="icon-btn" onclick="openPanel('notifPanel')" title="Notifications"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div></div>
+        <div class="dropdown-wrap">
+          <div class="icon-btn" onclick="toggleDD()" title="Menu"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></svg></div>
+          <div class="dropdown" id="mainDD">
+            <div class="dd-user"><div class="dd-av" id="ddAv">G</div><div><div class="dd-uname" id="ddName">User</div><div class="dd-uemail" id="ddEmail"></div></div></div>
+            <button class="dd-item" onclick="closeDD();openPanel('profilePanel')"><span class="di">👤</span> My Profile</button>
+            <button class="dd-item" onclick="closeDD();openPanel('settingsPanel')"><span class="di">⚙️</span> Account Settings</button>
+            <button class="dd-item" onclick="closeDD();openPanel('langPanel')"><span class="di">🌐</span> Language</button>
+            <button class="dd-item" onclick="closeDD();openPanel('notifPanel')"><span class="di">🔔</span> Notifications</button>
+            <div class="dd-sep"></div>
+            <button class="dd-item" onclick="closeDD();openPanel('supportPanel')"><span class="di">💬</span> Help / Support</button>
+            <button class="dd-item" onclick="closeDD();openPanel('contactPanel')"><span class="di">📞</span> Contact Us</button>
+            <button class="dd-item" onclick="closeDD();openPanel('aboutPanel')"><span class="di">ℹ️</span> About Us</button>
+            <div class="dd-sep"></div>
+            <button class="dd-item" onclick="closeDD();openPanel('tosPanel')"><span class="di">📄</span> Terms of Service</button>
+            <button class="dd-item" onclick="closeDD();openPanel('privacyPanel')"><span class="di">🔒</span> Privacy Policy</button>
+            <div class="dd-sep"></div>
+            <button class="dd-item danger" onclick="logout()"><span class="di">🚪</span> Log Out</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="page">
@@ -122,7 +190,6 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
         <div class="round-info">Brand <span id="taskNum">1</span> of 32 &nbsp;·&nbsp; <span id="roundLabel">Welcome Round</span></div>
       </div>
       <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:3%"></div></div>
-
       <div class="content-grid">
         <div class="brand-main">
           <div class="bc-hero"><div class="bc-hero-bg" id="bcBg"></div><img class="bc-hero-logo" id="bcLogo" src="" alt=""></div>
@@ -139,8 +206,7 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
             <button class="btn-rate" id="rateBtn" disabled onclick="rateBrand()">Select Stars to Submit</button>
           </div>
         </div>
-
-        <div class="side-panel">
+        <div>
           <div class="bal-card">
             <div class="bl-label">Account Balance</div>
             <div class="bl-amount" id="blAmt">0.00</div>
@@ -160,9 +226,21 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
   </div>
 </div>
 
+<!-- rating modals -->
 <div class="modal-ov" id="roundModal"><div class="modal"><div class="m-icon" id="mIcon">🎉</div><div class="m-title" id="mTitle"></div><div class="m-msg" id="mMsg"></div><div class="m-amount" id="mAmt"></div><button class="btn-p" id="mBtn" onclick="handleModal()">Continue</button></div></div>
 <div class="modal-ov" id="spModal"><div class="modal"><div class="m-icon">⚠️</div><div class="m-title">Premium Brand Alert</div><div class="m-msg" id="spMsg"></div><div class="m-neg" id="spAmt"></div><p style="font-size:.66rem;color:rgba(242,237,228,.35);margin-bottom:16px">Top up to unlock your multiplied earnings and continue.</p><a href="wallet.html" class="btn-p">Top Up Now</a><button class="btn-s" onclick="closeM('spModal')">Contact Support</button></div></div>
 <div class="modal-ov" id="wdModal"><div class="modal"><div class="m-icon">💸</div><div class="m-title" id="wdTitle"></div><div class="m-msg" id="wdMsg"></div><div class="m-amount" id="wdAmt"></div><a href="wallet.html" class="btn-p">Go to Wallet</a><button class="btn-s" onclick="closeM('wdModal')">Close</button></div></div>
+
+<!-- PANELS -->
+<div class="panel-ov" id="profilePanel" onclick="closePOv(event,'profilePanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">My Profile</span><button class="panel-x" onclick="closePanel('profilePanel')">×</button></div><div class="panel-body"><div style="text-align:center;margin-bottom:20px"><div style="width:64px;height:64px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;color:var(--black);margin:0 auto 10px" id="profAv">G</div><div style="font-family:var(--serif);font-size:1.1rem;font-weight:700" id="profName">User</div><div style="font-size:.7rem;color:var(--muted)" id="profEmail"></div></div><div class="pfield"><label>Full Name</label><input type="text" id="profNameInput"/></div><div class="pfield"><label>Email</label><input type="email" id="profEmailInput" readonly style="opacity:.5;cursor:not-allowed"/></div><div class="pfield"><label>Phone</label><input type="tel" id="profPhone"/></div><div style="display:flex;margin-top:6px"><button class="pbtn" onclick="saveProfile()">Save Changes</button><button class="pbtn-o" onclick="closePanel('profilePanel')">Cancel</button></div></div></div></div>
+<div class="panel-ov" id="settingsPanel" onclick="closePOv(event,'settingsPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Account Settings</span><button class="panel-x" onclick="closePanel('settingsPanel')">×</button></div><div class="panel-body"><p class="pinfo">Manage your account security.</p><div class="pfield"><label>New Password</label><input type="password" id="newPwd" placeholder="New password"/></div><div class="pfield"><label>Confirm Password</label><input type="password" id="confPwd" placeholder="Repeat password"/></div><div style="padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;margin-bottom:12px"><div style="font-size:.7rem;color:rgba(242,237,228,.38);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Account Info</div><div style="font-size:.78rem;color:var(--muted);line-height:1.8" id="accInfo">Loading...</div></div><button class="pbtn" onclick="saveSettings()" style="width:100%">Update Password</button></div></div></div>
+<div class="panel-ov" id="langPanel" onclick="closePOv(event,'langPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Language</span><button class="panel-x" onclick="closePanel('langPanel')">×</button></div><div class="panel-body"><p class="pinfo" style="margin-bottom:16px">Select your preferred display language.</p><div class="lang-option sel" onclick="selectLang(this,'English')"><span>🇬🇧 English</span></div><div class="lang-option" onclick="selectLang(this,'French')"><span>🇫🇷 Français</span></div><div class="lang-option" onclick="selectLang(this,'Spanish')"><span>🇪🇸 Español</span></div><div class="lang-option" onclick="selectLang(this,'Portuguese')"><span>🇵🇹 Português</span></div><div class="lang-option" onclick="selectLang(this,'Swahili')"><span>🇰🇪 Kiswahili</span></div><div class="lang-option" onclick="selectLang(this,'Arabic')"><span>🇸🇦 العربية</span></div></div></div></div>
+<div class="panel-ov" id="notifPanel" onclick="closePOv(event,'notifPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Notifications</span><button class="panel-x" onclick="closePanel('notifPanel')">×</button></div><div class="panel-body"><div class="notif-item"><div class="ni-dot"></div><div><div class="ni-text">Complete your rating rounds to unlock full earnings today.</div><div class="ni-time">Today</div></div></div><div class="notif-item"><div class="ni-dot read"></div><div><div class="ni-text">Your welcome bonus has been credited. Start rating to convert it into withdrawable earnings.</div><div class="ni-time">Today</div></div></div><div class="notif-item"><div class="ni-dot read"></div><div><div class="ni-text">Global Brands now supports over 160 countries worldwide.</div><div class="ni-time">Yesterday</div></div></div></div></div></div>
+<div class="panel-ov" id="supportPanel" onclick="closePOv(event,'supportPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Help / Support</span><button class="panel-x" onclick="closePanel('supportPanel')">×</button></div><div class="panel-body"><p class="pinfo">Common questions and direct support.</p><div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--cream)">Why did my balance go negative in Round 3?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Round 3 features Premium Brands. Rating a premium brand requires a top-up to unlock multiplied earnings.</div></div><div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--cream)">How do I withdraw my earnings?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Go to the Wallet page, select Withdraw, choose your payment method and submit. Processed within 24 hours.</div></div><div style="display:flex;gap:10px;margin-top:6px"><a href="https://wa.me/254759485490" target="_blank" class="pbtn" style="text-decoration:none;display:flex;align-items:center;gap:6px">💬 WhatsApp</a><a href="https://t.me/customercare_afriqueguide" target="_blank" class="pbtn" style="text-decoration:none;background:rgba(0,136,204,.8);display:flex;align-items:center;gap:6px">✈️ Telegram</a></div></div></div></div>
+<div class="panel-ov" id="contactPanel" onclick="closePOv(event,'contactPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Contact Us</span><button class="panel-x" onclick="closePanel('contactPanel')">×</button></div><div class="panel-body"><p class="pinfo">Our team is available 24/7.</p><div class="pfield"><label>Subject</label><input type="text" id="ctSubject" placeholder="How can we help?"/></div><div class="pfield"><label>Message</label><textarea id="ctMsg" placeholder="Describe your issue..."></textarea></div><button class="pbtn" onclick="sendContact()" style="width:100%;margin-bottom:12px">Send via WhatsApp</button><a href="https://t.me/customercare_afriqueguide" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(0,136,204,.1);border:1px solid rgba(0,136,204,.2);border-radius:3px;color:#0088CC;font-size:.74rem;text-decoration:none">✈️ Telegram Support</a></div></div></div>
+<div class="panel-ov" id="aboutPanel" onclick="closePOv(event,'aboutPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">About Us</span><button class="panel-x" onclick="closePanel('aboutPanel')">×</button></div><div class="panel-body"><div style="text-align:center;margin-bottom:18px"><div style="font-size:2.5rem;margin-bottom:8px">🌍</div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;margin-bottom:4px">Global Brands</div><div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">Rate the World's Greatest</div></div><p class="pinfo">Global Brands is the world's premier brand rating and discovery platform. We connect consumers across the globe with 96 of the most iconic and influential brands in history.</p><p class="pinfo">We reward every honest rating with real earnings paid directly to your local payment method — from Nairobi to New York, Tokyo to São Paulo.</p></div></div></div>
+<div class="panel-ov" id="tosPanel" onclick="closePOv(event,'tosPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Terms of Service</span><button class="panel-x" onclick="closePanel('tosPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Acceptance</h3>By using Global Brands, you agree to these terms.<h3>2. Eligibility</h3>You must be at least 18 years old to use this platform.<h3>3. Accounts</h3>You are responsible for your login credentials and account activity.<h3>4. Earnings</h3>Earnings are generated by completing brand rating tasks. Withdrawals are subject to a minimum threshold and processed within 24 hours.<h3>5. Prohibited Conduct</h3>You agree not to submit fraudulent ratings, create multiple accounts, or manipulate the platform.<h3>6. Modifications</h3>Global Brands reserves the right to modify these terms at any time.</div></div></div></div>
+<div class="panel-ov" id="privacyPanel" onclick="closePOv(event,'privacyPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Privacy Policy</span><button class="panel-x" onclick="closePanel('privacyPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Data We Collect</h3>Name, email, phone number, country, and account activity.<h3>2. How We Use It</h3>To operate your account, process payments, and provide support. We do not sell your data.<h3>3. Storage</h3>Your data is stored securely using industry-standard measures.<h3>4. Payments</h3>Payment details are used solely for processing withdrawals.<h3>5. Your Rights</h3>You may request access, correction, or deletion of your data by contacting support.</div></div></div></div>
 
 <script src="brands.js"></script>
 <script>
@@ -175,18 +253,22 @@ function init(){
   if(!user.bonusUsed)user.bonusUsed=0;
   if(!user.bonusRemaining)user.bonusRemaining=user.bonus;
   curr=user.tasksCompleted;
-  document.getElementById('uAv').textContent=user.name?user.name[0].toUpperCase():'G';
+  const i1=user.name?user.name[0].toUpperCase():'G';
+  document.getElementById('uAv').textContent=i1;
   document.getElementById('uName').textContent=user.name||'User';
   document.getElementById('uCur').textContent=user.currency||'KES';
+  document.getElementById('ddAv').textContent=i1;
+  document.getElementById('ddName').textContent=user.name||'User';
+  document.getElementById('ddEmail').textContent=user.email||'';
+  document.getElementById('profAv').textContent=i1;
+  document.getElementById('profName').textContent=user.name||'User';
+  document.getElementById('profEmail').textContent=user.email||'';
+  document.getElementById('profNameInput').value=user.name||'';
+  document.getElementById('profEmailInput').value=user.email||'';
+  document.getElementById('profPhone').value=user.phone||'';
+  document.getElementById('accInfo').innerHTML=`Country: <strong>${user.country||'N/A'}</strong> · Currency: <strong>${user.currency||'N/A'}</strong>`;
   updateUI();loadBrand();
-  document.querySelectorAll('.star').forEach(s=>{
-    s.addEventListener('click',()=>{
-      sel=parseInt(s.dataset.v);
-      document.querySelectorAll('.star').forEach((st,i)=>st.classList.toggle('active',i<sel));
-      document.getElementById('rateBtn').disabled=false;
-      document.getElementById('rateBtn').textContent='Submit Rating ('+sel+' Star'+(sel>1?'s':'')+')';
-    });
-  });
+  document.querySelectorAll('.star').forEach(s=>{s.addEventListener('click',()=>{sel=parseInt(s.dataset.v);document.querySelectorAll('.star').forEach((st,i)=>st.classList.toggle('active',i<sel));document.getElementById('rateBtn').disabled=false;document.getElementById('rateBtn').textContent='Submit Rating ('+sel+' Star'+(sel>1?'s':'')+')';});});
 }
 const fmt=n=>(user.symbol||'KES')+' '+Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 function updateUI(){
@@ -196,12 +278,8 @@ function updateUI(){
   document.getElementById('blBonus').textContent=fmt(user.bonusRemaining||0);
   document.getElementById('blEarned').textContent=fmt(e);
   document.getElementById('blRated').textContent=(user.tasksCompleted||0)+' / 96';
-  const r=curr<32?1:curr<64?2:3;
-  const rs=r===1?0:r===2?32:64;
-  ['tab1','tab2','tab3'].forEach((id,i)=>{
-    const el=document.getElementById(id);
-    el.className='rtab'+(r===i+1?' active':r>i+1?' done':'');
-  });
+  const r=curr<32?1:curr<64?2:3;const rs=r===1?0:r===2?32:64;
+  ['tab1','tab2','tab3'].forEach((id,i)=>{const el=document.getElementById(id);el.className='rtab'+(r===i+1?' active':r>i+1?' done':'');});
   document.getElementById('progBar').style.width=Math.max(3,((curr-rs)/32)*100)+'%';
   document.getElementById('taskNum').textContent=(curr%32)+1;
   document.getElementById('roundLabel').textContent=r===1?'Welcome Round':r===2?'Main Round':'Premium Round';
@@ -222,40 +300,34 @@ function loadBrand(){
   document.getElementById('rateBtn').textContent='Select Stars to Submit';
 }
 function rateBrand(){
-  if(!sel)return;
-  const b=BRANDS[curr];const bonus=user.bonus||200;
-  if(b.special){
-    const neg=parseFloat((bonus*(0.8+Math.random()*.6)).toFixed(2));
-    user.earnings=parseFloat(((user.earnings||0)-neg).toFixed(2));
-    save();updateUI();
-    document.getElementById('spMsg').textContent='This premium brand pushed your balance to '+fmt(user.earnings)+'. Top up '+fmt(neg)+' to unlock your multiplied earnings.';
-    document.getElementById('spAmt').textContent=fmt(neg)+' required';
-    openM('spModal');return;
-  }
-  const earn=parseFloat((bonus*(0.0017+Math.random()*.0013)).toFixed(2));
-  const deduct=curr<32?parseFloat((bonus/32).toFixed(2)):0;
-  user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));
-  user.bonusUsed=parseFloat(((user.bonusUsed||0)+deduct).toFixed(2));
-  user.bonusRemaining=parseFloat(((user.bonus||0)-(user.bonusUsed||0)).toFixed(2));
-  user.tasksCompleted=(user.tasksCompleted||0)+1;
-  curr++;
-  recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});
-  if(recent.length>5)recent.pop();
-  renderRecent();save();updateUI();
-  if(curr===32){showR1();return}if(curr===64){showR2();return}if(curr>=96){showComplete();return}
-  loadBrand();
+  if(!sel)return;const b=BRANDS[curr];const bonus=user.bonus||200;
+  if(b.special){const neg=parseFloat((bonus*(0.8+Math.random()*.6)).toFixed(2));user.earnings=parseFloat(((user.earnings||0)-neg).toFixed(2));save();updateUI();document.getElementById('spMsg').textContent='This premium brand pushed your balance to '+fmt(user.earnings)+'. Top up '+fmt(neg)+' to unlock your multiplied earnings.';document.getElementById('spAmt').textContent=fmt(neg)+' required';openM('spModal');return;}
+  const earn=parseFloat((bonus*(0.0017+Math.random()*.0013)).toFixed(2));const deduct=curr<32?parseFloat((bonus/32).toFixed(2)):0;
+  user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));user.bonusUsed=parseFloat(((user.bonusUsed||0)+deduct).toFixed(2));user.bonusRemaining=parseFloat(((user.bonus||0)-(user.bonusUsed||0)).toFixed(2));user.tasksCompleted=(user.tasksCompleted||0)+1;curr++;
+  recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});if(recent.length>5)recent.pop();renderRecent();save();updateUI();
+  if(curr===32){showR1();return}if(curr===64){showR2();return}if(curr>=96){showComplete();return}loadBrand();
 }
-function showR1(){const e=user.earnings||0;const dep=Math.max(0,parseFloat((50-e).toFixed(2)));document.getElementById('mIcon').textContent='🎉';document.getElementById('mTitle').textContent='Round 1 Complete!';document.getElementById('mMsg').textContent='You completed Round 1 and earned '+fmt(e)+'. To unlock Round 2, your account needs a minimum balance of '+fmt(50)+'. Please top up '+fmt(dep)+' to continue.';document.getElementById('mAmt').textContent='Deposit '+fmt(dep);document.getElementById('mBtn').textContent='Deposit and Unlock Round 2';mAction='deposit';openM('roundModal')}
-function showR2(){const e=user.earnings||0;document.getElementById('mIcon').textContent='🏅';document.getElementById('mTitle').textContent='Round 2 Complete!';document.getElementById('mMsg').textContent='Impressive! You earned '+fmt(e)+' total. Round 3 unlocks Premium brands with multiplied earnings. Continue to rate all 96 brands.';document.getElementById('mAmt').textContent='Total so far: '+fmt(e);document.getElementById('mBtn').textContent='Start Round 3 Premium';mAction='round3';openM('roundModal')}
-function showComplete(){document.getElementById('mIcon').textContent='🏆';document.getElementById('mTitle').textContent='All 96 Brands Rated!';document.getElementById('mMsg').textContent='You have rated all 96 global brands today. Your earnings of '+fmt(user.earnings)+' are ready for withdrawal. Come back tomorrow for a fresh set.';document.getElementById('mAmt').textContent=fmt(user.earnings)+' ready to withdraw';document.getElementById('mBtn').textContent='Withdraw Earnings';mAction='withdraw';openM('roundModal')}
+function showR1(){const e=user.earnings||0;const dep=Math.max(0,parseFloat((50-e).toFixed(2)));document.getElementById('mIcon').textContent='🎉';document.getElementById('mTitle').textContent='Round 1 Complete!';document.getElementById('mMsg').textContent='You completed Round 1 and earned '+fmt(e)+'. To unlock Round 2, deposit '+fmt(dep)+' to continue.';document.getElementById('mAmt').textContent='Deposit '+fmt(dep);document.getElementById('mBtn').textContent='Deposit and Unlock Round 2';mAction='deposit';openM('roundModal')}
+function showR2(){const e=user.earnings||0;document.getElementById('mIcon').textContent='🏅';document.getElementById('mTitle').textContent='Round 2 Complete!';document.getElementById('mMsg').textContent='You earned '+fmt(e)+' total. Round 3 unlocks Premium brands with multiplied earnings.';document.getElementById('mAmt').textContent='Total so far: '+fmt(e);document.getElementById('mBtn').textContent='Start Round 3 Premium';mAction='round3';openM('roundModal')}
+function showComplete(){document.getElementById('mIcon').textContent='🏆';document.getElementById('mTitle').textContent='All 96 Brands Rated!';document.getElementById('mMsg').textContent='You rated all 96 brands. Your earnings of '+fmt(user.earnings)+' are ready for withdrawal.';document.getElementById('mAmt').textContent=fmt(user.earnings)+' ready to withdraw';document.getElementById('mBtn').textContent='Withdraw Earnings';mAction='withdraw';openM('roundModal')}
 function handleModal(){closeM('roundModal');if(mAction==='deposit'||mAction==='withdraw')location.href='wallet.html';else loadBrand()}
 function tryWd(){const e=user.earnings||0;if(e<10){document.getElementById('wdTitle').textContent='Keep Rating!';document.getElementById('wdMsg').textContent='You need at least '+fmt(10)+' to withdraw. Keep rating brands!';document.getElementById('wdAmt').textContent=fmt(e)+' so far';}else{document.getElementById('wdTitle').textContent='Withdraw Earnings';document.getElementById('wdMsg').textContent='You have '+fmt(e)+' ready. Visit your wallet to withdraw.';document.getElementById('wdAmt').textContent=fmt(e);}openM('wdModal')}
 function renderRecent(){document.getElementById('recentList').innerHTML=recent.map(r=>`<div class="r-item"><img class="r-logo" src="${r.logo}" alt="" onerror="logoFail(this,'${r.fb}','${r.col}','${r.ini}')"><div class="r-name">${r.name}</div><div class="r-earn">+${fmt(r.earn)}</div></div>`).join('')}
 function openM(id){document.getElementById(id).classList.add('open')}
 function closeM(id){document.getElementById(id).classList.remove('open')}
 function save(){localStorage.setItem('gb_user',JSON.stringify(user));const users=JSON.parse(localStorage.getItem('gb_users')||'[]');const idx=users.findIndex(u=>u.email===user.email);if(idx>=0)users[idx]={...user};localStorage.setItem('gb_users',JSON.stringify(users))}
-function logout(){localStorage.removeItem('gb_login');location.href='index.html'}
+function toggleDD(){document.getElementById('mainDD').classList.toggle('open')}
+function closeDD(){document.getElementById('mainDD').classList.remove('open')}
+document.addEventListener('click',e=>{const w=document.querySelector('.dropdown-wrap');if(w&&!w.contains(e.target))closeDD()});
+function openPanel(id){closeDD();document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+function closePanel(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+function closePOv(e,id){if(e.target===e.currentTarget)closePanel(id)}
+function saveProfile(){const name=document.getElementById('profNameInput').value.trim();const phone=document.getElementById('profPhone').value.trim();if(!name){alert('Name cannot be empty.');return}user.name=name;user.phone=phone;localStorage.setItem('gb_user',JSON.stringify(user));alert('Profile updated.');closePanel('profilePanel');init()}
+function saveSettings(){const np=document.getElementById('newPwd').value;const cp=document.getElementById('confPwd').value;if(!np){alert('Enter a new password.');return}if(np!==cp){alert('Passwords do not match.');return}alert('Password updated successfully.');closePanel('settingsPanel')}
+function selectLang(el,lang){document.querySelectorAll('.lang-option').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');alert('Language set to '+lang+'.')}
+function sendContact(){const s=document.getElementById('ctSubject').value.trim();const m=document.getElementById('ctMsg').value.trim();if(!s||!m){alert('Please fill all fields.');return}window.open('https://wa.me/254759485490?text='+encodeURIComponent('Subject: '+s+'\nMessage: '+m),'_blank');closePanel('contactPanel')}
 function toggleSb(){document.getElementById('sidebar').classList.toggle('open')}
+function logout(){localStorage.removeItem('gb_login');location.href='index.html'}
 init();
 </script>
 </body>

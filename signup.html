@@ -7,121 +7,706 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--gold:#C9A84C;--gold-l:#E8C97A;--black:#060608;--dark:#0D0D10;--cream:#F2EDE4;--muted:rgba(242,237,228,0.45);--border:rgba(201,168,76,0.15);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
-body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 30% 40%,rgba(201,168,76,0.06),transparent 60%),radial-gradient(ellipse 60% 80% at 80% 70%,rgba(139,26,26,0.04),transparent 60%);pointer-events:none}
-.card{position:relative;z-index:1;background:rgba(13,13,16,0.96);border:1px solid var(--border);border-radius:8px;padding:42px 46px;width:100%;max-width:490px;backdrop-filter:blur(20px)}
-.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:30px}
-.logo-globe{font-size:1.5rem}
-.logo-name{font-family:var(--serif);font-size:1.1rem;color:var(--cream);font-weight:700}
-h1{font-family:var(--serif);font-size:1.9rem;font-weight:700;margin-bottom:5px}
-.subtitle{font-size:.8rem;color:var(--muted);margin-bottom:8px;font-weight:300}
-.bonus-box{background:linear-gradient(135deg,rgba(201,168,76,0.13),rgba(201,168,76,0.05));border:1px solid rgba(201,168,76,0.28);border-radius:4px;padding:13px 16px;margin:18px 0;text-align:center}
-.bonus-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
-.bonus-amount{font-family:var(--serif);font-size:1.6rem;color:var(--gold-l);font-weight:700}
-.bonus-note{font-size:.65rem;color:var(--muted);margin-top:2px}
-.form-group{margin-bottom:15px}
-label{display:block;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(242,237,228,0.45);margin-bottom:6px}
-input,select{width:100%;padding:11px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.88rem;outline:none;transition:border-color .2s;-webkit-appearance:none}
+:root{--gold:#C9A84C;--gold-l:#E8C97A;--black:#04040A;--dark:#0A0A12;--cream:#EEE8DC;--muted:rgba(238,232,220,0.45);--border:rgba(201,168,76,0.15);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow-x:hidden}
+.bg-slide{position:fixed;inset:0;z-index:0}
+.bg-overlay{position:fixed;inset:0;z-index:1;background:rgba(4,4,10,.82)}
+.bg-grid{position:fixed;inset:0;z-index:2;pointer-events:none;background-image:linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);background-size:80px 80px}
+.card{position:relative;z-index:10;background:rgba(10,10,18,.92);border:1px solid var(--border);border-radius:8px;padding:40px 46px;width:100%;max-width:490px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);margin:20px 0}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:28px}
+.logo-globe{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.07)}
+.logo-globe svg{width:18px;height:18px}
+.logo-name{font-family:var(--serif);font-size:1rem;color:var(--cream);font-weight:700}
+.logo-tag{font-size:.46rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+h1{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:4px}
+.subtitle{font-size:.8rem;color:var(--muted);margin-bottom:26px;font-weight:300;line-height:1.6}
+.form-group{margin-bottom:14px}
+label{display:block;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(238,232,220,.4);margin-bottom:7px}
+input,select{width:100%;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.87rem;outline:none;transition:border-color .2s;-webkit-appearance:none}
 input:focus,select:focus{border-color:var(--gold)}
 select option{background:#111;color:var(--cream)}
 .phone-row{display:flex;gap:8px}
-.phone-code{width:130px;flex-shrink:0}
-.currency-note{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.18);border-radius:3px;padding:8px 12px;margin-bottom:12px;font-size:.72rem;color:var(--gold-l);display:none}
+.phone-code{width:155px;flex-shrink:0}
+.currency-note{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.18);border-radius:3px;padding:8px 12px;margin-bottom:12px;font-size:.72rem;color:var(--gold-l);line-height:1.5;display:none}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:44px}
+.pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(238,232,220,.35);transition:color .2s;padding:4px;display:flex;align-items:center}
+.pw-toggle:hover{color:var(--gold)}
 .btn-submit{width:100%;padding:13px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .2s;margin-top:6px}
 .btn-submit:hover{background:var(--gold-l)}
-.signin-link{text-align:center;margin-top:18px;font-size:.76rem;color:var(--muted)}
-.signin-link a{color:var(--gold);text-decoration:none}
+.alt-link{text-align:center;margin-top:18px;font-size:.76rem;color:var(--muted)}
+.alt-link a{color:var(--gold);text-decoration:none}
   </style>
 </head>
 <body>
+<div class="bg-slide" id="bgSlide"></div>
+<div class="bg-overlay"></div>
+<div class="bg-grid"></div>
+
 <div class="card">
-  <a href="index.html" class="logo-wrap"><span class="logo-globe">🌍</span><span class="logo-name">Global Brands</span></a>
+  <a href="index.html" class="logo-wrap">
+    <div class="logo-globe">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </div>
+    <div><div class="logo-name">Global Brands</div><div class="logo-tag">Rate the World's Greatest</div></div>
+  </a>
+
   <h1>Create Account</h1>
-  <p class="subtitle">Join the world's premier brand rating community</p>
-  <div class="bonus-box">
-    <div class="bonus-label">New Member Welcome Bonus</div>
-    <div class="bonus-amount" id="bonusDisplay">KES 200</div>
-    <div class="bonus-note">Credited instantly on signup — no deposit required</div>
+  <p class="subtitle">Join the world's premier brand rating community and start earning today</p>
+
+  <div class="form-group">
+    <label>Full Name</label>
+    <input type="text" id="fullName" placeholder="Your full name"/>
   </div>
-  <div class="form-group"><label>Full Name</label><input type="text" id="fullName" placeholder="Your full name"/></div>
-  <div class="form-group"><label>Email Address</label><input type="email" id="email" placeholder="you@example.com"/></div>
+  <div class="form-group">
+    <label>Email Address</label>
+    <input type="email" id="email" placeholder="you@example.com"/>
+  </div>
   <div class="form-group">
     <label>Country</label>
     <select id="countrySelect" onchange="updateCountry()">
       <option value="">Select your country</option>
-      <option value="KE">🇰🇪 Kenya</option>
-      <option value="TZ">🇹🇿 Tanzania</option>
-      <option value="UG">🇺🇬 Uganda</option>
-      <option value="NG">🇳🇬 Nigeria</option>
-      <option value="GH">🇬🇭 Ghana</option>
-      <option value="ZA">🇿🇦 South Africa</option>
-      <option value="ET">🇪🇹 Ethiopia</option>
-      <option value="RW">🇷🇼 Rwanda</option>
+      <optgroup label="── Africa ──">
+        <option value="KE">🇰🇪 Kenya</option>
+        <option value="NG">🇳🇬 Nigeria</option>
+        <option value="ZA">🇿🇦 South Africa</option>
+        <option value="GH">🇬🇭 Ghana</option>
+        <option value="TZ">🇹🇿 Tanzania</option>
+        <option value="UG">🇺🇬 Uganda</option>
+        <option value="ET">🇪🇹 Ethiopia</option>
+        <option value="RW">🇷🇼 Rwanda</option>
+        <option value="EG">🇪🇬 Egypt</option>
+        <option value="MA">🇲🇦 Morocco</option>
+        <option value="TN">🇹🇳 Tunisia</option>
+        <option value="DZ">🇩🇿 Algeria</option>
+        <option value="CI">🇨🇮 Ivory Coast</option>
+        <option value="SN">🇸🇳 Senegal</option>
+        <option value="CM">🇨🇲 Cameroon</option>
+        <option value="ZM">🇿🇲 Zambia</option>
+        <option value="ZW">🇿🇼 Zimbabwe</option>
+        <option value="MZ">🇲🇿 Mozambique</option>
+        <option value="AO">🇦🇴 Angola</option>
+        <option value="MG">🇲🇬 Madagascar</option>
+        <option value="BF">🇧🇫 Burkina Faso</option>
+        <option value="ML">🇲🇱 Mali</option>
+        <option value="MW">🇲🇼 Malawi</option>
+        <option value="NE">🇳🇪 Niger</option>
+        <option value="TD">🇹🇩 Chad</option>
+        <option value="SS">🇸🇸 South Sudan</option>
+        <option value="SO">🇸🇴 Somalia</option>
+        <option value="SD">🇸🇩 Sudan</option>
+        <option value="LY">🇱🇾 Libya</option>
+        <option value="BI">🇧🇮 Burundi</option>
+        <option value="TG">🇹🇬 Togo</option>
+        <option value="BJ">🇧🇯 Benin</option>
+        <option value="LR">🇱🇷 Liberia</option>
+        <option value="SL">🇸🇱 Sierra Leone</option>
+        <option value="GN">🇬🇳 Guinea</option>
+        <option value="NA">🇳🇦 Namibia</option>
+        <option value="BW">🇧🇼 Botswana</option>
+        <option value="MU">🇲🇺 Mauritius</option>
+        <option value="LS">🇱🇸 Lesotho</option>
+        <option value="SZ">🇸🇿 Eswatini</option>
+      </optgroup>
+      <optgroup label="── Europe ──">
+        <option value="GB">🇬🇧 United Kingdom</option>
+        <option value="DE">🇩🇪 Germany</option>
+        <option value="FR">🇫🇷 France</option>
+        <option value="IT">🇮🇹 Italy</option>
+        <option value="ES">🇪🇸 Spain</option>
+        <option value="NL">🇳🇱 Netherlands</option>
+        <option value="BE">🇧🇪 Belgium</option>
+        <option value="SE">🇸🇪 Sweden</option>
+        <option value="NO">🇳🇴 Norway</option>
+        <option value="DK">🇩🇰 Denmark</option>
+        <option value="FI">🇫🇮 Finland</option>
+        <option value="CH">🇨🇭 Switzerland</option>
+        <option value="AT">🇦🇹 Austria</option>
+        <option value="PT">🇵🇹 Portugal</option>
+        <option value="PL">🇵🇱 Poland</option>
+        <option value="CZ">🇨🇿 Czech Republic</option>
+        <option value="HU">🇭🇺 Hungary</option>
+        <option value="RO">🇷🇴 Romania</option>
+        <option value="GR">🇬🇷 Greece</option>
+        <option value="TR">🇹🇷 Turkey</option>
+        <option value="UA">🇺🇦 Ukraine</option>
+        <option value="RU">🇷🇺 Russia</option>
+        <option value="IE">🇮🇪 Ireland</option>
+        <option value="HR">🇭🇷 Croatia</option>
+        <option value="SK">🇸🇰 Slovakia</option>
+        <option value="BG">🇧🇬 Bulgaria</option>
+        <option value="RS">🇷🇸 Serbia</option>
+        <option value="LU">🇱🇺 Luxembourg</option>
+        <option value="IS">🇮🇸 Iceland</option>
+        <option value="MT">🇲🇹 Malta</option>
+        <option value="CY">🇨🇾 Cyprus</option>
+        <option value="EE">🇪🇪 Estonia</option>
+        <option value="LV">🇱🇻 Latvia</option>
+        <option value="LT">🇱🇹 Lithuania</option>
+        <option value="SI">🇸🇮 Slovenia</option>
+        <option value="AL">🇦🇱 Albania</option>
+        <option value="MK">🇲🇰 North Macedonia</option>
+        <option value="BA">🇧🇦 Bosnia</option>
+        <option value="ME">🇲🇪 Montenegro</option>
+        <option value="MD">🇲🇩 Moldova</option>
+        <option value="BY">🇧🇾 Belarus</option>
+      </optgroup>
+      <optgroup label="── Asia ──">
+        <option value="CN">🇨🇳 China</option>
+        <option value="JP">🇯🇵 Japan</option>
+        <option value="IN">🇮🇳 India</option>
+        <option value="KR">🇰🇷 South Korea</option>
+        <option value="ID">🇮🇩 Indonesia</option>
+        <option value="PH">🇵🇭 Philippines</option>
+        <option value="VN">🇻🇳 Vietnam</option>
+        <option value="TH">🇹🇭 Thailand</option>
+        <option value="MY">🇲🇾 Malaysia</option>
+        <option value="SG">🇸🇬 Singapore</option>
+        <option value="PK">🇵🇰 Pakistan</option>
+        <option value="BD">🇧🇩 Bangladesh</option>
+        <option value="LK">🇱🇰 Sri Lanka</option>
+        <option value="NP">🇳🇵 Nepal</option>
+        <option value="MM">🇲🇲 Myanmar</option>
+        <option value="KH">🇰🇭 Cambodia</option>
+        <option value="LA">🇱🇦 Laos</option>
+        <option value="MN">🇲🇳 Mongolia</option>
+        <option value="AZ">🇦🇿 Azerbaijan</option>
+        <option value="GE">🇬🇪 Georgia</option>
+        <option value="AM">🇦🇲 Armenia</option>
+        <option value="KZ">🇰🇿 Kazakhstan</option>
+        <option value="UZ">🇺🇿 Uzbekistan</option>
+        <option value="TJ">🇹🇯 Tajikistan</option>
+        <option value="KG">🇰🇬 Kyrgyzstan</option>
+        <option value="TM">🇹🇲 Turkmenistan</option>
+        <option value="AF">🇦🇫 Afghanistan</option>
+        <option value="HK">🇭🇰 Hong Kong</option>
+        <option value="TW">🇹🇼 Taiwan</option>
+        <option value="BT">🇧🇹 Bhutan</option>
+        <option value="MV">🇲🇻 Maldives</option>
+        <option value="BN">🇧🇳 Brunei</option>
+        <option value="TL">🇹🇱 Timor-Leste</option>
+      </optgroup>
+      <optgroup label="── Middle East ──">
+        <option value="SA">🇸🇦 Saudi Arabia</option>
+        <option value="AE">🇦🇪 UAE</option>
+        <option value="QA">🇶🇦 Qatar</option>
+        <option value="KW">🇰🇼 Kuwait</option>
+        <option value="BH">🇧🇭 Bahrain</option>
+        <option value="OM">🇴🇲 Oman</option>
+        <option value="JO">🇯🇴 Jordan</option>
+        <option value="LB">🇱🇧 Lebanon</option>
+        <option value="IQ">🇮🇶 Iraq</option>
+        <option value="IR">🇮🇷 Iran</option>
+        <option value="SY">🇸🇾 Syria</option>
+        <option value="YE">🇾🇪 Yemen</option>
+        <option value="IL">🇮🇱 Israel</option>
+        <option value="PS">🇵🇸 Palestine</option>
+      </optgroup>
+      <optgroup label="── Americas ──">
+        <option value="US">🇺🇸 United States</option>
+        <option value="CA">🇨🇦 Canada</option>
+        <option value="MX">🇲🇽 Mexico</option>
+        <option value="BR">🇧🇷 Brazil</option>
+        <option value="AR">🇦🇷 Argentina</option>
+        <option value="CO">🇨🇴 Colombia</option>
+        <option value="CL">🇨🇱 Chile</option>
+        <option value="PE">🇵🇪 Peru</option>
+        <option value="VE">🇻🇪 Venezuela</option>
+        <option value="EC">🇪🇨 Ecuador</option>
+        <option value="BO">🇧🇴 Bolivia</option>
+        <option value="PY">🇵🇾 Paraguay</option>
+        <option value="UY">🇺🇾 Uruguay</option>
+        <option value="GY">🇬🇾 Guyana</option>
+        <option value="SR">🇸🇷 Suriname</option>
+        <option value="GT">🇬🇹 Guatemala</option>
+        <option value="HN">🇭🇳 Honduras</option>
+        <option value="SV">🇸🇻 El Salvador</option>
+        <option value="NI">🇳🇮 Nicaragua</option>
+        <option value="CR">🇨🇷 Costa Rica</option>
+        <option value="PA">🇵🇦 Panama</option>
+        <option value="CU">🇨🇺 Cuba</option>
+        <option value="DO">🇩🇴 Dominican Republic</option>
+        <option value="HT">🇭🇹 Haiti</option>
+        <option value="JM">🇯🇲 Jamaica</option>
+        <option value="TT">🇹🇹 Trinidad and Tobago</option>
+        <option value="BB">🇧🇧 Barbados</option>
+        <option value="BS">🇧🇸 Bahamas</option>
+        <option value="BZ">🇧🇿 Belize</option>
+      </optgroup>
+      <optgroup label="── Oceania ──">
+        <option value="AU">🇦🇺 Australia</option>
+        <option value="NZ">🇳🇿 New Zealand</option>
+        <option value="FJ">🇫🇯 Fiji</option>
+        <option value="PG">🇵🇬 Papua New Guinea</option>
+        <option value="WS">🇼🇸 Samoa</option>
+        <option value="TO">🇹🇴 Tonga</option>
+        <option value="VU">🇻🇺 Vanuatu</option>
+        <option value="SB">🇸🇧 Solomon Islands</option>
+      </optgroup>
     </select>
   </div>
+
   <div class="currency-note" id="currencyNote"></div>
+
   <div class="form-group">
     <label>Phone Number</label>
     <div class="phone-row">
-      <select class="phone-code" id="phoneCode">
+      <select id="phoneCode">
+        <option value="+1">🇺🇸 +1</option>
+        <option value="+44">🇬🇧 +44</option>
         <option value="+254">🇰🇪 +254</option>
+        <option value="+234">🇳🇬 +234</option>
+        <option value="+27">🇿🇦 +27</option>
+        <option value="+233">🇬🇭 +233</option>
         <option value="+255">🇹🇿 +255</option>
         <option value="+256">🇺🇬 +256</option>
-        <option value="+234">🇳🇬 +234</option>
-        <option value="+233">🇬🇭 +233</option>
-        <option value="+27">🇿🇦 +27</option>
         <option value="+251">🇪🇹 +251</option>
         <option value="+250">🇷🇼 +250</option>
+        <option value="+20">🇪🇬 +20</option>
+        <option value="+212">🇲🇦 +212</option>
+        <option value="+216">🇹🇳 +216</option>
+        <option value="+213">🇩🇿 +213</option>
+        <option value="+225">🇨🇮 +225</option>
+        <option value="+221">🇸🇳 +221</option>
+        <option value="+237">🇨🇲 +237</option>
+        <option value="+260">🇿🇲 +260</option>
+        <option value="+263">🇿🇼 +263</option>
+        <option value="+258">🇲🇿 +258</option>
+        <option value="+244">🇦🇴 +244</option>
+        <option value="+261">🇲🇬 +261</option>
+        <option value="+226">🇧🇫 +226</option>
+        <option value="+223">🇲🇱 +223</option>
+        <option value="+265">🇲🇼 +265</option>
+        <option value="+227">🇳🇪 +227</option>
+        <option value="+235">🇹🇩 +235</option>
+        <option value="+211">🇸🇸 +211</option>
+        <option value="+252">🇸🇴 +252</option>
+        <option value="+249">🇸🇩 +249</option>
+        <option value="+218">🇱🇾 +218</option>
+        <option value="+257">🇧🇮 +257</option>
+        <option value="+228">🇹🇬 +228</option>
+        <option value="+229">🇧🇯 +229</option>
+        <option value="+231">🇱🇷 +231</option>
+        <option value="+232">🇸🇱 +232</option>
+        <option value="+224">🇬🇳 +224</option>
+        <option value="+264">🇳🇦 +264</option>
+        <option value="+267">🇧🇼 +267</option>
+        <option value="+230">🇲🇺 +230</option>
+        <option value="+266">🇱🇸 +266</option>
+        <option value="+268">🇸🇿 +268</option>
+        <option value="+49">🇩🇪 +49</option>
+        <option value="+33">🇫🇷 +33</option>
+        <option value="+39">🇮🇹 +39</option>
+        <option value="+34">🇪🇸 +34</option>
+        <option value="+31">🇳🇱 +31</option>
+        <option value="+32">🇧🇪 +32</option>
+        <option value="+46">🇸🇪 +46</option>
+        <option value="+47">🇳🇴 +47</option>
+        <option value="+45">🇩🇰 +45</option>
+        <option value="+358">🇫🇮 +358</option>
+        <option value="+41">🇨🇭 +41</option>
+        <option value="+43">🇦🇹 +43</option>
+        <option value="+351">🇵🇹 +351</option>
+        <option value="+48">🇵🇱 +48</option>
+        <option value="+420">🇨🇿 +420</option>
+        <option value="+36">🇭🇺 +36</option>
+        <option value="+40">🇷🇴 +40</option>
+        <option value="+30">🇬🇷 +30</option>
+        <option value="+90">🇹🇷 +90</option>
+        <option value="+380">🇺🇦 +380</option>
+        <option value="+7">🇷🇺 +7</option>
+        <option value="+353">🇮🇪 +353</option>
+        <option value="+385">🇭🇷 +385</option>
+        <option value="+421">🇸🇰 +421</option>
+        <option value="+359">🇧🇬 +359</option>
+        <option value="+381">🇷🇸 +381</option>
+        <option value="+352">🇱🇺 +352</option>
+        <option value="+354">🇮🇸 +354</option>
+        <option value="+356">🇲🇹 +356</option>
+        <option value="+357">🇨🇾 +357</option>
+        <option value="+372">🇪🇪 +372</option>
+        <option value="+371">🇱🇻 +371</option>
+        <option value="+370">🇱🇹 +370</option>
+        <option value="+386">🇸🇮 +386</option>
+        <option value="+355">🇦🇱 +355</option>
+        <option value="+389">🇲🇰 +389</option>
+        <option value="+387">🇧🇦 +387</option>
+        <option value="+382">🇲🇪 +382</option>
+        <option value="+373">🇲🇩 +373</option>
+        <option value="+375">🇧🇾 +375</option>
+        <option value="+86">🇨🇳 +86</option>
+        <option value="+81">🇯🇵 +81</option>
+        <option value="+91">🇮🇳 +91</option>
+        <option value="+82">🇰🇷 +82</option>
+        <option value="+62">🇮🇩 +62</option>
+        <option value="+63">🇵🇭 +63</option>
+        <option value="+84">🇻🇳 +84</option>
+        <option value="+66">🇹🇭 +66</option>
+        <option value="+60">🇲🇾 +60</option>
+        <option value="+65">🇸🇬 +65</option>
+        <option value="+92">🇵🇰 +92</option>
+        <option value="+880">🇧🇩 +880</option>
+        <option value="+94">🇱🇰 +94</option>
+        <option value="+977">🇳🇵 +977</option>
+        <option value="+95">🇲🇲 +95</option>
+        <option value="+855">🇰🇭 +855</option>
+        <option value="+856">🇱🇦 +856</option>
+        <option value="+976">🇲🇳 +976</option>
+        <option value="+994">🇦🇿 +994</option>
+        <option value="+995">🇬🇪 +995</option>
+        <option value="+374">🇦🇲 +374</option>
+        <option value="+7">🇰🇿 +7</option>
+        <option value="+998">🇺🇿 +998</option>
+        <option value="+992">🇹🇯 +992</option>
+        <option value="+996">🇰🇬 +996</option>
+        <option value="+993">🇹🇲 +993</option>
+        <option value="+93">🇦🇫 +93</option>
+        <option value="+852">🇭🇰 +852</option>
+        <option value="+886">🇹🇼 +886</option>
+        <option value="+975">🇧🇹 +975</option>
+        <option value="+960">🇲🇻 +960</option>
+        <option value="+673">🇧🇳 +673</option>
+        <option value="+670">🇹🇱 +670</option>
+        <option value="+966">🇸🇦 +966</option>
+        <option value="+971">🇦🇪 +971</option>
+        <option value="+974">🇶🇦 +974</option>
+        <option value="+965">🇰🇼 +965</option>
+        <option value="+973">🇧🇭 +973</option>
+        <option value="+968">🇴🇲 +968</option>
+        <option value="+962">🇯🇴 +962</option>
+        <option value="+961">🇱🇧 +961</option>
+        <option value="+964">🇮🇶 +964</option>
+        <option value="+98">🇮🇷 +98</option>
+        <option value="+963">🇸🇾 +963</option>
+        <option value="+967">🇾🇪 +967</option>
+        <option value="+972">🇮🇱 +972</option>
+        <option value="+970">🇵🇸 +970</option>
+        <option value="+52">🇲🇽 +52</option>
+        <option value="+55">🇧🇷 +55</option>
+        <option value="+54">🇦🇷 +54</option>
+        <option value="+57">🇨🇴 +57</option>
+        <option value="+56">🇨🇱 +56</option>
+        <option value="+51">🇵🇪 +51</option>
+        <option value="+58">🇻🇪 +58</option>
+        <option value="+593">🇪🇨 +593</option>
+        <option value="+591">🇧🇴 +591</option>
+        <option value="+595">🇵🇾 +595</option>
+        <option value="+598">🇺🇾 +598</option>
+        <option value="+592">🇬🇾 +592</option>
+        <option value="+597">🇸🇷 +597</option>
+        <option value="+502">🇬🇹 +502</option>
+        <option value="+504">🇭🇳 +504</option>
+        <option value="+503">🇸🇻 +503</option>
+        <option value="+505">🇳🇮 +505</option>
+        <option value="+506">🇨🇷 +506</option>
+        <option value="+507">🇵🇦 +507</option>
+        <option value="+53">🇨🇺 +53</option>
+        <option value="+1809">🇩🇴 +1809</option>
+        <option value="+509">🇭🇹 +509</option>
+        <option value="+1876">🇯🇲 +1876</option>
+        <option value="+1868">🇹🇹 +1868</option>
+        <option value="+1246">🇧🇧 +1246</option>
+        <option value="+1242">🇧🇸 +1242</option>
+        <option value="+501">🇧🇿 +501</option>
+        <option value="+61">🇦🇺 +61</option>
+        <option value="+64">🇳🇿 +64</option>
+        <option value="+679">🇫🇯 +679</option>
+        <option value="+675">🇵🇬 +675</option>
+        <option value="+685">🇼🇸 +685</option>
+        <option value="+676">🇹🇴 +676</option>
+        <option value="+678">🇻🇺 +678</option>
+        <option value="+677">🇸🇧 +677</option>
       </select>
-      <input type="tel" id="phone" placeholder="7XX XXX XXX"/>
+      <input type="tel" id="phone" placeholder="Phone number"/>
     </div>
   </div>
-  <div class="form-group"><label>Password</label><input type="password" id="password" placeholder="Create a strong password"/></div>
-  <div class="form-group"><label>Confirm Password</label><input type="password" id="confirmPassword" placeholder="Repeat your password"/></div>
-  <button class="btn-submit" onclick="handleSignup()">Create Account and Claim Bonus</button>
-  <div class="signin-link">Already have an account? <a href="signin.html">Sign In</a></div>
+
+  <div class="form-group">
+    <label>Password</label>
+    <div class="pw-wrap">
+      <input type="password" id="password" placeholder="Create a strong password"/>
+      <button class="pw-toggle" type="button" onclick="togglePw('password','eyePw1')" title="Show/hide">
+        <svg id="eyePw1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Confirm Password</label>
+    <div class="pw-wrap">
+      <input type="password" id="confirmPassword" placeholder="Repeat your password"/>
+      <button class="pw-toggle" type="button" onclick="togglePw('confirmPassword','eyePw2')" title="Show/hide">
+        <svg id="eyePw2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <button class="btn-submit" onclick="handleSignup()">Create Account</button>
+  <div class="alt-link">Already have an account? <a href="signin.html">Sign In</a></div>
 </div>
+
+<script src="brands.js"></script>
 <script>
-const countries={
-  KE:{name:'Kenya',currency:'KES',code:'+254',bonus:200,symbol:'KES',pay:'M-Pesa and Wallet'},
-  TZ:{name:'Tanzania',currency:'TZS',code:'+255',bonus:4800,symbol:'TZS',pay:'M-Pesa and Wallet'},
-  UG:{name:'Uganda',currency:'UGX',code:'+256',bonus:7200,symbol:'UGX',pay:'MTN MoMo, Airtel Money and Wallet'},
-  NG:{name:'Nigeria',currency:'NGN',code:'+234',bonus:1800,symbol:'NGN',pay:'Bank Transfer and Wallet'},
-  GH:{name:'Ghana',currency:'GHS',code:'+233',bonus:17,symbol:'GHS',pay:'MTN MoMo and Wallet'},
-  ZA:{name:'South Africa',currency:'ZAR',code:'+27',bonus:20,symbol:'ZAR',pay:'Bank Transfer and Wallet'},
-  ET:{name:'Ethiopia',currency:'ETB',code:'+251',bonus:290,symbol:'ETB',pay:'Telebirr and Wallet'},
-  RW:{name:'Rwanda',currency:'RWF',code:'+250',bonus:2600,symbol:'RWF',pay:'MTN MoMo and Wallet'},
+// Full countries data
+const countries = {
+  // Africa
+  KE:{currency:'KES',code:'+254',bonus:200,symbol:'KES',pay:'Mobile Money and Wallet'},
+  NG:{currency:'NGN',code:'+234',bonus:1800,symbol:'NGN',pay:'Bank Transfer and Wallet'},
+  ZA:{currency:'ZAR',code:'+27',bonus:20,symbol:'ZAR',pay:'Bank Transfer and Wallet'},
+  GH:{currency:'GHS',code:'+233',bonus:17,symbol:'GHS',pay:'Mobile Money and Wallet'},
+  TZ:{currency:'TZS',code:'+255',bonus:4800,symbol:'TZS',pay:'Mobile Money and Wallet'},
+  UG:{currency:'UGX',code:'+256',bonus:7200,symbol:'UGX',pay:'Mobile Money and Wallet'},
+  ET:{currency:'ETB',code:'+251',bonus:290,symbol:'ETB',pay:'Telebirr and Wallet'},
+  RW:{currency:'RWF',code:'+250',bonus:2600,symbol:'RWF',pay:'Mobile Money and Wallet'},
+  EG:{currency:'EGP',code:'+20',bonus:820,symbol:'EGP',pay:'Bank Transfer and Wallet'},
+  MA:{currency:'MAD',code:'+212',bonus:28,symbol:'MAD',pay:'Bank Transfer and Wallet'},
+  TN:{currency:'TND',code:'+216',bonus:8,symbol:'TND',pay:'Bank Transfer and Wallet'},
+  DZ:{currency:'DZD',code:'+213',bonus:370,symbol:'DZD',pay:'Bank Transfer and Wallet'},
+  CI:{currency:'XOF',code:'+225',bonus:3200,symbol:'XOF',pay:'Mobile Money and Wallet'},
+  SN:{currency:'XOF',code:'+221',bonus:3200,symbol:'XOF',pay:'Mobile Money and Wallet'},
+  CM:{currency:'XAF',code:'+237',bonus:3200,symbol:'XAF',pay:'Mobile Money and Wallet'},
+  ZM:{currency:'ZMW',code:'+260',bonus:130,symbol:'ZMW',pay:'Mobile Money and Wallet'},
+  ZW:{currency:'USD',code:'+263',bonus:5,symbol:'USD',pay:'EcoCash and Wallet'},
+  MZ:{currency:'MZN',code:'+258',bonus:320,symbol:'MZN',pay:'Mobile Money and Wallet'},
+  AO:{currency:'AOA',code:'+244',bonus:2900,symbol:'AOA',pay:'Bank Transfer and Wallet'},
+  MG:{currency:'MGA',code:'+261',bonus:20000,symbol:'MGA',pay:'Mobile Money and Wallet'},
+  BF:{currency:'XOF',code:'+226',bonus:3200,symbol:'XOF',pay:'Mobile Money and Wallet'},
+  ML:{currency:'XOF',code:'+223',bonus:3200,symbol:'XOF',pay:'Mobile Money and Wallet'},
+  MW:{currency:'MWK',code:'+265',bonus:8600,symbol:'MWK',pay:'Mobile Money and Wallet'},
+  NE:{currency:'XOF',code:'+227',bonus:3200,symbol:'XOF',pay:'Mobile Money and Wallet'},
+  TD:{currency:'XAF',code:'+235',bonus:3200,symbol:'XAF',pay:'Mobile Money and Wallet'},
+  SS:{currency:'SSP',code:'+211',bonus:6700,symbol:'SSP',pay:'Bank Transfer and Wallet'},
+  SO:{currency:'SOS',code:'+252',bonus:2800,symbol:'SOS',pay:'EVC Plus and Wallet'},
+  SD:{currency:'SDG',code:'+249',bonus:2700,symbol:'SDG',pay:'Bank Transfer and Wallet'},
+  LY:{currency:'LYD',code:'+218',bonus:24,symbol:'LYD',pay:'Bank Transfer and Wallet'},
+  BI:{currency:'BIF',code:'+257',bonus:14200,symbol:'BIF',pay:'Mobile Money and Wallet'},
+  TG:{currency:'XOF',code:'+228',bonus:3200,symbol:'XOF',pay:'Mobile Money and Wallet'},
+  BJ:{currency:'XOF',code:'+229',bonus:3200,symbol:'XOF',pay:'Mobile Money and Wallet'},
+  LR:{currency:'LRD',code:'+231',bonus:1900,symbol:'LRD',pay:'Mobile Money and Wallet'},
+  SL:{currency:'SLL',code:'+232',bonus:110000,symbol:'SLL',pay:'Mobile Money and Wallet'},
+  GN:{currency:'GNF',code:'+224',bonus:43000,symbol:'GNF',pay:'Mobile Money and Wallet'},
+  NA:{currency:'NAD',code:'+264',bonus:93,symbol:'NAD',pay:'Bank Transfer and Wallet'},
+  BW:{currency:'BWP',code:'+267',bonus:68,symbol:'BWP',pay:'Bank Transfer and Wallet'},
+  MU:{currency:'MUR',code:'+230',bonus:230,symbol:'MUR',pay:'Bank Transfer and Wallet'},
+  LS:{currency:'LSL',code:'+266',bonus:94,symbol:'LSL',pay:'Mobile Money and Wallet'},
+  SZ:{currency:'SZL',code:'+268',bonus:94,symbol:'SZL',pay:'Mobile Money and Wallet'},
+  // Europe
+  GB:{currency:'GBP',code:'+44',bonus:4,symbol:'£',pay:'Bank Transfer and Wallet'},
+  DE:{currency:'EUR',code:'+49',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  FR:{currency:'EUR',code:'+33',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  IT:{currency:'EUR',code:'+39',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  ES:{currency:'EUR',code:'+34',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  NL:{currency:'EUR',code:'+31',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  BE:{currency:'EUR',code:'+32',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  SE:{currency:'SEK',code:'+46',bonus:54,symbol:'SEK',pay:'Bank Transfer and Wallet'},
+  NO:{currency:'NOK',code:'+47',bonus:54,symbol:'NOK',pay:'Bank Transfer and Wallet'},
+  DK:{currency:'DKK',code:'+45',bonus:35,symbol:'DKK',pay:'Bank Transfer and Wallet'},
+  FI:{currency:'EUR',code:'+358',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  CH:{currency:'CHF',code:'+41',bonus:5,symbol:'CHF',pay:'Bank Transfer and Wallet'},
+  AT:{currency:'EUR',code:'+43',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  PT:{currency:'EUR',code:'+351',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  PL:{currency:'PLN',code:'+48',bonus:20,symbol:'PLN',pay:'Bank Transfer and Wallet'},
+  CZ:{currency:'CZK',code:'+420',bonus:115,symbol:'CZK',pay:'Bank Transfer and Wallet'},
+  HU:{currency:'HUF',code:'+36',bonus:1800,symbol:'HUF',pay:'Bank Transfer and Wallet'},
+  RO:{currency:'RON',code:'+40',bonus:23,symbol:'RON',pay:'Bank Transfer and Wallet'},
+  GR:{currency:'EUR',code:'+30',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  TR:{currency:'TRY',code:'+90',bonus:134,symbol:'TRY',pay:'Bank Transfer and Wallet'},
+  UA:{currency:'UAH',code:'+380',bonus:194,symbol:'UAH',pay:'Bank Transfer and Wallet'},
+  RU:{currency:'RUB',code:'+7',bonus:460,symbol:'RUB',pay:'Bank Transfer and Wallet'},
+  IE:{currency:'EUR',code:'+353',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  HR:{currency:'EUR',code:'+385',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  SK:{currency:'EUR',code:'+421',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  BG:{currency:'BGN',code:'+359',bonus:9,symbol:'BGN',pay:'Bank Transfer and Wallet'},
+  RS:{currency:'RSD',code:'+381',bonus:550,symbol:'RSD',pay:'Bank Transfer and Wallet'},
+  LU:{currency:'EUR',code:'+352',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  IS:{currency:'ISK',code:'+354',bonus:700,symbol:'ISK',pay:'Bank Transfer and Wallet'},
+  MT:{currency:'EUR',code:'+356',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  CY:{currency:'EUR',code:'+357',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  EE:{currency:'EUR',code:'+372',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  LV:{currency:'EUR',code:'+371',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  LT:{currency:'EUR',code:'+370',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  SI:{currency:'EUR',code:'+386',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  AL:{currency:'ALL',code:'+355',bonus:550,symbol:'ALL',pay:'Bank Transfer and Wallet'},
+  MK:{currency:'MKD',code:'+389',bonus:290,symbol:'MKD',pay:'Bank Transfer and Wallet'},
+  BA:{currency:'BAM',code:'+387',bonus:9,symbol:'BAM',pay:'Bank Transfer and Wallet'},
+  ME:{currency:'EUR',code:'+382',bonus:5,symbol:'€',pay:'Bank Transfer and Wallet'},
+  MD:{currency:'MDL',code:'+373',bonus:92,symbol:'MDL',pay:'Bank Transfer and Wallet'},
+  BY:{currency:'BYR',code:'+375',bonus:16,symbol:'BYR',pay:'Bank Transfer and Wallet'},
+  // Asia
+  CN:{currency:'CNY',code:'+86',bonus:36,symbol:'CNY',pay:'Alipay, WeChat Pay and Wallet'},
+  JP:{currency:'JPY',code:'+81',bonus:730,symbol:'JPY',pay:'Bank Transfer and Wallet'},
+  IN:{currency:'INR',code:'+91',bonus:415,symbol:'INR',pay:'UPI, Paytm and Wallet'},
+  KR:{currency:'KRW',code:'+82',bonus:6700,symbol:'KRW',pay:'Bank Transfer and Wallet'},
+  ID:{currency:'IDR',code:'+62',bonus:78000,symbol:'IDR',pay:'GoPay, OVO and Wallet'},
+  PH:{currency:'PHP',code:'+63',bonus:280,symbol:'PHP',pay:'GCash, Maya and Wallet'},
+  VN:{currency:'VND',code:'+84',bonus:124000,symbol:'VND',pay:'MoMo, ZaloPay and Wallet'},
+  TH:{currency:'THB',code:'+66',bonus:180,symbol:'THB',pay:'PromptPay and Wallet'},
+  MY:{currency:'MYR',code:'+60',bonus:24,symbol:'MYR',pay:'Touch n Go, DuitNow and Wallet'},
+  SG:{currency:'SGD',code:'+65',bonus:7,symbol:'SGD',pay:'PayNow and Wallet'},
+  PK:{currency:'PKR',code:'+92',bonus:1400,symbol:'PKR',pay:'JazzCash, EasyPaisa and Wallet'},
+  BD:{currency:'BDT',code:'+880',bonus:550,symbol:'BDT',pay:'bKash, Nagad and Wallet'},
+  LK:{currency:'LKR',code:'+94',bonus:1650,symbol:'LKR',pay:'Bank Transfer and Wallet'},
+  NP:{currency:'NPR',code:'+977',bonus:665,symbol:'NPR',pay:'eSewa, Khalti and Wallet'},
+  MM:{currency:'MMK',code:'+95',bonus:10500,symbol:'MMK',pay:'Wave Money and Wallet'},
+  KH:{currency:'KHR',code:'+855',bonus:20500,symbol:'KHR',pay:'KHQR and Wallet'},
+  LA:{currency:'LAK',code:'+856',bonus:104000,symbol:'LAK',pay:'Bank Transfer and Wallet'},
+  MN:{currency:'MNT',code:'+976',bonus:17200,symbol:'MNT',pay:'Bank Transfer and Wallet'},
+  AZ:{currency:'AZN',code:'+994',bonus:9,symbol:'AZN',pay:'Bank Transfer and Wallet'},
+  GE:{currency:'GEL',code:'+995',bonus:14,symbol:'GEL',pay:'Bank Transfer and Wallet'},
+  AM:{currency:'AMD',code:'+374',bonus:1950,symbol:'AMD',pay:'Bank Transfer and Wallet'},
+  KZ:{currency:'KZT',code:'+7',bonus:2260,symbol:'KZT',pay:'Kaspi and Wallet'},
+  UZ:{currency:'UZS',code:'+998',bonus:63000,symbol:'UZS',pay:'Bank Transfer and Wallet'},
+  TJ:{currency:'TJS',code:'+992',bonus:55,symbol:'TJS',pay:'Bank Transfer and Wallet'},
+  KG:{currency:'KGS',code:'+996',bonus:445,symbol:'KGS',pay:'Bank Transfer and Wallet'},
+  TM:{currency:'TMT',code:'+993',bonus:18,symbol:'TMT',pay:'Bank Transfer and Wallet'},
+  AF:{currency:'AFN',code:'+93',bonus:360,symbol:'AFN',pay:'Bank Transfer and Wallet'},
+  HK:{currency:'HKD',code:'+852',bonus:39,symbol:'HKD',pay:'FPS and Wallet'},
+  TW:{currency:'TWD',code:'+886',bonus:160,symbol:'TWD',pay:'Bank Transfer and Wallet'},
+  BT:{currency:'BTN',code:'+975',bonus:415,symbol:'BTN',pay:'Bank Transfer and Wallet'},
+  MV:{currency:'MVR',code:'+960',bonus:77,symbol:'MVR',pay:'Bank Transfer and Wallet'},
+  BN:{currency:'BND',code:'+673',bonus:7,symbol:'BND',pay:'Bank Transfer and Wallet'},
+  TL:{currency:'USD',code:'+670',bonus:5,symbol:'USD',pay:'Bank Transfer and Wallet'},
+  // Middle East
+  SA:{currency:'SAR',code:'+966',bonus:19,symbol:'SAR',pay:'STC Pay and Wallet'},
+  AE:{currency:'AED',code:'+971',bonus:18,symbol:'AED',pay:'Bank Transfer and Wallet'},
+  QA:{currency:'QAR',code:'+974',bonus:18,symbol:'QAR',pay:'Bank Transfer and Wallet'},
+  KW:{currency:'KWD',code:'+965',bonus:2,symbol:'KWD',pay:'Bank Transfer and Wallet'},
+  BH:{currency:'BHD',code:'+973',bonus:2,symbol:'BHD',pay:'Bank Transfer and Wallet'},
+  OM:{currency:'OMR',code:'+968',bonus:2,symbol:'OMR',pay:'Bank Transfer and Wallet'},
+  JO:{currency:'JOD',code:'+962',bonus:4,symbol:'JOD',pay:'Bank Transfer and Wallet'},
+  LB:{currency:'LBP',code:'+961',bonus:450000,symbol:'LBP',pay:'Bank Transfer and Wallet'},
+  IQ:{currency:'IQD',code:'+964',bonus:6550,symbol:'IQD',pay:'Bank Transfer and Wallet'},
+  IR:{currency:'IRR',code:'+98',bonus:210000,symbol:'IRR',pay:'Bank Transfer and Wallet'},
+  SY:{currency:'SYP',code:'+963',bonus:6500,symbol:'SYP',pay:'Bank Transfer and Wallet'},
+  YE:{currency:'YER',code:'+967',bonus:1250,symbol:'YER',pay:'Bank Transfer and Wallet'},
+  IL:{currency:'ILS',code:'+972',bonus:18,symbol:'ILS',pay:'Bank Transfer and Wallet'},
+  PS:{currency:'ILS',code:'+970',bonus:18,symbol:'ILS',pay:'Bank Transfer and Wallet'},
+  // Americas
+  US:{currency:'USD',code:'+1',bonus:5,symbol:'$',pay:'Bank Transfer and Wallet'},
+  CA:{currency:'CAD',code:'+1',bonus:7,symbol:'CA$',pay:'Interac and Wallet'},
+  MX:{currency:'MXN',code:'+52',bonus:87,symbol:'MXN',pay:'SPEI and Wallet'},
+  BR:{currency:'BRL',code:'+55',bonus:25,symbol:'BRL',pay:'PIX and Wallet'},
+  AR:{currency:'ARS',code:'+54',bonus:4600,symbol:'ARS',pay:'Bank Transfer and Wallet'},
+  CO:{currency:'COP',code:'+57',bonus:20000,symbol:'COP',pay:'Nequi, Daviplata and Wallet'},
+  CL:{currency:'CLP',code:'+56',bonus:4600,symbol:'CLP',pay:'Bank Transfer and Wallet'},
+  PE:{currency:'PEN',code:'+51',bonus:19,symbol:'PEN',pay:'Yape, Plin and Wallet'},
+  VE:{currency:'VES',code:'+58',bonus:180,symbol:'VES',pay:'Bank Transfer and Wallet'},
+  EC:{currency:'USD',code:'+593',bonus:5,symbol:'$',pay:'Bank Transfer and Wallet'},
+  BO:{currency:'BOB',code:'+591',bonus:35,symbol:'BOB',pay:'Bank Transfer and Wallet'},
+  PY:{currency:'PYG',code:'+595',bonus:35000,symbol:'PYG',pay:'Bank Transfer and Wallet'},
+  UY:{currency:'UYU',code:'+598',bonus:200,symbol:'UYU',pay:'Bank Transfer and Wallet'},
+  GY:{currency:'GYD',code:'+592',bonus:1050,symbol:'GYD',pay:'Bank Transfer and Wallet'},
+  SR:{currency:'SRD',code:'+597',bonus:180,symbol:'SRD',pay:'Bank Transfer and Wallet'},
+  GT:{currency:'GTQ',code:'+502',bonus:39,symbol:'GTQ',pay:'Bank Transfer and Wallet'},
+  HN:{currency:'HNL',code:'+504',bonus:123,symbol:'HNL',pay:'Bank Transfer and Wallet'},
+  SV:{currency:'USD',code:'+503',bonus:5,symbol:'$',pay:'Bank Transfer and Wallet'},
+  NI:{currency:'NIO',code:'+505',bonus:183,symbol:'NIO',pay:'Bank Transfer and Wallet'},
+  CR:{currency:'CRC',code:'+506',bonus:2700,symbol:'CRC',pay:'SINPE and Wallet'},
+  PA:{currency:'PAB',code:'+507',bonus:5,symbol:'PAB',pay:'Bank Transfer and Wallet'},
+  CU:{currency:'CUP',code:'+53',bonus:130,symbol:'CUP',pay:'Bank Transfer and Wallet'},
+  DO:{currency:'DOP',code:'+1809',bonus:290,symbol:'DOP',pay:'Bank Transfer and Wallet'},
+  HT:{currency:'HTG',code:'+509',bonus:660,symbol:'HTG',pay:'Bank Transfer and Wallet'},
+  JM:{currency:'JMD',code:'+1876',bonus:785,symbol:'JMD',pay:'Bank Transfer and Wallet'},
+  TT:{currency:'TTD',code:'+1868',bonus:34,symbol:'TTD',pay:'Bank Transfer and Wallet'},
+  BB:{currency:'BBD',code:'+1246',bonus:10,symbol:'BBD',pay:'Bank Transfer and Wallet'},
+  BS:{currency:'BSD',code:'+1242',bonus:5,symbol:'BSD',pay:'Bank Transfer and Wallet'},
+  BZ:{currency:'BZD',code:'+501',bonus:10,symbol:'BZD',pay:'Bank Transfer and Wallet'},
+  // Oceania
+  AU:{currency:'AUD',code:'+61',bonus:8,symbol:'AU$',pay:'PayID and Wallet'},
+  NZ:{currency:'NZD',code:'+64',bonus:8,symbol:'NZ$',pay:'Bank Transfer and Wallet'},
+  FJ:{currency:'FJD',code:'+679',bonus:11,symbol:'FJD',pay:'Bank Transfer and Wallet'},
+  PG:{currency:'PGK',code:'+675',bonus:18,symbol:'PGK',pay:'Bank Transfer and Wallet'},
+  WS:{currency:'WST',code:'+685',bonus:14,symbol:'WST',pay:'Bank Transfer and Wallet'},
+  TO:{currency:'TOP',code:'+676',bonus:12,symbol:'TOP',pay:'Bank Transfer and Wallet'},
+  VU:{currency:'VUV',code:'+678',bonus:600,symbol:'VUV',pay:'Bank Transfer and Wallet'},
+  SB:{currency:'SBD',code:'+677',bonus:42,symbol:'SBD',pay:'Bank Transfer and Wallet'},
 };
-function updateCountry(){
-  const c=countries[document.getElementById('countrySelect').value];
-  const note=document.getElementById('currencyNote');
-  if(!c){note.style.display='none';return}
-  note.style.display='block';
-  note.textContent='Account currency: '+c.currency+'. Welcome bonus: '+c.symbol+' '+c.bonus.toLocaleString()+'. Withdraw via: '+c.pay;
-  document.getElementById('bonusDisplay').textContent=c.symbol+' '+c.bonus.toLocaleString();
-  const pc=document.getElementById('phoneCode');
-  for(let i=0;i<pc.options.length;i++){if(pc.options[i].value===c.code){pc.selectedIndex=i;break}}
+
+function updateCountry() {
+  const code = document.getElementById('countrySelect').value;
+  const c = countries[code];
+  const note = document.getElementById('currencyNote');
+  if (!c) { note.style.display = 'none'; return; }
+  note.style.display = 'block';
+  note.textContent = 'Account currency: ' + c.currency + ' · Withdraw via: ' + c.pay;
+  const pc = document.getElementById('phoneCode');
+  for (let i = 0; i < pc.options.length; i++) {
+    if (pc.options[i].value === c.code) { pc.selectedIndex = i; break; }
+  }
 }
-function handleSignup(){
-  const name=document.getElementById('fullName').value.trim();
-  const email=document.getElementById('email').value.trim();
-  const country=document.getElementById('countrySelect').value;
-  const phone=document.getElementById('phone').value.trim();
-  const pwd=document.getElementById('password').value;
-  const cpwd=document.getElementById('confirmPassword').value;
-  if(!name||!email||!country||!phone||!pwd){alert('Please fill in all fields.');return}
-  if(pwd!==cpwd){alert('Passwords do not match.');return}
-  const c=countries[country];
-  const user={name,email,country,phone:document.getElementById('phoneCode').value+phone,currency:c.currency,symbol:c.symbol,bonus:c.bonus,balance:0,earnings:0,bonusRemaining:c.bonus,bonusUsed:0,tasksCompleted:0,joinedAt:new Date().toISOString(),lastSeen:new Date().toISOString()};
-  localStorage.setItem('gb_user',JSON.stringify(user));
-  localStorage.setItem('gb_login','true');
-  const users=JSON.parse(localStorage.getItem('gb_users')||'[]');
-  const idx=users.findIndex(u=>u.email===email);
-  if(idx>=0)users[idx]=user;else users.push(user);
-  localStorage.setItem('gb_users',JSON.stringify(users));
-  window.location.href='home.html';
+
+function togglePw(inputId, iconId) {
+  const inp = document.getElementById(inputId);
+  const ico = document.getElementById(iconId);
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    ico.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+  } else {
+    inp.type = 'password';
+    ico.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+  }
 }
+
+function handleSignup() {
+  const name = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const countryCode = document.getElementById('countrySelect').value;
+  const phone = document.getElementById('phone').value.trim();
+  const pwd = document.getElementById('password').value;
+  const cpwd = document.getElementById('confirmPassword').value;
+  if (!name || !email || !countryCode || !phone || !pwd) { alert('Please fill in all fields.'); return; }
+  if (pwd !== cpwd) { alert('Passwords do not match.'); return; }
+  const c = countries[countryCode] || {currency:'USD',symbol:'$',bonus:5,pay:'Wallet'};
+  const user = {
+    name, email, country: countryCode,
+    phone: document.getElementById('phoneCode').value + phone,
+    currency: c.currency, symbol: c.symbol, bonus: c.bonus,
+    balance: 0, earnings: 0, bonusRemaining: c.bonus, bonusUsed: 0,
+    tasksCompleted: 0,
+    joinedAt: new Date().toISOString(),
+    lastSeen: new Date().toISOString()
+  };
+  localStorage.setItem('gb_user', JSON.stringify(user));
+  localStorage.setItem('gb_login', 'true');
+  const users = JSON.parse(localStorage.getItem('gb_users') || '[]');
+  const idx = users.findIndex(u => u.email === email);
+  if (idx >= 0) users[idx] = user; else users.push(user);
+  localStorage.setItem('gb_users', JSON.stringify(users));
+  window.location.href = 'home.html';
+}
+
+// Background slideshow
+const bgSlide = document.getElementById('bgSlide');
+const positions = [
+  {top:'4%',left:'2%',w:'250px',h:'170px'},{top:'4%',right:'2%',w:'240px',h:'160px'},
+  {top:'38%',left:'0%',w:'210px',h:'145px'},{top:'38%',right:'0%',w:'210px',h:'145px'},
+  {bottom:'6%',left:'6%',w:'200px',h:'138px'},{bottom:'6%',right:'6%',w:'200px',h:'138px'},
+  {top:'2%',left:'44%',w:'220px',h:'150px'},{bottom:'5%',left:'36%',w:'190px',h:'130px'},
+];
+const bgImgs = positions.map(p => {
+  const img = document.createElement('img');
+  let s = `position:absolute;object-fit:contain;pointer-events:none;filter:blur(32px) brightness(.28) saturate(1.8);transition:opacity 1.4s ease;opacity:0;width:${p.w};height:${p.h};`;
+  if (p.top) s += `top:${p.top};`; if (p.bottom) s += `bottom:${p.bottom};`;
+  if (p.left) s += `left:${p.left};`; if (p.right) s += `right:${p.right};`;
+  img.style.cssText = s; bgSlide.appendChild(img); return img;
+});
+function setBgBrands() {
+  const shuffled = [...BRANDS].sort(() => Math.random() - 0.5).slice(0, bgImgs.length);
+  shuffled.forEach((b, i) => { bgImgs[i].src = b.logo; bgImgs[i].onerror = function(){ logoFail(this, b.fallback, b.color, b.initials); }; });
+}
+setBgBrands();
+setTimeout(() => bgImgs.forEach(img => img.style.opacity = '1'), 300);
+setInterval(() => {
+  bgImgs.forEach(img => img.style.opacity = '0');
+  setTimeout(() => { setBgBrands(); bgImgs.forEach(img => img.style.opacity = '1'); }, 1500);
+}, 5000);
 </script>
 </body>
 </html>
