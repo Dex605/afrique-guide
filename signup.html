@@ -1,61 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up – Afrique Guide</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Sign Up — Global Brands</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--gold:#C9A84C;--gold-light:#E2C47A;--black:#080808;--white:#F7F3EE;--glass:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1)}
-    html,body{min-height:100%;font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)}
-    body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:40px 20px}
-    body::before{content:'';position:fixed;inset:0;z-index:0;background:url('https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=1600&q=80') center/cover no-repeat;filter:brightness(0.12) blur(10px);transform:scale(1.05);pointer-events:none}
-    .card{position:relative;z-index:1;background:rgba(11,11,11,0.94);border:1px solid var(--border);border-radius:6px;padding:40px 44px;width:100%;max-width:480px;backdrop-filter:blur(20px)}
-    .logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:28px}
-    .logo-em{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--gold);font-weight:700}
-    .logo-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--white)}
-    h1{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:600;margin-bottom:5px}
-    .subtitle{font-size:0.8rem;color:rgba(247,243,238,0.45);margin-bottom:26px;font-weight:300}
-    .bonus-banner{background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05));border:1px solid rgba(201,168,76,0.3);border-radius:4px;padding:12px 16px;margin-bottom:24px;text-align:center}
-    .bonus-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
-    .bonus-amount{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold-light);font-weight:700}
-    .bonus-note{font-size:0.66rem;color:rgba(247,243,238,0.4);margin-top:2px}
-    .form-group{margin-bottom:16px}
-    label{display:block;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(247,243,238,0.5);margin-bottom:6px}
-    input,select{width:100%;padding:11px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:3px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
-    input:focus,select:focus{border-color:var(--gold)}
-    select option{background:#111;color:var(--white)}
-    .phone-row{display:flex;gap:8px}
-    .phone-code{width:130px;flex-shrink:0}
-    .currency-note{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.18);border-radius:3px;padding:8px 12px;margin-bottom:14px;font-size:0.74rem;color:var(--gold-light);display:none}
-    .btn-submit{width:100%;padding:13px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background 0.2s;margin-top:6px}
-    .btn-submit:hover{background:var(--gold-light)}
-    .signin-link{text-align:center;margin-top:18px;font-size:0.76rem;color:rgba(247,243,238,0.42)}
-    .signin-link a{color:var(--gold);text-decoration:none}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#C9A84C;--gold-l:#E8C97A;--black:#060608;--dark:#0D0D10;--cream:#F2EDE4;--muted:rgba(242,237,228,0.45);--border:rgba(201,168,76,0.15);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
+body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 30% 40%,rgba(201,168,76,0.06),transparent 60%),radial-gradient(ellipse 60% 80% at 80% 70%,rgba(139,26,26,0.04),transparent 60%);pointer-events:none}
+.card{position:relative;z-index:1;background:rgba(13,13,16,0.96);border:1px solid var(--border);border-radius:8px;padding:42px 46px;width:100%;max-width:490px;backdrop-filter:blur(20px)}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:30px}
+.logo-globe{font-size:1.5rem}
+.logo-name{font-family:var(--serif);font-size:1.1rem;color:var(--cream);font-weight:700}
+h1{font-family:var(--serif);font-size:1.9rem;font-weight:700;margin-bottom:5px}
+.subtitle{font-size:.8rem;color:var(--muted);margin-bottom:8px;font-weight:300}
+.bonus-box{background:linear-gradient(135deg,rgba(201,168,76,0.13),rgba(201,168,76,0.05));border:1px solid rgba(201,168,76,0.28);border-radius:4px;padding:13px 16px;margin:18px 0;text-align:center}
+.bonus-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.bonus-amount{font-family:var(--serif);font-size:1.6rem;color:var(--gold-l);font-weight:700}
+.bonus-note{font-size:.65rem;color:var(--muted);margin-top:2px}
+.form-group{margin-bottom:15px}
+label{display:block;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(242,237,228,0.45);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.88rem;outline:none;transition:border-color .2s;-webkit-appearance:none}
+input:focus,select:focus{border-color:var(--gold)}
+select option{background:#111;color:var(--cream)}
+.phone-row{display:flex;gap:8px}
+.phone-code{width:130px;flex-shrink:0}
+.currency-note{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.18);border-radius:3px;padding:8px 12px;margin-bottom:12px;font-size:.72rem;color:var(--gold-l);display:none}
+.btn-submit{width:100%;padding:13px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .2s;margin-top:6px}
+.btn-submit:hover{background:var(--gold-l)}
+.signin-link{text-align:center;margin-top:18px;font-size:.76rem;color:var(--muted)}
+.signin-link a{color:var(--gold);text-decoration:none}
   </style>
 </head>
 <body>
 <div class="card">
-  <a href="index.html" class="logo-wrap">
-    <div class="logo-em">AG</div>
-    <span class="logo-name">Afrique Guide</span>
-  </a>
+  <a href="index.html" class="logo-wrap"><span class="logo-globe">🌍</span><span class="logo-name">Global Brands</span></a>
   <h1>Create Account</h1>
-  <p class="subtitle">Join East Africa's premier brand rating community</p>
-  <div class="bonus-banner">
+  <p class="subtitle">Join the world's premier brand rating community</p>
+  <div class="bonus-box">
     <div class="bonus-label">New Member Welcome Bonus</div>
     <div class="bonus-amount" id="bonusDisplay">KES 200</div>
     <div class="bonus-note">Credited instantly on signup — no deposit required</div>
   </div>
-  <div class="form-group">
-    <label>Full Name</label>
-    <input type="text" id="fullName" placeholder="Your full name"/>
-  </div>
-  <div class="form-group">
-    <label>Email Address</label>
-    <input type="email" id="email" placeholder="you@example.com"/>
-  </div>
+  <div class="form-group"><label>Full Name</label><input type="text" id="fullName" placeholder="Your full name"/></div>
+  <div class="form-group"><label>Email Address</label><input type="email" id="email" placeholder="you@example.com"/></div>
   <div class="form-group">
     <label>Country</label>
     <select id="countrySelect" onchange="updateCountry()">
@@ -63,6 +53,11 @@
       <option value="KE">🇰🇪 Kenya</option>
       <option value="TZ">🇹🇿 Tanzania</option>
       <option value="UG">🇺🇬 Uganda</option>
+      <option value="NG">🇳🇬 Nigeria</option>
+      <option value="GH">🇬🇭 Ghana</option>
+      <option value="ZA">🇿🇦 South Africa</option>
+      <option value="ET">🇪🇹 Ethiopia</option>
+      <option value="RW">🇷🇼 Rwanda</option>
     </select>
   </div>
   <div class="currency-note" id="currencyNote"></div>
@@ -73,37 +68,39 @@
         <option value="+254">🇰🇪 +254</option>
         <option value="+255">🇹🇿 +255</option>
         <option value="+256">🇺🇬 +256</option>
+        <option value="+234">🇳🇬 +234</option>
+        <option value="+233">🇬🇭 +233</option>
+        <option value="+27">🇿🇦 +27</option>
+        <option value="+251">🇪🇹 +251</option>
+        <option value="+250">🇷🇼 +250</option>
       </select>
       <input type="tel" id="phone" placeholder="7XX XXX XXX"/>
     </div>
   </div>
-  <div class="form-group">
-    <label>Password</label>
-    <input type="password" id="password" placeholder="Create a strong password"/>
-  </div>
-  <div class="form-group">
-    <label>Confirm Password</label>
-    <input type="password" id="confirmPassword" placeholder="Repeat your password"/>
-  </div>
-  <button class="btn-submit" onclick="handleSignup()">Create Account & Claim Bonus</button>
+  <div class="form-group"><label>Password</label><input type="password" id="password" placeholder="Create a strong password"/></div>
+  <div class="form-group"><label>Confirm Password</label><input type="password" id="confirmPassword" placeholder="Repeat your password"/></div>
+  <button class="btn-submit" onclick="handleSignup()">Create Account and Claim Bonus</button>
   <div class="signin-link">Already have an account? <a href="signin.html">Sign In</a></div>
 </div>
 <script>
-const countries = {
-  KE:{name:'Kenya',currency:'KES',code:'+254',bonus:200,symbol:'KES',pay:'M-Pesa'},
-  TZ:{name:'Tanzania',currency:'TZS',code:'+255',bonus:4800,symbol:'TZS',pay:'M-Pesa'},
-  UG:{name:'Uganda',currency:'UGX',code:'+256',bonus:7200,symbol:'UGX',pay:'MTN MoMo / Airtel Money'},
+const countries={
+  KE:{name:'Kenya',currency:'KES',code:'+254',bonus:200,symbol:'KES',pay:'M-Pesa and Wallet'},
+  TZ:{name:'Tanzania',currency:'TZS',code:'+255',bonus:4800,symbol:'TZS',pay:'M-Pesa and Wallet'},
+  UG:{name:'Uganda',currency:'UGX',code:'+256',bonus:7200,symbol:'UGX',pay:'MTN MoMo, Airtel Money and Wallet'},
+  NG:{name:'Nigeria',currency:'NGN',code:'+234',bonus:1800,symbol:'NGN',pay:'Bank Transfer and Wallet'},
+  GH:{name:'Ghana',currency:'GHS',code:'+233',bonus:17,symbol:'GHS',pay:'MTN MoMo and Wallet'},
+  ZA:{name:'South Africa',currency:'ZAR',code:'+27',bonus:20,symbol:'ZAR',pay:'Bank Transfer and Wallet'},
+  ET:{name:'Ethiopia',currency:'ETB',code:'+251',bonus:290,symbol:'ETB',pay:'Telebirr and Wallet'},
+  RW:{name:'Rwanda',currency:'RWF',code:'+250',bonus:2600,symbol:'RWF',pay:'MTN MoMo and Wallet'},
 };
 function updateCountry(){
-  const code = document.getElementById('countrySelect').value;
-  const note = document.getElementById('currencyNote');
-  const bd = document.getElementById('bonusDisplay');
-  const pc = document.getElementById('phoneCode');
-  if(!code){note.style.display='none';return}
-  const c = countries[code];
+  const c=countries[document.getElementById('countrySelect').value];
+  const note=document.getElementById('currencyNote');
+  if(!c){note.style.display='none';return}
   note.style.display='block';
-  note.textContent = `Your account will use ${c.currency} — Welcome bonus: ${c.symbol} ${c.bonus.toLocaleString()} — Withdraw via ${c.pay}`;
-  bd.textContent = `${c.symbol} ${c.bonus.toLocaleString()}`;
+  note.textContent='Account currency: '+c.currency+'. Welcome bonus: '+c.symbol+' '+c.bonus.toLocaleString()+'. Withdraw via: '+c.pay;
+  document.getElementById('bonusDisplay').textContent=c.symbol+' '+c.bonus.toLocaleString();
+  const pc=document.getElementById('phoneCode');
   for(let i=0;i<pc.options.length;i++){if(pc.options[i].value===c.code){pc.selectedIndex=i;break}}
 }
 function handleSignup(){
@@ -116,16 +113,13 @@ function handleSignup(){
   if(!name||!email||!country||!phone||!pwd){alert('Please fill in all fields.');return}
   if(pwd!==cpwd){alert('Passwords do not match.');return}
   const c=countries[country];
-  const userData={name,email,country,phone:document.getElementById('phoneCode').value+phone,currency:c.currency,symbol:c.symbol,bonus:c.bonus,balance:0,earnings:0,bonusRemaining:c.bonus,bonusUsed:0,tasksCompleted:0,joinedAt:new Date().toISOString(),lastSeen:new Date().toISOString()};
-  // Save user
-  localStorage.setItem('ag_user',JSON.stringify(userData));
-  localStorage.setItem('ag_logged_in','true');
-  // Save to users list for admin
-  const users = JSON.parse(localStorage.getItem('ag_users')||'[]');
-  const existing = users.findIndex(u=>u.email===email);
-  if(existing>=0) users[existing]={...userData};
-  else users.push(userData);
-  localStorage.setItem('ag_users',JSON.stringify(users));
+  const user={name,email,country,phone:document.getElementById('phoneCode').value+phone,currency:c.currency,symbol:c.symbol,bonus:c.bonus,balance:0,earnings:0,bonusRemaining:c.bonus,bonusUsed:0,tasksCompleted:0,joinedAt:new Date().toISOString(),lastSeen:new Date().toISOString()};
+  localStorage.setItem('gb_user',JSON.stringify(user));
+  localStorage.setItem('gb_login','true');
+  const users=JSON.parse(localStorage.getItem('gb_users')||'[]');
+  const idx=users.findIndex(u=>u.email===email);
+  if(idx>=0)users[idx]=user;else users.push(user);
+  localStorage.setItem('gb_users',JSON.stringify(users));
   window.location.href='home.html';
 }
 </script>
