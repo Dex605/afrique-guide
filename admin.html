@@ -287,7 +287,7 @@ function renderAdminBrands(){
   const list=document.getElementById('adminBrandsList');
   list.innerHTML=BRANDS.map(b=>`
     <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:4px;padding:16px;text-align:center">
-      <img src="${b.logo}" style="width:48px;height:36px;object-fit:contain;margin-bottom:8px;display:block;margin:0 auto 8px" onerror="this.onerror=null;this.src=BRANDS.find(b=>b.name===this.alt)?.fallback||''">
+      <img src="${b.logo}" style="width:48px;height:36px;object-fit:contain;margin-bottom:8px;display:block;margin:0 auto 8px" onerror=\"logoFail(this,b.fallback,b.color,b.initials)\">
       <div style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-weight:600;margin-bottom:3px">${b.name}</div>
       <div style="font-size:0.58rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase">${b.country}</div>
     </div>

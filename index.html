@@ -276,7 +276,7 @@ for (let i = 0; i < cellCount; i++) {
   const b = shuffledAll[i % shuffledAll.length];
   const cell = document.createElement('div');
   cell.className = 'collage-cell';
-  cell.innerHTML = `<img src="${b.logo}" alt="${b.name}" loading="lazy" onerror="this.onerror=null;this.src=BRANDS.find(b=>b.name===this.alt)?.fallback||''">`;
+  cell.innerHTML = `<img src="${b.logo}" alt="${b.name}" loading="lazy" onerror=\"logoFail(this,b.fallback,b.color,b.initials)\">`;
   collageBg.appendChild(cell);
 }
 // Pulse random collage cells
@@ -309,7 +309,7 @@ spotlightBrands.forEach((b, i) => {
   slide.innerHTML = `
     <div class="slide-bg" style="background-image:url('${b.logo}');background-size:contain;background-repeat:no-repeat;background-position:center;filter:blur(60px) brightness(0.22);transform:scale(2)"></div>
     <div class="slide-logo-center">
-      <img src="${b.logo}" alt="${b.name}" onerror="this.onerror=null;this.src='${b.fallback}'">
+      <img src="${b.logo}" alt="${b.name}" onerror=\"logoFail(this,b.fallback,b.color,b.initials)\">
     </div>
   `;
   slideShow.appendChild(slide);
@@ -354,7 +354,7 @@ shuffledFeat.forEach(b => {
   a.href = 'brands.html#brand-' + b.id;
   a.className = 'brand-card';
   a.innerHTML = `
-    <img class="brand-logo" src="${b.logo}" alt="${b.name}" onerror="this.onerror=null;this.src='${b.fallback}'">
+    <img class="brand-logo" src="${b.logo}" alt="${b.name}" onerror=\"logoFail(this,b.fallback,b.color,b.initials)\">
     <div class="brand-name">${b.name}</div>
     <div class="brand-country">${b.country}</div>
     <div class="brand-sector">${b.sector}</div>
@@ -368,7 +368,7 @@ const mosaicBrands = [...BRANDS].sort(() => Math.random() - 0.5).slice(0, 12);
 mosaicBrands.forEach((b, i) => {
   const cell = document.createElement('div');
   cell.className = 'mosaic-cell' + (i % 4 === 0 ? ' highlight' : '');
-  cell.innerHTML = `<img src="${b.logo}" alt="${b.name}" onerror="this.onerror=null;this.src='${b.fallback}'" style="width:80%;height:80%;object-fit:contain">`;
+  cell.innerHTML = `<img src="${b.logo}" alt="${b.name}" onerror=\"logoFail(this,b.fallback,b.color,b.initials)\" style="width:80%;height:80%;object-fit:contain">`;
   mosaic.appendChild(cell);
 });
 

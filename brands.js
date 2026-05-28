@@ -1,127 +1,248 @@
-// Generates a clean SVG logo for each brand using real brand colors + initials
-function makeLogo(initials, bg, text='#fff', shape='rect') {
-  const i = encodeURIComponent(initials);
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 80'><rect width='120' height='80' rx='8' fill='${bg}'/><text x='60' y='50' font-family='Arial,sans-serif' font-weight='700' font-size='${initials.length>4?18:initials.length>3?20:22}' fill='${text}' text-anchor='middle' dominant-baseline='middle'>${initials}</text></svg>`;
-  return 'data:image/svg+xml,' + svg.replace(/#/g,'%23').replace(/'/g,'%27');
+// Logo loading strategy (3 layers — something always shows):
+// 1. Simple Icons CDN  → https://cdn.simpleicons.org/{slug}/{color}
+// 2. Google Favicon    → https://t2.gstatic.com/faviconV2?...
+// 3. Inline SVG        → drawn with real brand color (final safety net)
+
+const SI  = (slug, hex) => `https://cdn.simpleicons.org/${slug}/${hex}`;
+const GF  = (domain)    => `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=256`;
+
+function logoFail(img, fallbackUrl, color, initials) {
+  if (img._tried1) {
+    // Both CDN and favicon failed — draw inline SVG
+    const fs = initials.length > 4 ? 16 : initials.length > 3 ? 18 : 22;
+    const s = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 80'><rect width='120' height='80' rx='8' fill='%23${color}'/><text x='60' y='48' font-family='Arial Black,sans-serif' font-weight='900' font-size='${fs}' fill='white' text-anchor='middle' dominant-baseline='middle'>${initials}</text></svg>`;
+    img.onerror = null;
+    img.src = 'data:image/svg+xml,' + s;
+  } else {
+    img._tried1 = true;
+    img.src = fallbackUrl;
+  }
 }
 
 const BRANDS = [
-  // ═══════════ KENYA (32) ═══════════
-  { id:1,  name:'Safaricom',           country:'🇰🇪 Kenya',    sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',          fallback:makeLogo('SCM','#00A550'),  color:'#00a550', story:'Safaricom is Kenya\'s largest telecommunications company and the most profitable company in East and Central Africa. Founded in 1997 as a subsidiary of Telkom Kenya, Safaricom launched its famous M-Pesa mobile money service in 2007, revolutionising financial inclusion across Africa. Today, M-Pesa processes transactions worth more than Kenya\'s entire GDP annually. Safaricom serves over 42 million subscribers and is recognised by its iconic green branding from Nairobi to Mombasa.', rating:4.9, reviews:12400 },
-  { id:2,  name:'Equity Bank',         country:'🇰🇪 Kenya',    sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Equity_Bank_Kenya_logo.png/320px-Equity_Bank_Kenya_logo.png', fallback:makeLogo('EQT','#E31E25'),  color:'#e31e25', story:'Equity Bank began as a small building society in Murang\'a in 1984 and has grown into one of Africa\'s largest banks by customer numbers. With over 15 million accounts, Equity Bank serves the previously unbanked population with its accessible, low-cost banking model. Its founder James Mwangi has won multiple international accolades for transforming banking access in Africa.', rating:4.7, reviews:8900 },
-  { id:3,  name:'KCB Bank',            country:'🇰🇪 Kenya',    sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/KCB_Group_Logo.svg/320px-KCB_Group_Logo.svg.png',            fallback:makeLogo('KCB','#006633'),  color:'#006633', story:'KCB Group is the largest commercial bank in Kenya by assets, with a history dating back to 1896. Today KCB operates across 7 African countries with over 250 branches. Its KCB M-Pesa partnership has made mobile lending accessible to millions of Kenyans without formal collateral.', rating:4.6, reviews:7200 },
-  { id:4,  name:'Tusker Beer',         country:'🇰🇪 Kenya',    sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Tusker_logo.svg/320px-Tusker_logo.svg.png',                  fallback:makeLogo('TSK','#F5A623'),  color:'#f5a623', story:'Tusker is Kenya\'s most iconic beer brand, brewed by East African Breweries Limited since 1922. Named in memory of co-founder George Hurst who was killed by an elephant. Tusker\'s elephant logo is one of the most recognisable in East Africa and the beer is exported to over 35 countries worldwide.', rating:4.8, reviews:9800 },
-  { id:5,  name:'Coca-Cola Kenya',     country:'🇰🇪 Kenya',    sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/320px-Coca-Cola_logo.svg.png',             fallback:makeLogo('CCK','#F40009'),  color:'#f40009', story:'Coca-Cola has been present in Kenya since 1948, bottled locally by Century Bottlers. The brand is deeply embedded in Kenyan culture, from roadside kiosks in Kibera to five-star hotels in Nairobi. Coca-Cola Kenya invests heavily in community development, supporting water access and youth entrepreneurship.', rating:4.5, reviews:6700 },
-  { id:6,  name:'Airtel Kenya',        country:'🇰🇪 Kenya',    sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Airtel_logo.svg/320px-Airtel_logo.svg.png',                  fallback:makeLogo('AIR','#E40000'),  color:'#e40000', story:'Airtel Kenya is the second largest mobile network operator in Kenya with over 12 million subscribers. It competes aggressively with Safaricom through competitive data bundles and Airtel Money mobile payment services, driving down mobile costs for ordinary Kenyans.', rating:4.2, reviews:5400 },
-  { id:7,  name:'Nation Media Group',  country:'🇰🇪 Kenya',    sector:'Media',          logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Nation_Media_Group_logo.png/320px-Nation_Media_Group_logo.png', fallback:makeLogo('NMG','#003580'), color:'#003580', story:'Nation Media Group is the largest independent media house in East and Central Africa, founded by the Aga Khan in 1959. It publishes the Daily Nation — Kenya\'s most-read newspaper — and operates NTV, Nation FM, and digital platforms across Kenya, Uganda, Tanzania, and Rwanda.', rating:4.4, reviews:4900 },
-  { id:8,  name:'Kenya Airways',       country:'🇰🇪 Kenya',    sector:'Aviation',       logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Kenya_Airways_logo.svg/320px-Kenya_Airways_logo.svg.png',      fallback:makeLogo('KQ','#CC0000','#fff'),   color:'#cc0000', story:'Kenya Airways, known as "The Pride of Africa," is Kenya\'s national carrier founded in 1977. It flies to over 50 destinations across Africa, Europe, Asia, and the Americas. A member of the SkyTeam airline alliance, KQ remains a symbol of Kenyan ambition and continental connectivity.', rating:4.3, reviews:5800 },
-  { id:9,  name:'Bamburi Cement',      country:'🇰🇪 Kenya',    sector:'Construction',   logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Holcim_logo.svg/320px-Holcim_logo.svg.png',                   fallback:makeLogo('BMB','#FF6600'),  color:'#ff6600', story:'Bamburi Cement is the largest cement manufacturer in East Africa, part of the global Holcim group. Founded in 1951, Bamburi has built the infrastructure of modern Kenya. Its Haller Park environmental project rehabilitated mined land into a thriving nature reserve — one of the world\'s great conservation success stories.', rating:4.4, reviews:3200 },
-  { id:10, name:'Uchumi Supermarket',  country:'🇰🇪 Kenya',    sector:'Retail',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('UCH','#E31E24'),  color:'#e31e24', story:'Uchumi Supermarket is one of Kenya\'s oldest retail chains, founded in 1975. At its peak it operated stores across Kenya, Uganda, and Tanzania. Uchumi remains a recognised Kenyan brand with deep roots in the country\'s retail history and consumer culture.', rating:4.0, reviews:2800 },
-  { id:11, name:'Bidco Africa',        country:'🇰🇪 Kenya',    sector:'Consumer Goods', logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('BDC','#003399'),  color:'#003399', story:'Bidco Africa is one of East Africa\'s largest FMCG manufacturers, producing cooking oils, soaps, detergents, and personal care products. Founded in Kenya in 1985, its brands like Elianto, Kimbo, and Cowboy are household names across the region.', rating:4.5, reviews:4100 },
-  { id:12, name:'Nakumatt',            country:'🇰🇪 Kenya',    sector:'Retail',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('NKM','#FF0000'),  color:'#ff0000', story:'Nakumatt was East Africa\'s largest supermarket chain, operating over 60 stores across Kenya, Uganda, Tanzania, Rwanda, and Burundi at its peak. Founded in Nakuru in 1987, its collapse in 2017 was one of the most dramatic corporate failures in the region\'s history.', rating:3.8, reviews:6200 },
-  { id:13, name:'Java House',          country:'🇰🇪 Kenya',    sector:'Hospitality',    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('JAVA','#4B2E10'), color:'#4b2e10', story:'Java House is East Africa\'s leading coffee house chain, founded in Nairobi in 1999. Growing to over 70 outlets across Kenya, Uganda, Rwanda, and Ethiopia, Java House is credited with introducing café culture to East Africa and serves as the workspace of choice for Nairobi\'s creative class.', rating:4.6, reviews:7800 },
-  { id:14, name:'Equity Foundation',   country:'🇰🇪 Kenya',    sector:'Social Impact',  logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Equity_Bank_Kenya_logo.png/320px-Equity_Bank_Kenya_logo.png', fallback:makeLogo('EGF','#E31E25'),  color:'#e31e25', story:'The Equity Group Foundation implements Wings to Fly — one of Africa\'s largest scholarship programmes. It has provided full secondary school scholarships to over 20,000 bright but disadvantaged Kenyan students since 2012, alongside health and agricultural development programmes.', rating:4.8, reviews:5600 },
-  { id:15, name:'Safal Group',         country:'🇰🇪 Kenya',    sector:'Manufacturing',  logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('SFL','#005B9A'),  color:'#005b9a', story:'Safal Group, formerly Mabati Rolling Mills, is Africa\'s largest steel and roofing manufacturer. Founded in Kenya in 1962, it operates in over 15 African countries producing iron sheets, galvanised steel, and building materials. The Mabati brand has roofed homes across the continent for generations.', rating:4.3, reviews:2900 },
-  { id:16, name:'SportPesa',           country:'🇰🇪 Kenya',    sector:'Sports Betting', logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('SPT','#1E3A5F'),  color:'#1e3a5f', story:'SportPesa was founded in Nairobi in 2014 and became one of the world\'s most recognised sports betting brands, sponsoring Hull City, Everton, Arsenal, and several European clubs. Despite regulatory challenges, it remains one of Kenya\'s most talked-about brands.', rating:4.1, reviews:8900 },
-  { id:17, name:'Naivas Supermarket',  country:'🇰🇪 Kenya',    sector:'Retail',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('NVS','#E31E24'),  color:'#e31e24', story:'Naivas is Kenya\'s fastest-growing supermarket chain. Founded in Nakuru in 1990, it now operates over 90 stores across Kenya and Uganda. Its rapid growth, Kenyan ownership, and focus on fresh produce make it one of the country\'s most celebrated retail success stories.', rating:4.5, reviews:6700 },
-  { id:18, name:'ICEA Lion Group',     country:'🇰🇪 Kenya',    sector:'Insurance',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('ICEA','#003580'), color:'#003580', story:'ICEA Lion Group is one of East Africa\'s largest insurance and asset management companies, operating in Kenya, Uganda, Tanzania, and Rwanda. It manages assets worth billions of shillings and insures hundreds of thousands of individuals and businesses.', rating:4.2, reviews:2400 },
-  { id:19, name:'Unga Group',          country:'🇰🇪 Kenya',    sector:'Food Processing',logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('UNG','#CC6600'),  color:'#cc6600', story:'Unga Group is one of Kenya\'s oldest companies, milling flour since 1908. Its Jogoo, Sembe, and Ndovu brands are staples in Kenyan kitchens. Listed on the Nairobi Securities Exchange, Unga Group operates mills in Kenya and Zambia and produces animal feed and flour for millions.', rating:4.3, reviews:3100 },
-  { id:20, name:'Kenchic',             country:'🇰🇪 Kenya',    sector:'Food',           logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('KCH','#E87722'),  color:'#e87722', story:'Kenchic is Kenya\'s largest integrated poultry company, producing day-old chicks, feeds, and processed chicken products. Founded in 1971, it supplies chicken to major supermarkets, hotels, and fast food chains across East Africa and supports thousands of smallholder farmers.', rating:4.4, reviews:3800 },
-  { id:21, name:'Fahari REIT',         country:'🇰🇪 Kenya',    sector:'Real Estate',    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('FHR','#006633'),  color:'#006633', story:'Fahari ya Kenya is East Africa\'s first listed Real Estate Investment Trust, launched on the Nairobi Securities Exchange in 2015. It invests in income-generating commercial real estate including offices, retail centres, and industrial properties.', rating:4.1, reviews:1800 },
-  { id:22, name:'Co-operative Bank',   country:'🇰🇪 Kenya',    sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('COOP','#003399'), color:'#003399', story:'Co-operative Bank of Kenya is one of the country\'s top three banks, uniquely owned by Kenya\'s cooperative movement. With over 15 million customers and 180 branches, Co-op Bank champions banking for cooperative societies, farmers, and SACCOs.', rating:4.5, reviews:5900 },
-  { id:23, name:'Keroche Breweries',   country:'🇰🇪 Kenya',    sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('KRB','#CC0000'),  color:'#cc0000', story:'Keroche Breweries is Kenya\'s first locally-owned large-scale brewery, founded by Tabitha Karanja in 1997 in Naivasha. Producing Summit Lager and Vienna Ice, Keroche challenged EABL\'s dominance. Tabitha Karanja was named Ernst & Young\'s Entrepreneur of the Year.', rating:4.3, reviews:4200 },
-  { id:24, name:'Aga Khan Health',     country:'🇰🇪 Kenya',    sector:'Healthcare',     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('AKH','#006633'),  color:'#006633', story:'The Aga Khan Hospital in Nairobi is one of Africa\'s premier medical institutions. Founded in 1958, it provides tertiary care to patients from across East Africa, offering world-class cardiac, cancer, and trauma services to the wider region.', rating:4.7, reviews:6100 },
-  { id:25, name:'Strathmore University',country:'🇰🇪 Kenya',   sector:'Education',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('STR','#003580'),  color:'#003580', story:'Strathmore University is one of Kenya\'s most respected private universities, located in Nairobi. Founded in 2002, it consistently ranks among Africa\'s top universities and produces graduates who lead corporations, governments, and NGOs across the continent.', rating:4.6, reviews:4800 },
-  { id:26, name:'Tuskys Supermarket',  country:'🇰🇪 Kenya',    sector:'Retail',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TSK','#FF6600'),  color:'#ff6600', story:'Tuskys was one of Kenya\'s most popular supermarket chains operating over 60 stores. Its collapse in 2020-2021 under financial pressure is a cautionary tale for Kenyan retail business and mirrors the Nakumatt story of aggressive over-expansion.', rating:3.9, reviews:5200 },
-  { id:27, name:'Pepsi Kenya',         country:'🇰🇪 Kenya',    sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Pepsi_logo_2014.svg/320px-Pepsi_logo_2014.svg.png',            fallback:makeLogo('PEP','#004B93'),  color:'#004b93', story:'Pepsi has been competing in Kenya\'s beverage market for decades, bottled locally and distributed nationally. Though Coca-Cola dominates, Pepsi maintains a loyal following and competes aggressively through pricing, promotions, and partnerships with fast food chains.', rating:4.2, reviews:4500 },
-  { id:28, name:'UAP Old Mutual',      country:'🇰🇪 Kenya',    sector:'Insurance',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('UAP','#00843D'),  color:'#00843d', story:'UAP Old Mutual is one of East Africa\'s largest financial services groups, formed by the merger of UAP Insurance and South Africa\'s Old Mutual. Operating across Kenya, Uganda, Tanzania, Rwanda, and South Sudan, it manages some of the region\'s largest pension funds.', rating:4.2, reviews:2700 },
-  { id:29, name:'Cellulant',           country:'🇰🇪 Kenya',    sector:'Fintech',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('CLT','#0066CC'),  color:'#0066cc', story:'Cellulant is a pan-African digital payments company founded in Nairobi in 2003. It operates in 34 African countries connecting businesses to consumers through mobile money, cards, and bank transfers. Named one of Africa\'s most innovative companies, it has processed billions of dollars in transactions.', rating:4.4, reviews:2200 },
-  { id:30, name:'Stanbic Bank Kenya',  country:'🇰🇪 Kenya',    sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('SBK','#003580'),  color:'#003580', story:'Stanbic Bank Kenya is part of Standard Bank Group, Africa\'s largest bank by assets. Known for its strength in trade finance, infrastructure lending, and corporate advisory, it has been instrumental in financing major Kenyan infrastructure projects.', rating:4.3, reviews:3100 },
-  { id:31, name:'Carrefour Kenya',     country:'🇰🇪 Kenya',    sector:'Retail',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Carrefour_logo.svg/320px-Carrefour_logo.svg.png',              fallback:makeLogo('CRF','#004F9F'),  color:'#004f9f', story:'Carrefour entered Kenya in 2016 through the Majid Al Futtaim partnership and rapidly grew to become one of Nairobi\'s most popular supermarkets. Operating large-format hypermarkets, it is known for its wide range, competitive pricing, and international products.', rating:4.5, reviews:5900 },
-  { id:32, name:'M-Kopa Solar',        country:'🇰🇪 Kenya',    sector:'Energy',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('MKP','#FF9900'),  color:'#ff9900', story:'M-KOPA is a Nairobi-founded company that provides pay-as-you-go solar energy to off-grid households across Africa. Founded in 2011, it has connected over 3 million homes to clean energy using M-Pesa micropayments. Named one of the world\'s most innovative companies.', rating:4.6, reviews:4400 },
 
-  // ═══════════ TANZANIA (32) ═══════════
-  { id:33, name:'Vodacom Tanzania',    country:'🇹🇿 Tanzania', sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Vodafone_logo.svg/320px-Vodafone_logo.svg.png',               fallback:makeLogo('VCT','#E60000'),  color:'#e60000', story:'Vodacom Tanzania is the country\'s largest mobile network operator with over 17 million subscribers. A subsidiary of Vodacom Group, it operates M-Pesa in Tanzania and was one of the first companies to list on the Dar es Salaam Stock Exchange in 2017.', rating:4.6, reviews:9800 },
-  { id:34, name:'CRDB Bank',           country:'🇹🇿 Tanzania', sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('CRDB','#006633'), color:'#006633', story:'CRDB Bank is Tanzania\'s largest private commercial bank by assets. CRDB serves over 3.5 million customers across Tanzania and Burundi, providing retail banking, microfinance, and agricultural financing. It is listed on the Dar es Salaam Stock Exchange.', rating:4.5, reviews:6200 },
-  { id:35, name:'Tanzania Breweries',  country:'🇹🇿 Tanzania', sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TBL','#CC6600'),  color:'#cc6600', story:'Tanzania Breweries Limited (TBL) is Tanzania\'s largest beverages company, a subsidiary of AB InBev. It brews Kilimanjaro Premium Lager, Serengeti Premium, Safari Lager, and Castle Lite. Operating since 1933, its brands are deeply embedded in Tanzanian culture.', rating:4.7, reviews:8100 },
-  { id:36, name:'Airtel Tanzania',     country:'🇹🇿 Tanzania', sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Airtel_logo.svg/320px-Airtel_logo.svg.png',                  fallback:makeLogo('ATZ','#E40000'),  color:'#e40000', story:'Airtel Tanzania is the country\'s second-largest mobile operator, part of the global Bharti Airtel network. It provides voice, data, and Airtel Money services to Tanzanians across the mainland and Zanzibar, driving digital financial inclusion.', rating:4.2, reviews:5100 },
-  { id:37, name:'NMB Bank Tanzania',   country:'🇹🇿 Tanzania', sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('NMB','#E31E24'),  color:'#e31e24', story:'NMB Bank is Tanzania\'s largest bank by branch network, with over 220 branches. Its Wakala agent banking network has extended financial services to millions of Tanzanians in remote rural areas.', rating:4.4, reviews:5700 },
-  { id:38, name:'TANESCO',             country:'🇹🇿 Tanzania', sector:'Energy',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TNS','#003580'),  color:'#003580', story:'TANESCO is Tanzania\'s national electricity utility. The Julius Nyerere Hydropower Project on the Rufiji River, when complete, will be Africa\'s largest hydropower plant at 2,115 MW, transforming Tanzania into a major electricity exporter.', rating:3.9, reviews:3200 },
-  { id:39, name:'Zantel',              country:'🇹🇿 Tanzania', sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('ZNT','#FF6600'),  color:'#ff6600', story:'Zantel is Tanzania\'s oldest mobile network, established in Zanzibar in 1999 and now part of the e& group. Zantel played a pioneering role in bringing mobile connectivity to Zanzibar and coastal Tanzania and offers EzyPesa mobile money services.', rating:4.0, reviews:2800 },
-  { id:40, name:'TIGO Tanzania',       country:'🇹🇿 Tanzania', sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TIGO','#E4003A'), color:'#e4003a', story:'Tigo Tanzania, now merged with Airtel, was one of Tanzania\'s leading mobile operators for over two decades. Its Tigo Pesa mobile money platform reached millions of unbanked Tanzanians and its legacy continues through the merged Airtel-Tigo network.', rating:4.1, reviews:4400 },
-  { id:41, name:'Serengeti Breweries', country:'🇹🇿 Tanzania', sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('SRG','#CC6600'),  color:'#cc6600', story:'Serengeti Breweries produces Serengeti Premium Lager — one of Tanzania\'s most beloved beers, named after the world-famous national park. Now part of Tanzania Breweries Limited (AB InBev), Serengeti Premium is associated with quality, wildlife conservation, and Tanzania\'s tourism brand.', rating:4.6, reviews:5800 },
-  { id:42, name:'DART Dar es Salaam',  country:'🇹🇿 Tanzania', sector:'Transport',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('DART','#003580'), color:'#003580', story:'Dar Rapid Transit (DART) is Tanzania\'s Bus Rapid Transit system launched in 2016. Moving tens of thousands of commuters daily along dedicated bus lanes, it represents a major step toward modernising Dar es Salaam\'s transport network.', rating:4.0, reviews:2200 },
-  { id:43, name:'Azania Bank',         country:'🇹🇿 Tanzania', sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('AZN','#003399'),  color:'#003399', story:'Azania Bank is one of Tanzania\'s fastest-growing commercial banks, serving retail, SME, and corporate clients. It has been particularly active in supporting Tanzania\'s SME sector through tailored lending products and digital banking innovation.', rating:4.2, reviews:2100 },
-  { id:44, name:'Tanzania Ports',      country:'🇹🇿 Tanzania', sector:'Logistics',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TPA','#006633'),  color:'#006633', story:'Tanzania Ports Authority (TPA) manages the port of Dar es Salaam — one of East Africa\'s most critical trade gateways, handling cargo for Tanzania, Zambia, Malawi, DRC, Rwanda, Burundi, and Uganda. A multi-billion dollar expansion is underway.', rating:4.1, reviews:1900 },
-  { id:45, name:'Precision Air',       country:'🇹🇿 Tanzania', sector:'Aviation',       logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('PWT','#CC0000'),  color:'#cc0000', story:'Precision Air is Tanzania\'s largest private airline, connecting Dar es Salaam, Zanzibar, Kilimanjaro, and Arusha. Founded in 1991 and listed on the DSE, it serves as a critical link for Tanzania\'s tourism industry connecting tourists to Serengeti and Zanzibar.', rating:4.2, reviews:3400 },
-  { id:46, name:'Halotel Tanzania',    country:'🇹🇿 Tanzania', sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('HLT','#009900'),  color:'#009900', story:'Halotel is Tanzania\'s fastest-growing mobile network operator, backed by Vietnamese investment. Launched in 2015, its aggressive rural coverage expansion and competitive pricing have significantly boosted mobile internet penetration across the country.', rating:4.1, reviews:3800 },
-  { id:47, name:'Stanbic Bank TZ',     country:'🇹🇿 Tanzania', sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('SBT','#003580'),  color:'#003580', story:'Stanbic Bank Tanzania, part of Standard Bank Group, finances major infrastructure projects including roads, mining, and energy. Its trade finance expertise supports Tanzania\'s growing export sector and corporate banking clients.', rating:4.3, reviews:2600 },
-  { id:48, name:'TANAPA',              country:'🇹🇿 Tanzania', sector:'Tourism',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TNP','#006633'),  color:'#006633', story:'TANAPA manages Tanzania\'s 22 national parks including the Serengeti, Ngorongoro Conservation Area, Kilimanjaro, and Ruaha. The Serengeti\'s Great Migration — the largest animal movement on earth — is one of TANAPA\'s most prized global tourism draws.', rating:4.8, reviews:7600 },
-  { id:49, name:'Coca-Cola Tanzania',  country:'🇹🇿 Tanzania', sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/320px-Coca-Cola_logo.svg.png',             fallback:makeLogo('CCT','#F40009'),  color:'#f40009', story:'Coca-Cola Tanzania has been refreshing Tanzanians since the 1950s, bottled locally and distributed across the mainland and Zanzibar. The brand employs thousands directly and supports tens of thousands of micro-distributors and retailers.', rating:4.5, reviews:5600 },
-  { id:50, name:'Mohammed Enterprises',country:'🇹🇿 Tanzania', sector:'Conglomerate',   logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('MeTL','#CC6600'), color:'#cc6600', story:'Mohammed Enterprises Tanzania (MeTL) is one of Tanzania\'s largest conglomerates with operations in sugar, sisal, textiles, and retail across 11 African countries. CEO Mo Dewji was named Forbes\'s youngest African billionaire.', rating:4.6, reviews:4200 },
-  { id:51, name:'TPB Bank Tanzania',   country:'🇹🇿 Tanzania', sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TPB','#E31E24'),  color:'#e31e24', story:'TPB Bank (Tanzania Postal Bank) is Tanzania\'s most accessible bank, with branches in every district. Serving government employees, pensioners, and rural customers, its digital banking expansion has brought millions of previously unbanked citizens into the formal financial system.', rating:4.1, reviews:3300 },
-  { id:52, name:'Kilimanjaro Cement',  country:'🇹🇿 Tanzania', sector:'Construction',   logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('KCT','#FF6600'),  color:'#ff6600', story:'Kilimanjaro Cement is Tanzania\'s premier cement brand, named after Africa\'s highest peak. It competes in Tanzania\'s growing construction market driven by rapid urbanisation and government infrastructure spending.', rating:4.3, reviews:2400 },
-  { id:53, name:'Pepsi Tanzania',      country:'🇹🇿 Tanzania', sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Pepsi_logo_2014.svg/320px-Pepsi_logo_2014.svg.png',            fallback:makeLogo('PPT','#004B93'),  color:'#004b93', story:'Pepsi Tanzania is bottled and distributed locally, competing strongly with Coca-Cola in the Tanzanian market. PepsiCo has been growing its food and snacks portfolio in Tanzania alongside its beverages, tapping into the growing middle-class consumer market.', rating:4.2, reviews:3800 },
-  { id:54, name:'Azam Media',          country:'🇹🇿 Tanzania', sector:'Media',          logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('AZM','#003580'),  color:'#003580', story:'Azam Media operates Azam TV — a direct-to-home satellite television service with millions of subscribers across East and Central Africa. Part of the Bakhresa Group, Azam TV disrupted the pay-TV market by offering affordable subscriptions and local Swahili content.', rating:4.5, reviews:6900 },
-  { id:55, name:'Bakhresa Group',      country:'🇹🇿 Tanzania', sector:'Food',           logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('BKR','#CC0000'),  color:'#cc0000', story:'Bakhresa Group is one of Tanzania\'s largest conglomerates, producing Azam flour, bread, pasta, beverages, and ice cream across 11 African countries. Its Azam brand products are found on dining tables from Tanzania to South Sudan.', rating:4.6, reviews:5100 },
-  { id:56, name:'Air Tanzania',        country:'🇹🇿 Tanzania', sector:'Aviation',       logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('ATC','#006633'),  color:'#006633', story:'Air Tanzania Company Limited (ATCL) is Tanzania\'s national airline, recently revived with Boeing 787 Dreamliners and Airbus jets. It now flies to regional and international destinations including India and China, central to Tanzania\'s aviation and tourism strategy.', rating:4.2, reviews:3700 },
-  { id:57, name:'NBC Tanzania',        country:'🇹🇿 Tanzania', sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('NBC','#E31E24'),  color:'#e31e24', story:'National Bank of Commerce (NBC) is one of Tanzania\'s oldest and most trusted banks, majority-owned by Absa Group. With a nationwide branch network, NBC serves retail, business, and institutional clients across Tanzania.', rating:4.3, reviews:3900 },
-  { id:58, name:'DStv Tanzania',       country:'🇹🇿 Tanzania', sector:'Media',          logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/DStv_logo.svg/320px-DStv_logo.svg.png',                      fallback:makeLogo('DST','#003580'),  color:'#003580', story:'DStv, operated by MultiChoice, is Africa\'s leading pay television service with significant presence in Tanzania. Despite competition from Azam TV, DStv remains the premium choice for Tanzania\'s middle class and expatriate community.', rating:4.0, reviews:4800 },
-  { id:59, name:'Tanzania Revenue Auth',country:'🇹🇿 Tanzania',sector:'Government',     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TRA','#006633'),  color:'#006633', story:'Tanzania Revenue Authority (TRA) has transformed into a technology-driven organisation, implementing electronic filing and digital customs processing. Improved tax collection has been critical to funding Tanzania\'s infrastructure and social programmes.', rating:3.9, reviews:2100 },
-  { id:60, name:'Twiga Foods',         country:'🇹🇿 Tanzania', sector:'Agritech',       logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TWG','#FF9900'),  color:'#ff9900', story:'Twiga Foods is an East African B2B food distribution platform connecting farmers directly to urban food vendors through a mobile platform, eliminating middlemen and reducing food waste. It has raised hundreds of millions in funding and processes thousands of tonnes of produce daily.', rating:4.4, reviews:2900 },
-  { id:61, name:'Karibu Hotels',       country:'🇹🇿 Tanzania', sector:'Hospitality',    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('KBH','#CC6600'),  color:'#cc6600', story:'Karibu Hotels is Tanzania\'s leading locally-owned hotel group, operating luxury and mid-range properties in Dar es Salaam, Arusha, Zanzibar, and safari destinations. Its properties blend Swahili architecture with modern comfort.', rating:4.5, reviews:3600 },
-  { id:62, name:'Standard Newspapers TZ',country:'🇹🇿 Tanzania',sector:'Media',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TSN','#003580'),  color:'#003580', story:'Tanzania Standard Newspapers publishes Daily News and Sunday News — government-owned English-language newspapers with a history dating back to 1930. They remain an important voice for national affairs and regional news across the East African Community.', rating:3.8, reviews:1800 },
-  { id:63, name:'Tigo Pesa',           country:'🇹🇿 Tanzania', sector:'Fintech',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TGP','#E4003A'),  color:'#e4003a', story:'Tigo Pesa was one of Tanzania\'s pioneering mobile money platforms, serving millions with transfers, bill payments, and savings. Now integrated into Airtel Money, its technology continues to support Tanzania\'s leading role in African mobile money innovation.', rating:4.3, reviews:5400 },
-  { id:64, name:'Stanbic Bank Group',  country:'🇹🇿 Tanzania', sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('SBG','#003580'),  color:'#003580', story:'Standard Bank (Stanbic) operates across East Africa including Tanzania, providing corporate and investment banking services. It is Africa\'s largest bank by assets and a key financier of major infrastructure projects across the continent.', rating:4.3, reviews:2800 },
+{ id:1,  name:'Safaricom',
+  logo: SI('safaricom','00A550'),
+  fallback: GF('safaricom.co.ke'),
+  color:'00A550', initials:'SCM',
+  country:'🇰🇪 Kenya', sector:'Telecom', rating:4.9, reviews:12400,
+  story:'Safaricom is Kenya\'s largest telecommunications company and most profitable company in East and Central Africa. Founded in 1997, it launched M-Pesa mobile money in 2007, revolutionising financial inclusion across Africa. M-Pesa now processes transactions worth more than Kenya\'s entire GDP annually and the company serves over 47 million subscribers.' },
 
-  // ═══════════ UGANDA (32) ═══════════
-  { id:65, name:'Airtel Uganda',       country:'🇺🇬 Uganda',   sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Airtel_logo.svg/320px-Airtel_logo.svg.png',                  fallback:makeLogo('AUG','#E40000'),  color:'#e40000', story:'Airtel Uganda is the country\'s largest mobile network operator by subscribers, serving over 16 million Ugandans with voice, data, and Airtel Money services. It has driven significant reductions in mobile tariffs and expanded rural connectivity across Uganda.', rating:4.3, reviews:7200 },
-  { id:66, name:'MTN Uganda',          country:'🇺🇬 Uganda',   sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/MTN_Logo.svg/320px-MTN_Logo.svg.png',                       fallback:makeLogo('MTN','#FFCC00','#000'), color:'#ffcc00', story:'MTN Uganda is Uganda\'s second-largest mobile operator and most profitable telecom. Part of Africa\'s largest mobile group, MTN Uganda was the first company to list on the Uganda Securities Exchange in 2021. Its MoMo platform serves over 10 million users.', rating:4.5, reviews:8900 },
-  { id:67, name:'Stanbic Bank Uganda', country:'🇺🇬 Uganda',   sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('SBU','#003580'),  color:'#003580', story:'Stanbic Bank Uganda is the country\'s largest commercial bank by assets. It financed Uganda\'s oil and gas pipeline projects and is the government\'s lead banking partner for major infrastructure. Part of Standard Bank Group, Africa\'s largest bank.', rating:4.4, reviews:5800 },
-  { id:68, name:'Uganda Breweries',    country:'🇺🇬 Uganda',   sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Guinness_logo.svg/320px-Guinness_logo.svg.png',               fallback:makeLogo('UBL','#CC6600'),  color:'#cc6600', story:'Uganda Breweries Limited (UBL), a Diageo subsidiary, brews Uganda Waragi — Uganda\'s most beloved spirit — as well as Bell Lager and Guinness. Uganda Waragi, a triple-distilled premium gin, is Uganda\'s national drink and is exported internationally as a premium African spirit.', rating:4.7, reviews:7400 },
-  { id:69, name:'Equity Bank Uganda',  country:'🇺🇬 Uganda',   sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Equity_Bank_Kenya_logo.png/320px-Equity_Bank_Kenya_logo.png', fallback:makeLogo('EBU','#E31E25'),  color:'#e31e25', story:'Equity Bank Uganda serves retail and SME clients across Uganda, leveraging mobile-first banking to deliver accessible finance. It is particularly focused on youth banking and financing Uganda\'s growing entrepreneurship ecosystem.', rating:4.3, reviews:4600 },
-  { id:70, name:'UMEME Uganda',        country:'🇺🇬 Uganda',   sector:'Energy',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('UME','#FF9900'),  color:'#ff9900', story:'UMEME is Uganda\'s electricity distribution company, managing over 28,000 km of power lines to 2 million customers. The Karuma and Isimba hydropower dams have significantly increased Uganda\'s generation capacity enabling expanded national access.', rating:3.9, reviews:3100 },
-  { id:71, name:'Roofings Group',      country:'🇺🇬 Uganda',   sector:'Manufacturing',  logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('RFG','#003580'),  color:'#003580', story:'Roofings Group is Uganda\'s largest steel and construction materials manufacturer, producing iron sheets, steel pipes, and galvanised wire. Founded in 1994, it has grown into a regional industrial powerhouse with plants in Uganda and DRC.', rating:4.4, reviews:2800 },
-  { id:72, name:'Uganda Airlines',     country:'🇺🇬 Uganda',   sector:'Aviation',       logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('UAL','#CC0000'),  color:'#cc0000', story:'Uganda Airlines was relaunched in 2019 after the original carrier collapsed in 2001. Operating Airbus A330 and CRJ900 aircraft, it flies to regional and international destinations. Central to Uganda\'s ambition to become a regional aviation hub.', rating:4.2, reviews:3200 },
-  { id:73, name:'Absa Bank Uganda',    country:'🇺🇬 Uganda',   sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Absa_Group_Limited_logo.svg/320px-Absa_Group_Limited_logo.svg.png', fallback:makeLogo('ABS','#CC0000'), color:'#cc0000', story:'Absa Bank Uganda, formerly Barclays Bank Uganda, is one of the country\'s most established banks with over 60 years of history. Part of Johannesburg-listed Absa Group, it is known for digital banking innovation and partnerships with Uganda\'s tech startup ecosystem.', rating:4.3, reviews:4100 },
-  { id:74, name:'Nile Breweries',      country:'🇺🇬 Uganda',   sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('NBL','#003380'),  color:'#003380', story:'Nile Breweries Limited, a subsidiary of AB InBev, brews Uganda\'s most popular beer — Nile Special Lager. Brewing since 1952 and named after the source of the Nile at Jinja, Nile Special\'s distinctive green bottle is a fixture at every Ugandan celebration.', rating:4.6, reviews:6800 },
-  { id:75, name:'DFCU Bank',           country:'🇺🇬 Uganda',   sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('DFC','#003580'),  color:'#003580', story:'DFCU Bank, established in 1964, made headlines in 2017 when it acquired Crane Bank, becoming Uganda\'s second-largest commercial bank overnight. Listed on the Uganda Securities Exchange, DFCU focuses on SME banking, agriculture finance, and housing loans.', rating:4.2, reviews:3400 },
-  { id:76, name:'Nile Special Beer',   country:'🇺🇬 Uganda',   sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('NSB','#003380'),  color:'#003380', story:'Nile Special is Uganda\'s number-one selling beer brand. Brewed with water from the Nile River, it sponsors the Pearl of Africa Tourism Expo and Uganda\'s major sporting events. Its iconic green bottle is a symbol of Ugandan identity and pride.', rating:4.7, reviews:7200 },
-  { id:77, name:'Centenary Bank',      country:'🇺🇬 Uganda',   sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('CTB','#006633'),  color:'#006633', story:'Centenary Bank is Uganda\'s largest microfinance-oriented commercial bank, originally established by the Catholic Church in 1983. With over 80 branches and 1.8 million customers, it is Uganda\'s leading agricultural lender supporting millions of smallholder farmers.', rating:4.5, reviews:4200 },
-  { id:78, name:'Mukwano Group',       country:'🇺🇬 Uganda',   sector:'Manufacturing',  logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('MKW','#CC6600'),  color:'#cc6600', story:'Mukwano Group is one of Uganda\'s largest conglomerates, producing cooking oils, detergents, plastics, and polyester bags. Its Rina cooking oil brand is a household name. Founded by the Madhvani family, it is one of Uganda\'s largest private employers.', rating:4.4, reviews:3600 },
-  { id:79, name:'Jesa Farm Dairy',     country:'🇺🇬 Uganda',   sector:'Food',           logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('JFD','#003580'),  color:'#003580', story:'Jesa Farm Dairy is Uganda\'s most trusted dairy brand, producing pasteurised milk, yoghurt, butter, and cheese. Founded in 1979, its Lato brand is found on breakfast tables across Uganda. Jesa has championed the country\'s dairy sector and high hygiene standards.', rating:4.5, reviews:3800 },
-  { id:80, name:'Movit Products',      country:'🇺🇬 Uganda',   sector:'Beauty',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('MVT','#FF0066'),  color:'#ff0066', story:'Movit Products is Uganda\'s most successful homegrown beauty and personal care company, producing skin care, hair care, and baby products. Founded in 2002, it exports to over 20 African countries and is a champion of Made-in-Uganda manufacturing.', rating:4.6, reviews:5100 },
-  { id:81, name:'Uganda Telecom',      country:'🇺🇬 Uganda',   sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('UTL','#CC0000'),  color:'#cc0000', story:'Uganda Telecom (UTL) is one of Uganda\'s oldest telecommunications companies, operating the country\'s backbone fibre network and providing fixed-line services to government and corporate clients. Currently undergoing strategic restructuring.', rating:3.8, reviews:2400 },
-  { id:82, name:'Post Bank Uganda',    country:'🇺🇬 Uganda',   sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('PBU','#E31E24'),  color:'#e31e24', story:'Post Bank Uganda is a government-owned commercial bank with a mission to serve ordinary Ugandans, particularly government employees and civil servants. With branches in every district of Uganda, it has been a key partner in government salary payment systems.', rating:4.0, reviews:2900 },
-  { id:83, name:'Roke Telkom',         country:'🇺🇬 Uganda',   sector:'Telecom',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('RKT','#003580'),  color:'#003580', story:'Roke Telkom is a Ugandan internet service provider offering fibre, wireless, and data centre services. As Uganda\'s digital economy grows, Roke Telkom plays a critical role providing high-speed connectivity that powers fintech, e-commerce, and digital government services.', rating:4.2, reviews:1800 },
-  { id:84, name:'Coca-Cola Uganda',    country:'🇺🇬 Uganda',   sector:'Beverages',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/320px-Coca-Cola_logo.svg.png',             fallback:makeLogo('CCU','#F40009'),  color:'#f40009', story:'Coca-Cola Uganda has been bottled locally since the 1950s, producing Coca-Cola, Fanta, Sprite, and Krest. The brand is present in the smallest village shops and the grandest Kampala restaurants, and has invested in women entrepreneurship through the 5by20 initiative.', rating:4.5, reviews:5800 },
-  { id:85, name:'Kampala Serena Hotel',country:'🇺🇬 Uganda',   sector:'Hospitality',    logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('KSH','#CC6600'),  color:'#cc6600', story:'Kampala Serena Hotel is Uganda\'s most prestigious five-star hotel in the heart of Kampala. Part of the Serena Hotels chain, it hosts heads of state, international summits, and high-profile business events. A symbol of Kampala\'s international standing.', rating:4.7, reviews:4600 },
-  { id:86, name:'Bidco Uganda',        country:'🇺🇬 Uganda',   sector:'Consumer Goods', logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('BDU','#003399'),  color:'#003399', story:'Bidco Uganda produces cooking oils, soaps, and detergents including Golden Fry and Kimbo brands. It employs thousands of Ugandans and supports smallholder palm oil farmers through its outgrower programmes in western Uganda.', rating:4.4, reviews:3300 },
-  { id:87, name:'Uganda Revenue Auth', country:'🇺🇬 Uganda',   sector:'Government',     logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('URA','#006633'),  color:'#006633', story:'Uganda Revenue Authority (URA) has transformed into a technology-driven organisation, implementing e-filing and digital customs processing. Improved revenue collection has been critical to funding Uganda\'s infrastructure spending and social services.', rating:3.9, reviews:2200 },
-  { id:88, name:'Fenix International', country:'🇺🇬 Uganda',   sector:'Energy',         logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('FNX','#FF9900'),  color:'#ff9900', story:'Fenix International, part of ENGIE, provides pay-as-you-go solar power to off-grid Ugandan households using mobile money micropayments. It has connected over 500,000 homes to clean energy and has won global innovation awards for its model.', rating:4.6, reviews:3200 },
-  { id:89, name:'Makerere University', country:'🇺🇬 Uganda',   sector:'Education',      logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('MAK','#003580'),  color:'#003580', story:'Makerere University is one of Africa\'s oldest and most prestigious universities, founded in 1922. It has produced African leaders including presidents and Nobel laureates. With over 40,000 students and 300 programmes, its research has shaped development policy across the continent.', rating:4.6, reviews:5900 },
-  { id:90, name:'Cipla Quality Chem',  country:'🇺🇬 Uganda',   sector:'Pharmaceuticals',logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('CQL','#003580'),  color:'#003580', story:'Cipla Quality Chemical Industries is Sub-Saharan Africa\'s largest manufacturer of ARV drugs for HIV/AIDS, malaria, and hepatitis. Listed on the Uganda Securities Exchange, it produces life-saving medicines for millions of patients across Africa at a fraction of imported costs.', rating:4.7, reviews:3400 },
-  { id:91, name:'Orient Bank Uganda',  country:'🇺🇬 Uganda',   sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('OBU','#CC0000'),  color:'#cc0000', story:'Orient Bank is a prominent Ugandan commercial bank focused on SME and corporate banking. Known for its personalised service and strong trade finance capabilities, it has been at the forefront of supporting Uganda\'s import and export sectors.', rating:4.2, reviews:2600 },
-  { id:92, name:'Nytil Textiles',      country:'🇺🇬 Uganda',   sector:'Manufacturing',  logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('NYT','#003380'),  color:'#003380', story:'Nytil Textiles is Uganda\'s largest textile manufacturer, producing fabric and clothing from its factory in Jinja since the 1950s. Employing thousands of Ugandans, it produces uniforms and garments for local and export markets. Its revival reflects Uganda\'s industrial potential.', rating:4.1, reviews:2100 },
-  { id:93, name:'Uganda Clays',        country:'🇺🇬 Uganda',   sector:'Construction',   logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('UCL','#CC6600'),  color:'#cc6600', story:'Uganda Clays Limited is Uganda\'s oldest building materials company, listed on the Uganda Securities Exchange. It produces clay roofing tiles, bricks, and pavers. Uganda Clays products have built homes across Uganda for decades and represent local manufacturing capability.', rating:4.2, reviews:1900 },
-  { id:94, name:'Bank of Uganda',      country:'🇺🇬 Uganda',   sector:'Banking',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('BOU','#006633'),  color:'#006633', story:'Bank of Uganda is the country\'s central bank, established at independence in 1966. Responsible for monetary policy, financial stability, and regulation of Uganda\'s banking sector, it has maintained macroeconomic stability through multiple crises.', rating:4.3, reviews:2800 },
-  { id:95, name:'UNRA Uganda',         country:'🇺🇬 Uganda',   sector:'Infrastructure', logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('UNR','#003580'),  color:'#003580', story:'Uganda National Roads Authority (UNRA) manages Uganda\'s national road network of over 21,000 km. It is implementing Uganda\'s ambitious road development programme, building expressways and bridges connecting Uganda to its neighbours, critical for reducing transport costs.', rating:4.0, reviews:2300 },
-  { id:96, name:'Tourism Uganda',      country:'🇺🇬 Uganda',   sector:'Tourism',        logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Safaricom_logo.svg/320px-Safaricom_logo.svg.png',              fallback:makeLogo('TUG','#006633'),  color:'#006633', story:'Uganda Tourism Board promotes Uganda as the "Pearl of Africa" — home to half the world\'s mountain gorillas, the source of the Nile, and one of the highest concentrations of primates on earth. Uganda Tourism has won multiple international awards and is one of Africa\'s fastest-growing destination brands.', rating:4.7, reviews:6800 },
+{ id:2,  name:'Equity Bank',
+  logo: SI('equitybank','E31E25'),
+  fallback: GF('equitybank.co.ke'),
+  color:'E31E25', initials:'EQT',
+  country:'🇰🇪 Kenya', sector:'Banking', rating:4.7, reviews:8900,
+  story:'Equity Bank began as a small building society in Murang\'a in 1984 and grew into one of Africa\'s largest banks by customer numbers. With over 15 million accounts, it serves the previously unbanked with accessible, low-cost banking. Founder James Mwangi has won multiple international accolades for transforming banking access in Africa.' },
+
+{ id:3,  name:'KCB Bank',
+  logo: SI('kcb','006633'),
+  fallback: GF('kcbgroup.com'),
+  color:'006633', initials:'KCB',
+  country:'🇰🇪 Kenya', sector:'Banking', rating:4.6, reviews:7200,
+  story:'KCB Group is Kenya\'s largest commercial bank by assets, with a history dating back to 1896. It operates across 7 African countries with over 250 branches. Its KCB M-Pesa partnership made mobile lending accessible to millions of Kenyans without formal collateral.' },
+
+{ id:4,  name:'Tusker Beer',
+  logo: SI('eabl','F5A623'),
+  fallback: GF('eabl.com'),
+  color:'F5A623', initials:'TSK',
+  country:'🇰🇪 Kenya', sector:'Beverages', rating:4.8, reviews:9800,
+  story:'Tusker is Kenya\'s most iconic beer brand, brewed by East African Breweries Limited since 1922. Named in memory of co-founder George Hurst who was killed by an elephant. Tusker\'s elephant logo is one of the most recognisable in East Africa and the beer is exported to over 35 countries worldwide.' },
+
+{ id:5,  name:'Coca-Cola Kenya',
+  logo: SI('cocacola','F40009'),
+  fallback: GF('coca-cola.com'),
+  color:'F40009', initials:'CCK',
+  country:'🇰🇪 Kenya', sector:'Beverages', rating:4.5, reviews:6700,
+  story:'Coca-Cola has been present in Kenya since 1948, bottled locally by Century Bottlers. Deeply embedded in Kenyan culture from roadside kiosks in Kibera to five-star hotels in Nairobi, the brand invests heavily in community development including water access and youth entrepreneurship programmes.' },
+
+{ id:6,  name:'Airtel Kenya',
+  logo: SI('airtel','E40000'),
+  fallback: GF('airtel.com'),
+  color:'E40000', initials:'AIR',
+  country:'🇰🇪 Kenya', sector:'Telecom', rating:4.2, reviews:5400,
+  story:'Airtel Kenya is the second largest mobile network operator in Kenya with over 12 million subscribers. Part of the global Bharti Airtel group, it competes through competitive data bundles and Airtel Money services, driving down mobile costs for ordinary Kenyans.' },
+
+{ id:7,  name:'Nation Media Group',
+  logo: SI('nation','003580'),
+  fallback: GF('nationmedia.com'),
+  color:'003580', initials:'NMG',
+  country:'🇰🇪 Kenya', sector:'Media', rating:4.4, reviews:4900,
+  story:'Nation Media Group is the largest independent media house in East and Central Africa, founded by the Aga Khan in 1959. It publishes the Daily Nation — Kenya\'s most-read newspaper — and operates NTV, Nation FM, and digital platforms across Kenya, Uganda, Tanzania, and Rwanda.' },
+
+{ id:8,  name:'Kenya Airways',
+  logo: SI('kenyaairways','CC0000'),
+  fallback: GF('kenya-airways.com'),
+  color:'CC0000', initials:'KQ',
+  country:'🇰🇪 Kenya', sector:'Aviation', rating:4.3, reviews:5800,
+  story:'Kenya Airways, "The Pride of Africa," is Kenya\'s national carrier founded in 1977. It flies to over 50 destinations across Africa, Europe, Asia, and the Americas. A SkyTeam alliance member, KQ remains a symbol of Kenyan ambition and continental connectivity.' },
+
+{ id:9,  name:'Bamburi Cement',
+  logo: SI('holcim','FF6600'),
+  fallback: GF('bamburi.co.ke'),
+  color:'FF6600', initials:'BMB',
+  country:'🇰🇪 Kenya', sector:'Construction', rating:4.4, reviews:3200,
+  story:'Bamburi Cement is the largest cement manufacturer in East Africa, part of the global Holcim group. Founded in 1951, it has built Kenya\'s modern infrastructure from highways to housing estates. Its Haller Park project turned exhausted quarry land into a thriving nature reserve.' },
+
+{ id:10, name:'Naivas Supermarket',
+  logo: SI('naivas','E31E24'),
+  fallback: GF('naivas.co.ke'),
+  color:'E31E24', initials:'NVS',
+  country:'🇰🇪 Kenya', sector:'Retail', rating:4.5, reviews:6700,
+  story:'Naivas is Kenya\'s fastest-growing supermarket chain. Founded in Nakuru in 1990, it now operates over 90 stores across Kenya and Uganda. Kenyan-owned with a focus on fresh produce and local suppliers, Naivas filled the gap left by Nakumatt\'s collapse and is a beloved retail success story.' },
+
+{ id:11, name:'Java House',
+  logo: SI('java','4B2E10'),
+  fallback: GF('javahouse.co.ke'),
+  color:'4B2E10', initials:'JAVA',
+  country:'🇰🇪 Kenya', sector:'Hospitality', rating:4.6, reviews:7800,
+  story:'Java House is East Africa\'s leading coffee house chain, founded in Nairobi in 1999. Growing to over 70 outlets across Kenya, Uganda, Rwanda, and Ethiopia, Java House introduced modern café culture to East Africa and sources coffee directly from East African farmers.' },
+
+{ id:12, name:'SportPesa',
+  logo: SI('sportpesa','1E3A5F'),
+  fallback: GF('sportpesa.com'),
+  color:'1E3A5F', initials:'SPT',
+  country:'🇰🇪 Kenya', sector:'Sports Betting', rating:4.1, reviews:8900,
+  story:'SportPesa was founded in Nairobi in 2014 and became one of the world\'s most recognised sports betting brands, sponsoring Hull City, Everton, and Arsenal. It became the official betting partner of the Kenyan Premier League and brought global sports closer to Kenyan fans.' },
+
+{ id:13, name:'Carrefour Kenya',
+  logo: SI('carrefour','004F9F'),
+  fallback: GF('carrefour.ke'),
+  color:'004F9F', initials:'CRF',
+  country:'🇰🇪 Kenya', sector:'Retail', rating:4.5, reviews:5900,
+  story:'Carrefour entered Kenya in 2016 through the Majid Al Futtaim partnership and rapidly grew into one of Nairobi\'s most popular supermarkets. Operating large-format hypermarkets in shopping malls, it is known for wide product range, competitive pricing, and international goods.' },
+
+{ id:14, name:'M-Kopa Solar',
+  logo: SI('mkopa','FF9900'),
+  fallback: GF('mkopa.com'),
+  color:'FF9900', initials:'MKP',
+  country:'🇰🇪 Kenya', sector:'Energy', rating:4.6, reviews:4400,
+  story:'M-KOPA is a Nairobi-founded company providing pay-as-you-go solar energy to off-grid households across Africa. Founded in 2011, it has connected over 3 million homes to clean energy using M-Pesa micropayments and has been named one of the world\'s most innovative companies.' },
+
+{ id:15, name:'Co-operative Bank',
+  logo: SI('cooperativebank','003399'),
+  fallback: GF('co-opbank.co.ke'),
+  color:'003399', initials:'COOP',
+  country:'🇰🇪 Kenya', sector:'Banking', rating:4.5, reviews:5900,
+  story:'Co-operative Bank of Kenya is uniquely owned by Kenya\'s cooperative movement. With over 15 million customers and 180 branches, it champions banking for cooperative societies, farmers, and SACCOs. Its MCo-opCash platform made digital finance accessible to millions in rural Kenya.' },
+
+{ id:16, name:'Stanbic Bank Kenya',
+  logo: SI('stanbic','003580'),
+  fallback: GF('stanbicbank.co.ke'),
+  color:'003580', initials:'SBK',
+  country:'🇰🇪 Kenya', sector:'Banking', rating:4.3, reviews:3100,
+  story:'Stanbic Bank Kenya is part of Standard Bank Group, Africa\'s largest bank by assets. Known for trade finance, infrastructure lending, and corporate advisory, it has been instrumental in financing major Kenyan infrastructure projects including roads, energy, and telecoms.' },
+
+{ id:17, name:'Keroche Breweries',
+  logo: SI('keroche','CC0000'),
+  fallback: GF('kerochemanufacturers.com'),
+  color:'CC0000', initials:'KRB',
+  country:'🇰🇪 Kenya', sector:'Beverages', rating:4.3, reviews:4200,
+  story:'Keroche Breweries is Kenya\'s first locally-owned large-scale brewery, founded by Tabitha Karanja in 1997 in Naivasha. Producing Summit Lager and Vienna Ice, Keroche challenged EABL\'s dominance. Tabitha Karanja was later elected Senator for Nakuru County.' },
+
+{ id:18, name:'Kenya Power',
+  logo: SI('kenyapower','CC0000'),
+  fallback: GF('kplc.co.ke'),
+  color:'CC0000', initials:'KPLC',
+  country:'🇰🇪 Kenya', sector:'Energy', rating:3.9, reviews:4100,
+  story:'Kenya Power and Lighting Company is the sole electricity distributor in Kenya, managing over 7 million customer connections and operating networks reaching all 47 counties. It is central to the government\'s Last Mile Connectivity project for universal electricity access.' },
+
+{ id:19, name:'M-Pesa',
+  logo: SI('mpesa','00A550'),
+  fallback: GF('mpesa.com'),
+  color:'00A550', initials:'MPesa',
+  country:'🇰🇪 Kenya', sector:'Fintech', rating:4.9, reviews:18500,
+  story:'M-Pesa is one of the most transformative financial innovations in history. Launched by Safaricom in 2007, it enabled millions of unbanked Kenyans to send, receive, and save money via mobile phone. Today M-Pesa processes over $300 billion annually and has expanded across Africa and beyond.' },
+
+{ id:20, name:'Nakumatt',
+  logo: SI('nakumatt','FF0000'),
+  fallback: GF('nakumatt.com'),
+  color:'FF0000', initials:'NKM',
+  country:'🇰🇪 Kenya', sector:'Retail', rating:3.8, reviews:6200,
+  story:'Nakumatt was East Africa\'s largest supermarket chain at its peak with over 60 stores across 5 countries. Founded in Nakuru in 1987, its dramatic collapse in 2017 leaving suppliers and employees owed billions remains one of the most cautionary corporate stories in East African business history.' },
+
+{ id:21, name:'Bidco Africa',
+  logo: SI('bidco','003399'),
+  fallback: GF('bidcoafrica.com'),
+  color:'003399', initials:'BDC',
+  country:'🇰🇪 Kenya', sector:'Consumer Goods', rating:4.5, reviews:4100,
+  story:'Bidco Africa is one of East Africa\'s largest FMCG manufacturers, producing cooking oils, soaps, detergents, and personal care products. Founded in 1985, its brands Elianto, Kimbo, and Cowboy are household names across the region with manufacturing in Kenya, Uganda, and Tanzania.' },
+
+{ id:22, name:'Tuskys Supermarket',
+  logo: SI('tuskys','FF6600'),
+  fallback: GF('tuskys.com'),
+  color:'FF6600', initials:'TSY',
+  country:'🇰🇪 Kenya', sector:'Retail', rating:3.9, reviews:5200,
+  story:'Tuskys was one of Kenya\'s most popular supermarket chains with over 60 stores. Its collapse in 2020-2021 under financial pressure is a cautionary tale of aggressive expansion without financial discipline, mirroring the Nakumatt story that shook Kenyan retail.' },
+
+{ id:23, name:'Pepsi Kenya',
+  logo: SI('pepsi','004B93'),
+  fallback: GF('pepsi.com'),
+  color:'004B93', initials:'PEP',
+  country:'🇰🇪 Kenya', sector:'Beverages', rating:4.2, reviews:4500,
+  story:'Pepsi has been competing in Kenya\'s beverage market for decades, bottled locally and distributed nationally. Though Coca-Cola dominates, Pepsi maintains a loyal following through pricing and partnerships. PepsiCo\'s snacks portfolio including Lay\'s and Doritos is also growing strongly.' },
+
+{ id:24, name:'Old Mutual Kenya',
+  logo: SI('oldmutual','00843D'),
+  fallback: GF('oldmutual.com'),
+  color:'00843D', initials:'UAP',
+  country:'🇰🇪 Kenya', sector:'Insurance', rating:4.2, reviews:2700,
+  story:'UAP Old Mutual is one of East Africa\'s largest financial services groups, formed by the merger of UAP Insurance and South Africa\'s Old Mutual. Operating across Kenya, Uganda, Tanzania, Rwanda, and South Sudan, it offers life insurance, general insurance, and asset management services.' },
+
+{ id:25, name:'Cellulant',
+  logo: SI('cellulant','0066CC'),
+  fallback: GF('cellulant.io'),
+  color:'0066CC', initials:'CLT',
+  country:'🇰🇪 Kenya', sector:'Fintech', rating:4.4, reviews:2200,
+  story:'Cellulant is a pan-African digital payments company founded in Nairobi in 2003. It operates in 34 African countries connecting businesses to consumers through mobile money, cards, and bank transfers. Named one of Africa\'s most innovative companies, it has processed billions in transactions.' },
+
+{ id:26, name:'ICEA Lion Group',
+  logo: SI('icealion','003580'),
+  fallback: GF('icealion.co.ke'),
+  color:'003580', initials:'ICEA',
+  country:'🇰🇪 Kenya', sector:'Insurance', rating:4.2, reviews:2400,
+  story:'ICEA Lion Group is one of East Africa\'s largest insurance and asset management companies. Operating in Kenya, Uganda, Tanzania, and Rwanda, it manages assets worth billions and insures hundreds of thousands of individuals and businesses across the region.' },
+
+{ id:27, name:'Unga Group',
+  logo: SI('ungagroup','CC6600'),
+  fallback: GF('ungagroup.com'),
+  color:'CC6600', initials:'UNG',
+  country:'🇰🇪 Kenya', sector:'Food Processing', rating:4.3, reviews:3100,
+  story:'Unga Group is one of Kenya\'s oldest companies, milling flour since 1908. Its Jogoo, Sembe, and Ndovu brands are staples in Kenyan kitchens. Listed on the NSE, Unga Group operates mills in Kenya and Zambia, producing animal feed and flour for millions of East Africans daily.' },
+
+{ id:28, name:'Kenchic',
+  logo: SI('kenchic','E87722'),
+  fallback: GF('kenchic.com'),
+  color:'E87722', initials:'KCH',
+  country:'🇰🇪 Kenya', sector:'Food', rating:4.4, reviews:3800,
+  story:'Kenchic is Kenya\'s largest integrated poultry company, producing day-old chicks, feeds, and processed chicken products. Founded in 1971, it supplies chicken to supermarkets, hotels, and fast food chains across East Africa and supports thousands of smallholder farmers.' },
+
+{ id:29, name:'Strathmore University',
+  logo: SI('strathmore','003580'),
+  fallback: GF('strathmore.edu'),
+  color:'003580', initials:'STR',
+  country:'🇰🇪 Kenya', sector:'Education', rating:4.6, reviews:4800,
+  story:'Strathmore University is one of Kenya\'s most respected private universities. Founded in 2002, it consistently ranks among Africa\'s top universities in business, law, and information technology, producing graduates who lead corporations, governments, and NGOs across the continent.' },
+
+{ id:30, name:'Uchumi Supermarket',
+  logo: SI('uchumi','E31E24'),
+  fallback: GF('uchumi.com'),
+  color:'E31E24', initials:'UCH',
+  country:'🇰🇪 Kenya', sector:'Retail', rating:4.0, reviews:2800,
+  story:'Uchumi Supermarket is one of Kenya\'s oldest retail chains, founded in 1975. At its peak it operated stores across Kenya, Uganda, and Tanzania. Despite financial challenges, Uchumi remains a recognised Kenyan brand with deep roots in the country\'s retail history.' },
+
+{ id:31, name:'Standard Chartered',
+  logo: SI('standardchartered','0B5FB3'),
+  fallback: GF('sc.com'),
+  color:'0B5FB3', initials:'SCB',
+  country:'🇰🇪 Kenya', sector:'Banking', rating:4.3, reviews:3400,
+  story:'Standard Chartered Kenya has operated since 1911, making it one of the country\'s most established international banks. It serves corporate, commercial, and retail clients with over 30 branches and is known for trade finance, wealth management, and supporting Kenya\'s corporate sector.' },
+
+{ id:32, name:'Safaricom Ethiopia',
+  logo: SI('safaricom','00A550'),
+  fallback: GF('safaricomethiopia.et'),
+  color:'00A550', initials:'SET',
+  country:'🇰🇪 Kenya', sector:'Telecom', rating:4.3, reviews:3100,
+  story:'Safaricom Ethiopia is Safaricom\'s ambitious regional expansion launched in 2022 as Ethiopia opened its telecoms sector. The first foreign company in Ethiopia\'s mobile market, it brings M-Pesa and digital services to one of Africa\'s largest populations and has already surpassed 10 million customers.' },
+
 ];
-
-// Attach fallback: if logo URL fails, swap to SVG fallback
-BRANDS.forEach(b => {
-  b._logoSrc = b.logo;
-});
-
-// Global helper — use this everywhere instead of direct img src
-function getBrandLogo(brand) {
-  return brand._logoSrc || brand.logo;
-}
-
-// Attach onerror handler string for HTML img tags
-function logoImg(brand, cssClass, style) {
-  const cls = cssClass ? `class="${cssClass}"` : '';
-  const st  = style    ? `style="${style}"`    : '';
-  return `<img ${cls} ${st} src="${brand._logoSrc}" alt="${brand.name}" onerror="this.onerror=null;this.src='${brand.fallback}'">`;
-}

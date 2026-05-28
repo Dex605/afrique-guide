@@ -286,6 +286,7 @@ function loadBrand(){
   if(currentBrand>=96){showComplete();return}
   const b=BRANDS[currentBrand];
   document.getElementById('bcLogo').src=b.logo;
+  document.getElementById('bcLogo').onerror=function(){logoFail(this,b.fallback,b.color,b.initials);};
   document.getElementById('bcLogo').onerror=function(){this.onerror=null;this.src=b.fallback;};
   document.getElementById('bcHeroBg').style.backgroundImage=`url('${b.logo}')`;
   document.getElementById('bcCountry').textContent=b.country;

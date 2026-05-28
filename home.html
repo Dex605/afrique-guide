@@ -285,7 +285,7 @@ function renderBrands() {
     card.innerHTML = `
       <div class="bc-top">
         <div class="bc-country-badge">${b.country.split(' ')[0]}</div>
-        <img class="bc-logo" src="${b.logo}" alt="${b.name}" onerror="this.onerror=null;this.src='${b.fallback}'">
+        <img class="bc-logo" src="${b.logo}" alt="${b.name}" onerror=\"logoFail(this,b.fallback,b.color,b.initials)\">
         <div class="bc-name">${b.name}</div>
         <div class="bc-country">${b.country}</div>
         <div class="bc-sector">${b.sector}</div>
@@ -302,6 +302,7 @@ function renderBrands() {
 function openModal(b) {
   const stars = '★'.repeat(Math.round(b.rating)) + '☆'.repeat(5 - Math.round(b.rating));
   document.getElementById('mLogo').src = b.logo;
+      document.getElementById('mLogo').onerror=function(){logoFail(this,b.fallback,b.color,b.initials);};
       document.getElementById('mLogo').onerror=function(){this.onerror=null;this.src=b.fallback;};
   document.getElementById('mBg').style.backgroundImage = `url('${b.logo}')`;
   document.getElementById('mName').textContent = b.name;
