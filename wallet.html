@@ -8,9 +8,13 @@
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--gold:#C9A84C;--gold-l:#E8C97A;--black:#060608;--dark:#0D0D10;--cream:#F2EDE4;--muted:rgba(242,237,228,0.45);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
-body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 30% 30%,rgba(201,168,76,.04),transparent 60%);pointer-events:none}
-nav{position:sticky;top:0;z-index:100;padding:12px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,6,8,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh;position:relative;overflow-x:hidden}
+
+/* ── FALLING DOLLARS BACKGROUND ── */
+#moneyCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.18}
+
+nav{position:sticky;top:0;z-index:100;padding:12px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,6,8,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
 .nav-name{font-family:var(--serif);font-size:1rem;color:var(--cream);font-weight:700}
 .nav-right{display:flex;gap:8px;align-items:center}
@@ -35,15 +39,22 @@ nav{position:sticky;top:0;z-index:100;padding:12px 40px;display:flex;align-items
 .dd-item.danger{color:#ff7070}
 .dd-item.danger:hover{background:rgba(255,80,80,.08)}
 .dd-sep{height:1px;background:var(--border2);margin:4px 0}
+
 .main{padding:36px 40px 60px;max-width:900px;margin:0 auto;position:relative;z-index:1}
 h1{font-family:var(--serif);font-size:2.4rem;font-weight:700;margin-bottom:5px}
 .page-sub{font-size:.8rem;color:var(--muted);margin-bottom:32px;font-weight:300}
-.wallet-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:26px}
-.wc{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:6px;padding:22px}
+
+.wallet-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
+.wc{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:6px;padding:22px;backdrop-filter:blur(8px)}
 .wc.gold{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border-color:rgba(201,168,76,.25)}
+.wc.pend-dep{background:rgba(37,174,99,.06);border-color:rgba(37,174,99,.2)}
+.wc.pend-wd{background:rgba(255,165,0,.06);border-color:rgba(255,165,0,.2)}
 .wc-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,237,228,.38);margin-bottom:6px}
-.wc-amount{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--gold-l);margin-bottom:2px}
-.wc-sub{font-size:.66rem;color:rgba(242,237,228,.3)}
+.wc-amount{font-family:var(--serif);font-size:1.75rem;font-weight:700;color:var(--gold-l);margin-bottom:2px}
+.wc-amount.green{color:#4caf50}
+.wc-amount.orange{color:#FFA500}
+.wc-sub{font-size:.62rem;color:rgba(242,237,228,.3)}
+
 .tabs{display:flex;border:1px solid var(--border2);border-radius:3px;overflow:hidden;margin-bottom:22px}
 .tab-btn{flex:1;padding:10px;background:transparent;border:none;color:rgba(242,237,228,.46);font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s}
 .tab-btn.active{background:var(--gold);color:var(--black);font-weight:600}
@@ -66,8 +77,21 @@ select option{background:#111}
 .cc-btn{display:flex;align-items:center;gap:9px;padding:12px 22px;border-radius:4px;font-family:var(--sans);font-size:.8rem;font-weight:500;text-decoration:none;cursor:pointer;border:none;transition:all .2s}
 .fc-wa{background:#25D366;color:#fff}.fc-wa:hover{background:#1ebe5d}
 .fc-tg{background:#0088CC;color:#fff}.fc-tg:hover{background:#0077b3}
-.history-item{display:flex;justify-content:space-between;padding:13px 16px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;margin-bottom:8px;font-size:.8rem}
-.hi-green{color:#4caf50;font-weight:500}
+
+/* History items */
+.history-item{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;margin-bottom:8px}
+.hi-left{display:flex;align-items:center;gap:10px}
+.hi-icon{font-size:1.1rem}
+.hi-label{font-size:.8rem;color:var(--cream)}
+.hi-time{font-size:.62rem;color:rgba(242,237,228,.3);margin-top:2px}
+.hi-amount{font-size:.88rem;font-weight:600}
+.hi-green{color:#4caf50}
+.hi-orange{color:#FFA500}
+.hi-red{color:#ff6b6b}
+.hi-badge{font-size:.58rem;padding:2px 8px;border-radius:100px;letter-spacing:.08em;text-transform:uppercase;margin-left:8px}
+.hi-badge.pending{background:rgba(255,165,0,.12);color:#FFA500;border:1px solid rgba(255,165,0,.2)}
+.hi-badge.done{background:rgba(76,175,80,.12);color:#4caf50;border:1px solid rgba(76,175,80,.2)}
+
 /* panels */
 .panel-ov{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:flex-end;padding:64px 16px 0}
 .panel-ov.open{display:flex}
@@ -84,7 +108,9 @@ select option{background:#111}
 .pfield textarea{resize:vertical;min-height:80px}
 .pbtn{padding:10px 22px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .2s}
 .pbtn:hover{background:var(--gold-l)}
+.pbtn-o{padding:10px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:var(--sans);font-size:.75rem;text-transform:uppercase;cursor:pointer;margin-left:8px}
 .pinfo{font-size:.78rem;color:var(--muted);line-height:1.8;margin-bottom:14px}
+.pinfo strong{color:var(--cream)}
 .notif-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border2)}
 .notif-item:last-child{border-bottom:none}
 .ni-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px}
@@ -101,6 +127,8 @@ select option{background:#111}
   </style>
 </head>
 <body>
+<canvas id="moneyCanvas"></canvas>
+
 <nav>
   <a href="home.html" class="nav-logo"><span style="font-size:1.3rem">🌍</span><span class="nav-name">Global Brands</span></a>
   <div class="nav-right">
@@ -132,15 +160,32 @@ select option{background:#111}
 <div class="main">
   <h1>Your Wallet</h1>
   <p class="page-sub">Manage your balance, deposits, and withdrawals</p>
+
   <div class="wallet-cards">
-    <div class="wc gold"><div class="wc-label">Account Balance</div><div class="wc-amount" id="wBal">0.00</div><div class="wc-sub" id="wCur">Account</div></div>
-    <div class="wc"><div class="wc-label">Total Earned</div><div class="wc-amount" id="wEarned">0.00</div><div class="wc-sub">From brand ratings</div></div>
+    <div class="wc gold">
+      <div class="wc-label">Account Balance</div>
+      <div class="wc-amount" id="wBal">0.00</div>
+      <div class="wc-sub" id="wCur">Available balance</div>
+    </div>
+    <div class="wc pend-dep">
+      <div class="wc-label">Pending Deposit</div>
+      <div class="wc-amount green" id="wPendDep">0.00</div>
+      <div class="wc-sub">Awaiting confirmation</div>
+    </div>
+    <div class="wc pend-wd">
+      <div class="wc-label">Pending Withdrawal</div>
+      <div class="wc-amount orange" id="wPendWd">0.00</div>
+      <div class="wc-sub">Being processed</div>
+    </div>
   </div>
+
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('deposit',this)">Deposit</button>
     <button class="tab-btn" onclick="switchTab('withdraw',this)">Withdraw</button>
     <button class="tab-btn" onclick="switchTab('history',this)">History</button>
   </div>
+
+  <!-- DEPOSIT -->
   <div class="tab-content active" id="tab-deposit">
     <div id="depForm">
       <div class="payment-info" id="payInfo">Loading payment methods...</div>
@@ -150,68 +195,85 @@ select option{background:#111}
     </div>
     <div class="contact-box" id="contactBox">
       <div class="cc-title">Contact Customer Care</div>
-      <div class="cc-sub">Your deposit request has been received. Contact our team via WhatsApp or Telegram to complete your deposit. Available 24/7.</div>
+      <div class="cc-sub">Your deposit request has been received. Contact our team to complete it. Once confirmed, your balance will be updated.</div>
       <div class="cc-amount" id="ccAmt">0.00</div>
       <div class="cc-btns">
-        <a class="cc-btn fc-wa" id="waLink" href="#" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a>
-        <a class="cc-btn fc-tg" href="https://t.me/customercare_afriqueguide" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
+        <a class="cc-btn fc-wa" id="waLink" href="#" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <a class="cc-btn fc-tg" href="https://t.me/customercare_afriqueguide" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          Telegram
+        </a>
       </div>
-      <br><button class="btn-primary" style="background:transparent;border:1px solid var(--border2);color:var(--muted)" onclick="resetDep()">New Deposit</button>
+      <br>
+      <button class="btn-primary" style="background:transparent;border:1px solid var(--border2);color:var(--muted)" onclick="resetDep()">New Deposit</button>
     </div>
   </div>
+
+  <!-- WITHDRAW -->
   <div class="tab-content" id="tab-withdraw">
     <div class="payment-info" id="wdInfo">Loading withdrawal methods...</div>
     <div class="form-group"><label>Withdrawal Method</label><select id="wdMethod"><option value="">Select method</option></select></div>
     <div class="form-group"><label>Account Number or Wallet Address</label><input type="text" id="wdAccount" placeholder="Account number or wallet address"/></div>
-    <div class="form-group"><label>Amount (Min: 10 · Max: 250,000)</label><input type="number" id="wdAmount" placeholder="Enter amount" min="10" max="250000"/></div>
+    <div class="form-group"><label id="wdAmountLabel">Amount (Min: 10 · Max: 250,000)</label><input type="number" id="wdAmount" placeholder="Enter amount" min="10" max="250000"/></div>
     <button class="btn-primary" onclick="proceedWd()">Request Withdrawal</button>
   </div>
+
+  <!-- HISTORY -->
   <div class="tab-content" id="tab-history">
-    <div class="history-item"><span>🎁 Welcome Bonus</span><span class="hi-green" id="histBonus">+0.00</span></div>
-    <div class="history-item"><span>⭐ Brand Ratings Earnings</span><span class="hi-green" id="histEarned">+0.00</span></div>
+    <div id="historyList"></div>
   </div>
 </div>
 
 <!-- PANELS -->
-<div class="panel-ov" id="profilePanel" onclick="closePOv(event,'profilePanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">My Profile</span><button class="panel-x" onclick="closePanel('profilePanel')">×</button></div><div class="panel-body"><div style="text-align:center;margin-bottom:18px"><div style="width:64px;height:64px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;color:var(--black);margin:0 auto 10px" id="profAv">G</div><div style="font-family:var(--serif);font-size:1.1rem;font-weight:700" id="profName">User</div><div style="font-size:.7rem;color:var(--muted)" id="profEmail"></div></div><div class="pfield"><label>Full Name</label><input type="text" id="profNameInput"/></div><div class="pfield"><label>Email</label><input type="email" id="profEmailInput" readonly style="opacity:.5;cursor:not-allowed"/></div><div class="pfield"><label>Phone</label><input type="tel" id="profPhone"/></div><div style="display:flex;margin-top:6px"><button class="pbtn" onclick="saveProfile()">Save Changes</button></div></div></div></div>
+<div class="panel-ov" id="profilePanel" onclick="closePOv(event,'profilePanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">My Profile</span><button class="panel-x" onclick="closePanel('profilePanel')">×</button></div><div class="panel-body"><div style="text-align:center;margin-bottom:18px"><div style="width:64px;height:64px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;color:var(--black);margin:0 auto 10px" id="profAv">G</div><div style="font-family:var(--serif);font-size:1.1rem;font-weight:700" id="profName">User</div><div style="font-size:.7rem;color:var(--muted)" id="profEmail"></div></div><div class="pfield"><label>Full Name</label><input type="text" id="profNameInput"/></div><div class="pfield"><label>Email</label><input type="email" id="profEmailInput" readonly style="opacity:.5;cursor:not-allowed"/></div><div class="pfield"><label>Phone</label><input type="tel" id="profPhone"/></div><div style="display:flex;margin-top:6px"><button class="pbtn" onclick="saveProfile()">Save Changes</button><button class="pbtn-o" onclick="closePanel('profilePanel')">Cancel</button></div></div></div></div>
 <div class="panel-ov" id="settingsPanel" onclick="closePOv(event,'settingsPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Account Settings</span><button class="panel-x" onclick="closePanel('settingsPanel')">×</button></div><div class="panel-body"><p class="pinfo">Manage your account security.</p><div class="pfield"><label>New Password</label><input type="password" id="newPwd" placeholder="New password"/></div><div class="pfield"><label>Confirm Password</label><input type="password" id="confPwd" placeholder="Repeat password"/></div><div style="padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;margin-bottom:12px"><div style="font-size:.7rem;color:rgba(242,237,228,.38);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Account Info</div><div style="font-size:.78rem;color:var(--muted);line-height:1.8" id="accInfo">Loading...</div></div><button class="pbtn" onclick="saveSettings()" style="width:100%">Update Password</button></div></div></div>
 <div class="panel-ov" id="langPanel" onclick="closePOv(event,'langPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Language</span><button class="panel-x" onclick="closePanel('langPanel')">×</button></div><div class="panel-body"><p class="pinfo" style="margin-bottom:16px">Select your preferred display language.</p><div class="lang-option sel" onclick="selectLang(this,'English')"><span>🇬🇧 English</span></div><div class="lang-option" onclick="selectLang(this,'French')"><span>🇫🇷 Français</span></div><div class="lang-option" onclick="selectLang(this,'Spanish')"><span>🇪🇸 Español</span></div><div class="lang-option" onclick="selectLang(this,'Swahili')"><span>🇰🇪 Kiswahili</span></div><div class="lang-option" onclick="selectLang(this,'Arabic')"><span>🇸🇦 العربية</span></div></div></div></div>
-<div class="panel-ov" id="notifPanel" onclick="closePOv(event,'notifPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Notifications</span><button class="panel-x" onclick="closePanel('notifPanel')">×</button></div><div class="panel-body"><div class="notif-item"><div class="ni-dot"></div><div><div class="ni-text">Complete your rating rounds to unlock full earnings today.</div><div class="ni-time">Today</div></div></div><div class="notif-item"><div class="ni-dot read"></div><div><div class="ni-text">Your welcome bonus has been credited. Start rating to earn.</div><div class="ni-time">Today</div></div></div></div></div></div>
-<div class="panel-ov" id="supportPanel" onclick="closePOv(event,'supportPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Help / Support</span><button class="panel-x" onclick="closePanel('supportPanel')">×</button></div><div class="panel-body"><p class="pinfo">Our support team is available 24/7.</p><div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--cream)">How do I deposit?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Select Deposit, choose your method, enter an amount, then contact customer care via WhatsApp or Telegram to complete.</div></div><div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--cream)">How long do withdrawals take?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Withdrawals are processed within 24 hours, 7 days a week.</div></div><div style="display:flex;gap:10px;margin-top:6px"><a href="https://wa.me/254759485490" target="_blank" class="pbtn" style="text-decoration:none;display:flex;align-items:center;gap:6px">💬 WhatsApp</a><a href="https://t.me/customercare_afriqueguide" target="_blank" class="pbtn" style="text-decoration:none;background:rgba(0,136,204,.8);display:flex;align-items:center;gap:6px">✈️ Telegram</a></div></div></div></div>
+<div class="panel-ov" id="notifPanel" onclick="closePOv(event,'notifPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Notifications</span><button class="panel-x" onclick="closePanel('notifPanel')">×</button></div><div class="panel-body"><div class="notif-item"><div class="ni-dot"></div><div><div class="ni-text">Complete your rating rounds to unlock full earnings.</div><div class="ni-time">Today</div></div></div><div class="notif-item"><div class="ni-dot read"></div><div><div class="ni-text">Your welcome bonus has been credited. Start rating to earn.</div><div class="ni-time">Today</div></div></div></div></div></div>
+<div class="panel-ov" id="supportPanel" onclick="closePOv(event,'supportPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Help / Support</span><button class="panel-x" onclick="closePanel('supportPanel')">×</button></div><div class="panel-body"><p class="pinfo">Our support team is available 24/7.</p><div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--cream)">How do I deposit?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Select Deposit, choose your method, enter an amount, then contact customer care to complete it.</div></div><div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--cream)">How long do withdrawals take?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Withdrawals are processed within 24 hours, 7 days a week.</div></div><div style="display:flex;gap:10px;margin-top:6px"><a href="https://wa.me/254759485490" target="_blank" class="pbtn" style="text-decoration:none;display:flex;align-items:center;gap:6px">💬 WhatsApp</a><a href="https://t.me/customercare_afriqueguide" target="_blank" class="pbtn" style="text-decoration:none;background:rgba(0,136,204,.8);display:flex;align-items:center;gap:6px">✈️ Telegram</a></div></div></div></div>
 <div class="panel-ov" id="contactPanel" onclick="closePOv(event,'contactPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Contact Us</span><button class="panel-x" onclick="closePanel('contactPanel')">×</button></div><div class="panel-body"><p class="pinfo">Our team is available 24/7.</p><div class="pfield"><label>Subject</label><input type="text" id="ctSubject" placeholder="How can we help?"/></div><div class="pfield"><label>Message</label><textarea id="ctMsg" placeholder="Describe your issue..."></textarea></div><button class="pbtn" onclick="sendContact()" style="width:100%;margin-bottom:12px">Send via WhatsApp</button><a href="https://t.me/customercare_afriqueguide" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(0,136,204,.1);border:1px solid rgba(0,136,204,.2);border-radius:3px;color:#0088CC;font-size:.74rem;text-decoration:none">✈️ Telegram Support</a></div></div></div>
-<div class="panel-ov" id="aboutPanel" onclick="closePOv(event,'aboutPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">About Us</span><button class="panel-x" onclick="closePanel('aboutPanel')">×</button></div><div class="panel-body"><div style="text-align:center;margin-bottom:18px"><div style="font-size:2.5rem">🌍</div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;margin:8px 0 4px">Global Brands</div><div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">Rate the World's Greatest</div></div><p class="pinfo">Global Brands is the world's premier brand rating and discovery platform. We connect consumers across the globe with 96 of the most iconic brands in history.</p><p class="pinfo">We reward every honest rating with real earnings paid directly to your local payment method.</p></div></div></div>
-<div class="panel-ov" id="tosPanel" onclick="closePOv(event,'tosPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Terms of Service</span><button class="panel-x" onclick="closePanel('tosPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Acceptance</h3>By using Global Brands, you agree to these terms.<h3>2. Eligibility</h3>You must be at least 18 years old to use this platform.<h3>3. Earnings</h3>Earnings are generated by completing brand rating tasks. Withdrawals are processed within 24 hours.<h3>4. Prohibited Conduct</h3>You agree not to submit fraudulent ratings or create multiple accounts.<h3>5. Modifications</h3>Global Brands reserves the right to modify these terms at any time.</div></div></div></div>
-<div class="panel-ov" id="privacyPanel" onclick="closePOv(event,'privacyPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Privacy Policy</span><button class="panel-x" onclick="closePanel('privacyPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Data We Collect</h3>Name, email, phone number, country, and account activity.<h3>2. How We Use It</h3>To operate your account, process payments, and provide support. We do not sell your data.<h3>3. Storage</h3>Your data is stored securely using industry-standard measures.<h3>4. Your Rights</h3>You may request access, correction, or deletion of your data by contacting support.</div></div></div></div>
+<div class="panel-ov" id="aboutPanel" onclick="closePOv(event,'aboutPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">About Us</span><button class="panel-x" onclick="closePanel('aboutPanel')">×</button></div><div class="panel-body"><div style="text-align:center;margin-bottom:18px"><div style="font-size:2.5rem">🌍</div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;margin:8px 0 4px">Global Brands</div><div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">Rate the World's Greatest</div></div><p class="pinfo">Global Brands is the world's premier brand rating and discovery platform. We connect consumers across the globe with 96 of the most iconic brands in history.</p></div></div></div>
+<div class="panel-ov" id="tosPanel" onclick="closePOv(event,'tosPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Terms of Service</span><button class="panel-x" onclick="closePanel('tosPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Acceptance</h3>By using Global Brands, you agree to these terms.<h3>2. Eligibility</h3>You must be at least 18 years old.<h3>3. Earnings</h3>Earnings come from completing brand rating tasks. Withdrawals are processed within 24 hours.<h3>4. Prohibited Conduct</h3>No fraudulent ratings or multiple accounts.<h3>5. Modifications</h3>Terms may be updated at any time.</div></div></div></div>
+<div class="panel-ov" id="privacyPanel" onclick="closePOv(event,'privacyPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Privacy Policy</span><button class="panel-x" onclick="closePanel('privacyPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Data We Collect</h3>Name, email, phone, country, and activity.<h3>2. Usage</h3>To operate accounts, process payments, and provide support. We do not sell data.<h3>3. Security</h3>Data stored securely using industry-standard measures.<h3>4. Your Rights</h3>Request access, correction, or deletion by contacting support.</div></div></div></div>
 
 <script>
 const payMethods={
-  KE:{deposit:['M-Pesa','Wallet Address'],withdraw:['M-Pesa','Wallet Address'],info:'Kenya: Deposit and withdraw via M-Pesa or Wallet Address.'},
-  TZ:{deposit:['M-Pesa','Wallet Address'],withdraw:['M-Pesa','Wallet Address'],info:'Tanzania: Deposit and withdraw via M-Pesa or Wallet Address.'},
-  UG:{deposit:['MTN MoMo','Airtel Money','Wallet Address'],withdraw:['MTN MoMo','Airtel Money','Wallet Address'],info:'Uganda: Deposit and withdraw via MTN Mobile Money, Airtel Money, or Wallet Address.'},
-  NG:{deposit:['Bank Transfer','Wallet Address'],withdraw:['Bank Transfer','Wallet Address'],info:'Nigeria: Deposit and withdraw via Bank Transfer or Wallet Address.'},
-  GH:{deposit:['MTN MoMo','Wallet Address'],withdraw:['MTN MoMo','Wallet Address'],info:'Ghana: Deposit and withdraw via MTN Mobile Money or Wallet Address.'},
-  ZA:{deposit:['Bank Transfer','Wallet Address'],withdraw:['Bank Transfer','Wallet Address'],info:'South Africa: Deposit and withdraw via Bank Transfer or Wallet Address.'},
-  ET:{deposit:['Telebirr','Wallet Address'],withdraw:['Telebirr','Wallet Address'],info:'Ethiopia: Deposit and withdraw via Telebirr or Wallet Address.'},
-  RW:{deposit:['MTN MoMo','Wallet Address'],withdraw:['MTN MoMo','Wallet Address'],info:'Rwanda: Deposit and withdraw via MTN Mobile Money or Wallet Address.'},
-  IN:{deposit:['UPI','Bank Transfer','Wallet Address'],withdraw:['UPI','Bank Transfer','Wallet Address'],info:'India: Deposit and withdraw via UPI, Bank Transfer, or Wallet Address.'},
-  CN:{deposit:['Alipay','WeChat Pay','Wallet Address'],withdraw:['Alipay','WeChat Pay','Wallet Address'],info:'China: Deposit and withdraw via Alipay, WeChat Pay, or Wallet Address.'},
-  PH:{deposit:['GCash','Maya','Wallet Address'],withdraw:['GCash','Maya','Wallet Address'],info:'Philippines: Deposit and withdraw via GCash, Maya, or Wallet Address.'},
-  BR:{deposit:['PIX','Bank Transfer','Wallet Address'],withdraw:['PIX','Bank Transfer','Wallet Address'],info:'Brazil: Deposit and withdraw via PIX, Bank Transfer, or Wallet Address.'},
-  AU:{deposit:['PayID','Bank Transfer','Wallet Address'],withdraw:['PayID','Bank Transfer','Wallet Address'],info:'Australia: Deposit and withdraw via PayID, Bank Transfer, or Wallet Address.'},
-  CA:{deposit:['Interac','Bank Transfer','Wallet Address'],withdraw:['Interac','Bank Transfer','Wallet Address'],info:'Canada: Deposit and withdraw via Interac, Bank Transfer, or Wallet Address.'},
+  KE:{deposit:['M-Pesa','Wallet Address'],withdraw:['M-Pesa','Wallet Address'],info:'Kenya: M-Pesa or Wallet Address.'},
+  TZ:{deposit:['M-Pesa','Wallet Address'],withdraw:['M-Pesa','Wallet Address'],info:'Tanzania: M-Pesa or Wallet Address.'},
+  UG:{deposit:['MTN MoMo','Airtel Money','Wallet Address'],withdraw:['MTN MoMo','Airtel Money','Wallet Address'],info:'Uganda: MTN MoMo, Airtel Money, or Wallet Address.'},
+  NG:{deposit:['Bank Transfer','Wallet Address'],withdraw:['Bank Transfer','Wallet Address'],info:'Nigeria: Bank Transfer or Wallet Address.'},
+  GH:{deposit:['MTN MoMo','Wallet Address'],withdraw:['MTN MoMo','Wallet Address'],info:'Ghana: MTN MoMo or Wallet Address.'},
+  ZA:{deposit:['Bank Transfer','Wallet Address'],withdraw:['Bank Transfer','Wallet Address'],info:'South Africa: Bank Transfer or Wallet Address.'},
+  ET:{deposit:['Telebirr','Wallet Address'],withdraw:['Telebirr','Wallet Address'],info:'Ethiopia: Telebirr or Wallet Address.'},
+  RW:{deposit:['MTN MoMo','Wallet Address'],withdraw:['MTN MoMo','Wallet Address'],info:'Rwanda: MTN MoMo or Wallet Address.'},
+  IN:{deposit:['UPI','Bank Transfer','Wallet Address'],withdraw:['UPI','Bank Transfer','Wallet Address'],info:'India: UPI, Bank Transfer, or Wallet Address.'},
+  PH:{deposit:['GCash','Maya','Wallet Address'],withdraw:['GCash','Maya','Wallet Address'],info:'Philippines: GCash, Maya, or Wallet Address.'},
+  BR:{deposit:['PIX','Bank Transfer','Wallet Address'],withdraw:['PIX','Bank Transfer','Wallet Address'],info:'Brazil: PIX, Bank Transfer, or Wallet Address.'},
+  AU:{deposit:['PayID','Bank Transfer','Wallet Address'],withdraw:['PayID','Bank Transfer','Wallet Address'],info:'Australia: PayID, Bank Transfer, or Wallet Address.'},
+  CA:{deposit:['Interac','Bank Transfer','Wallet Address'],withdraw:['Interac','Bank Transfer','Wallet Address'],info:'Canada: Interac, Bank Transfer, or Wallet Address.'},
 };
-const defaults={deposit:['Bank Transfer','Wallet Address'],withdraw:['Bank Transfer','Wallet Address'],info:'Deposit and withdraw via Bank Transfer or Wallet Address. Contact support for details.'};
+const defaults={deposit:['Bank Transfer','Wallet Address'],withdraw:['Bank Transfer','Wallet Address'],info:'Bank Transfer or Wallet Address. Contact support for details.'};
+
 let user={};
+
 function init(){
   const s=localStorage.getItem('gb_user');
   if(!s){location.href='signin.html';return}
   user=JSON.parse(s);
+  // init transactions array
+  if(!user.transactions)user.transactions=[];
+  if(!user.pendingDeposit)user.pendingDeposit=0;
+  if(!user.pendingWithdrawal)user.pendingWithdrawal=0;
+
   const fmt=n=>(user.symbol||'KES')+' '+Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
   document.getElementById('wBal').textContent=fmt(user.earnings);
-  document.getElementById('wEarned').textContent=fmt(user.earnings);
+  document.getElementById('wPendDep').textContent=fmt(user.pendingDeposit);
+  document.getElementById('wPendWd').textContent=fmt(user.pendingWithdrawal);
   document.getElementById('wCur').textContent=(user.currency||'KES')+' account';
-  document.getElementById('histBonus').textContent='+'+fmt(user.bonus);
-  document.getElementById('histEarned').textContent='+'+fmt(user.earnings);
+  document.getElementById('wdAmountLabel').textContent='Amount (Min: 10 · Max: '+fmt(user.earnings)+')';
+
   const i1=user.name?user.name[0].toUpperCase():'G';
   document.getElementById('ddAv').textContent=i1;
   document.getElementById('ddName').textContent=user.name||'User';
@@ -223,52 +285,169 @@ function init(){
   document.getElementById('profEmailInput').value=user.email||'';
   document.getElementById('profPhone').value=user.phone||'';
   document.getElementById('accInfo').innerHTML=`Country: <strong>${user.country||'N/A'}</strong> · Currency: <strong>${user.currency||'N/A'}</strong>`;
+
   const pm=payMethods[user.country]||defaults;
   document.getElementById('payInfo').textContent=pm.info;
   document.getElementById('wdInfo').textContent=pm.info;
   const pe=document.getElementById('payMethod'),we=document.getElementById('wdMethod');
+  pe.innerHTML='<option value="">Select method</option>';
+  we.innerHTML='<option value="">Select method</option>';
   pm.deposit.forEach(m=>{pe.innerHTML+=`<option value="${m}">${m}</option>`});
   pm.withdraw.forEach(m=>{we.innerHTML+=`<option value="${m}">${m}</option>`});
+
+  renderHistory();
 }
+
+function saveUser(){
+  localStorage.setItem('gb_user',JSON.stringify(user));
+  const users=JSON.parse(localStorage.getItem('gb_users')||'[]');
+  const idx=users.findIndex(u=>u.email===user.email);
+  if(idx>=0)users[idx]={...user};
+  localStorage.setItem('gb_users',JSON.stringify(users));
+}
+
+function renderHistory(){
+  const fmt=n=>(user.symbol||'KES')+' '+Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const list=document.getElementById('historyList');
+  const txs=user.transactions||[];
+  if(txs.length===0){
+    // show default entries
+    list.innerHTML=`
+      <div class="history-item"><div class="hi-left"><span class="hi-icon">🎁</span><div><div class="hi-label">Welcome Bonus</div><div class="hi-time">Account created</div></div></div><span class="hi-amount hi-green">+${(user.symbol||'KES')+' '+(user.bonus||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>
+      <div class="history-item"><div class="hi-left"><span class="hi-icon">⭐</span><div><div class="hi-label">Brand Ratings Earnings</div><div class="hi-time">From completed rounds</div></div></div><span class="hi-amount hi-green">+${(user.symbol||'KES')+' '+(user.earnings||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>`;
+    return;
+  }
+  list.innerHTML=`
+    <div class="history-item"><div class="hi-left"><span class="hi-icon">🎁</span><div><div class="hi-label">Welcome Bonus</div><div class="hi-time">Account created</div></div></div><span class="hi-amount hi-green">+${(user.symbol||'KES')+' '+(user.bonus||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>
+    <div class="history-item"><div class="hi-left"><span class="hi-icon">⭐</span><div><div class="hi-label">Brand Ratings Earnings</div><div class="hi-time">From completed rounds</div></div></div><span class="hi-amount hi-green">+${(user.symbol||'KES')+' '+(user.earnings||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>`
+    +[...txs].reverse().map(tx=>{
+      const isWd=tx.type==='withdrawal';
+      const isDep=tx.type==='deposit';
+      const icon=isWd?'💸':isDep?'💰':'💱';
+      const amtClass=isWd?'hi-orange':'hi-green';
+      const sign=isWd?'':'+';
+      const badgeHtml=tx.status==='pending'?'<span class="hi-badge pending">Pending</span>':'<span class="hi-badge done">Done</span>';
+      return `<div class="history-item"><div class="hi-left"><span class="hi-icon">${icon}</span><div><div class="hi-label">${tx.label}${badgeHtml}</div><div class="hi-time">${tx.method||''} · ${tx.date}</div></div></div><span class="hi-amount ${amtClass}">${sign}${fmt(tx.amount)}</span></div>`;
+    }).join('');
+}
+
 function switchTab(name,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
 }
+
 function proceedDeposit(){
   const method=document.getElementById('payMethod').value;
-  const amount=document.getElementById('depAmount').value;
-  if(!method||!amount){alert('Please select a method and enter an amount.');return}
-  const amtFmt=(user.symbol||'KES')+' '+parseFloat(amount).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const amount=parseFloat(document.getElementById('depAmount').value);
+  if(!method||!amount||amount<=0){alert('Please select a method and enter a valid amount.');return}
+  const fmt=n=>(user.symbol||'KES')+' '+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const amtFmt=fmt(amount);
   document.getElementById('ccAmt').textContent=amtFmt;
   const msg=encodeURIComponent('Hello, I want to deposit '+amtFmt+' via '+method+' on Global Brands. My email: '+(user.email||''));
   document.getElementById('waLink').href='https://wa.me/254759485490?text='+msg;
+  // Record pending deposit
+  user.pendingDeposit=(user.pendingDeposit||0)+amount;
+  if(!user.transactions)user.transactions=[];
+  user.transactions.push({type:'deposit',label:'Pending Deposit',method,amount,status:'pending',date:new Date().toLocaleDateString()});
+  saveUser();
+  document.getElementById('wPendDep').textContent=fmt(user.pendingDeposit);
   document.getElementById('depForm').style.display='none';
   document.getElementById('contactBox').classList.add('show');
+  renderHistory();
 }
-function resetDep(){document.getElementById('depForm').style.display='block';document.getElementById('contactBox').classList.remove('show');document.getElementById('depAmount').value=''}
+
+function resetDep(){
+  document.getElementById('depForm').style.display='block';
+  document.getElementById('contactBox').classList.remove('show');
+  document.getElementById('depAmount').value='';
+}
+
 function proceedWd(){
   const method=document.getElementById('wdMethod').value;
-  const account=document.getElementById('wdAccount').value;
+  const account=document.getElementById('wdAccount').value.trim();
   const amount=parseFloat(document.getElementById('wdAmount').value);
+  const balance=user.earnings||0;
   if(!method||!account||!amount){alert('Please fill all fields.');return}
   if(amount<10){alert('Minimum withdrawal is '+(user.symbol||'KES')+' 10.');return}
-  if(amount>250000){alert('Maximum withdrawal is '+(user.symbol||'KES')+' 250,000.');return}
-  if(amount>(user.earnings||0)){alert('Amount exceeds your earnings balance.');return}
-  alert('Withdrawal request submitted. '+(user.symbol||'KES')+' '+amount.toFixed(2)+' will be sent to '+account+' via '+method+' within 24 hours.');
+  if(amount>balance){alert('Amount exceeds your available balance of '+(user.symbol||'KES')+' '+balance.toFixed(2)+'.');return}
+  // Deduct from balance, add to pending withdrawal
+  user.earnings=parseFloat((balance-amount).toFixed(2));
+  user.pendingWithdrawal=(user.pendingWithdrawal||0)+amount;
+  if(!user.transactions)user.transactions=[];
+  user.transactions.push({type:'withdrawal',label:'Pending Withdrawal',method,amount,account,status:'pending',date:new Date().toLocaleDateString()});
+  saveUser();
+  const fmt=n=>(user.symbol||'KES')+' '+Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('wBal').textContent=fmt(user.earnings);
+  document.getElementById('wPendWd').textContent=fmt(user.pendingWithdrawal);
+  document.getElementById('wdAmountLabel').textContent='Amount (Min: 10 · Max: '+fmt(user.earnings)+')';
+  renderHistory();
+  alert('Withdrawal of '+fmt(amount)+' submitted. Your balance is now '+fmt(user.earnings)+'. Payment to '+account+' via '+method+' will be processed within 24 hours.');
+  document.getElementById('wdAmount').value='';
+  document.getElementById('wdAccount').value='';
 }
+
+// Panel helpers
 function toggleDD(){document.getElementById('mainDD').classList.toggle('open')}
 function closeDD(){document.getElementById('mainDD').classList.remove('open')}
 document.addEventListener('click',e=>{const w=document.querySelector('.dropdown-wrap');if(w&&!w.contains(e.target))closeDD()});
 function openPanel(id){closeDD();document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
 function closePanel(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
 function closePOv(e,id){if(e.target===e.currentTarget)closePanel(id)}
-function saveProfile(){const name=document.getElementById('profNameInput').value.trim();if(!name){alert('Name cannot be empty.');return}user.name=name;user.phone=document.getElementById('profPhone').value.trim();localStorage.setItem('gb_user',JSON.stringify(user));alert('Profile updated.');closePanel('profilePanel');init()}
+function saveProfile(){const name=document.getElementById('profNameInput').value.trim();if(!name){alert('Name cannot be empty.');return}user.name=name;user.phone=document.getElementById('profPhone').value.trim();saveUser();alert('Profile updated.');closePanel('profilePanel');init()}
 function saveSettings(){const np=document.getElementById('newPwd').value;const cp=document.getElementById('confPwd').value;if(!np){alert('Enter a new password.');return}if(np!==cp){alert('Passwords do not match.');return}alert('Password updated.');closePanel('settingsPanel')}
 function selectLang(el,lang){document.querySelectorAll('.lang-option').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');alert('Language set to '+lang+'.')}
 function sendContact(){const s=document.getElementById('ctSubject').value.trim();const m=document.getElementById('ctMsg').value.trim();if(!s||!m){alert('Please fill all fields.');return}window.open('https://wa.me/254759485490?text='+encodeURIComponent('Subject: '+s+'\nMessage: '+m),'_blank');closePanel('contactPanel')}
 function logout(){localStorage.removeItem('gb_login');location.href='index.html'}
+
+// ── FALLING DOLLARS ANIMATION ──
+(function(){
+  const canvas=document.getElementById('moneyCanvas');
+  const ctx=canvas.getContext('2d');
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  const bills=Array.from({length:22},()=>({
+    x:Math.random()*window.innerWidth,
+    y:Math.random()*window.innerHeight*2-window.innerHeight,
+    size:Math.random()*28+18,
+    speed:Math.random()*1.2+0.4,
+    rot:Math.random()*Math.PI*2,
+    rotSpeed:(Math.random()-.5)*.025,
+    drift:(Math.random()-.5)*.4,
+    opacity:Math.random()*.5+.15
+  }));
+  function drawBill(b){
+    ctx.save();
+    ctx.translate(b.x,b.y);
+    ctx.rotate(b.rot);
+    ctx.globalAlpha=b.opacity;
+    // Dollar bill shape
+    const w=b.size*2.4,h=b.size;
+    ctx.beginPath();ctx.roundRect(-w/2,-h/2,w,h,4);
+    ctx.fillStyle='#1a4a2a';ctx.fill();
+    ctx.strokeStyle='#C9A84C';ctx.lineWidth=1;ctx.stroke();
+    // $ sign
+    ctx.fillStyle='#C9A84C';
+    ctx.font=`bold ${b.size*.7}px Arial`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('$',0,0);
+    ctx.restore();
+  }
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    bills.forEach(b=>{
+      drawBill(b);
+      b.y+=b.speed;
+      b.x+=b.drift;
+      b.rot+=b.rotSpeed;
+      if(b.y>canvas.height+60){b.y=-60;b.x=Math.random()*canvas.width;}
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
 init();
 </script>
 </body>

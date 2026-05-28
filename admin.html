@@ -34,7 +34,7 @@ body{font-family:var(--sans);background:var(--black);color:var(--cream);min-heig
 .logout-btn:hover{background:rgba(255,80,80,.18)}
 .admin-body{padding:28px 36px;flex:1}
 /* stats */
-.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:28px}
 .stat-card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:5px;padding:18px 20px}
 .stat-card.gold{background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.04));border-color:rgba(201,168,76,.22)}
 .sc-label{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(242,237,228,.36);margin-bottom:6px}
@@ -109,6 +109,7 @@ body{font-family:var(--sans);background:var(--black);color:var(--cream);min-heig
     <div class="admin-stats">
       <div class="stat-card gold"><div class="sc-label">Total Users</div><div class="sc-val" id="statTotal">0</div><div class="sc-sub">Registered accounts</div></div>
       <div class="stat-card"><div class="sc-label">Online Now</div><div class="sc-val" id="statOnline">0</div><div class="sc-sub">Active within 5 min</div></div>
+      <div class="stat-card"><div class="sc-label">Blocked Users</div><div class="sc-val" id="statBlocked">0</div><div class="sc-sub">Special brand pending</div></div>
       <div class="stat-card"><div class="sc-label">Brands in System</div><div class="sc-val" id="statBrands">96</div><div class="sc-sub">Global brands</div></div>
       <div class="stat-card"><div class="sc-label">Countries</div><div class="sc-val" id="statCountries">0</div><div class="sc-sub">Represented</div></div>
     </div>
@@ -127,7 +128,7 @@ body{font-family:var(--sans);background:var(--black);color:var(--cream);min-heig
         <span class="table-count" id="userCount">0 users</span>
       </div>
       <table class="admin-table">
-        <thead><tr><th>User</th><th>Email</th><th>Country</th><th>Balance</th><th>Rated</th><th>Status</th><th>Joined</th></tr></thead>
+        <thead><tr><th>User</th><th>Email</th><th>Country</th><th>Balance</th><th>Rated / Round</th><th>Special Brand</th><th>Pend. Deposit</th><th>Pend. Withdrawal</th><th>Status</th><th>Joined</th></tr></thead>
         <tbody id="userTableBody"></tbody>
       </table>
     </div>
@@ -183,9 +184,14 @@ function refreshData(){
     if(!u.lastSeen)return false;
     return now-new Date(u.lastSeen).getTime()<300000;
   });
+  const blocked=users.filter(u=>{
+    const b=u.specialBlocked||{};
+    return (b[45]||b[58])&&(u.earnings||0)<=0;
+  });
   const countries=[...new Set(users.map(u=>u.country).filter(Boolean))];
   document.getElementById('statTotal').textContent=users.length;
   document.getElementById('statOnline').textContent=online.length;
+  document.getElementById('statBlocked').textContent=blocked.length;
   document.getElementById('statCountries').textContent=countries.length;
   renderUsers(users);
   renderCountries(users);
@@ -200,17 +206,36 @@ function renderUsers(usersArg){
   const now=Date.now();
   document.getElementById('userTableBody').innerHTML=filtered.map(u=>{
     const isOnline=u.lastSeen&&now-new Date(u.lastSeen).getTime()<300000;
-    const fmt=n=>(u.symbol||'KES')+' '+(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+    const fmt=n=>{const sym=u.symbol||'KES';const abs=Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});return (n<0?'-':'')+sym+' '+abs;};
     const av=u.name?u.name[0].toUpperCase():'?';
     const joined=u.joinedAt?new Date(u.joinedAt).toLocaleDateString():'N/A';
+    const tc=u.tasksCompleted||0;
+    const round=tc<32?1:tc<64?2:3;
+    // Special brand status
+    const blocked=u.specialBlocked||{};
+    const bal=u.earnings||0;
+    let specialStatus='<span style="color:rgba(242,237,228,.3);font-size:.68rem">Clear</span>';
+    if(blocked[45]&&bal<=0){
+      specialStatus='<span style="color:#FFA500;font-size:.68rem">⚠️ Brand 14 R2 blocked · Needs '+fmt(Math.abs(bal))+'</span>';
+    } else if(blocked[58]&&bal<=0){
+      specialStatus='<span style="color:#FFA500;font-size:.68rem">⚠️ Brand 27 R2 blocked · Needs '+fmt(Math.abs(bal))+'</span>';
+    } else if(blocked[45]||blocked[58]){
+      specialStatus='<span style="color:#4caf50;font-size:.68rem">✓ Balance restored</span>';
+    }
+    const pendDep=u.pendingDeposit||0;
+    const pendWd=u.pendingWithdrawal||0;
+    const balColor=bal<0?'color:#ff6b6b':'color:var(--gold-l)';
     return `<tr>
       <td><span class="u-av-sm">${av}</span>${u.name||'Unknown'}</td>
-      <td style="color:var(--muted)">${u.email||'N/A'}</td>
+      <td style="color:var(--muted);font-size:.72rem">${u.email||'N/A'}</td>
       <td><span class="badge other">${u.country||'N/A'}</span></td>
-      <td style="color:var(--gold-l);font-weight:500">${fmt(u.earnings)}</td>
-      <td>${u.tasksCompleted||0} / 96</td>
+      <td style="${balColor};font-weight:500">${fmt(bal)}</td>
+      <td>${tc} / 96<br><span style="font-size:.62rem;color:var(--gold)">Round ${round}</span></td>
+      <td>${specialStatus}</td>
+      <td style="font-size:.72rem">${pendDep>0?'<span style="color:#4caf50">+'+fmt(pendDep)+'</span>':'<span style="color:rgba(242,237,228,.28)">—</span>'}</td>
+      <td style="font-size:.72rem">${pendWd>0?'<span style="color:#FFA500">'+fmt(pendWd)+'</span>':'<span style="color:rgba(242,237,228,.28)">—</span>'}</td>
       <td><span class="status-dot ${isOnline?'online':'offline'}"></span>${isOnline?'Online':'Offline'}</td>
-      <td style="color:var(--muted)">${joined}</td>
+      <td style="color:var(--muted);font-size:.7rem">${joined}</td>
     </tr>`;
   }).join('');
 }

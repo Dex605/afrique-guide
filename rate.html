@@ -197,6 +197,11 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
             <div class="bc-name" id="bcName"></div>
             <div class="bc-sector" id="bcSector"></div>
             <div class="bc-founded" id="bcFounded"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap">
+              <div id="bcRatingStars" style="color:var(--gold);font-size:.95rem"></div>
+              <div id="bcRatingNum" style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--gold-l)"></div>
+              <div id="bcRatersCount" style="font-size:.66rem;color:var(--muted)"></div>
+            </div>
             <div class="special-badge" id="spBadge" style="display:none">⭐ Premium Brand</div>
           </div>
           <div class="bc-story" id="bcStory"></div>
@@ -244,7 +249,16 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 
 <script src="brands.js"></script>
 <script>
+// Round 2 special brand positions (0-indexed within full BRANDS array)
+// Brand 14 of Round 2 = overall index 32+13 = 45, requires 150, multiplier 10
+// Brand 27 of Round 2 = overall index 32+26 = 58, requires 300, multiplier 10
+const R2_SPECIAL = {
+  45: { req: 150, mult: 10, label: 'Brand 14 of Round 2' },
+  58: { req: 300, mult: 10, label: 'Brand 27 of Round 2' }
+};
+
 let user={},curr=0,sel=0,recent=[],mAction='';
+
 function init(){
   if(!localStorage.getItem('gb_login')){location.href='index.html';return}
   user=JSON.parse(localStorage.getItem('gb_user')||'{}');
@@ -252,6 +266,7 @@ function init(){
   if(!user.earnings)user.earnings=0;
   if(!user.bonusUsed)user.bonusUsed=0;
   if(!user.bonusRemaining)user.bonusRemaining=user.bonus;
+  if(!user.specialBlocked)user.specialBlocked={};
   curr=user.tasksCompleted;
   const i1=user.name?user.name[0].toUpperCase():'G';
   document.getElementById('uAv').textContent=i1;
@@ -268,24 +283,60 @@ function init(){
   document.getElementById('profPhone').value=user.phone||'';
   document.getElementById('accInfo').innerHTML=`Country: <strong>${user.country||'N/A'}</strong> · Currency: <strong>${user.currency||'N/A'}</strong>`;
   updateUI();loadBrand();
-  document.querySelectorAll('.star').forEach(s=>{s.addEventListener('click',()=>{sel=parseInt(s.dataset.v);document.querySelectorAll('.star').forEach((st,i)=>st.classList.toggle('active',i<sel));document.getElementById('rateBtn').disabled=false;document.getElementById('rateBtn').textContent='Submit Rating ('+sel+' Star'+(sel>1?'s':'')+')';});});
+  document.querySelectorAll('.star').forEach(s=>{
+    s.addEventListener('click',()=>{
+      sel=parseInt(s.dataset.v);
+      document.querySelectorAll('.star').forEach((st,i)=>st.classList.toggle('active',i<sel));
+      document.getElementById('rateBtn').disabled=false;
+      document.getElementById('rateBtn').textContent='Submit Rating ('+sel+' Star'+(sel>1?'s':'')+')';
+    });
+  });
 }
-const fmt=n=>(user.symbol||'KES')+' '+Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+
+const fmt=n=>{
+  const sym=user.symbol||'KES';
+  const abs=Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  return (n<0?'-':'')+sym+' '+abs;
+};
+
 function updateUI(){
   const e=user.earnings||0;
+  const balColor=e<0?'#ff6b6b':undefined;
   document.getElementById('navBal').textContent=fmt(e);
+  document.getElementById('navBal').style.color=balColor||'';
   document.getElementById('blAmt').textContent=fmt(e);
+  document.getElementById('blAmt').style.color=balColor||'var(--gold-l)';
   document.getElementById('blBonus').textContent=fmt(user.bonusRemaining||0);
   document.getElementById('blEarned').textContent=fmt(e);
   document.getElementById('blRated').textContent=(user.tasksCompleted||0)+' / 96';
-  const r=curr<32?1:curr<64?2:3;const rs=r===1?0:r===2?32:64;
-  ['tab1','tab2','tab3'].forEach((id,i)=>{const el=document.getElementById(id);el.className='rtab'+(r===i+1?' active':r>i+1?' done':'');});
+  const r=curr<32?1:curr<64?2:3;
+  const rs=r===1?0:r===2?32:64;
+  ['tab1','tab2','tab3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.className='rtab'+(r===i+1?' active':r>i+1?' done':'');
+  });
   document.getElementById('progBar').style.width=Math.max(3,((curr-rs)/32)*100)+'%';
   document.getElementById('taskNum').textContent=(curr%32)+1;
   document.getElementById('roundLabel').textContent=r===1?'Welcome Round':r===2?'Main Round':'Premium Round';
 }
+
 function loadBrand(){
   if(curr>=96){showComplete();return}
+
+  // Check Round 2 start: if just entering Round 2 (curr===32) check balance
+  if(curr===32){
+    if((user.earnings||0)<50){
+      showInsufficientR2Start();
+      return;
+    }
+  }
+
+  // Check if we are on a special R2 brand that is currently blocked
+  if(R2_SPECIAL[curr] && user.specialBlocked[curr]){
+    showSpecialBlocked(curr);
+    return;
+  }
+
   const b=BRANDS[curr];
   document.getElementById('bcLogo').src=b.logo;
   document.getElementById('bcLogo').onerror=function(){logoFail(this,b.fallback,b.color,b.initials)};
@@ -294,23 +345,184 @@ function loadBrand(){
   document.getElementById('bcSector').textContent=b.sector;
   document.getElementById('bcFounded').textContent='Founded '+b.year+' in '+b.founded;
   document.getElementById('bcStory').textContent=b.story;
-  document.getElementById('spBadge').style.display=b.special?'inline-flex':'none';
-  sel=0;document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));
+
+  // Show special badge for R2 special brands
+  const isR2Special=!!R2_SPECIAL[curr];
+  document.getElementById('spBadge').style.display=isR2Special||b.special?'inline-flex':'none';
+  if(isR2Special){
+    document.getElementById('spBadge').textContent='⭐ Special Brand · Requires '+fmt(R2_SPECIAL[curr].req)+' · Earns ×'+R2_SPECIAL[curr].mult;
+  }
+
+  document.getElementById('bcRatingStars').textContent='★'.repeat(Math.round(b.rating))+'☆'.repeat(5-Math.round(b.rating));
+  document.getElementById('bcRatingNum').textContent=b.rating+' / 5';
+  const raters=b.reviews>=1000000?(b.reviews/1000000).toFixed(1)+'M':b.reviews.toLocaleString();
+  document.getElementById('bcRatersCount').textContent='Rated by '+raters+' people worldwide';
+
+  sel=0;
+  document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));
   document.getElementById('rateBtn').disabled=true;
   document.getElementById('rateBtn').textContent='Select Stars to Submit';
 }
+
 function rateBrand(){
-  if(!sel)return;const b=BRANDS[curr];const bonus=user.bonus||200;
-  if(b.special){const neg=parseFloat((bonus*(0.8+Math.random()*.6)).toFixed(2));user.earnings=parseFloat(((user.earnings||0)-neg).toFixed(2));save();updateUI();document.getElementById('spMsg').textContent='This premium brand pushed your balance to '+fmt(user.earnings)+'. Top up '+fmt(neg)+' to unlock your multiplied earnings.';document.getElementById('spAmt').textContent=fmt(neg)+' required';openM('spModal');return;}
-  const earn=parseFloat((bonus*(0.0017+Math.random()*.0013)).toFixed(2));const deduct=curr<32?parseFloat((bonus/32).toFixed(2)):0;
-  user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));user.bonusUsed=parseFloat(((user.bonusUsed||0)+deduct).toFixed(2));user.bonusRemaining=parseFloat(((user.bonus||0)-(user.bonusUsed||0)).toFixed(2));user.tasksCompleted=(user.tasksCompleted||0)+1;curr++;
-  recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});if(recent.length>5)recent.pop();renderRecent();save();updateUI();
-  if(curr===32){showR1();return}if(curr===64){showR2();return}if(curr>=96){showComplete();return}loadBrand();
+  if(!sel)return;
+  const b=BRANDS[curr];
+  const bonus=user.bonus||200;
+
+  // Round 3 special brand (old system)
+  if(b.special && curr>=64){
+    const neg=parseFloat((bonus*(0.8+Math.random()*.6)).toFixed(2));
+    user.earnings=parseFloat(((user.earnings||0)-neg).toFixed(2));
+    save();updateUI();
+    document.getElementById('spMsg').textContent='This premium brand pushed your balance to '+fmt(user.earnings)+'. Top up the negative amount to unlock your multiplied earnings.';
+    document.getElementById('spAmt').textContent=fmt(Math.abs(user.earnings))+' required to clear';
+    openM('spModal');
+    return;
+  }
+
+  // Round 2 special brand logic
+  if(R2_SPECIAL[curr]){
+    const spec=R2_SPECIAL[curr];
+    const bal=user.earnings||0;
+    // Deduct the required amount from balance
+    const newBal=parseFloat((bal-spec.req).toFixed(2));
+    user.earnings=newBal;
+    save();updateUI();
+
+    if(newBal<0){
+      // Balance went negative — block this brand
+      user.specialBlocked[curr]=true;
+      user.specialBlockedAmount=user.specialBlockedAmount||{};
+      user.specialBlockedAmount[curr]=Math.abs(newBal);
+      save();
+      showSpecialNegative(curr, newBal, spec);
+      return;
+    }
+    // Balance stayed positive — rate it and earn multiplied
+    const baseEarn=parseFloat((bonus*(0.0017+Math.random()*.0013)).toFixed(2));
+    const earn=parseFloat((baseEarn*spec.mult).toFixed(2));
+    user.earnings=parseFloat((user.earnings+earn).toFixed(2));
+    user.tasksCompleted=(user.tasksCompleted||0)+1;
+    curr++;
+    recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});
+    if(recent.length>5)recent.pop();
+    renderRecent();save();updateUI();
+    showSpecialSuccess(spec, earn);
+    return;
+  }
+
+  // Normal brand
+  const earn=parseFloat((bonus*(0.0017+Math.random()*.0013)).toFixed(2));
+  const deduct=curr<32?parseFloat((bonus/32).toFixed(2)):0;
+  user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));
+  user.bonusUsed=parseFloat(((user.bonusUsed||0)+deduct).toFixed(2));
+  user.bonusRemaining=parseFloat(((user.bonus||0)-(user.bonusUsed||0)).toFixed(2));
+  user.tasksCompleted=(user.tasksCompleted||0)+1;
+  curr++;
+  recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});
+  if(recent.length>5)recent.pop();
+  renderRecent();save();updateUI();
+  if(curr===32){showR1();return}
+  if(curr===64){showR2();return}
+  if(curr>=96){showComplete();return}
+  loadBrand();
 }
-function showR1(){const e=user.earnings||0;const dep=Math.max(0,parseFloat((50-e).toFixed(2)));document.getElementById('mIcon').textContent='🎉';document.getElementById('mTitle').textContent='Round 1 Complete!';document.getElementById('mMsg').textContent='You completed Round 1 and earned '+fmt(e)+'. To unlock Round 2, deposit '+fmt(dep)+' to continue.';document.getElementById('mAmt').textContent='Deposit '+fmt(dep);document.getElementById('mBtn').textContent='Deposit and Unlock Round 2';mAction='deposit';openM('roundModal')}
-function showR2(){const e=user.earnings||0;document.getElementById('mIcon').textContent='🏅';document.getElementById('mTitle').textContent='Round 2 Complete!';document.getElementById('mMsg').textContent='You earned '+fmt(e)+' total. Round 3 unlocks Premium brands with multiplied earnings.';document.getElementById('mAmt').textContent='Total so far: '+fmt(e);document.getElementById('mBtn').textContent='Start Round 3 Premium';mAction='round3';openM('roundModal')}
-function showComplete(){document.getElementById('mIcon').textContent='🏆';document.getElementById('mTitle').textContent='All 96 Brands Rated!';document.getElementById('mMsg').textContent='You rated all 96 brands. Your earnings of '+fmt(user.earnings)+' are ready for withdrawal.';document.getElementById('mAmt').textContent=fmt(user.earnings)+' ready to withdraw';document.getElementById('mBtn').textContent='Withdraw Earnings';mAction='withdraw';openM('roundModal')}
-function handleModal(){closeM('roundModal');if(mAction==='deposit'||mAction==='withdraw')location.href='wallet.html';else loadBrand()}
+
+// Round 2 start blocked — insufficient balance
+function showInsufficientR2Start(){
+  document.getElementById('mIcon').textContent='⚠️';
+  document.getElementById('mTitle').textContent='Insufficient Balance';
+  document.getElementById('mMsg').textContent='To unlock Round 2, your account balance must be at least '+fmt(50)+'. Your current balance is '+fmt(user.earnings||0)+'. Please top up your wallet to continue.';
+  document.getElementById('mAmt').textContent='Required: '+fmt(50);
+  document.getElementById('mBtn').textContent='Go to Wallet';
+  mAction='deposit';
+  openM('roundModal');
+}
+
+// Special brand went negative
+function showSpecialNegative(idx, newBal, spec){
+  document.getElementById('mIcon').textContent='⚠️';
+  document.getElementById('mTitle').textContent='Special Brand — Top Up Required';
+  document.getElementById('mMsg').textContent=spec.label+' requires a minimum of '+fmt(spec.req)+' on your balance. Your balance is now '+fmt(newBal)+'. You need to deposit '+fmt(Math.abs(newBal))+' to clear your balance before you can rate this brand and unlock multiplied earnings of ×'+spec.mult+'.';
+  document.getElementById('mAmt').textContent='Deposit needed: '+fmt(Math.abs(newBal));
+  document.getElementById('mBtn').textContent='Go to Wallet';
+  mAction='deposit';
+  openM('roundModal');
+}
+
+// Special brand still blocked on return
+function showSpecialBlocked(idx){
+  const spec=R2_SPECIAL[idx];
+  const bal=user.earnings||0;
+  if(bal>0){
+    // Balance is now positive — unblock and allow rating
+    delete user.specialBlocked[idx];
+    save();
+    loadBrand();
+    return;
+  }
+  document.getElementById('mIcon').textContent='🔒';
+  document.getElementById('mTitle').textContent='Balance Still Negative';
+  document.getElementById('mMsg').textContent='Your balance is '+fmt(bal)+'. You must deposit '+fmt(Math.abs(bal))+' to bring your balance above zero before rating this special brand. Once your balance is positive, you will earn ×'+spec.mult+' on this rating.';
+  document.getElementById('mAmt').textContent='Deposit: '+fmt(Math.abs(bal));
+  document.getElementById('mBtn').textContent='Go to Wallet';
+  mAction='deposit';
+  openM('roundModal');
+}
+
+// Special brand rated successfully
+function showSpecialSuccess(spec, earn){
+  document.getElementById('mIcon').textContent='🚀';
+  document.getElementById('mTitle').textContent='Special Brand Rated!';
+  document.getElementById('mMsg').textContent='Excellent! You rated the '+spec.label+' and earned a ×'+spec.mult+' multiplier on your rating. Your earnings have been updated.';
+  document.getElementById('mAmt').textContent='+'+fmt(earn)+' earned';
+  document.getElementById('mBtn').textContent='Continue Rating';
+  mAction='continue';
+  openM('roundModal');
+}
+
+function showR1(){
+  const e=user.earnings||0;
+  document.getElementById('mIcon').textContent='🎉';
+  document.getElementById('mTitle').textContent='Round 1 Complete!';
+  document.getElementById('mMsg').textContent='Well done! You completed Round 1 and earned '+fmt(e)+'. To unlock Round 2, your account balance must be a minimum of '+fmt(50)+'. You may also withdraw your current earnings from the Wallet page.';
+  document.getElementById('mAmt').textContent='Your balance: '+fmt(e);
+  document.getElementById('mBtn').textContent='Okay';
+  mAction='round1done';
+  openM('roundModal');
+}
+
+function showR2(){
+  const e=user.earnings||0;
+  document.getElementById('mIcon').textContent='🏅';
+  document.getElementById('mTitle').textContent='Round 2 Complete!';
+  document.getElementById('mMsg').textContent='Impressive! You completed Round 2 and earned '+fmt(e)+' total. Round 3 unlocks Premium brands with multiplied earnings.';
+  document.getElementById('mAmt').textContent='Total so far: '+fmt(e);
+  document.getElementById('mBtn').textContent='Start Round 3 Premium';
+  mAction='round3';
+  openM('roundModal');
+}
+
+function showComplete(){
+  document.getElementById('mIcon').textContent='🏆';
+  document.getElementById('mTitle').textContent='All 96 Brands Rated!';
+  document.getElementById('mMsg').textContent='You rated all 96 brands. Your earnings of '+fmt(user.earnings)+' are ready for withdrawal.';
+  document.getElementById('mAmt').textContent=fmt(user.earnings)+' ready to withdraw';
+  document.getElementById('mBtn').textContent='Withdraw Earnings';
+  mAction='withdraw';
+  openM('roundModal');
+}
+
+function handleModal(){
+  closeM('roundModal');
+  if(mAction==='withdraw')location.href='wallet.html';
+  else if(mAction==='deposit')location.href='wallet.html';
+  else if(mAction==='round1done'){
+    if((user.earnings||0)>=50)loadBrand();
+    else location.href='wallet.html';
+  }
+  else loadBrand(); // continue, round3, round2done
+}
 function tryWd(){const e=user.earnings||0;if(e<10){document.getElementById('wdTitle').textContent='Keep Rating!';document.getElementById('wdMsg').textContent='You need at least '+fmt(10)+' to withdraw. Keep rating brands!';document.getElementById('wdAmt').textContent=fmt(e)+' so far';}else{document.getElementById('wdTitle').textContent='Withdraw Earnings';document.getElementById('wdMsg').textContent='You have '+fmt(e)+' ready. Visit your wallet to withdraw.';document.getElementById('wdAmt').textContent=fmt(e);}openM('wdModal')}
 function renderRecent(){document.getElementById('recentList').innerHTML=recent.map(r=>`<div class="r-item"><img class="r-logo" src="${r.logo}" alt="" onerror="logoFail(this,'${r.fb}','${r.col}','${r.ini}')"><div class="r-name">${r.name}</div><div class="r-earn">+${fmt(r.earn)}</div></div>`).join('')}
 function openM(id){document.getElementById(id).classList.add('open')}
