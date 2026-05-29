@@ -11,121 +11,181 @@
 [data-theme="dark"]{--bg:#04040A;--surface:#0D0D10;--surface2:#111116;--nav-bg:rgba(6,6,8,.97);--text:#F2EDE4;--text2:rgba(242,237,228,0.55);--text3:rgba(242,237,228,0.3);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);--sh:0 2px 12px rgba(0,0,0,.4);--row-hover:rgba(255,255,255,.03);--th-bg:rgba(255,255,255,.04)}
 [data-theme="light"]{--bg:#F5F5F7;--surface:#FFFFFF;--surface2:#F0F0F2;--nav-bg:#FFFFFF;--text:#1A1A2E;--text2:#555570;--text3:#888;--border:#E0E0E8;--border2:#D0D0DC;--sh:0 2px 12px rgba(0,0,0,.08);--row-hover:#F8F8FC;--th-bg:#F0F0F5}
 html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:var(--bg)}
-.login-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:48px 52px;width:100%;max-width:420px;box-shadow:var(--sh)}
+
+/* ── LOGIN WRAPPER ── */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden}
+/* product slideshow behind login */
+.login-bg{position:fixed;inset:0;z-index:0}
+.login-slide{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 1.4s ease;opacity:0;filter:blur(6px) brightness(.3) saturate(1.4)}
+.login-slide.active{opacity:1}
+.login-overlay{position:fixed;inset:0;z-index:1;background:rgba(4,4,10,.65)}
+.login-grid{position:fixed;inset:0;z-index:2;pointer-events:none;background-image:linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);background-size:80px 80px}
+
+.login-card{position:relative;z-index:10;background:rgba(10,10,18,.92);border:1px solid var(--border);border-radius:10px;padding:44px 50px;width:100%;max-width:420px;backdrop-filter:blur(24px)}
 .login-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .login-globe{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
 .login-globe svg{width:18px;height:18px}
 .login-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text)}
 .login-tag{font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
 .login-card h2{font-family:var(--serif);font-size:1.6rem;margin-bottom:6px;color:var(--text)}
-.login-sub{font-size:.78rem;color:var(--text2);margin-bottom:24px}
+.login-sub{font-size:.78rem;color:var(--text2);margin-bottom:24px;line-height:1.6}
 .lg{margin-bottom:15px}
 .lg label{display:block;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
-.lg input{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.86rem;outline:none;transition:border-color .2s}
+.lg input{width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.86rem;outline:none;transition:border-color .2s}
 .lg input:focus{border-color:var(--gold)}
-.err-msg{background:rgba(180,30,30,.1);border:1px solid rgba(180,30,30,.3);border-radius:4px;padding:9px 13px;font-size:.76rem;color:#cc3333;margin-bottom:14px;display:none}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:42px}
+.pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(242,237,228,.35);display:flex;align-items:center;padding:4px}
+.pw-eye:hover{color:var(--gold)}
+.err-msg{background:rgba(180,30,30,.15);border:1px solid rgba(180,30,30,.35);border-radius:4px;padding:9px 13px;font-size:.76rem;color:#ff8a8a;margin-bottom:14px;display:none}
 .btn-login{width:100%;padding:13px;background:var(--gold);color:#000;border:none;border-radius:4px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:background .2s}
 .btn-login:hover{background:var(--gold-l)}
+
+/* ── ADMIN PANEL ── */
 .admin-wrap{display:none;min-height:100vh;flex-direction:column}
-.admin-nav{padding:13px 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--nav-bg);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);box-shadow:var(--sh)}
+.admin-nav{padding:12px 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--nav-bg);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);box-shadow:var(--sh)}
 .admin-logo{display:flex;align-items:center;gap:10px}
 .admin-globe{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
 .admin-globe svg{width:16px;height:16px}
 .admin-brand{font-family:var(--serif);font-size:.98rem;font-weight:700;color:var(--text)}
 .admin-tag{font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
 .admin-nav-right{display:flex;align-items:center;gap:8px}
-.theme-btn{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .2s}
+/* admin profile chip in nav */
+.admin-chip{display:flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;cursor:pointer;transition:all .2s}
+.admin-chip:hover{border-color:var(--gold)}
+.admin-chip-av{width:26px;height:26px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.admin-chip-name{font-size:.72rem;font-weight:600;color:var(--text2)}
+.admin-chip-role{font-size:.54rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
+.theme-btn{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;transition:all .2s}
 .theme-btn:hover{border-color:var(--gold)}
-.refresh-btn{padding:7px 16px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:4px;font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.refresh-btn{padding:6px 14px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:4px;font-family:var(--sans);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
 .refresh-btn:hover{border-color:var(--gold);color:var(--gold)}
-.logout-btn{padding:7px 16px;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);color:#cc3333;border-radius:4px;font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
-.admin-body{padding:28px 36px;flex:1}
-.admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:26px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px;box-shadow:var(--sh)}
+.logout-btn{padding:6px 14px;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);color:#cc3333;border-radius:4px;font-family:var(--sans);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+
+.admin-body{padding:24px 36px;flex:1}
+.admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 18px;box-shadow:var(--sh)}
 .stat-card.gold{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border-color:rgba(201,168,76,.3)}
-.sc-label{font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
-.sc-val{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--gold)}
-.sc-sub{font-size:.6rem;color:var(--text3);margin-top:3px}
-.admin-tabs{display:flex;border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:20px;width:fit-content;background:var(--surface)}
-.atab{padding:9px 22px;background:transparent;border:none;color:var(--text2);font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-right:1px solid var(--border)}
+.sc-label{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+.sc-val{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--gold)}
+.sc-sub{font-size:.58rem;color:var(--text3);margin-top:2px}
+.admin-tabs{display:flex;border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:18px;width:fit-content;background:var(--surface)}
+.atab{padding:8px 20px;background:transparent;border:none;color:var(--text2);font-family:var(--sans);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-right:1px solid var(--border)}
 .atab:last-child{border-right:none}
 .atab.active{background:var(--gold);color:#000;font-weight:700}
 .atab-content{display:none}
 .atab-content.active{display:block}
-.table-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap}
-.search-input{padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.8rem;outline:none;width:300px;transition:border-color .2s}
+.table-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:12px;flex-wrap:wrap}
+.search-input{padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.78rem;outline:none;width:300px;transition:border-color .2s}
 .search-input:focus{border-color:var(--gold)}
-.table-count{font-size:.7rem;color:var(--text3);font-weight:500}
+.table-count{font-size:.68rem;color:var(--text3);font-weight:500}
 .table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border);box-shadow:var(--sh)}
-.admin-table{width:100%;border-collapse:collapse;font-size:.78rem;background:var(--surface)}
+.admin-table{width:100%;border-collapse:collapse;font-size:.76rem;background:var(--surface)}
 .admin-table thead{background:var(--th-bg)}
-.admin-table th{padding:11px 14px;text-align:left;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
-.admin-table td{padding:10px 14px;border-bottom:1px solid var(--border2);color:var(--text2);vertical-align:middle}
+.admin-table th{padding:10px 13px;text-align:left;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
+.admin-table td{padding:9px 13px;border-bottom:1px solid var(--border2);color:var(--text2);vertical-align:middle}
 .admin-table tr:last-child td{border-bottom:none}
 .admin-table tbody tr:hover td{background:var(--row-hover)}
-/* editable cells */
 .admin-table td[contenteditable="true"]{outline:none;cursor:text;border-bottom:1px dashed var(--gold);color:var(--text)}
 .admin-table td[contenteditable="true"]:focus{background:rgba(201,168,76,.06);border-radius:3px}
 .row-num{font-size:.7rem;font-weight:700;color:var(--gold);min-width:20px;text-align:center}
 .u-cell{display:flex;align-items:center;gap:8px}
-.u-av-img{width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
-.u-uname{font-size:.8rem;font-weight:600;color:var(--text)}
-.u-email{font-size:.62rem;color:var(--text3)}
-.badge{display:inline-block;padding:3px 9px;border-radius:100px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.u-av-img{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
+.u-uname{font-size:.78rem;font-weight:600;color:var(--text)}
+.u-email{font-size:.6rem;color:var(--text3)}
+.badge{display:inline-block;padding:2px 8px;border-radius:100px;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
 .badge-country{background:rgba(201,168,76,.12);color:#a07830;border:1px solid rgba(201,168,76,.25)}
 .badge-online{background:rgba(76,175,80,.12);color:#2e7d32;border:1px solid rgba(76,175,80,.25)}
 .badge-offline{background:rgba(0,0,0,.06);color:var(--text3);border:1px solid var(--border)}
 .badge-blocked{background:rgba(255,140,0,.12);color:#b35c00;border:1px solid rgba(255,140,0,.25)}
-.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle}
 .status-dot.online{background:#4caf50;box-shadow:0 0 5px rgba(76,175,80,.5)}
 .status-dot.offline{background:#ccc}
-.inv-code{font-family:var(--serif);font-size:.78rem;color:var(--gold);letter-spacing:.06em;font-weight:700}
+.inv-code{font-family:var(--serif);font-size:.76rem;color:var(--gold);letter-spacing:.06em;font-weight:700}
 .bal-pos{color:#2e7d32;font-weight:600}
 .bal-neg{color:#cc3333;font-weight:600}
-.dep-btn{padding:4px 12px;background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);color:#4caf50;border-radius:3px;font-family:var(--sans);font-size:.65rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.dep-btn{padding:3px 10px;background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);color:#4caf50;border-radius:3px;font-family:var(--sans);font-size:.62rem;cursor:pointer;transition:all .2s;white-space:nowrap}
 .dep-btn:hover{background:rgba(76,175,80,.25)}
+/* password cell toggle */
+.pwd-cell{display:flex;align-items:center;gap:6px}
+.pwd-text{font-size:.72rem;color:var(--text3);font-family:monospace;letter-spacing:.04em}
+.pwd-eye{background:none;border:none;cursor:pointer;color:rgba(242,237,228,.3);padding:2px;display:flex;align-items:center;transition:color .2s}
+.pwd-eye:hover{color:var(--gold)}
 /* chat */
-.chat-user-item{padding:12px 14px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:10px}
+.chat-user-item{padding:11px 13px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:10px}
 .chat-user-item:hover,.chat-user-item.sel{background:rgba(201,168,76,.08)}
-.cui-av{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
-.cui-name{font-size:.78rem;font-weight:600;color:var(--text)}
-.cui-preview{font-size:.65rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
-.cui-badge{width:8px;height:8px;border-radius:50%;background:#FF5B5B;flex-shrink:0}
+.cui-av{width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
+.cui-name{font-size:.76rem;font-weight:600;color:var(--text)}
+.cui-preview{font-size:.63rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.cui-badge{width:7px;height:7px;border-radius:50%;background:#FF5B5B;flex-shrink:0}
 .admin-chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.acm{max-width:75%;padding:8px 13px;border-radius:10px;font-size:.78rem;line-height:1.55}
+.acm{max-width:75%;padding:8px 13px;border-radius:10px;font-size:.76rem;line-height:1.55}
 .acm.user{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);align-self:flex-end;color:var(--text)}
 .acm.care{background:var(--surface2);border:1px solid var(--border2);align-self:flex-start;color:var(--text2)}
-.acm .sndr{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
-.acm .mt{font-size:.56rem;color:var(--text3);margin-top:4px;text-align:right}
+.acm .sndr{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.acm .mt{font-size:.54rem;color:var(--text3);margin-top:4px;text-align:right}
 .admin-reply-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border2)}
 .admin-reply-input{flex:1;padding:9px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:20px;color:var(--text);font-family:var(--sans);font-size:.8rem;outline:none}
 .admin-reply-input:focus{border-color:var(--gold)}
 .admin-reply-btn{padding:9px 20px;background:var(--gold);color:#000;border:none;border-radius:20px;font-family:var(--sans);font-size:.74rem;font-weight:700;cursor:pointer}
-.brands-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px}
-.ba-tile{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 10px;text-align:center;box-shadow:var(--sh)}
-.ba-logo{width:56px;height:40px;object-fit:contain;margin:0 auto 8px;display:block}
-.ba-name{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:3px}
-.ba-sector{font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
-.ba-rating{font-size:.64rem;color:var(--gold);margin-top:4px}
+.brands-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px}
+.ba-tile{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:13px 10px;text-align:center;box-shadow:var(--sh)}
+.ba-logo{width:54px;height:38px;object-fit:contain;margin:0 auto 7px;display:block}
+.ba-name{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.ba-sector{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.ba-rating{font-size:.62rem;color:var(--gold);margin-top:3px}
+/* admin profile panel */
+.profile-panel{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:flex-end;padding:60px 16px 0}
+.profile-panel.open{display:flex}
+.pp-box{background:#16161E;border:1px solid var(--border);border-radius:8px;width:100%;max-width:340px;max-height:80vh;overflow-y:auto;animation:ppIn .25s ease}
+@keyframes ppIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.pp-head{padding:18px 20px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.pp-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text)}
+.pp-x{background:none;border:none;color:var(--text3);font-size:1.4rem;cursor:pointer;line-height:1}
+.pp-x:hover{color:var(--text)}
+.pp-body{padding:20px}
+.pp-av-wrap{text-align:center;margin-bottom:18px}
+.pp-av{width:72px;height:72px;border-radius:50%;object-fit:cover;margin:0 auto 10px;display:block;border:2px solid var(--gold)}
+.pp-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.pp-role{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.pp-info{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;padding:12px 14px;margin-top:12px;font-size:.76rem;color:var(--text2);line-height:1.8}
 @media(max-width:900px){.admin-stats{grid-template-columns:1fr 1fr 1fr}.admin-body{padding:18px 16px}.table-wrap{overflow-x:auto}}
   </style>
 </head>
 <body>
 
+<!-- LOGIN with product slideshow background -->
 <div class="login-wrap" id="loginWrap">
+  <div class="login-bg" id="loginBg"></div>
+  <div class="login-overlay"></div>
+  <div class="login-grid"></div>
   <div class="login-card">
-    <div class="login-logo"><div class="login-globe"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg></div><div class="login-name">Global Brands</div></div>
+    <div class="login-logo">
+      <div class="login-globe"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg></div>
+      <div class="login-name">Global Brands</div>
+    </div>
     <div class="login-tag">Admin Panel</div>
     <h2>Welcome Back</h2>
-    <p class="login-sub">Sign in to access the admin dashboard</p>
-    <div class="err-msg" id="loginErr">Invalid credentials.</div>
-    <div class="lg"><label>Username</label><input type="text" id="adminUser" placeholder="Admin username"/></div>
-    <div class="lg"><label>Password</label><input type="password" id="adminPass" placeholder="Admin password"/></div>
-    <button class="btn-login" onclick="adminLogin()">Sign In to Admin Panel</button>
+    <p class="login-sub">Sign in with your admin credentials to access the dashboard</p>
+    <div class="err-msg" id="loginErr">Invalid credentials. Please try again.</div>
+    <div class="lg">
+      <label>Username</label>
+      <input type="text" id="adminUser" placeholder="Your admin username"/>
+    </div>
+    <div class="lg">
+      <label>Password</label>
+      <div class="pw-wrap">
+        <input type="password" id="adminPass" placeholder="Admin password"/>
+        <button class="pw-eye" type="button" onclick="toggleLoginPw()">
+          <svg id="loginEye" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+    <button class="btn-login" onclick="adminLogin()">Sign In</button>
   </div>
 </div>
 
+<!-- ADMIN PANEL -->
 <div class="admin-wrap" id="adminWrap">
   <nav class="admin-nav">
     <div class="admin-logo">
@@ -133,6 +193,11 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
       <div><div class="admin-brand">Global Brands Admin</div><div class="admin-tag">Supabase · <span id="lastRefresh">Loading...</span></div></div>
     </div>
     <div class="admin-nav-right">
+      <!-- Admin profile chip -->
+      <div class="admin-chip" onclick="openProfile()">
+        <img class="admin-chip-av" id="navAdminAv" src="" alt=""/>
+        <div><div class="admin-chip-name" id="navAdminName">Admin</div><div class="admin-chip-role" id="navAdminRole">Administrator</div></div>
+      </div>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle mode">☀️</button>
       <button class="refresh-btn" onclick="refreshData()">↻ Refresh</button>
       <button class="logout-btn" onclick="adminLogout()">Log Out</button>
@@ -141,7 +206,7 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 
   <div class="admin-body">
     <div class="admin-stats">
-      <div class="stat-card gold"><div class="sc-label">Total Users</div><div class="sc-val" id="statTotal">—</div><div class="sc-sub">From Supabase</div></div>
+      <div class="stat-card gold"><div class="sc-label">Total Users</div><div class="sc-val" id="statTotal">—</div><div class="sc-sub">160+ countries worldwide</div></div>
       <div class="stat-card"><div class="sc-label">Online Now</div><div class="sc-val" id="statOnline">—</div><div class="sc-sub">Active ≤5 min</div></div>
       <div class="stat-card"><div class="sc-label">Blocked Users</div><div class="sc-val" id="statBlocked">—</div><div class="sc-sub">Special brand pending</div></div>
       <div class="stat-card"><div class="sc-label">Brands</div><div class="sc-val">96</div><div class="sc-sub">Global brands</div></div>
@@ -152,7 +217,7 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
       <button class="atab active" onclick="switchATab('users',this)">Users</button>
       <button class="atab" onclick="switchATab('brands',this)">Brands</button>
       <button class="atab" onclick="switchATab('countries',this)">Countries</button>
-      <button class="atab" onclick="switchATab('chats',this)">Chats <span id="chatBadge" style="background:#FF5B5B;color:#fff;font-size:.55rem;padding:1px 6px;border-radius:100px;margin-left:4px;display:none">●</span></button>
+      <button class="atab" onclick="switchATab('chats',this)">Chats <span id="chatBadge" style="background:#FF5B5B;color:#fff;font-size:.52rem;padding:1px 6px;border-radius:100px;margin-left:4px;display:none">●</span></button>
     </div>
 
     <!-- USERS -->
@@ -161,7 +226,7 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
         <input class="search-input" id="userSearch" placeholder="Search by name, email, phone, country, invite code..." oninput="renderUsers()"/>
         <span class="table-count" id="userCount">—</span>
       </div>
-      <p style="font-size:.7rem;color:var(--text3);margin-bottom:10px">💡 Double-click any cell to edit it. Press Enter or click away to save instantly to Supabase.</p>
+      <p style="font-size:.68rem;color:var(--text3);margin-bottom:10px">💡 Double-click any cell to edit. Press Enter or click away to save to Supabase instantly.</p>
       <div class="table-wrap">
         <table class="admin-table">
           <thead>
@@ -194,9 +259,9 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 
     <!-- CHATS -->
     <div class="atab-content" id="atab-chats">
-      <div style="display:grid;grid-template-columns:280px 1fr;gap:16px;height:62vh">
+      <div style="display:grid;grid-template-columns:280px 1fr;gap:14px;height:62vh">
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow-y:auto;box-shadow:var(--sh)">
-          <div style="padding:10px 14px;border-bottom:1px solid var(--border2);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);font-weight:600">Conversations</div>
+          <div style="padding:10px 13px;border-bottom:1px solid var(--border2);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);font-weight:600">Conversations</div>
           <div id="chatList"></div>
         </div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;box-shadow:var(--sh)" id="chatConvo">
@@ -207,13 +272,53 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
   </div>
 </div>
 
+<!-- ADMIN PROFILE PANEL -->
+<div class="profile-panel" id="profilePanel" onclick="if(event.target===this)closeProfile()">
+  <div class="pp-box">
+    <div class="pp-head"><span class="pp-title">My Admin Profile</span><button class="pp-x" onclick="closeProfile()">×</button></div>
+    <div class="pp-body">
+      <div class="pp-av-wrap">
+        <img class="pp-av" id="ppAv" src="" alt=""/>
+        <div class="pp-name" id="ppName">Admin</div>
+        <div class="pp-role" id="ppRole">Administrator</div>
+      </div>
+      <div class="pp-info" id="ppInfo">Loading...</div>
+    </div>
+  </div>
+</div>
+
 <script src="brands.js"></script>
 <script src="gb_shared.js"></script>
 <script src="supabase.js"></script>
 <script>
-const ADMIN_USER='admin',ADMIN_PASS='GlobalAdmin2025!';
+// ── ADMIN ACCOUNTS ──
+// Password is shared — any username with the correct password logs in
+// Each admin gets a unique avatar and display name
+const ADMIN_PASSWORD = 'GlobalAdmin2025!';
+const ADMIN_ACCOUNTS = {
+  'admin':    { name:'Super Admin',    role:'Super Administrator', color:'#C9A84C' },
+  'admin2':   { name:'Admin Two',      role:'Administrator',       color:'#5271E0' },
+  'admin3':   { name:'Admin Three',    role:'Administrator',       color:'#E05252' },
+  'support1': { name:'Support Agent',  role:'Support Team',        color:'#52C972' },
+  'support2': { name:'Support Agent 2',role:'Support Team',        color:'#9B52E0' },
+  'manager':  { name:'Manager',        role:'Senior Admin',        color:'#E08252' },
+};
+
 let isDark=true;
 let allUsers=[];
+let currentAdmin=null; // {username, name, role, avatar}
+
+// Generate admin avatar SVG
+function adminAvatar(name,color){
+  const initials=name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${color}"/><text x="32" y="38" font-family="Arial Black,sans-serif" font-weight="900" font-size="20" fill="white" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`)}`;
+}
+
+function toggleLoginPw(){
+  const inp=document.getElementById('adminPass'),ico=document.getElementById('loginEye');
+  if(inp.type==='password'){inp.type='text';ico.innerHTML=`<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`;}
+  else{inp.type='password';ico.innerHTML=`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;}
+}
 
 function toggleTheme(){
   isDark=!isDark;
@@ -222,25 +327,43 @@ function toggleTheme(){
 }
 
 function adminLogin(){
-  const u=document.getElementById('adminUser').value.trim();
-  const p=document.getElementById('adminPass').value;
-  if(u===ADMIN_USER&&p===ADMIN_PASS){
-    document.getElementById('loginWrap').style.display='none';
-    document.getElementById('adminWrap').style.display='flex';
-    sessionStorage.setItem('gb_admin','1');
-    refreshData();
-    setInterval(refreshData,15000);
-  } else {
-    document.getElementById('loginErr').style.display='block';
-  }
+  const username=document.getElementById('adminUser').value.trim().toLowerCase();
+  const pwd=document.getElementById('adminPass').value;
+  document.getElementById('loginErr').style.display='none';
+  if(pwd!==ADMIN_PASSWORD){document.getElementById('loginErr').style.display='block';return;}
+  const acct=ADMIN_ACCOUNTS[username]||{name:username.charAt(0).toUpperCase()+username.slice(1),role:'Administrator',color:'#C9A84C'};
+  const av=adminAvatar(acct.name,acct.color);
+  currentAdmin={username,name:acct.name,role:acct.role,avatar:av,color:acct.color};
+  sessionStorage.setItem('gb_admin',JSON.stringify(currentAdmin));
+  showAdmin();
 }
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('loginWrap').style.display!=='none')adminLogin();});
+
+function showAdmin(){
+  document.getElementById('loginWrap').style.display='none';
+  document.getElementById('adminWrap').style.display='flex';
+  // Set nav profile chip
+  document.getElementById('navAdminAv').src=currentAdmin.avatar;
+  document.getElementById('navAdminName').textContent=currentAdmin.name;
+  document.getElementById('navAdminRole').textContent=currentAdmin.role;
+  // Set profile panel
+  document.getElementById('ppAv').src=currentAdmin.avatar;
+  document.getElementById('ppName').textContent=currentAdmin.name;
+  document.getElementById('ppRole').textContent=currentAdmin.role;
+  document.getElementById('ppInfo').innerHTML=`Username: <strong>${currentAdmin.username}</strong><br>Role: <strong>${currentAdmin.role}</strong><br>Status: <strong style="color:#4caf50">● Online</strong>`;
+  refreshData();
+  setInterval(refreshData,15000);
+}
 
 function adminLogout(){
   sessionStorage.removeItem('gb_admin');
   document.getElementById('loginWrap').style.display='flex';
   document.getElementById('adminWrap').style.display='none';
+  currentAdmin=null;
 }
+
+function openProfile(){document.getElementById('profilePanel').classList.add('open');}
+function closeProfile(){document.getElementById('profilePanel').classList.remove('open');}
 
 async function refreshData(){
   document.getElementById('lastRefresh').textContent='Updated: '+new Date().toLocaleTimeString();
@@ -253,14 +376,10 @@ async function refreshData(){
   document.getElementById('statOnline').textContent=online.length;
   document.getElementById('statBlocked').textContent=blocked.length;
   document.getElementById('statCountries').textContent=countries.length;
-  renderUsers();
-  renderCountries();
-  renderBrandsAdmin();
-  // Chat badge
+  renderUsers();renderCountries();renderBrandsAdmin();
   const msgs=await sb.getAllChats();
   const unread=msgs.filter(m=>m.sender==='user'&&!m.read).length;
-  const cb=document.getElementById('chatBadge');
-  if(cb)cb.style.display=unread>0?'inline':'none';
+  const cb=document.getElementById('chatBadge');if(cb)cb.style.display=unread>0?'inline':'none';
 }
 
 function renderUsers(){
@@ -272,72 +391,72 @@ function renderUsers(){
     const isOnline=u.last_seen&&now-new Date(u.last_seen).getTime()<300000;
     const fmt=n=>{const sym=u.symbol||'KES';const abs=Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});return (n<0?'-':'')+sym+' '+abs;};
     const bal=u.earnings||0;const balClass=bal<0?'bal-neg':'bal-pos';
-    const avHtml=u.avatar?`<img class="u-av-img" src="${u.avatar}" onerror="this.style.display='none'"/>`:`<div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#000;flex-shrink:0">${u.name?u.name[0].toUpperCase():'?'}</div>`;
+    const avHtml=u.avatar?`<img class="u-av-img" src="${u.avatar}" onerror="this.style.display='none'"/>`:`<div style="width:30px;height:30px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:#000;flex-shrink:0">${u.name?u.name[0].toUpperCase():'?'}</div>`;
     const tc=u.tasks_completed||0;const round=tc<32?1:tc<64?2:3;
     const blk=u.special_blocked||{};
-    let spStatus='<span style="color:var(--text3);font-size:.68rem">Clear</span>';
+    let spStatus='<span style="color:var(--text3);font-size:.66rem">Clear</span>';
     if((blk[45]||blk[58])&&bal<=0){const which=blk[45]?'Brand 14 R2':'Brand 27 R2';spStatus=`<span class="badge badge-blocked">⚠️ ${which}</span>`;}
     const pendDep=u.pending_deposit||0;const pendWd=u.pending_withdrawal||0;
     const joined=u.joined_at?new Date(u.joined_at).toLocaleDateString():'—';
-    const pwd=u.password_hash?atob(u.password_hash):'—';
+    // Password — show with eye toggle
+    const pwdPlain=u.password_hash?(() => {try{return atob(u.password_hash);}catch{return '—';}})():'—';
+    const pwdId='pwd-'+i;
     return `<tr data-email="${u.email}">
       <td class="row-num">${i+1}</td>
       <td><div class="u-cell">${avHtml}<div><div class="u-uname">${u.name||'Unknown'}</div><div class="u-email">${u.email||''}</div></div></div></td>
-      <td contenteditable="true" data-field="phone" ondblclick="makeEditable(this)" onblur="saveCell(this,'${u.email}')">${u.phone||'—'}</td>
-      <td contenteditable="true" data-field="country" ondblclick="makeEditable(this)" onblur="saveCell(this,'${u.email}')">${u.country||'—'}</td>
-      <td contenteditable="true" data-field="year_of_birth" ondblclick="makeEditable(this)" onblur="saveCell(this,'${u.email}')">${u.year_of_birth||'—'}</td>
+      <td contenteditable="true" data-field="phone" onblur="saveCell(this,'${u.email}')">${u.phone||'—'}</td>
+      <td contenteditable="true" data-field="country" onblur="saveCell(this,'${u.email}')">${u.country||'—'}</td>
+      <td contenteditable="true" data-field="year_of_birth" onblur="saveCell(this,'${u.email}')">${u.year_of_birth||'—'}</td>
       <td><span class="inv-code">${u.invite_code||'—'}</span></td>
-      <td contenteditable="true" data-field="password_hash" data-raw="${u.password_hash||''}" ondblclick="makeEditable(this)" onblur="savePwd(this,'${u.email}')" style="font-size:.72rem;color:var(--text3)">${pwd}</td>
-      <td style="font-size:.74rem">${u.currency||'KES'} (${u.symbol||'KES'})</td>
-      <td class="${balClass}" contenteditable="true" data-field="earnings" ondblclick="makeEditable(this)" onblur="saveCell(this,'${u.email}')">${bal.toFixed(2)}</td>
+      <td>
+        <div class="pwd-cell">
+          <span class="pwd-text" id="${pwdId}" data-plain="${pwdPlain}" data-hidden="true">••••••••</span>
+          <button class="pwd-eye" onclick="togglePwdCell('${pwdId}')" title="Show/hide password">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </td>
+      <td style="font-size:.72rem">${u.currency||'KES'} (${u.symbol||'KES'})</td>
+      <td class="${balClass}" contenteditable="true" data-field="earnings" onblur="saveCell(this,'${u.email}')">${bal.toFixed(2)}</td>
       <td><button class="dep-btn" onclick="adminDeposit('${u.email}','${u.symbol||'KES'}')">+ Deposit</button></td>
-      <td>${tc} / 96<br><span style="font-size:.6rem;color:var(--gold);font-weight:600">Round ${round}</span></td>
+      <td>${tc} / 96<br><span style="font-size:.58rem;color:var(--gold);font-weight:600">Round ${round}</span></td>
       <td>${spStatus}</td>
-      <td style="color:#2e7d32;font-size:.74rem">${pendDep>0?'+'+fmt(pendDep):'<span style="color:var(--text3)">—</span>'}</td>
-      <td style="color:#b35c00;font-size:.74rem">${pendWd>0?fmt(pendWd):'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="color:#2e7d32;font-size:.72rem">${pendDep>0?'+'+fmt(pendDep):'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="color:#b35c00;font-size:.72rem">${pendWd>0?fmt(pendWd):'<span style="color:var(--text3)">—</span>'}</td>
       <td><span class="badge ${isOnline?'badge-online':'badge-offline'}"><span class="status-dot ${isOnline?'online':'offline'}"></span>${isOnline?'Online':'Offline'}</span></td>
-      <td style="color:var(--text3);font-size:.7rem">${joined}</td>
+      <td style="color:var(--text3);font-size:.68rem">${joined}</td>
     </tr>`;
   }).join('');
 }
 
-function makeEditable(td){td.contentEditable='true';td.focus();const r=document.createRange();r.selectNodeContents(td);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}
+function togglePwdCell(id){
+  const el=document.getElementById(id);if(!el)return;
+  const hidden=el.getAttribute('data-hidden')==='true';
+  if(hidden){el.textContent=el.getAttribute('data-plain');el.setAttribute('data-hidden','false');}
+  else{el.textContent='••••••••';el.setAttribute('data-hidden','true');}
+}
 
 async function saveCell(td,email){
-  const field=td.getAttribute('data-field');
-  let val=td.textContent.trim();
+  const field=td.getAttribute('data-field');let val=td.textContent.trim();
   if(val==='—')val='';
   if(field==='earnings')val=parseFloat(val)||0;
   const update={};update[field]=val;
   await sb.updateUser(email,update);
-  // Update local allUsers
-  const u=allUsers.find(u=>u.email===email);
-  if(u)u[field]=val;
-  td.style.borderBottom='';
-}
-
-async function savePwd(td,email){
-  const plain=td.textContent.trim();
-  if(!plain||plain==='—')return;
-  const hashed=btoa(plain);
-  await sb.updateUser(email,{password_hash:hashed});
-  td.textContent=plain;
+  const u=allUsers.find(u=>u.email===email);if(u)u[field]=val;
 }
 
 async function adminDeposit(email,symbol){
   const amtStr=prompt(`Deposit amount for ${email} (${symbol}):`);
-  if(!amtStr)return;
-  const amount=parseFloat(amtStr);
+  if(!amtStr)return;const amount=parseFloat(amtStr);
   if(!amount||amount<=0){alert('Invalid amount.');return;}
-  const u=allUsers.find(u=>u.email===email);
-  if(!u){alert('User not found.');return;}
+  const u=allUsers.find(u=>u.email===email);if(!u){alert('User not found.');return;}
   const newEarnings=parseFloat(((u.earnings||0)+amount).toFixed(2));
   const newPendDep=Math.max(0,parseFloat(((u.pending_deposit||0)-amount).toFixed(2)));
   await sb.updateUser(email,{earnings:newEarnings,pending_deposit:newPendDep});
-  await sb.addTransaction({user_email:email,type:'deposit',label:'Admin Deposit',amount,status:'completed'});
+  await sb.addTransaction({user_email:email,type:'deposit',label:'Admin Deposit by '+currentAdmin.name,amount,status:'completed'});
   u.earnings=newEarnings;u.pending_deposit=newPendDep;
   renderUsers();
-  alert(`✅ Deposited ${symbol} ${amount.toFixed(2)} to ${email}. New balance: ${symbol} ${newEarnings.toFixed(2)}`);
+  alert(`✅ Deposited ${symbol} ${amount.toFixed(2)} to ${email}.\nNew balance: ${symbol} ${newEarnings.toFixed(2)}`);
 }
 
 function renderCountries(){
@@ -348,8 +467,7 @@ function renderCountries(){
 }
 
 function renderBrandsAdmin(){
-  const grid=document.getElementById('brandsAdminGrid');
-  if(grid.children.length>0)return;
+  const grid=document.getElementById('brandsAdminGrid');if(grid.children.length>0)return;
   BRANDS.forEach(b=>{
     const stars='★'.repeat(Math.round(b.rating))+'☆'.repeat(5-Math.round(b.rating));
     const tile=document.createElement('div');tile.className='ba-tile';
@@ -367,19 +485,16 @@ function switchATab(name,btn){
 let activeChatEmail=null;
 async function renderChatList(){
   const msgs=await sb.getAllChats();
-  // Group by user_email
-  const byUser={};
-  msgs.forEach(m=>{if(!byUser[m.user_email])byUser[m.user_email]=[];byUser[m.user_email].push(m);});
+  const byUser={};msgs.forEach(m=>{if(!byUser[m.user_email])byUser[m.user_email]=[];byUser[m.user_email].push(m);});
   const unreadTotal=msgs.filter(m=>m.sender==='user'&&!m.read).length;
   const cb=document.getElementById('chatBadge');if(cb)cb.style.display=unreadTotal>0?'inline':'none';
   const list=document.getElementById('chatList');
   const entries=Object.entries(byUser);
   if(entries.length===0){list.innerHTML='<div style="padding:20px;text-align:center;font-size:.76rem;color:var(--text3)">No conversations yet</div>';return;}
-  // Get user info for avatars
   const userMap={};allUsers.forEach(u=>userMap[u.email]=u);
   list.innerHTML=entries.map(([email,userMsgs])=>{
     const last=userMsgs[userMsgs.length-1];
-    const preview=last?last.text.slice(0,42)+(last.text.length>42?'...':''):'';
+    const preview=last?last.text.slice(0,40)+(last.text.length>40?'...':''):'';
     const unread=userMsgs.filter(m=>m.sender==='user'&&!m.read).length;
     const u=userMap[email];const name=u?u.name:'Unknown';
     const av=u&&u.avatar?u.avatar:`data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#C9A84C"/><text x="32" y="38" font-family="Arial Black" font-size="22" fill="white" text-anchor="middle">${name[0]||'?'}</text></svg>`)}`;
@@ -398,12 +513,23 @@ async function openAdminChat(email,name){
   await sb.markMessagesRead(email);
   const msgs=await sb.getMessages(email);
   const convo=document.getElementById('chatConvo');
-  convo.innerHTML=`<div style="padding:12px 16px;border-bottom:1px solid var(--border2);font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--text)">💬 ${name} <span style="font-size:.62rem;font-family:var(--sans);color:var(--text3);font-weight:400">${email}</span></div><div class="admin-chat-msgs" id="adminMsgs"></div><div class="admin-reply-row"><input class="admin-reply-input" id="adminReplyInput" placeholder="Reply as Customer Care..." onkeydown="if(event.key==='Enter')adminReply()"/><button class="admin-reply-btn" onclick="adminReply()">Send</button></div>`;
+  convo.innerHTML=`
+    <div style="padding:12px 16px;border-bottom:1px solid var(--border2);font-family:var(--serif);font-size:.92rem;font-weight:700;color:var(--text)">
+      💬 ${name} <span style="font-size:.6rem;font-family:var(--sans);color:var(--text3);font-weight:400">${email}</span>
+    </div>
+    <div class="admin-chat-msgs" id="adminMsgs"></div>
+    <div class="admin-reply-row">
+      <input class="admin-reply-input" id="adminReplyInput" placeholder="Reply as ${currentAdmin.name}..." onkeydown="if(event.key==='Enter')adminReply()"/>
+      <button class="admin-reply-btn" onclick="adminReply()">Send</button>
+    </div>`;
   const container=document.getElementById('adminMsgs');
   container.innerHTML=msgs.map(m=>{
     const cls=m.sender==='care'?'care':'user';
-    const sndr=`<div class="sndr">${m.sender==='care'?'You (Care)':'User'}</div>`;
-    return `<div class="acm ${cls}">${sndr}${m.text}<div class="mt">${new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+    // Show which admin replied
+    const senderLabel=m.sender==='care'
+      ? `<div class="sndr">${m.admin_name||'Customer Care'}</div>`
+      : `<div class="sndr">User</div>`;
+    return `<div class="acm ${cls}">${senderLabel}${m.text}<div class="mt">${new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div></div>`;
   }).join('');
   container.scrollTop=container.scrollHeight;
   renderChatList();
@@ -413,15 +539,49 @@ async function adminReply(){
   const input=document.getElementById('adminReplyInput');
   if(!input||!activeChatEmail)return;
   const text=input.value.trim();if(!text)return;
-  await sb.sendMessage(activeChatEmail,text,'care');
+  // Send with admin name stored
+  await fetch(`https://qnggcickewzxjeudjysr.supabase.co/rest/v1/gb_messages`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM','Prefer':'return=representation'},
+    body:JSON.stringify({user_email:activeChatEmail,text,sender:'care',read:false,admin_name:currentAdmin.name})
+  });
   input.value='';
   openAdminChat(activeChatEmail,activeChatEmail);
 }
 
-if(sessionStorage.getItem('gb_admin')==='1'){
-  document.getElementById('loginWrap').style.display='none';
-  document.getElementById('adminWrap').style.display='flex';
-  refreshData();setInterval(refreshData,15000);
+// ── LOGIN BACKGROUND SLIDESHOW ──
+const LOGIN_SLIDES=[
+  'https://images.unsplash.com/photo-1696446701796-da61339df4a6?w=1200&q=80', // iPhone 16
+  'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=80',   // Nike
+  'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1200&q=80',// Tesla
+  'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=1200&q=80',// Coca-Cola
+  'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=80', // MacBook
+];
+let bgSlideIdx=0;
+function initLoginBg(){
+  const bg=document.getElementById('loginBg');
+  LOGIN_SLIDES.forEach((url,i)=>{
+    const div=document.createElement('div');
+    div.className='login-slide'+(i===0?' active':'');
+    div.style.backgroundImage=`url('${url}')`;
+    bg.appendChild(div);
+  });
+  setInterval(()=>{
+    const slides=document.querySelectorAll('.login-slide');
+    slides[bgSlideIdx].classList.remove('active');
+    bgSlideIdx=(bgSlideIdx+1)%slides.length;
+    slides[bgSlideIdx].classList.add('active');
+  },4000);
+}
+initLoginBg();
+
+// Also need admin_name column in Supabase messages table
+// Run: ALTER TABLE public.gb_messages ADD COLUMN IF NOT EXISTS admin_name text;
+
+// Restore session
+const saved=sessionStorage.getItem('gb_admin');
+if(saved){
+  try{currentAdmin=JSON.parse(saved);showAdmin();}catch(e){sessionStorage.removeItem('gb_admin');}
 }
 </script>
 </body>
