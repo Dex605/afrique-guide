@@ -188,7 +188,9 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
     <nav class="sb-nav">
       <a href="home.html" class="nav-item active">🏠 Home</a>
       <a href="rate.html" class="nav-item">⭐ Rate Brands</a>
-      <a href="wallet.html" class="nav-item">💰 Wallet</a>
+      <a href="deposit.html" class="nav-item">💰 Deposit</a>
+      <a href="withdraw.html" class="nav-item">💸 Withdraw</a>
+      <a href="wallet.html" class="nav-item">📊 Wallet</a>
     </nav>
     <div class="sb-foot">
       <div class="u-chip" onclick="openPanel('profilePanel')">
@@ -207,6 +209,7 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
       <div class="tb-right">
         <span style="font-size:.78rem;color:var(--muted)" id="tbGreet"></span>
         <a href="rate.html" class="btn-sm btn-g-sm">Start Rating →</a>
+        <a href="deposit.html" class="btn-sm" style="background:rgba(76,175,80,.1);color:#4caf50;border:1px solid rgba(76,175,80,.2);font-size:.68rem;padding:7px 16px;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;text-decoration:none">+ Deposit</a>
         <!-- Language -->
         <div class="lang-dd-wrap">
           <div class="icon-btn" onclick="toggleLangDD()" title="Language">
@@ -262,9 +265,23 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
     <div class="content">
       <div id="loadingBanner" style="text-align:center;padding:40px;color:var(--muted);font-size:.84rem">Loading your account...</div>
       <div id="mainContent" style="display:none">
+        <!-- PRODUCT SHOWCASE BANNER -->
+        <div style="position:relative;height:220px;border-radius:8px;overflow:hidden;margin-bottom:24px;border:1px solid var(--border2)">
+          <div id="productSlideshow" style="position:absolute;inset:0;background:var(--card)">
+            <!-- Slides injected by JS -->
+          </div>
+          <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,6,8,.85) 0%,rgba(6,6,8,.3) 40%,rgba(6,6,8,.3) 60%,rgba(6,6,8,.85) 100%);z-index:2"></div>
+          <div style="position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:center;padding:28px 32px">
+            <div style="font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Featured Products</div>
+            <div style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--cream);margin-bottom:4px" id="slideTitle">World's Greatest Brands</div>
+            <div style="font-size:.78rem;color:var(--muted);font-weight:300" id="slideSubtitle">Rate them. Earn real rewards.</div>
+          </div>
+          <!-- Slide dots -->
+          <div style="position:absolute;bottom:14px;right:20px;z-index:4;display:flex;gap:6px" id="slideDots"></div>
+        </div>
         <div class="welcome-banner">
           <div class="wb-left"><h2 id="wbName">Welcome!</h2><p>Explore 96 iconic global brands. Click any to read their story, then head to Rate Brands to start earning.</p></div>
-          <div class="wb-right"><div class="wb-label">Balance</div><div class="wb-amount" id="wbBal">0.00</div><div style="font-size:.62rem;color:rgba(242,237,228,.3)">Tap Wallet to withdraw</div></div>
+          <div class="wb-right"><div class="wb-label">Balance</div><div class="wb-amount" id="wbBal">0.00</div><div style="font-size:.62rem;color:rgba(242,237,228,.3)"><a href="withdraw.html" style="color:var(--gold);text-decoration:none">Withdraw →</a></div></div>
         </div>
         <div class="qs">
           <div class="qs-card"><div class="qs-label">Brands Rated</div><div class="qs-val" id="qsRated">0</div><div class="qs-sub">out of 96</div></div>
@@ -627,6 +644,44 @@ function openBrandModal(b){
 }
 function closeModal(){document.getElementById('brandModal').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('brandModal').addEventListener('click',e=>{if(e.target===document.getElementById('brandModal'))closeModal();});
+
+// Product slideshow
+const SLIDES = [
+  { img:'https://images.unsplash.com/photo-1696446701796-da61339df4a6?w=900&q=80', title:'iPhone 16 Pro Max', subtitle:'Apple · The most powerful iPhone ever made' },
+  { img:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&q=80', title:'MacBook Pro', subtitle:'Apple · Power for the pros' },
+  { img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=80', title:'Nike Air Max', subtitle:'Nike · Just Do It' },
+  { img:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=900&q=80', title:'Tesla Model S', subtitle:'Tesla · Accelerating the world to sustainable energy' },
+];
+let slideIdx=0,slideTimer=null;
+function initSlideshow(){
+  const ss=document.getElementById('productSlideshow');
+  const dots=document.getElementById('slideDots');
+  if(!ss)return;
+  // Build slides
+  SLIDES.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.style.cssText=`position:absolute;inset:0;background:url('${s.img}') center/cover no-repeat;transition:opacity 1.2s ease;opacity:${i===0?1:0};filter:blur(3px) brightness(.45) saturate(1.3)`;
+    div.id='slide-'+i;
+    ss.appendChild(div);
+    const dot=document.createElement('div');
+    dot.style.cssText=`width:${i===0?18:7}px;height:7px;border-radius:4px;background:${i===0?'var(--gold)':'rgba(242,237,228,.3)'};cursor:pointer;transition:all .3s`;
+    dot.onclick=()=>goSlide(i);
+    dot.id='dot-'+i;
+    dots.appendChild(dot);
+  });
+  slideTimer=setInterval(()=>goSlide((slideIdx+1)%SLIDES.length),4000);
+}
+function goSlide(idx){
+  const prev=slideIdx;slideIdx=idx;
+  document.getElementById('slide-'+prev).style.opacity='0';
+  document.getElementById('slide-'+idx).style.opacity='1';
+  document.getElementById('slideTitle').textContent=SLIDES[idx].title;
+  document.getElementById('slideSubtitle').textContent=SLIDES[idx].subtitle;
+  document.getElementById('dot-'+prev).style.cssText=`width:7px;height:7px;border-radius:4px;background:rgba(242,237,228,.3);cursor:pointer;transition:all .3s`;
+  document.getElementById('dot-'+idx).style.cssText=`width:18px;height:7px;border-radius:4px;background:var(--gold);cursor:pointer;transition:all .3s`;
+  clearInterval(slideTimer);slideTimer=setInterval(()=>goSlide((slideIdx+1)%SLIDES.length),4000);
+}
+initSlideshow();
 
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
 function logout(){localStorage.removeItem('gb_login');localStorage.removeItem('gb_user');location.href='index.html';}

@@ -323,25 +323,30 @@ async function rateBrand(){
       user.special_blocked[curr]=true;
       await save();updateUI();showSpecialNegative(curr,newBal,spec);return;
     }
-    const earn=parseFloat(((bonus*(0.0017+Math.random()*.0013))*spec.mult).toFixed(2));
+    const earn=parseFloat(((bonus*(0.005+Math.random()*0.003))*spec.mult).toFixed(2));
     user.earnings=parseFloat((user.earnings+earn).toFixed(2));
     user.tasks_completed=(user.tasks_completed||0)+1;
     curr++;recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});if(recent.length>5)recent.pop();
     await save();await recordEarning(earn);renderRecent();updateUI();showSpecialSuccess(spec,earn);return;
   }
-  // Normal
-  // Round 1: earn range 0.50% to 0.80% of bonus per brand
-  // Round 2: earn range 0.80% to 1.20% of bonus per brand
-  // Round 3: earn range 1.00% to 1.50% of bonus per brand
+  // Normal rating
   let earnRate;
-  if(curr<32) earnRate=0.005+Math.random()*0.003;
-  else if(curr<64) earnRate=0.008+Math.random()*0.004;
-  else earnRate=0.010+Math.random()*0.005;
+  if(curr<32) earnRate=0.005+Math.random()*0.003;       // R1: 0.50%–0.80% of bonus
+  else if(curr<64) earnRate=0.008+Math.random()*0.004;  // R2: 0.80%–1.20% of bonus
+  else earnRate=0.010+Math.random()*0.005;               // R3: 1.00%–1.50% of bonus
   const earn=parseFloat((bonus*earnRate).toFixed(2));
-  const deduct=curr<32?parseFloat((bonus/32).toFixed(2)):0;
+
+  // Welcome bonus: depletes only in Round 1, NEVER goes below zero
+  // Actual earnings are SEPARATE from bonus and are always positive
+  if(curr<32){
+    const deduct=parseFloat((bonus/32).toFixed(2));
+    const newBonusUsed=parseFloat(((user.bonus_used||0)+deduct).toFixed(2));
+    const newBonusRemaining=Math.max(0, parseFloat(((user.bonus||0)-newBonusUsed).toFixed(2)));
+    user.bonus_used=newBonusUsed;
+    user.bonus_remaining=newBonusRemaining;
+  }
+  // Earnings always increase — bonus depletion is separate tracking only
   user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));
-  user.bonus_used=parseFloat(((user.bonus_used||0)+deduct).toFixed(2));
-  user.bonus_remaining=parseFloat(((user.bonus||0)-(user.bonus_used||0)).toFixed(2));
   user.tasks_completed=(user.tasks_completed||0)+1;
   curr++;
   recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});if(recent.length>5)recent.pop();
@@ -361,10 +366,14 @@ async function save(){
 }
 
 function showInsufficientR2Start(){
-  document.getElementById('mIcon').textContent='⚠️';document.getElementById('mTitle').textContent='Insufficient Balance';
-  document.getElementById('mMsg').textContent='To unlock Round 2, your account balance must be at least '+fmt(50)+'. Your current balance is '+fmt(user.earnings||0)+'.';
-  document.getElementById('mAmt').textContent='Required: '+fmt(50);document.getElementById('mAmt').className='m-amount';
-  document.getElementById('mBtn').textContent='Go to Wallet';mAction='deposit';openM('roundModal');
+  const bal=user.earnings||0;
+  const needed=parseFloat((50-bal).toFixed(2));
+  document.getElementById('mIcon').textContent='🔓';
+  document.getElementById('mTitle').textContent='Almost There!';
+  document.getElementById('mMsg').textContent='You are '+fmt(needed)+' away from unlocking Round 2. Your current balance is '+fmt(bal)+'. Top up and come back to continue.';
+  document.getElementById('mAmt').textContent=fmt(needed)+' needed to unlock';
+  document.getElementById('mAmt').className='m-amount';
+  document.getElementById('mBtn').textContent='Top Up Wallet';mAction='deposit';openM('roundModal');
 }
 function showSpecialNegative(idx,newBal,spec){
   document.getElementById('mIcon').textContent='⚠️';document.getElementById('mTitle').textContent='Special Brand — Top Up Required';
