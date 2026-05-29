@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Admin — Global Brands</title>
@@ -7,153 +7,273 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--gold:#C9A84C;--gold-l:#E8C97A;--black:#04040A;--dark:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,0.45);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
-body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh}
+:root{
+  --gold:#C9A84C;--gold-l:#E8C97A;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;
+  /* LIGHT MODE (default) */
+  --bg:#F5F5F7;--surface:#FFFFFF;--surface2:#F0F0F2;--nav-bg:#FFFFFF;
+  --text:#1A1A2E;--text2:#555570;--text3:#888;
+  --border:#E0E0E8;--border2:#D0D0DC;
+  --shadow:0 2px 12px rgba(0,0,0,.08);
+  --row-hover:#F8F8FC;--th-bg:#F0F0F5;
+}
+[data-theme="dark"]{
+  --bg:#04040A;--surface:#0D0D10;--surface2:#111116;--nav-bg:rgba(6,6,8,.95);
+  --text:#F2EDE4;--text2:rgba(242,237,228,0.55);--text3:rgba(242,237,228,0.3);
+  --border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);
+  --shadow:0 2px 12px rgba(0,0,0,.4);
+  --row-hover:rgba(255,255,255,.03);--th-bg:rgba(255,255,255,.04);
+}
+html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+
 /* LOGIN */
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
-.login-card{background:rgba(13,13,16,.97);border:1px solid var(--border);border-radius:8px;padding:44px 48px;width:100%;max-width:400px}
-.login-logo{font-family:var(--serif);font-size:1.4rem;font-weight:700;margin-bottom:4px}
-.login-tag{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
-.login-card h2{font-family:var(--serif);font-size:1.5rem;margin-bottom:20px}
-.lg{margin-bottom:14px}
-.lg label{display:block;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(242,237,228,.4);margin-bottom:6px}
-.lg input{width:100%;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.86rem;outline:none;transition:border-color .2s}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:var(--bg)}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:48px 52px;width:100%;max-width:420px;box-shadow:var(--shadow)}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.login-globe{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
+.login-globe svg{width:18px;height:18px}
+.login-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text)}
+.login-tag{font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
+.login-card h2{font-family:var(--serif);font-size:1.6rem;margin-bottom:6px;color:var(--text)}
+.login-sub{font-size:.78rem;color:var(--text2);margin-bottom:24px}
+.lg{margin-bottom:15px}
+.lg label{display:block;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.lg input{width:100%;padding:11px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.86rem;outline:none;transition:border-color .2s}
 .lg input:focus{border-color:var(--gold)}
-.err-msg{background:rgba(180,30,30,.15);border:1px solid rgba(180,30,30,.35);border-radius:3px;padding:9px 13px;font-size:.76rem;color:#ff8a8a;margin-bottom:14px;display:none}
-.btn-login{width:100%;padding:12px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .2s}
+.err-msg{background:rgba(180,30,30,.1);border:1px solid rgba(180,30,30,.3);border-radius:4px;padding:9px 13px;font-size:.76rem;color:#cc3333;margin-bottom:14px;display:none}
+.btn-login{width:100%;padding:13px;background:var(--gold);color:#000;border:none;border-radius:4px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:background .2s}
 .btn-login:hover{background:var(--gold-l)}
+
 /* ADMIN PANEL */
 .admin-wrap{display:none;min-height:100vh;flex-direction:column}
-.admin-nav{padding:14px 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(6,6,8,.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px)}
-.admin-brand{font-family:var(--serif);font-size:1rem;font-weight:700}
-.admin-tag{font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-.admin-nav-right{display:flex;align-items:center;gap:10px}
-.refresh-btn{padding:7px 16px;background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--cream);border-radius:3px;font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.admin-nav{padding:13px 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--nav-bg);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);box-shadow:var(--shadow)}
+.admin-logo{display:flex;align-items:center;gap:10px}
+.admin-globe{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
+.admin-globe svg{width:16px;height:16px}
+.admin-brand{font-family:var(--serif);font-size:.98rem;font-weight:700;color:var(--text)}
+.admin-tag{font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.admin-nav-right{display:flex;align-items:center;gap:8px}
+.theme-btn{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .2s}
+.theme-btn:hover{border-color:var(--gold)}
+.refresh-btn{padding:7px 16px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:4px;font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
 .refresh-btn:hover{border-color:var(--gold);color:var(--gold)}
-.logout-btn{padding:7px 16px;background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.25);color:#ff7070;border-radius:3px;font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
-.logout-btn:hover{background:rgba(255,80,80,.18)}
+.logout-btn{padding:7px 16px;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);color:#cc3333;border-radius:4px;font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.logout-btn:hover{background:rgba(255,80,80,.15)}
 .admin-body{padding:28px 36px;flex:1}
-/* stats */
-.admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:28px}
-.stat-card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:5px;padding:18px 20px}
-.stat-card.gold{background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.04));border-color:rgba(201,168,76,.22)}
-.sc-label{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(242,237,228,.36);margin-bottom:6px}
-.sc-val{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--gold-l)}
-.sc-sub{font-size:.62rem;color:rgba(242,237,228,.28);margin-top:3px}
-/* tabs */
-.admin-tabs{display:flex;gap:0;border:1px solid var(--border2);border-radius:3px;overflow:hidden;margin-bottom:22px;width:fit-content}
-.atab{padding:9px 22px;background:transparent;border:none;color:rgba(242,237,228,.46);font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-right:1px solid var(--border2)}
+
+/* STATS */
+.admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:26px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px;box-shadow:var(--shadow)}
+.stat-card.gold{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border-color:rgba(201,168,76,.3)}
+.sc-label{font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.sc-val{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--gold)}
+.sc-sub{font-size:.6rem;color:var(--text3);margin-top:3px}
+
+/* TABS */
+.admin-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:20px;width:fit-content;background:var(--surface)}
+.atab{padding:9px 22px;background:transparent;border:none;color:var(--text2);font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-right:1px solid var(--border)}
 .atab:last-child{border-right:none}
-.atab.active{background:var(--gold);color:var(--black);font-weight:600}
+.atab.active{background:var(--gold);color:#000;font-weight:700}
 .atab-content{display:none}
 .atab-content.active{display:block}
-/* search */
-.table-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap}
-.search-input{padding:8px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.8rem;outline:none;width:260px;transition:border-color .2s}
+
+/* TABLE */
+.table-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap}
+.search-input{padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.8rem;outline:none;width:280px;transition:border-color .2s}
 .search-input:focus{border-color:var(--gold)}
-.table-count{font-size:.7rem;color:var(--muted)}
-/* table */
-.admin-table{width:100%;border-collapse:collapse;font-size:.78rem}
-.admin-table th{padding:10px 14px;text-align:left;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,237,228,.36);border-bottom:1px solid var(--border2);font-weight:400}
-.admin-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(242,237,228,.75);vertical-align:middle}
-.admin-table tr:hover td{background:rgba(255,255,255,.03)}
-.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle}
-.status-dot.online{background:#4caf50;box-shadow:0 0 6px rgba(76,175,80,.5)}
-.status-dot.offline{background:rgba(242,237,228,.2)}
-.u-av-sm{width:28px;height:28px;border-radius:50%;background:var(--gold);display:inline-flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:var(--black);margin-right:8px;vertical-align:middle;flex-shrink:0}
-.badge{display:inline-block;padding:2px 9px;border-radius:100px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase}
-.badge.ke{background:rgba(37,174,99,.12);color:#25ae63;border:1px solid rgba(37,174,99,.2)}
-.badge.ng{background:rgba(0,100,0,.12);color:#4caf50;border:1px solid rgba(0,100,0,.2)}
-.badge.other{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid var(--border)}
-/* brands tab */
-.brands-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
-.ba-tile{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;padding:16px 12px;text-align:center}
-.ba-logo{width:60px;height:42px;object-fit:contain;margin:0 auto 8px;display:block;filter:grayscale(20%)}
-.ba-name{font-size:.8rem;font-weight:600;margin-bottom:3px}
-.ba-sector{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
-.ba-rating{font-size:.65rem;color:var(--gold-l);margin-top:4px}
-.auto-badge{font-size:.58rem;color:rgba(242,237,228,.3);margin-top:8px}
-@media(max-width:768px){.admin-stats{grid-template-columns:1fr 1fr}.admin-body{padding:18px 16px}.admin-table{display:block;overflow-x:auto}}
+.table-count{font-size:.7rem;color:var(--text3);font-weight:500}
+.table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.admin-table{width:100%;border-collapse:collapse;font-size:.78rem;background:var(--surface)}
+.admin-table thead{background:var(--th-bg)}
+.admin-table th{padding:11px 14px;text-align:left;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
+.admin-table td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+.admin-table tr:last-child td{border-bottom:none}
+.admin-table tbody tr:hover td{background:var(--row-hover)}
+/* row number */
+.row-num{font-size:.7rem;font-weight:700;color:var(--gold);min-width:24px;text-align:center}
+/* user cell */
+.u-cell{display:flex;align-items:center;gap:8px}
+.u-av-img{width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
+.u-av-txt{width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#000;flex-shrink:0}
+.u-uname{font-size:.8rem;font-weight:600;color:var(--text)}
+.u-email{font-size:.62rem;color:var(--text3)}
+/* badges */
+.badge{display:inline-block;padding:3px 9px;border-radius:100px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.badge-country{background:rgba(201,168,76,.12);color:#a07830;border:1px solid rgba(201,168,76,.25)}
+.badge-online{background:rgba(76,175,80,.12);color:#2e7d32;border:1px solid rgba(76,175,80,.25)}
+.badge-offline{background:rgba(0,0,0,.06);color:var(--text3);border:1px solid var(--border)}
+.badge-blocked{background:rgba(255,140,0,.12);color:#b35c00;border:1px solid rgba(255,140,0,.25)}
+.badge-clear{background:rgba(76,175,80,.1);color:#2e7d32;border:1px solid rgba(76,175,80,.2)}
+.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.status-dot.online{background:#4caf50;box-shadow:0 0 5px rgba(76,175,80,.5)}
+.status-dot.offline{background:#ccc}
+/* invite code */
+.inv-code{font-family:var(--serif);font-size:.78rem;color:var(--gold);letter-spacing:.06em;font-weight:700}
+/* balance */
+.bal-pos{color:#2e7d32;font-weight:600}
+.bal-neg{color:#cc3333;font-weight:600}
+
+/* BRANDS TAB */
+.brands-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.ba-tile{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 10px;text-align:center;box-shadow:var(--shadow)}
+.ba-logo{width:56px;height:40px;object-fit:contain;margin:0 auto 8px;display:block}
+.ba-name{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.ba-sector{font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.ba-rating{font-size:.64rem;color:var(--gold);margin-top:4px}
+
+/* CHAT TAB */
+.chat-user-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:10px}
+.chat-user-item:hover,.chat-user-item.sel{background:rgba(201,168,76,.08)}
+.cui-av{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
+.cui-name{font-size:.78rem;font-weight:600;color:var(--text)}
+.cui-preview{font-size:.65rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.cui-badge{width:8px;height:8px;border-radius:50%;background:#FF5B5B;flex-shrink:0}
+.admin-chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.acm{max-width:75%;padding:8px 13px;border-radius:10px;font-size:.78rem;line-height:1.55}
+.acm.user{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);align-self:flex-end;color:var(--text)}
+.acm.care{background:var(--surface2);border:1px solid var(--border);align-self:flex-start;color:var(--text2)}
+.acm .sndr{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.acm .mt{font-size:.56rem;color:var(--text3);margin-top:4px;text-align:right}
+.admin-reply-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border)}
+.admin-reply-input{flex:1;padding:9px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text);font-family:var(--sans);font-size:.8rem;outline:none}
+.admin-reply-input:focus{border-color:var(--gold)}
+.admin-reply-btn{padding:9px 20px;background:var(--gold);color:#000;border:none;border-radius:20px;font-family:var(--sans);font-size:.74rem;font-weight:700;cursor:pointer}
+
+@media(max-width:900px){.admin-stats{grid-template-columns:1fr 1fr 1fr}.admin-body{padding:18px 16px}.table-wrap{font-size:.72rem}}
+@media(max-width:600px){.admin-stats{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- LOGIN (light mode card) -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-card">
-    <div class="login-logo">🌍 Global Brands</div>
+    <div class="login-logo">
+      <div class="login-globe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </div>
+      <div class="login-name">Global Brands</div>
+    </div>
     <div class="login-tag">Admin Panel</div>
-    <h2>Sign In</h2>
+    <h2>Welcome Back</h2>
+    <p class="login-sub">Sign in to access the admin dashboard</p>
     <div class="err-msg" id="loginErr">Invalid credentials. Please try again.</div>
     <div class="lg"><label>Username</label><input type="text" id="adminUser" placeholder="Admin username"/></div>
     <div class="lg"><label>Password</label><input type="password" id="adminPass" placeholder="Admin password"/></div>
-    <button class="btn-login" onclick="adminLogin()">Access Admin Panel</button>
+    <button class="btn-login" onclick="adminLogin()">Sign In to Admin Panel</button>
   </div>
 </div>
 
 <!-- ADMIN PANEL -->
 <div class="admin-wrap" id="adminWrap">
-  <div class="admin-nav">
-    <div>
-      <div class="admin-brand">🌍 Global Brands Admin</div>
-      <div class="admin-tag">Control Panel · <span id="lastRefresh"></span></div>
+  <nav class="admin-nav">
+    <div class="admin-logo">
+      <div class="admin-globe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="admin-brand">Global Brands Admin</div>
+        <div class="admin-tag">Control Panel · <span id="lastRefresh"></span></div>
+      </div>
     </div>
     <div class="admin-nav-right">
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle dark/light mode">☀️</button>
       <button class="refresh-btn" onclick="refreshData()">↻ Refresh</button>
       <button class="logout-btn" onclick="adminLogout()">Log Out</button>
     </div>
-  </div>
+  </nav>
 
   <div class="admin-body">
-    <!-- Stats -->
     <div class="admin-stats">
       <div class="stat-card gold"><div class="sc-label">Total Users</div><div class="sc-val" id="statTotal">0</div><div class="sc-sub">Registered accounts</div></div>
       <div class="stat-card"><div class="sc-label">Online Now</div><div class="sc-val" id="statOnline">0</div><div class="sc-sub">Active within 5 min</div></div>
       <div class="stat-card"><div class="sc-label">Blocked Users</div><div class="sc-val" id="statBlocked">0</div><div class="sc-sub">Special brand pending</div></div>
-      <div class="stat-card"><div class="sc-label">Brands in System</div><div class="sc-val" id="statBrands">96</div><div class="sc-sub">Global brands</div></div>
+      <div class="stat-card"><div class="sc-label">Brands</div><div class="sc-val" id="statBrands">96</div><div class="sc-sub">Global brands</div></div>
       <div class="stat-card"><div class="sc-label">Countries</div><div class="sc-val" id="statCountries">0</div><div class="sc-sub">Represented</div></div>
     </div>
 
-    <!-- Tabs -->
     <div class="admin-tabs">
       <button class="atab active" onclick="switchATab('users',this)">Users</button>
       <button class="atab" onclick="switchATab('brands',this)">Brands</button>
       <button class="atab" onclick="switchATab('countries',this)">Countries</button>
+      <button class="atab" onclick="switchATab('chats',this)">Live Chats <span id="chatBadge" style="background:#FF5B5B;color:#fff;font-size:.55rem;padding:1px 6px;border-radius:100px;margin-left:4px;display:none">●</span></button>
     </div>
 
-    <!-- Users tab -->
+    <!-- USERS -->
     <div class="atab-content active" id="atab-users">
       <div class="table-top">
-        <input class="search-input" id="userSearch" placeholder="Search by name, email or country..." oninput="renderUsers()"/>
+        <input class="search-input" id="userSearch" placeholder="Search by name, email, phone, country, invite code..." oninput="renderUsers()"/>
         <span class="table-count" id="userCount">0 users</span>
       </div>
-      <table class="admin-table">
-        <thead><tr><th>User</th><th>Email</th><th>Country</th><th>Balance</th><th>Rated / Round</th><th>Special Brand</th><th>Pend. Deposit</th><th>Pend. Withdrawal</th><th>Status</th><th>Joined</th></tr></thead>
-        <tbody id="userTableBody"></tbody>
-      </table>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>User</th>
+              <th>Phone</th>
+              <th>Country</th>
+              <th>Year of Birth</th>
+              <th>Invite Code</th>
+              <th>Currency</th>
+              <th>Balance</th>
+              <th>Rated / Round</th>
+              <th>Special Brand</th>
+              <th>Pend. Deposit</th>
+              <th>Pend. Withdrawal</th>
+              <th>Status</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody"></tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- Brands tab -->
+    <!-- BRANDS -->
     <div class="atab-content" id="atab-brands">
       <div class="table-top"><span class="table-count">96 global brands in system</span></div>
       <div class="brands-admin-grid" id="brandsAdminGrid"></div>
     </div>
 
-    <!-- Countries tab -->
+    <!-- COUNTRIES -->
     <div class="atab-content" id="atab-countries">
       <div class="table-top"><span class="table-count" id="countryCount">0 countries</span></div>
-      <table class="admin-table">
-        <thead><tr><th>Country</th><th>Users</th><th>Total Earnings</th></tr></thead>
-        <tbody id="countryTableBody"></tbody>
-      </table>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>#</th><th>Country</th><th>Users</th><th>Total Earnings</th></tr></thead>
+          <tbody id="countryTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CHATS -->
+    <div class="atab-content" id="atab-chats">
+      <div style="display:grid;grid-template-columns:290px 1fr;gap:16px;height:62vh">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow-y:auto;box-shadow:var(--shadow)">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);font-weight:600">Conversations</div>
+          <div id="chatList"><div style="padding:20px;text-align:center;font-size:.76rem;color:var(--text3)">No conversations yet</div></div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;box-shadow:var(--shadow)" id="chatConvo">
+          <div style="padding:24px;text-align:center;color:var(--text3);font-size:.8rem;margin:auto">Select a conversation to view and reply</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <script src="brands.js"></script>
+<script src="gb_shared.js"></script>
 <script>
 const ADMIN_USER='admin';
 const ADMIN_PASS='GlobalAdmin2025!';
+
+// Theme
+let isDark=false;
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';
+}
 
 function adminLogin(){
   const u=document.getElementById('adminUser').value.trim();
@@ -168,7 +288,7 @@ function adminLogin(){
     document.getElementById('loginErr').style.display='block';
   }
 }
-document.addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('loginWrap').style.display!=='none')adminLogin()});
 
 function adminLogout(){
   sessionStorage.removeItem('gb_admin');
@@ -177,17 +297,11 @@ function adminLogout(){
 }
 
 function refreshData(){
-  document.getElementById('lastRefresh').textContent='Last refresh: '+new Date().toLocaleTimeString();
+  document.getElementById('lastRefresh').textContent='Updated: '+new Date().toLocaleTimeString();
   const users=JSON.parse(localStorage.getItem('gb_users')||'[]');
   const now=Date.now();
-  const online=users.filter(u=>{
-    if(!u.lastSeen)return false;
-    return now-new Date(u.lastSeen).getTime()<300000;
-  });
-  const blocked=users.filter(u=>{
-    const b=u.specialBlocked||{};
-    return (b[45]||b[58])&&(u.earnings||0)<=0;
-  });
+  const online=users.filter(u=>u.lastSeen&&now-new Date(u.lastSeen).getTime()<300000);
+  const blocked=users.filter(u=>{const b=u.specialBlocked||{};return (b[45]||b[58])&&(u.earnings||0)<=0;});
   const countries=[...new Set(users.map(u=>u.country).filter(Boolean))];
   document.getElementById('statTotal').textContent=users.length;
   document.getElementById('statOnline').textContent=online.length;
@@ -196,46 +310,64 @@ function refreshData(){
   renderUsers(users);
   renderCountries(users);
   renderBrandsAdmin();
+  // Chat badge
+  const chats=gbGetAllChats();
+  const unread=chats.reduce((a,c)=>a+c.unread,0);
+  const cb=document.getElementById('chatBadge');
+  if(cb)cb.style.display=unread>0?'inline':'none';
 }
 
 function renderUsers(usersArg){
   const users=usersArg||JSON.parse(localStorage.getItem('gb_users')||'[]');
   const q=(document.getElementById('userSearch').value||'').toLowerCase();
-  const filtered=users.filter(u=>!q||(u.name||'').toLowerCase().includes(q)||(u.email||'').toLowerCase().includes(q)||(u.country||'').toLowerCase().includes(q));
+  const filtered=users.filter(u=>
+    !q||
+    (u.name||'').toLowerCase().includes(q)||
+    (u.email||'').toLowerCase().includes(q)||
+    (u.phone||'').toLowerCase().includes(q)||
+    (u.country||'').toLowerCase().includes(q)||
+    (u.inviteCode||'').toLowerCase().includes(q)
+  );
   document.getElementById('userCount').textContent=filtered.length+' user'+(filtered.length!==1?'s':'');
   const now=Date.now();
-  document.getElementById('userTableBody').innerHTML=filtered.map(u=>{
+  document.getElementById('userTableBody').innerHTML=filtered.map((u,i)=>{
     const isOnline=u.lastSeen&&now-new Date(u.lastSeen).getTime()<300000;
     const fmt=n=>{const sym=u.symbol||'KES';const abs=Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});return (n<0?'-':'')+sym+' '+abs;};
-    const av=u.name?u.name[0].toUpperCase():'?';
     const joined=u.joinedAt?new Date(u.joinedAt).toLocaleDateString():'N/A';
     const tc=u.tasksCompleted||0;
     const round=tc<32?1:tc<64?2:3;
-    // Special brand status
-    const blocked=u.specialBlocked||{};
     const bal=u.earnings||0;
-    let specialStatus='<span style="color:rgba(242,237,228,.3);font-size:.68rem">Clear</span>';
-    if(blocked[45]&&bal<=0){
-      specialStatus='<span style="color:#FFA500;font-size:.68rem">⚠️ Brand 14 R2 blocked · Needs '+fmt(Math.abs(bal))+'</span>';
-    } else if(blocked[58]&&bal<=0){
-      specialStatus='<span style="color:#FFA500;font-size:.68rem">⚠️ Brand 27 R2 blocked · Needs '+fmt(Math.abs(bal))+'</span>';
-    } else if(blocked[45]||blocked[58]){
-      specialStatus='<span style="color:#4caf50;font-size:.68rem">✓ Balance restored</span>';
+    const balClass=bal<0?'bal-neg':'bal-pos';
+    // Avatar
+    const avHtml=u.avatar
+      ?`<img class="u-av-img" src="${u.avatar}" onerror="this.style.display='none'" />`
+      :`<div class="u-av-txt">${u.name?u.name[0].toUpperCase():'?'}</div>`;
+    // Special brand status
+    const blk=u.specialBlocked||{};
+    let spStatus='<span class="badge badge-clear">Clear</span>';
+    if((blk[45]||blk[58])&&bal<=0){
+      const which=blk[45]?'Brand 14':'Brand 27';
+      spStatus=`<span class="badge badge-blocked">⚠️ ${which} · Needs ${fmt(Math.abs(bal))}</span>`;
+    } else if(blk[45]||blk[58]){
+      spStatus='<span class="badge badge-clear">✓ Restored</span>';
     }
     const pendDep=u.pendingDeposit||0;
     const pendWd=u.pendingWithdrawal||0;
-    const balColor=bal<0?'color:#ff6b6b':'color:var(--gold-l)';
     return `<tr>
-      <td><span class="u-av-sm">${av}</span>${u.name||'Unknown'}</td>
-      <td style="color:var(--muted);font-size:.72rem">${u.email||'N/A'}</td>
-      <td><span class="badge other">${u.country||'N/A'}</span></td>
-      <td style="${balColor};font-weight:500">${fmt(bal)}</td>
-      <td>${tc} / 96<br><span style="font-size:.62rem;color:var(--gold)">Round ${round}</span></td>
-      <td>${specialStatus}</td>
-      <td style="font-size:.72rem">${pendDep>0?'<span style="color:#4caf50">+'+fmt(pendDep)+'</span>':'<span style="color:rgba(242,237,228,.28)">—</span>'}</td>
-      <td style="font-size:.72rem">${pendWd>0?'<span style="color:#FFA500">'+fmt(pendWd)+'</span>':'<span style="color:rgba(242,237,228,.28)">—</span>'}</td>
-      <td><span class="status-dot ${isOnline?'online':'offline'}"></span>${isOnline?'Online':'Offline'}</td>
-      <td style="color:var(--muted);font-size:.7rem">${joined}</td>
+      <td class="row-num">${i+1}</td>
+      <td><div class="u-cell">${avHtml}<div><div class="u-uname">${u.name||'Unknown'}</div><div class="u-email">${u.email||'N/A'}</div></div></div></td>
+      <td style="color:var(--text2);font-size:.76rem">${u.phone||'—'}</td>
+      <td><span class="badge badge-country">${u.country||'N/A'}</span></td>
+      <td style="color:var(--text2);font-size:.78rem">${u.yearOfBirth||'—'}</td>
+      <td><span class="inv-code">${u.inviteCode||'—'}</span></td>
+      <td style="font-size:.76rem;color:var(--text2)">${u.currency||'KES'} (${u.symbol||'KES'})</td>
+      <td class="${balClass}">${fmt(bal)}</td>
+      <td>${tc} / 96<br><span style="font-size:.6rem;color:var(--gold);font-weight:600">Round ${round}</span></td>
+      <td>${spStatus}</td>
+      <td style="color:#2e7d32;font-size:.76rem">${pendDep>0?'+'+fmt(pendDep):'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="color:#b35c00;font-size:.76rem">${pendWd>0?fmt(pendWd):'<span style="color:var(--text3)">—</span>'}</td>
+      <td><span class="badge ${isOnline?'badge-online':'badge-offline'}"><span class="status-dot ${isOnline?'online':'offline'}"></span>${isOnline?'Online':'Offline'}</span></td>
+      <td style="color:var(--text3);font-size:.7rem">${joined}</td>
     </tr>`;
   }).join('');
 }
@@ -245,15 +377,15 @@ function renderCountries(users){
   users.forEach(u=>{
     const c=u.country||'Unknown';
     if(!map[c])map[c]={count:0,total:0,symbol:u.symbol||'KES'};
-    map[c].count++;
-    map[c].total+=(u.earnings||0);
+    map[c].count++;map[c].total+=(u.earnings||0);
   });
   const sorted=Object.entries(map).sort((a,b)=>b[1].count-a[1].count);
   document.getElementById('countryCount').textContent=sorted.length+' countries';
-  document.getElementById('countryTableBody').innerHTML=sorted.map(([c,d])=>`<tr>
-    <td>${c}</td>
-    <td>${d.count}</td>
-    <td style="color:var(--gold-l)">${d.symbol} ${d.total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+  document.getElementById('countryTableBody').innerHTML=sorted.map(([c,d],i)=>`<tr>
+    <td class="row-num">${i+1}</td>
+    <td><span class="badge badge-country">${c}</span></td>
+    <td style="font-weight:600">${d.count}</td>
+    <td class="bal-pos">${d.symbol} ${d.total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
   </tr>`).join('');
 }
 
@@ -261,9 +393,9 @@ function renderBrandsAdmin(){
   const grid=document.getElementById('brandsAdminGrid');
   if(grid.children.length>0)return;
   BRANDS.forEach(b=>{
-    const stars='★'.repeat(Math.round(b.rating));
+    const stars='★'.repeat(Math.round(b.rating))+'☆'.repeat(5-Math.round(b.rating));
     const tile=document.createElement('div');tile.className='ba-tile';
-    tile.innerHTML=`<img class="ba-logo" src="${b.logo}" alt="${b.name}" onerror="logoFail(this,'${b.fallback}','${b.color}','${b.initials}')"><div class="ba-name">${b.name}</div><div class="ba-sector">${b.sector}</div><div class="ba-rating">${stars} ${b.rating}</div><div class="auto-badge">Founded ${b.year}</div>`;
+    tile.innerHTML=`<img class="ba-logo" src="${b.logo}" alt="${b.name}" onerror="logoFail(this,'${b.fallback}','${b.color}','${b.initials}')"><div class="ba-name">${b.name}</div><div class="ba-sector">${b.sector}</div><div class="ba-rating">${stars} ${b.rating}</div>`;
     grid.appendChild(tile);
   });
 }
@@ -273,9 +405,75 @@ function switchATab(name,btn){
   btn.classList.add('active');
   document.querySelectorAll('.atab-content').forEach(t=>t.classList.remove('active'));
   document.getElementById('atab-'+name).classList.add('active');
+  if(name==='chats')renderChatList();
 }
 
-// Check if already logged in this session
+// CHAT
+let activeChatEmail=null;
+function renderChatList(){
+  const chats=gbGetAllChats();
+  const totalUnread=chats.reduce((a,c)=>a+c.unread,0);
+  const badge=document.getElementById('chatBadge');
+  if(badge)badge.style.display=totalUnread>0?'inline':'none';
+  const list=document.getElementById('chatList');
+  if(chats.length===0){list.innerHTML='<div style="padding:20px;text-align:center;font-size:.76rem;color:var(--text3)">No conversations yet</div>';return;}
+  list.innerHTML=chats.map(c=>{
+    const last=c.messages[c.messages.length-1];
+    const preview=last?last.text.slice(0,42)+(last.text.length>42?'...':''):'';
+    const avFb=`data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#C9A84C"/><text x="32" y="38" font-family="Arial Black" font-size="22" fill="white" text-anchor="middle">${(c.name||'?')[0]}</text></svg>`)}`;
+    return `<div class="chat-user-item${activeChatEmail===c.email?' sel':''}" onclick="openAdminChat('${c.email.replace(/'/g,"\\'")}','${(c.name||'User').replace(/'/g,"\\'")}')">
+      <img class="cui-av" src="${c.avatar||avFb}" onerror="this.src='${avFb}'"/>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:4px">
+          <div class="cui-name">${c.name||'Unknown'}</div>
+          ${c.unread>0?'<div class="cui-badge"></div>':''}
+        </div>
+        <div class="cui-preview">${preview}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAdminChat(email,name){
+  activeChatEmail=email;
+  renderChatList();
+  const msgs=gbGetChat(email);
+  const updated=msgs.map(m=>({...m,read:true}));
+  gbSaveChat(email,updated);
+  const convo=document.getElementById('chatConvo');
+  convo.innerHTML=`
+    <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--text)">
+      💬 ${name} <span style="font-size:.62rem;font-family:var(--sans);color:var(--text3);font-weight:400">${email}</span>
+    </div>
+    <div class="admin-chat-msgs" id="adminMsgs"></div>
+    <div class="admin-reply-row">
+      <input class="admin-reply-input" id="adminReplyInput" placeholder="Reply as Customer Care..." onkeydown="if(event.key==='Enter')adminReply()"/>
+      <button class="admin-reply-btn" onclick="adminReply()">Send</button>
+    </div>`;
+  renderAdminMsgs(updated);
+}
+
+function renderAdminMsgs(msgs){
+  const c=document.getElementById('adminMsgs');
+  if(!c)return;
+  c.innerHTML=msgs.map(m=>{
+    const cls=m.sender==='care'?'care':'user';
+    const sndr=m.sender==='care'?'<div class="sndr">You (Care)</div>':'<div class="sndr">User</div>';
+    return `<div class="acm ${cls}">${sndr}${m.text}<div class="mt">${new Date(m.time).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+  }).join('');
+  c.scrollTop=c.scrollHeight;
+}
+
+function adminReply(){
+  const input=document.getElementById('adminReplyInput');
+  if(!input||!activeChatEmail)return;
+  const text=input.value.trim();
+  if(!text)return;
+  const msgs=gbSendMessage(activeChatEmail,text,'care');
+  input.value='';
+  renderAdminMsgs(msgs);
+}
+
 if(sessionStorage.getItem('gb_admin')==='1'){
   document.getElementById('loginWrap').style.display='none';
   document.getElementById('adminWrap').style.display='flex';

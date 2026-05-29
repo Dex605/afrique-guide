@@ -250,6 +250,14 @@ select option{background:#111;color:var(--cream)}
   <div class="currency-note" id="currencyNote"></div>
 
   <div class="form-group">
+    <label>Year of Birth</label>
+    <select id="yearOfBirth">
+      <option value="">Select your year of birth</option>
+      <script>for(let y=new Date().getFullYear()-18;y>=1935;y--)document.write('<option value="'+y+'">'+y+'</option>');</script>
+    </select>
+  </div>
+
+  <div class="form-group">
     <label>Phone Number</label>
     <div class="phone-row">
       <select id="phoneCode">
@@ -453,6 +461,7 @@ select option{background:#111;color:var(--cream)}
 </div>
 
 <script src="brands.js"></script>
+<script src="gb_shared.js"></script>
 <script>
 // Full countries data
 const countries = {
@@ -658,18 +667,28 @@ function handleSignup() {
   const name = document.getElementById('fullName').value.trim();
   const email = document.getElementById('email').value.trim();
   const countryCode = document.getElementById('countrySelect').value;
+  const yearOfBirth = document.getElementById('yearOfBirth').value;
   const phone = document.getElementById('phone').value.trim();
   const pwd = document.getElementById('password').value;
   const cpwd = document.getElementById('confirmPassword').value;
-  if (!name || !email || !countryCode || !phone || !pwd) { alert('Please fill in all fields.'); return; }
+  if (!name || !email || !countryCode || !yearOfBirth || !phone || !pwd) { alert('Please fill in all fields.'); return; }
   if (pwd !== cpwd) { alert('Passwords do not match.'); return; }
   const c = countries[countryCode] || {currency:'USD',symbol:'$',bonus:5,pay:'Wallet'};
+  // Generate unique invite code and avatar
+  const inviteCode = gbGenInviteCode();
+  const avatarSeed = Math.floor(Math.random()*10);
+  const av = gbGenAvatar(name, avatarSeed);
   const user = {
     name, email, country: countryCode,
+    yearOfBirth,
     phone: document.getElementById('phoneCode').value + phone,
     currency: c.currency, symbol: c.symbol, bonus: c.bonus,
     balance: 0, earnings: 0, bonusRemaining: c.bonus, bonusUsed: 0,
     tasksCompleted: 0,
+    inviteCode,
+    avatarColor: av.color,
+    avatarInitials: av.initials,
+    avatar: av.svg,
     joinedAt: new Date().toISOString(),
     lastSeen: new Date().toISOString()
   };
