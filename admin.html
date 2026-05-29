@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Admin — Global Brands</title>
@@ -7,27 +7,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --gold:#C9A84C;--gold-l:#E8C97A;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;
-  /* LIGHT MODE (default) */
-  --bg:#F5F5F7;--surface:#FFFFFF;--surface2:#F0F0F2;--nav-bg:#FFFFFF;
-  --text:#1A1A2E;--text2:#555570;--text3:#888;
-  --border:#E0E0E8;--border2:#D0D0DC;
-  --shadow:0 2px 12px rgba(0,0,0,.08);
-  --row-hover:#F8F8FC;--th-bg:#F0F0F5;
-}
-[data-theme="dark"]{
-  --bg:#04040A;--surface:#0D0D10;--surface2:#111116;--nav-bg:rgba(6,6,8,.95);
-  --text:#F2EDE4;--text2:rgba(242,237,228,0.55);--text3:rgba(242,237,228,0.3);
-  --border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);
-  --shadow:0 2px 12px rgba(0,0,0,.4);
-  --row-hover:rgba(255,255,255,.03);--th-bg:rgba(255,255,255,.04);
-}
+:root{--gold:#C9A84C;--gold-l:#E8C97A;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
+[data-theme="dark"]{--bg:#04040A;--surface:#0D0D10;--surface2:#111116;--nav-bg:rgba(6,6,8,.97);--text:#F2EDE4;--text2:rgba(242,237,228,0.55);--text3:rgba(242,237,228,0.3);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);--sh:0 2px 12px rgba(0,0,0,.4);--row-hover:rgba(255,255,255,.03);--th-bg:rgba(255,255,255,.04)}
+[data-theme="light"]{--bg:#F5F5F7;--surface:#FFFFFF;--surface2:#F0F0F2;--nav-bg:#FFFFFF;--text:#1A1A2E;--text2:#555570;--text3:#888;--border:#E0E0E8;--border2:#D0D0DC;--sh:0 2px 12px rgba(0,0,0,.08);--row-hover:#F8F8FC;--th-bg:#F0F0F5}
 html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
-
-/* LOGIN */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:var(--bg)}
-.login-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:48px 52px;width:100%;max-width:420px;box-shadow:var(--shadow)}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:48px 52px;width:100%;max-width:420px;box-shadow:var(--sh)}
 .login-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .login-globe{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
 .login-globe svg{width:18px;height:18px}
@@ -42,10 +27,8 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 .err-msg{background:rgba(180,30,30,.1);border:1px solid rgba(180,30,30,.3);border-radius:4px;padding:9px 13px;font-size:.76rem;color:#cc3333;margin-bottom:14px;display:none}
 .btn-login{width:100%;padding:13px;background:var(--gold);color:#000;border:none;border-radius:4px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:background .2s}
 .btn-login:hover{background:var(--gold-l)}
-
-/* ADMIN PANEL */
 .admin-wrap{display:none;min-height:100vh;flex-direction:column}
-.admin-nav{padding:13px 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--nav-bg);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);box-shadow:var(--shadow)}
+.admin-nav{padding:13px 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--nav-bg);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);box-shadow:var(--sh)}
 .admin-logo{display:flex;align-items:center;gap:10px}
 .admin-globe{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
 .admin-globe svg{width:16px;height:16px}
@@ -56,72 +39,54 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 .theme-btn:hover{border-color:var(--gold)}
 .refresh-btn{padding:7px 16px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:4px;font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
 .refresh-btn:hover{border-color:var(--gold);color:var(--gold)}
-.logout-btn{padding:7px 16px;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);color:#cc3333;border-radius:4px;font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
-.logout-btn:hover{background:rgba(255,80,80,.15)}
+.logout-btn{padding:7px 16px;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);color:#cc3333;border-radius:4px;font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 .admin-body{padding:28px 36px;flex:1}
-
-/* STATS */
 .admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:26px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px;box-shadow:var(--shadow)}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px;box-shadow:var(--sh)}
 .stat-card.gold{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border-color:rgba(201,168,76,.3)}
 .sc-label{font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
 .sc-val{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--gold)}
 .sc-sub{font-size:.6rem;color:var(--text3);margin-top:3px}
-
-/* TABS */
-.admin-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:20px;width:fit-content;background:var(--surface)}
+.admin-tabs{display:flex;border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:20px;width:fit-content;background:var(--surface)}
 .atab{padding:9px 22px;background:transparent;border:none;color:var(--text2);font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-right:1px solid var(--border)}
 .atab:last-child{border-right:none}
 .atab.active{background:var(--gold);color:#000;font-weight:700}
 .atab-content{display:none}
 .atab-content.active{display:block}
-
-/* TABLE */
 .table-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap}
-.search-input{padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.8rem;outline:none;width:280px;transition:border-color .2s}
+.search-input{padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.8rem;outline:none;width:300px;transition:border-color .2s}
 .search-input:focus{border-color:var(--gold)}
 .table-count{font-size:.7rem;color:var(--text3);font-weight:500}
-.table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border);box-shadow:var(--sh)}
 .admin-table{width:100%;border-collapse:collapse;font-size:.78rem;background:var(--surface)}
 .admin-table thead{background:var(--th-bg)}
-.admin-table th{padding:11px 14px;text-align:left;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
-.admin-table td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+.admin-table th{padding:11px 14px;text-align:left;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
+.admin-table td{padding:10px 14px;border-bottom:1px solid var(--border2);color:var(--text2);vertical-align:middle}
 .admin-table tr:last-child td{border-bottom:none}
 .admin-table tbody tr:hover td{background:var(--row-hover)}
-/* row number */
-.row-num{font-size:.7rem;font-weight:700;color:var(--gold);min-width:24px;text-align:center}
-/* user cell */
+/* editable cells */
+.admin-table td[contenteditable="true"]{outline:none;cursor:text;border-bottom:1px dashed var(--gold);color:var(--text)}
+.admin-table td[contenteditable="true"]:focus{background:rgba(201,168,76,.06);border-radius:3px}
+.row-num{font-size:.7rem;font-weight:700;color:var(--gold);min-width:20px;text-align:center}
 .u-cell{display:flex;align-items:center;gap:8px}
 .u-av-img{width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
-.u-av-txt{width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#000;flex-shrink:0}
 .u-uname{font-size:.8rem;font-weight:600;color:var(--text)}
 .u-email{font-size:.62rem;color:var(--text3)}
-/* badges */
 .badge{display:inline-block;padding:3px 9px;border-radius:100px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
 .badge-country{background:rgba(201,168,76,.12);color:#a07830;border:1px solid rgba(201,168,76,.25)}
 .badge-online{background:rgba(76,175,80,.12);color:#2e7d32;border:1px solid rgba(76,175,80,.25)}
 .badge-offline{background:rgba(0,0,0,.06);color:var(--text3);border:1px solid var(--border)}
 .badge-blocked{background:rgba(255,140,0,.12);color:#b35c00;border:1px solid rgba(255,140,0,.25)}
-.badge-clear{background:rgba(76,175,80,.1);color:#2e7d32;border:1px solid rgba(76,175,80,.2)}
 .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
 .status-dot.online{background:#4caf50;box-shadow:0 0 5px rgba(76,175,80,.5)}
 .status-dot.offline{background:#ccc}
-/* invite code */
 .inv-code{font-family:var(--serif);font-size:.78rem;color:var(--gold);letter-spacing:.06em;font-weight:700}
-/* balance */
 .bal-pos{color:#2e7d32;font-weight:600}
 .bal-neg{color:#cc3333;font-weight:600}
-
-/* BRANDS TAB */
-.brands-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.ba-tile{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 10px;text-align:center;box-shadow:var(--shadow)}
-.ba-logo{width:56px;height:40px;object-fit:contain;margin:0 auto 8px;display:block}
-.ba-name{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:3px}
-.ba-sector{font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
-.ba-rating{font-size:.64rem;color:var(--gold);margin-top:4px}
-
-/* CHAT TAB */
-.chat-user-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:10px}
+.dep-btn{padding:4px 12px;background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);color:#4caf50;border-radius:3px;font-family:var(--sans);font-size:.65rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.dep-btn:hover{background:rgba(76,175,80,.25)}
+/* chat */
+.chat-user-item{padding:12px 14px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:10px}
 .chat-user-item:hover,.chat-user-item.sel{background:rgba(201,168,76,.08)}
 .cui-av{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
 .cui-name{font-size:.78rem;font-weight:600;color:var(--text)}
@@ -130,53 +95,45 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 .admin-chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
 .acm{max-width:75%;padding:8px 13px;border-radius:10px;font-size:.78rem;line-height:1.55}
 .acm.user{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);align-self:flex-end;color:var(--text)}
-.acm.care{background:var(--surface2);border:1px solid var(--border);align-self:flex-start;color:var(--text2)}
+.acm.care{background:var(--surface2);border:1px solid var(--border2);align-self:flex-start;color:var(--text2)}
 .acm .sndr{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
 .acm .mt{font-size:.56rem;color:var(--text3);margin-top:4px;text-align:right}
-.admin-reply-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border)}
-.admin-reply-input{flex:1;padding:9px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--text);font-family:var(--sans);font-size:.8rem;outline:none}
+.admin-reply-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border2)}
+.admin-reply-input{flex:1;padding:9px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:20px;color:var(--text);font-family:var(--sans);font-size:.8rem;outline:none}
 .admin-reply-input:focus{border-color:var(--gold)}
 .admin-reply-btn{padding:9px 20px;background:var(--gold);color:#000;border:none;border-radius:20px;font-family:var(--sans);font-size:.74rem;font-weight:700;cursor:pointer}
-
-@media(max-width:900px){.admin-stats{grid-template-columns:1fr 1fr 1fr}.admin-body{padding:18px 16px}.table-wrap{font-size:.72rem}}
-@media(max-width:600px){.admin-stats{grid-template-columns:1fr 1fr}}
+.brands-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px}
+.ba-tile{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 10px;text-align:center;box-shadow:var(--sh)}
+.ba-logo{width:56px;height:40px;object-fit:contain;margin:0 auto 8px;display:block}
+.ba-name{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.ba-sector{font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.ba-rating{font-size:.64rem;color:var(--gold);margin-top:4px}
+@media(max-width:900px){.admin-stats{grid-template-columns:1fr 1fr 1fr}.admin-body{padding:18px 16px}.table-wrap{overflow-x:auto}}
   </style>
 </head>
 <body>
 
-<!-- LOGIN (light mode card) -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-card">
-    <div class="login-logo">
-      <div class="login-globe">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-      </div>
-      <div class="login-name">Global Brands</div>
-    </div>
+    <div class="login-logo"><div class="login-globe"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg></div><div class="login-name">Global Brands</div></div>
     <div class="login-tag">Admin Panel</div>
     <h2>Welcome Back</h2>
     <p class="login-sub">Sign in to access the admin dashboard</p>
-    <div class="err-msg" id="loginErr">Invalid credentials. Please try again.</div>
+    <div class="err-msg" id="loginErr">Invalid credentials.</div>
     <div class="lg"><label>Username</label><input type="text" id="adminUser" placeholder="Admin username"/></div>
     <div class="lg"><label>Password</label><input type="password" id="adminPass" placeholder="Admin password"/></div>
     <button class="btn-login" onclick="adminLogin()">Sign In to Admin Panel</button>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
 <div class="admin-wrap" id="adminWrap">
   <nav class="admin-nav">
     <div class="admin-logo">
-      <div class="admin-globe">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-      </div>
-      <div>
-        <div class="admin-brand">Global Brands Admin</div>
-        <div class="admin-tag">Control Panel · <span id="lastRefresh"></span></div>
-      </div>
+      <div class="admin-globe"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg></div>
+      <div><div class="admin-brand">Global Brands Admin</div><div class="admin-tag">Supabase · <span id="lastRefresh">Loading...</span></div></div>
     </div>
     <div class="admin-nav-right">
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle dark/light mode">☀️</button>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle mode">☀️</button>
       <button class="refresh-btn" onclick="refreshData()">↻ Refresh</button>
       <button class="logout-btn" onclick="adminLogout()">Log Out</button>
     </div>
@@ -184,44 +141,35 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 
   <div class="admin-body">
     <div class="admin-stats">
-      <div class="stat-card gold"><div class="sc-label">Total Users</div><div class="sc-val" id="statTotal">0</div><div class="sc-sub">Registered accounts</div></div>
-      <div class="stat-card"><div class="sc-label">Online Now</div><div class="sc-val" id="statOnline">0</div><div class="sc-sub">Active within 5 min</div></div>
-      <div class="stat-card"><div class="sc-label">Blocked Users</div><div class="sc-val" id="statBlocked">0</div><div class="sc-sub">Special brand pending</div></div>
-      <div class="stat-card"><div class="sc-label">Brands</div><div class="sc-val" id="statBrands">96</div><div class="sc-sub">Global brands</div></div>
-      <div class="stat-card"><div class="sc-label">Countries</div><div class="sc-val" id="statCountries">0</div><div class="sc-sub">Represented</div></div>
+      <div class="stat-card gold"><div class="sc-label">Total Users</div><div class="sc-val" id="statTotal">—</div><div class="sc-sub">From Supabase</div></div>
+      <div class="stat-card"><div class="sc-label">Online Now</div><div class="sc-val" id="statOnline">—</div><div class="sc-sub">Active ≤5 min</div></div>
+      <div class="stat-card"><div class="sc-label">Blocked Users</div><div class="sc-val" id="statBlocked">—</div><div class="sc-sub">Special brand pending</div></div>
+      <div class="stat-card"><div class="sc-label">Brands</div><div class="sc-val">96</div><div class="sc-sub">Global brands</div></div>
+      <div class="stat-card"><div class="sc-label">Countries</div><div class="sc-val" id="statCountries">—</div><div class="sc-sub">Represented</div></div>
     </div>
 
     <div class="admin-tabs">
       <button class="atab active" onclick="switchATab('users',this)">Users</button>
       <button class="atab" onclick="switchATab('brands',this)">Brands</button>
       <button class="atab" onclick="switchATab('countries',this)">Countries</button>
-      <button class="atab" onclick="switchATab('chats',this)">Live Chats <span id="chatBadge" style="background:#FF5B5B;color:#fff;font-size:.55rem;padding:1px 6px;border-radius:100px;margin-left:4px;display:none">●</span></button>
+      <button class="atab" onclick="switchATab('chats',this)">Chats <span id="chatBadge" style="background:#FF5B5B;color:#fff;font-size:.55rem;padding:1px 6px;border-radius:100px;margin-left:4px;display:none">●</span></button>
     </div>
 
     <!-- USERS -->
     <div class="atab-content active" id="atab-users">
       <div class="table-top">
         <input class="search-input" id="userSearch" placeholder="Search by name, email, phone, country, invite code..." oninput="renderUsers()"/>
-        <span class="table-count" id="userCount">0 users</span>
+        <span class="table-count" id="userCount">—</span>
       </div>
+      <p style="font-size:.7rem;color:var(--text3);margin-bottom:10px">💡 Double-click any cell to edit it. Press Enter or click away to save instantly to Supabase.</p>
       <div class="table-wrap">
         <table class="admin-table">
           <thead>
             <tr>
-              <th>#</th>
-              <th>User</th>
-              <th>Phone</th>
-              <th>Country</th>
-              <th>Year of Birth</th>
-              <th>Invite Code</th>
-              <th>Currency</th>
-              <th>Balance</th>
-              <th>Rated / Round</th>
-              <th>Special Brand</th>
-              <th>Pend. Deposit</th>
-              <th>Pend. Withdrawal</th>
-              <th>Status</th>
-              <th>Joined</th>
+              <th>#</th><th>User</th><th>Phone</th><th>Country</th><th>Year of Birth</th>
+              <th>Invite Code</th><th>Password</th><th>Currency</th><th>Balance</th>
+              <th>Deposit +</th><th>Rated / Round</th><th>Special Brand</th>
+              <th>Pend. Deposit</th><th>Pend. Withdrawal</th><th>Status</th><th>Joined</th>
             </tr>
           </thead>
           <tbody id="userTableBody"></tbody>
@@ -231,13 +179,11 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 
     <!-- BRANDS -->
     <div class="atab-content" id="atab-brands">
-      <div class="table-top"><span class="table-count">96 global brands in system</span></div>
       <div class="brands-admin-grid" id="brandsAdminGrid"></div>
     </div>
 
     <!-- COUNTRIES -->
     <div class="atab-content" id="atab-countries">
-      <div class="table-top"><span class="table-count" id="countryCount">0 countries</span></div>
       <div class="table-wrap">
         <table class="admin-table">
           <thead><tr><th>#</th><th>Country</th><th>Users</th><th>Total Earnings</th></tr></thead>
@@ -248,12 +194,12 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 
     <!-- CHATS -->
     <div class="atab-content" id="atab-chats">
-      <div style="display:grid;grid-template-columns:290px 1fr;gap:16px;height:62vh">
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow-y:auto;box-shadow:var(--shadow)">
-          <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);font-weight:600">Conversations</div>
-          <div id="chatList"><div style="padding:20px;text-align:center;font-size:.76rem;color:var(--text3)">No conversations yet</div></div>
+      <div style="display:grid;grid-template-columns:280px 1fr;gap:16px;height:62vh">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow-y:auto;box-shadow:var(--sh)">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border2);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);font-weight:600">Conversations</div>
+          <div id="chatList"></div>
         </div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;box-shadow:var(--shadow)" id="chatConvo">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;box-shadow:var(--sh)" id="chatConvo">
           <div style="padding:24px;text-align:center;color:var(--text3);font-size:.8rem;margin:auto">Select a conversation to view and reply</div>
         </div>
       </div>
@@ -263,12 +209,12 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 
 <script src="brands.js"></script>
 <script src="gb_shared.js"></script>
+<script src="supabase.js"></script>
 <script>
-const ADMIN_USER='admin';
-const ADMIN_PASS='GlobalAdmin2025!';
+const ADMIN_USER='admin',ADMIN_PASS='GlobalAdmin2025!';
+let isDark=true;
+let allUsers=[];
 
-// Theme
-let isDark=false;
 function toggleTheme(){
   isDark=!isDark;
   document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
@@ -283,12 +229,12 @@ function adminLogin(){
     document.getElementById('adminWrap').style.display='flex';
     sessionStorage.setItem('gb_admin','1');
     refreshData();
-    setInterval(refreshData,10000);
+    setInterval(refreshData,15000);
   } else {
     document.getElementById('loginErr').style.display='block';
   }
 }
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('loginWrap').style.display!=='none')adminLogin()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('loginWrap').style.display!=='none')adminLogin();});
 
 function adminLogout(){
   sessionStorage.removeItem('gb_admin');
@@ -296,97 +242,109 @@ function adminLogout(){
   document.getElementById('adminWrap').style.display='none';
 }
 
-function refreshData(){
+async function refreshData(){
   document.getElementById('lastRefresh').textContent='Updated: '+new Date().toLocaleTimeString();
-  const users=JSON.parse(localStorage.getItem('gb_users')||'[]');
+  allUsers=await sb.getAllUsers();
   const now=Date.now();
-  const online=users.filter(u=>u.lastSeen&&now-new Date(u.lastSeen).getTime()<300000);
-  const blocked=users.filter(u=>{const b=u.specialBlocked||{};return (b[45]||b[58])&&(u.earnings||0)<=0;});
-  const countries=[...new Set(users.map(u=>u.country).filter(Boolean))];
-  document.getElementById('statTotal').textContent=users.length;
+  const online=allUsers.filter(u=>u.last_seen&&now-new Date(u.last_seen).getTime()<300000);
+  const blocked=allUsers.filter(u=>{const b=u.special_blocked||{};return (b[45]||b[58])&&(u.earnings||0)<=0;});
+  const countries=[...new Set(allUsers.map(u=>u.country).filter(Boolean))];
+  document.getElementById('statTotal').textContent=allUsers.length;
   document.getElementById('statOnline').textContent=online.length;
   document.getElementById('statBlocked').textContent=blocked.length;
   document.getElementById('statCountries').textContent=countries.length;
-  renderUsers(users);
-  renderCountries(users);
+  renderUsers();
+  renderCountries();
   renderBrandsAdmin();
   // Chat badge
-  const chats=gbGetAllChats();
-  const unread=chats.reduce((a,c)=>a+c.unread,0);
+  const msgs=await sb.getAllChats();
+  const unread=msgs.filter(m=>m.sender==='user'&&!m.read).length;
   const cb=document.getElementById('chatBadge');
   if(cb)cb.style.display=unread>0?'inline':'none';
 }
 
-function renderUsers(usersArg){
-  const users=usersArg||JSON.parse(localStorage.getItem('gb_users')||'[]');
+function renderUsers(){
   const q=(document.getElementById('userSearch').value||'').toLowerCase();
-  const filtered=users.filter(u=>
-    !q||
-    (u.name||'').toLowerCase().includes(q)||
-    (u.email||'').toLowerCase().includes(q)||
-    (u.phone||'').toLowerCase().includes(q)||
-    (u.country||'').toLowerCase().includes(q)||
-    (u.inviteCode||'').toLowerCase().includes(q)
-  );
+  const filtered=allUsers.filter(u=>!q||(u.name||'').toLowerCase().includes(q)||(u.email||'').toLowerCase().includes(q)||(u.phone||'').toLowerCase().includes(q)||(u.country||'').toLowerCase().includes(q)||(u.invite_code||'').toLowerCase().includes(q));
   document.getElementById('userCount').textContent=filtered.length+' user'+(filtered.length!==1?'s':'');
   const now=Date.now();
   document.getElementById('userTableBody').innerHTML=filtered.map((u,i)=>{
-    const isOnline=u.lastSeen&&now-new Date(u.lastSeen).getTime()<300000;
+    const isOnline=u.last_seen&&now-new Date(u.last_seen).getTime()<300000;
     const fmt=n=>{const sym=u.symbol||'KES';const abs=Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});return (n<0?'-':'')+sym+' '+abs;};
-    const joined=u.joinedAt?new Date(u.joinedAt).toLocaleDateString():'N/A';
-    const tc=u.tasksCompleted||0;
-    const round=tc<32?1:tc<64?2:3;
-    const bal=u.earnings||0;
-    const balClass=bal<0?'bal-neg':'bal-pos';
-    // Avatar
-    const avHtml=u.avatar
-      ?`<img class="u-av-img" src="${u.avatar}" onerror="this.style.display='none'" />`
-      :`<div class="u-av-txt">${u.name?u.name[0].toUpperCase():'?'}</div>`;
-    // Special brand status
-    const blk=u.specialBlocked||{};
-    let spStatus='<span class="badge badge-clear">Clear</span>';
-    if((blk[45]||blk[58])&&bal<=0){
-      const which=blk[45]?'Brand 14':'Brand 27';
-      spStatus=`<span class="badge badge-blocked">⚠️ ${which} · Needs ${fmt(Math.abs(bal))}</span>`;
-    } else if(blk[45]||blk[58]){
-      spStatus='<span class="badge badge-clear">✓ Restored</span>';
-    }
-    const pendDep=u.pendingDeposit||0;
-    const pendWd=u.pendingWithdrawal||0;
-    return `<tr>
+    const bal=u.earnings||0;const balClass=bal<0?'bal-neg':'bal-pos';
+    const avHtml=u.avatar?`<img class="u-av-img" src="${u.avatar}" onerror="this.style.display='none'"/>`:`<div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#000;flex-shrink:0">${u.name?u.name[0].toUpperCase():'?'}</div>`;
+    const tc=u.tasks_completed||0;const round=tc<32?1:tc<64?2:3;
+    const blk=u.special_blocked||{};
+    let spStatus='<span style="color:var(--text3);font-size:.68rem">Clear</span>';
+    if((blk[45]||blk[58])&&bal<=0){const which=blk[45]?'Brand 14 R2':'Brand 27 R2';spStatus=`<span class="badge badge-blocked">⚠️ ${which}</span>`;}
+    const pendDep=u.pending_deposit||0;const pendWd=u.pending_withdrawal||0;
+    const joined=u.joined_at?new Date(u.joined_at).toLocaleDateString():'—';
+    const pwd=u.password_hash?atob(u.password_hash):'—';
+    return `<tr data-email="${u.email}">
       <td class="row-num">${i+1}</td>
-      <td><div class="u-cell">${avHtml}<div><div class="u-uname">${u.name||'Unknown'}</div><div class="u-email">${u.email||'N/A'}</div></div></div></td>
-      <td style="color:var(--text2);font-size:.76rem">${u.phone||'—'}</td>
-      <td><span class="badge badge-country">${u.country||'N/A'}</span></td>
-      <td style="color:var(--text2);font-size:.78rem">${u.yearOfBirth||'—'}</td>
-      <td><span class="inv-code">${u.inviteCode||'—'}</span></td>
-      <td style="font-size:.76rem;color:var(--text2)">${u.currency||'KES'} (${u.symbol||'KES'})</td>
-      <td class="${balClass}">${fmt(bal)}</td>
+      <td><div class="u-cell">${avHtml}<div><div class="u-uname">${u.name||'Unknown'}</div><div class="u-email">${u.email||''}</div></div></div></td>
+      <td contenteditable="true" data-field="phone" ondblclick="makeEditable(this)" onblur="saveCell(this,'${u.email}')">${u.phone||'—'}</td>
+      <td contenteditable="true" data-field="country" ondblclick="makeEditable(this)" onblur="saveCell(this,'${u.email}')">${u.country||'—'}</td>
+      <td contenteditable="true" data-field="year_of_birth" ondblclick="makeEditable(this)" onblur="saveCell(this,'${u.email}')">${u.year_of_birth||'—'}</td>
+      <td><span class="inv-code">${u.invite_code||'—'}</span></td>
+      <td contenteditable="true" data-field="password_hash" data-raw="${u.password_hash||''}" ondblclick="makeEditable(this)" onblur="savePwd(this,'${u.email}')" style="font-size:.72rem;color:var(--text3)">${pwd}</td>
+      <td style="font-size:.74rem">${u.currency||'KES'} (${u.symbol||'KES'})</td>
+      <td class="${balClass}" contenteditable="true" data-field="earnings" ondblclick="makeEditable(this)" onblur="saveCell(this,'${u.email}')">${bal.toFixed(2)}</td>
+      <td><button class="dep-btn" onclick="adminDeposit('${u.email}','${u.symbol||'KES'}')">+ Deposit</button></td>
       <td>${tc} / 96<br><span style="font-size:.6rem;color:var(--gold);font-weight:600">Round ${round}</span></td>
       <td>${spStatus}</td>
-      <td style="color:#2e7d32;font-size:.76rem">${pendDep>0?'+'+fmt(pendDep):'<span style="color:var(--text3)">—</span>'}</td>
-      <td style="color:#b35c00;font-size:.76rem">${pendWd>0?fmt(pendWd):'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="color:#2e7d32;font-size:.74rem">${pendDep>0?'+'+fmt(pendDep):'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="color:#b35c00;font-size:.74rem">${pendWd>0?fmt(pendWd):'<span style="color:var(--text3)">—</span>'}</td>
       <td><span class="badge ${isOnline?'badge-online':'badge-offline'}"><span class="status-dot ${isOnline?'online':'offline'}"></span>${isOnline?'Online':'Offline'}</span></td>
       <td style="color:var(--text3);font-size:.7rem">${joined}</td>
     </tr>`;
   }).join('');
 }
 
-function renderCountries(users){
+function makeEditable(td){td.contentEditable='true';td.focus();const r=document.createRange();r.selectNodeContents(td);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}
+
+async function saveCell(td,email){
+  const field=td.getAttribute('data-field');
+  let val=td.textContent.trim();
+  if(val==='—')val='';
+  if(field==='earnings')val=parseFloat(val)||0;
+  const update={};update[field]=val;
+  await sb.updateUser(email,update);
+  // Update local allUsers
+  const u=allUsers.find(u=>u.email===email);
+  if(u)u[field]=val;
+  td.style.borderBottom='';
+}
+
+async function savePwd(td,email){
+  const plain=td.textContent.trim();
+  if(!plain||plain==='—')return;
+  const hashed=btoa(plain);
+  await sb.updateUser(email,{password_hash:hashed});
+  td.textContent=plain;
+}
+
+async function adminDeposit(email,symbol){
+  const amtStr=prompt(`Deposit amount for ${email} (${symbol}):`);
+  if(!amtStr)return;
+  const amount=parseFloat(amtStr);
+  if(!amount||amount<=0){alert('Invalid amount.');return;}
+  const u=allUsers.find(u=>u.email===email);
+  if(!u){alert('User not found.');return;}
+  const newEarnings=parseFloat(((u.earnings||0)+amount).toFixed(2));
+  const newPendDep=Math.max(0,parseFloat(((u.pending_deposit||0)-amount).toFixed(2)));
+  await sb.updateUser(email,{earnings:newEarnings,pending_deposit:newPendDep});
+  await sb.addTransaction({user_email:email,type:'deposit',label:'Admin Deposit',amount,status:'completed'});
+  u.earnings=newEarnings;u.pending_deposit=newPendDep;
+  renderUsers();
+  alert(`✅ Deposited ${symbol} ${amount.toFixed(2)} to ${email}. New balance: ${symbol} ${newEarnings.toFixed(2)}`);
+}
+
+function renderCountries(){
   const map={};
-  users.forEach(u=>{
-    const c=u.country||'Unknown';
-    if(!map[c])map[c]={count:0,total:0,symbol:u.symbol||'KES'};
-    map[c].count++;map[c].total+=(u.earnings||0);
-  });
+  allUsers.forEach(u=>{const c=u.country||'Unknown';if(!map[c])map[c]={count:0,total:0,symbol:u.symbol||'KES'};map[c].count++;map[c].total+=(u.earnings||0);});
   const sorted=Object.entries(map).sort((a,b)=>b[1].count-a[1].count);
-  document.getElementById('countryCount').textContent=sorted.length+' countries';
-  document.getElementById('countryTableBody').innerHTML=sorted.map(([c,d],i)=>`<tr>
-    <td class="row-num">${i+1}</td>
-    <td><span class="badge badge-country">${c}</span></td>
-    <td style="font-weight:600">${d.count}</td>
-    <td class="bal-pos">${d.symbol} ${d.total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
-  </tr>`).join('');
+  document.getElementById('countryTableBody').innerHTML=sorted.map(([c,d],i)=>`<tr><td class="row-num">${i+1}</td><td><span class="badge badge-country">${c}</span></td><td style="font-weight:600">${d.count}</td><td class="bal-pos">${d.symbol} ${d.total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr>`).join('');
 }
 
 function renderBrandsAdmin(){
@@ -401,84 +359,69 @@ function renderBrandsAdmin(){
 }
 
 function switchATab(name,btn){
-  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.atab-content').forEach(t=>t.classList.remove('active'));
-  document.getElementById('atab-'+name).classList.add('active');
+  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('.atab-content').forEach(t=>t.classList.remove('active'));document.getElementById('atab-'+name).classList.add('active');
   if(name==='chats')renderChatList();
 }
 
-// CHAT
 let activeChatEmail=null;
-function renderChatList(){
-  const chats=gbGetAllChats();
-  const totalUnread=chats.reduce((a,c)=>a+c.unread,0);
-  const badge=document.getElementById('chatBadge');
-  if(badge)badge.style.display=totalUnread>0?'inline':'none';
+async function renderChatList(){
+  const msgs=await sb.getAllChats();
+  // Group by user_email
+  const byUser={};
+  msgs.forEach(m=>{if(!byUser[m.user_email])byUser[m.user_email]=[];byUser[m.user_email].push(m);});
+  const unreadTotal=msgs.filter(m=>m.sender==='user'&&!m.read).length;
+  const cb=document.getElementById('chatBadge');if(cb)cb.style.display=unreadTotal>0?'inline':'none';
   const list=document.getElementById('chatList');
-  if(chats.length===0){list.innerHTML='<div style="padding:20px;text-align:center;font-size:.76rem;color:var(--text3)">No conversations yet</div>';return;}
-  list.innerHTML=chats.map(c=>{
-    const last=c.messages[c.messages.length-1];
+  const entries=Object.entries(byUser);
+  if(entries.length===0){list.innerHTML='<div style="padding:20px;text-align:center;font-size:.76rem;color:var(--text3)">No conversations yet</div>';return;}
+  // Get user info for avatars
+  const userMap={};allUsers.forEach(u=>userMap[u.email]=u);
+  list.innerHTML=entries.map(([email,userMsgs])=>{
+    const last=userMsgs[userMsgs.length-1];
     const preview=last?last.text.slice(0,42)+(last.text.length>42?'...':''):'';
-    const avFb=`data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#C9A84C"/><text x="32" y="38" font-family="Arial Black" font-size="22" fill="white" text-anchor="middle">${(c.name||'?')[0]}</text></svg>`)}`;
-    return `<div class="chat-user-item${activeChatEmail===c.email?' sel':''}" onclick="openAdminChat('${c.email.replace(/'/g,"\\'")}','${(c.name||'User').replace(/'/g,"\\'")}')">
-      <img class="cui-av" src="${c.avatar||avFb}" onerror="this.src='${avFb}'"/>
+    const unread=userMsgs.filter(m=>m.sender==='user'&&!m.read).length;
+    const u=userMap[email];const name=u?u.name:'Unknown';
+    const av=u&&u.avatar?u.avatar:`data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#C9A84C"/><text x="32" y="38" font-family="Arial Black" font-size="22" fill="white" text-anchor="middle">${name[0]||'?'}</text></svg>`)}`;
+    return `<div class="chat-user-item${activeChatEmail===email?' sel':''}" onclick="openAdminChat('${email.replace(/'/g,"\\'")}','${name.replace(/'/g,"\\'")}')">
+      <img class="cui-av" src="${av}"/>
       <div style="flex:1;min-width:0">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:4px">
-          <div class="cui-name">${c.name||'Unknown'}</div>
-          ${c.unread>0?'<div class="cui-badge"></div>':''}
-        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:4px"><div class="cui-name">${name}</div>${unread>0?'<div class="cui-badge"></div>':''}</div>
         <div class="cui-preview">${preview}</div>
       </div>
     </div>`;
   }).join('');
 }
 
-function openAdminChat(email,name){
+async function openAdminChat(email,name){
   activeChatEmail=email;
-  renderChatList();
-  const msgs=gbGetChat(email);
-  const updated=msgs.map(m=>({...m,read:true}));
-  gbSaveChat(email,updated);
+  await sb.markMessagesRead(email);
+  const msgs=await sb.getMessages(email);
   const convo=document.getElementById('chatConvo');
-  convo.innerHTML=`
-    <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--text)">
-      💬 ${name} <span style="font-size:.62rem;font-family:var(--sans);color:var(--text3);font-weight:400">${email}</span>
-    </div>
-    <div class="admin-chat-msgs" id="adminMsgs"></div>
-    <div class="admin-reply-row">
-      <input class="admin-reply-input" id="adminReplyInput" placeholder="Reply as Customer Care..." onkeydown="if(event.key==='Enter')adminReply()"/>
-      <button class="admin-reply-btn" onclick="adminReply()">Send</button>
-    </div>`;
-  renderAdminMsgs(updated);
-}
-
-function renderAdminMsgs(msgs){
-  const c=document.getElementById('adminMsgs');
-  if(!c)return;
-  c.innerHTML=msgs.map(m=>{
+  convo.innerHTML=`<div style="padding:12px 16px;border-bottom:1px solid var(--border2);font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--text)">💬 ${name} <span style="font-size:.62rem;font-family:var(--sans);color:var(--text3);font-weight:400">${email}</span></div><div class="admin-chat-msgs" id="adminMsgs"></div><div class="admin-reply-row"><input class="admin-reply-input" id="adminReplyInput" placeholder="Reply as Customer Care..." onkeydown="if(event.key==='Enter')adminReply()"/><button class="admin-reply-btn" onclick="adminReply()">Send</button></div>`;
+  const container=document.getElementById('adminMsgs');
+  container.innerHTML=msgs.map(m=>{
     const cls=m.sender==='care'?'care':'user';
-    const sndr=m.sender==='care'?'<div class="sndr">You (Care)</div>':'<div class="sndr">User</div>';
-    return `<div class="acm ${cls}">${sndr}${m.text}<div class="mt">${new Date(m.time).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+    const sndr=`<div class="sndr">${m.sender==='care'?'You (Care)':'User'}</div>`;
+    return `<div class="acm ${cls}">${sndr}${m.text}<div class="mt">${new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div></div>`;
   }).join('');
-  c.scrollTop=c.scrollHeight;
+  container.scrollTop=container.scrollHeight;
+  renderChatList();
 }
 
-function adminReply(){
+async function adminReply(){
   const input=document.getElementById('adminReplyInput');
   if(!input||!activeChatEmail)return;
-  const text=input.value.trim();
-  if(!text)return;
-  const msgs=gbSendMessage(activeChatEmail,text,'care');
+  const text=input.value.trim();if(!text)return;
+  await sb.sendMessage(activeChatEmail,text,'care');
   input.value='';
-  renderAdminMsgs(msgs);
+  openAdminChat(activeChatEmail,activeChatEmail);
 }
 
 if(sessionStorage.getItem('gb_admin')==='1'){
   document.getElementById('loginWrap').style.display='none';
   document.getElementById('adminWrap').style.display='flex';
-  refreshData();
-  setInterval(refreshData,10000);
+  refreshData();setInterval(refreshData,15000);
 }
 </script>
 </body>

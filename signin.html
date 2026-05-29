@@ -7,176 +7,92 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--gold:#C9A84C;--gold-l:#E8C97A;--black:#04040A;--dark:#0A0A12;--cream:#EEE8DC;--muted:rgba(238,232,220,0.45);--border:rgba(201,168,76,0.15);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
+:root{--gold:#C9A84C;--gold-l:#E8C97A;--black:#04040A;--cream:#EEE8DC;--muted:rgba(238,232,220,0.45);--border:rgba(201,168,76,0.15);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
 html,body{height:100%}
 body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden}
-
-/* ── BACKGROUND SLIDESHOW ── */
 .bg-slide{position:fixed;inset:0;z-index:0}
-.bg-logo{position:absolute;object-fit:contain;pointer-events:none;filter:blur(32px) brightness(.28) saturate(1.8);transition:opacity 1.4s ease;opacity:0}
-.bg-logo.visible{opacity:1}
-/* scattered positions */
-.bg-logo:nth-child(1){width:260px;height:180px;top:5%;left:3%}
-.bg-logo:nth-child(2){width:240px;height:160px;top:5%;right:4%}
-.bg-logo:nth-child(3){width:220px;height:150px;top:42%;left:1%}
-.bg-logo:nth-child(4){width:220px;height:150px;top:42%;right:1%}
-.bg-logo:nth-child(5){width:200px;height:140px;bottom:10%;left:8%}
-.bg-logo:nth-child(6){width:200px;height:140px;bottom:10%;right:8%}
-.bg-logo:nth-child(7){width:230px;height:160px;top:3%;left:50%;transform:translateX(-50%)}
-.bg-logo:nth-child(8){width:190px;height:130px;bottom:8%;left:38%}
-
-/* dark overlay */
 .bg-overlay{position:fixed;inset:0;z-index:1;background:rgba(4,4,10,.82)}
-
-/* geo grid */
 .bg-grid{position:fixed;inset:0;z-index:2;pointer-events:none;background-image:linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);background-size:80px 80px}
-
-/* ── CARD ── */
-.card{position:relative;z-index:10;background:rgba(10,10,18,.92);border:1px solid var(--border);border-radius:8px;padding:44px 48px;width:100%;max-width:420px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
-
+.card{position:relative;z-index:10;background:rgba(10,10,18,.92);border:1px solid var(--border);border-radius:8px;padding:44px 48px;width:100%;max-width:420px;backdrop-filter:blur(24px)}
 .logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:32px}
 .logo-globe{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.07)}
 .logo-globe svg{width:18px;height:18px}
 .logo-name{font-family:var(--serif);font-size:1rem;color:var(--cream);font-weight:700}
 .logo-tag{font-size:.46rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
-
 h1{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:4px}
-.subtitle{font-size:.8rem;color:var(--muted);margin-bottom:28px;font-weight:300;line-height:1.6}
-
+.subtitle{font-size:.8rem;color:var(--muted);margin-bottom:28px;font-weight:300}
 .form-group{margin-bottom:16px}
 label{display:block;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(238,232,220,.4);margin-bottom:7px}
 input{width:100%;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.88rem;outline:none;transition:border-color .2s}
 input:focus{border-color:var(--gold)}
-
-/* password wrapper */
-.pw-wrap{position:relative}
-.pw-wrap input{padding-right:44px}
+.pw-wrap{position:relative}.pw-wrap input{padding-right:44px}
 .pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(238,232,220,.35);transition:color .2s;padding:4px;display:flex;align-items:center}
 .pw-toggle:hover{color:var(--gold)}
-
 .err{background:rgba(180,30,30,.15);border:1px solid rgba(180,30,30,.35);border-radius:3px;padding:9px 13px;font-size:.76rem;color:#ff8a8a;margin-bottom:14px;display:none}
 .btn-submit{width:100%;padding:13px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .2s;margin-top:4px}
 .btn-submit:hover{background:var(--gold-l)}
+.btn-submit:disabled{background:rgba(201,168,76,.4);cursor:not-allowed}
 .alt-link{text-align:center;margin-top:20px;font-size:.76rem;color:var(--muted)}
 .alt-link a{color:var(--gold);text-decoration:none}
   </style>
 </head>
 <body>
-
-<!-- Background slideshow -->
 <div class="bg-slide" id="bgSlide"></div>
 <div class="bg-overlay"></div>
 <div class="bg-grid"></div>
-
 <div class="card">
   <a href="index.html" class="logo-wrap">
-    <div class="logo-globe">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-    </div>
+    <div class="logo-globe"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg></div>
     <div><div class="logo-name">Global Brands</div><div class="logo-tag">Rate the World's Greatest</div></div>
   </a>
-
   <h1>Welcome Back</h1>
   <p class="subtitle">Sign in to continue rating and earning rewards</p>
-
-  <div class="err" id="err">Invalid email or password. Please try again.</div>
-
-  <div class="form-group">
-    <label>Email Address</label>
-    <input type="email" id="email" placeholder="you@example.com"/>
-  </div>
-
+  <div class="err" id="err"></div>
+  <div class="form-group"><label>Email Address</label><input type="email" id="email" placeholder="you@example.com"/></div>
   <div class="form-group">
     <label>Password</label>
     <div class="pw-wrap">
       <input type="password" id="password" placeholder="Your password"/>
-      <button class="pw-toggle" type="button" onclick="togglePw('password','eyeIn')" title="Show/hide password">
-        <svg id="eyeIn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-          <circle cx="12" cy="12" r="3"/>
-        </svg>
+      <button class="pw-toggle" type="button" onclick="togglePw()">
+        <svg id="eyeIn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
       </button>
     </div>
   </div>
-
-  <button class="btn-submit" onclick="handleSignin()">Sign In</button>
+  <button class="btn-submit" id="submitBtn" onclick="handleSignin()">Sign In</button>
   <div class="alt-link">Don't have an account? <a href="signup.html">Create one free</a></div>
 </div>
-
 <script src="brands.js"></script>
 <script src="gb_shared.js"></script>
+<script src="supabase.js"></script>
 <script>
-// Build background slideshow
-const bgSlide = document.getElementById('bgSlide');
-const positions = [
-  'top:5%;left:3%','top:5%;right:4%','top:42%;left:1%','top:42%;right:1%',
-  'bottom:10%;left:8%','bottom:10%;right:8%','top:3%;left:50%;transform:translateX(-50%)','bottom:8%;left:38%'
-];
-const sizes = [
-  'width:260px;height:180px','width:240px;height:160px','width:220px;height:150px','width:220px;height:150px',
-  'width:200px;height:140px','width:200px;height:140px','width:230px;height:160px','width:190px;height:130px'
-];
-const totalLogos = 8;
-const imgs = [];
-// Create img elements
-positions.forEach((pos, i) => {
-  const img = document.createElement('img');
-  img.className = 'bg-logo';
-  img.style.cssText = `position:absolute;object-fit:contain;pointer-events:none;filter:blur(32px) brightness(.28) saturate(1.8);transition:opacity 1.4s ease;opacity:0;${sizes[i]};${pos}`;
-  bgSlide.appendChild(img);
-  imgs.push(img);
-});
-
-// Pick random brands and cycle them
-function pickBrands() {
-  const shuffled = [...BRANDS].sort(() => Math.random() - 0.5).slice(0, totalLogos);
-  shuffled.forEach((b, i) => {
-    imgs[i].src = b.logo;
-    imgs[i].onerror = function(){ logoFail(this, b.fallback, b.color, b.initials); };
-  });
+function togglePw(){
+  const inp=document.getElementById('password'),ico=document.getElementById('eyeIn');
+  if(inp.type==='password'){inp.type='text';ico.innerHTML=`<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`;}
+  else{inp.type='password';ico.innerHTML=`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;}
 }
-pickBrands();
-
-// Fade in all logos
-setTimeout(() => imgs.forEach(img => img.style.opacity = '1'), 300);
-
-// Every 4 seconds shuffle to new set
-setInterval(() => {
-  imgs.forEach(img => img.style.opacity = '0');
-  setTimeout(() => { pickBrands(); imgs.forEach(img => img.style.opacity = '1'); }, 1500);
-}, 5000);
-
-// Password toggle
-function togglePw(inputId, iconId) {
-  const inp = document.getElementById(inputId);
-  const ico = document.getElementById(iconId);
-  if (inp.type === 'password') {
-    inp.type = 'text';
-    ico.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`;
-  } else {
-    inp.type = 'password';
-    ico.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
-  }
+async function handleSignin(){
+  const email=document.getElementById('email').value.trim();
+  const pwd=document.getElementById('password').value;
+  const errEl=document.getElementById('err');
+  errEl.style.display='none';
+  if(!email||!pwd){errEl.textContent='Please enter your email and password.';errEl.style.display='block';return;}
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.textContent='Signing in...';
+  const user=await sb.getUser(email);
+  if(!user){errEl.textContent='No account found with this email.';errEl.style.display='block';btn.disabled=false;btn.textContent='Sign In';return;}
+  if(user.password_hash!==btoa(pwd)){errEl.textContent='Incorrect password. Please try again.';errEl.style.display='block';btn.disabled=false;btn.textContent='Sign In';return;}
+  await sb.updateUser(email,{last_seen:new Date().toISOString()});
+  localStorage.setItem('gb_user',JSON.stringify(user));
+  localStorage.setItem('gb_login','true');
+  window.location.href='home.html';
 }
-
-function handleSignin() {
-  const email = document.getElementById('email').value.trim();
-  const stored = localStorage.getItem('gb_user');
-  if (!stored) { document.getElementById('err').style.display = 'block'; return; }
-  const user = JSON.parse(stored);
-  if (user.email === email) {
-    user.lastSeen = new Date().toISOString();
-    localStorage.setItem('gb_user', JSON.stringify(user));
-    localStorage.setItem('gb_login', 'true');
-    const users = JSON.parse(localStorage.getItem('gb_users') || '[]');
-    const idx = users.findIndex(u => u.email === email);
-    if (idx >= 0) { users[idx].lastSeen = user.lastSeen; localStorage.setItem('gb_users', JSON.stringify(users)); }
-    window.location.href = 'home.html';
-  } else {
-    document.getElementById('err').style.display = 'block';
-  }
-}
-document.addEventListener('keydown', e => { if (e.key === 'Enter') handleSignin(); });
+document.addEventListener('keydown',e=>{if(e.key==='Enter')handleSignin()});
+// Background
+const bgSlide=document.getElementById('bgSlide');
+const bgImgs=Array.from({length:8},(_,i)=>{const img=document.createElement('img');const positions=[{top:'5%',left:'3%'},{top:'5%',right:'4%'},{top:'42%',left:'1%'},{top:'42%',right:'1%'},{bottom:'10%',left:'8%'},{bottom:'10%',right:'8%'},{top:'3%',left:'44%'},{bottom:'8%',left:'38%'}];const sizes=['260px,180px','240px,160px','220px,150px','220px,150px','200px,140px','200px,140px','230px,160px','190px,130px'];const[w,h]=sizes[i].split(',');const p=positions[i];let s=`position:absolute;object-fit:contain;pointer-events:none;filter:blur(32px) brightness(.28) saturate(1.8);transition:opacity 1.4s ease;opacity:0;width:${w};height:${h};`;Object.entries(p).forEach(([k,v])=>s+=`${k}:${v};`);img.style.cssText=s;bgSlide.appendChild(img);return img;});
+function setBg(){const sh=[...BRANDS].sort(()=>Math.random()-.5).slice(0,8);sh.forEach((b,i)=>{bgImgs[i].src=b.logo;bgImgs[i].onerror=()=>logoFail(bgImgs[i],b.fallback,b.color,b.initials);});}
+setBg();setTimeout(()=>bgImgs.forEach(img=>img.style.opacity='1'),300);
+setInterval(()=>{bgImgs.forEach(img=>img.style.opacity='0');setTimeout(()=>{setBg();bgImgs.forEach(img=>img.style.opacity='1');},1500);},5000);
 </script>
 </body>
 </html>

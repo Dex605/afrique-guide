@@ -10,7 +10,6 @@
 :root{--gold:#C9A84C;--gold-l:#E8C97A;--gold-d:rgba(201,168,76,0.12);--black:#060608;--dark:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,0.45);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);--sb:220px;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
 html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh;overflow-x:hidden}
 .app{display:flex;min-height:100vh}
-/* SIDEBAR */
 .sidebar{width:var(--sb);flex-shrink:0;background:rgba(5,5,5,.99);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s}
 .sb-top{padding:18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;text-decoration:none}
 .sb-name{font-family:var(--serif);font-size:.95rem;color:var(--cream);font-weight:700}
@@ -20,42 +19,37 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .nav-item:hover{color:var(--cream);background:rgba(255,255,255,.03)}
 .nav-item.active{color:var(--cream);border-left-color:var(--gold);background:rgba(201,168,76,.07)}
 .sb-foot{padding:14px;border-top:1px solid var(--border)}
-.u-chip{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:background .2s}
-.u-chip:hover{background:rgba(255,255,255,.07)}
+.u-chip{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px;cursor:pointer}
 .u-av{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0}
 .u-name{font-size:.72rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .u-id{font-size:.54rem;color:rgba(242,237,228,.35)}
-/* MAIN */
 .main{margin-left:var(--sb);flex:1}
 .topbar{padding:12px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(6,6,8,.9);backdrop-filter:blur(14px);position:sticky;top:0;z-index:40}
 .tb-left{display:flex;align-items:center;gap:12px}
-.mob-menu-btn{display:none;background:none;border:none;color:var(--cream);font-size:1.2rem;cursor:pointer}
+.mob-btn{display:none;background:none;border:none;color:var(--cream);font-size:1.2rem;cursor:pointer}
 .tb-title{font-family:var(--serif);font-size:1rem;font-weight:700}
 .tb-right{display:flex;align-items:center;gap:8px}
-.tb-greet{font-size:.78rem;color:var(--muted);margin-right:4px}
 .btn-sm{padding:7px 16px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;cursor:pointer;font-family:var(--sans);text-decoration:none;transition:all .2s;border:1px solid}
 .btn-g-sm{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:600}
 .btn-g-sm:hover{background:var(--gold-l)}
-/* ICON BUTTONS */
 .icon-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;flex-shrink:0}
 .icon-btn:hover{background:rgba(201,168,76,.1);border-color:var(--border)}
 .icon-btn svg{width:16px;height:16px;stroke:var(--cream);fill:none;stroke-width:1.8}
 .notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#FF5B5B;border:1.5px solid var(--black)}
 .chat-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#4CAF50;border:1.5px solid var(--black);display:none}
-/* LANGUAGE DROPDOWN */
+/* lang dropdown */
 .lang-dd-wrap{position:relative}
-.lang-dd{position:absolute;top:calc(100% + 8px);right:0;width:200px;background:#16161E;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:200;display:none;animation:ddIn .2s ease}
+.lang-dd{position:absolute;top:calc(100% + 8px);right:0;width:190px;background:#16161E;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:200;display:none}
 .lang-dd.open{display:block}
-.lang-dd-item{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:.76rem;color:rgba(242,237,228,.65);cursor:pointer;transition:background .15s;border:none;background:none;width:100%;font-family:var(--sans);text-align:left}
+.lang-dd-item{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:.76rem;color:rgba(242,237,228,.65);cursor:pointer;transition:background .15s;border:none;background:none;width:100%;font-family:var(--sans)}
 .lang-dd-item:hover{background:rgba(255,255,255,.05);color:var(--cream)}
 .lang-dd-item.active{color:var(--gold)}
-.lang-dd-item .lf{font-size:1rem;flex-shrink:0}
-/* MAIN DROPDOWN */
-.dropdown-wrap{position:relative}
+/* main dropdown */
+.dd-wrap{position:relative}
 .dropdown{position:absolute;top:calc(100% + 8px);right:0;width:230px;background:#16161E;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:200;display:none;animation:ddIn .2s ease}
 .dropdown.open{display:block}
 @keyframes ddIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-.dd-user{padding:14px 16px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px}
+.dd-user{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px}
 .dd-av{width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0}
 .dd-uname{font-size:.82rem;font-weight:600;color:var(--cream)}
 .dd-uemail{font-size:.62rem;color:rgba(242,237,228,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
@@ -64,8 +58,8 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .dd-item .di{width:18px;text-align:center;font-size:.85rem;flex-shrink:0}
 .dd-item.danger{color:#ff7070}
 .dd-item.danger:hover{background:rgba(255,80,80,.08)}
-.dd-sep{height:1px;background:var(--border2);margin:4px 0}
-/* CONTENT */
+.dd-sep{height:1px;background:rgba(255,255,255,.06);margin:4px 0}
+/* content */
 .content{padding:28px 32px 64px}
 .welcome-banner{background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.04));border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:22px 26px;margin-bottom:26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .wb-left h2{font-family:var(--serif);font-size:1.5rem;font-weight:700;margin-bottom:4px}
@@ -73,7 +67,6 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .wb-right{text-align:right}
 .wb-label{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
 .wb-amount{font-family:var(--serif);font-size:1.8rem;color:var(--gold-l);font-weight:700}
-.wb-note{font-size:.62rem;color:rgba(242,237,228,.3)}
 .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
 .qs-card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;padding:16px 18px}
 .qs-label{font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,237,228,.34);margin-bottom:6px}
@@ -85,22 +78,18 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .fb.active,.fb:hover{background:var(--gold);color:var(--black);border-color:var(--gold)}
 .search-bar{padding:7px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.78rem;outline:none;width:220px;transition:border-color .2s}
 .search-bar:focus{border-color:var(--gold)}
-.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
-.sec-title-h{font-family:var(--serif);font-size:1.6rem;font-weight:700}
-.sec-count{font-size:.7rem;color:rgba(242,237,228,.34)}
-/* BRAND CARDS */
-.brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:16px}
+.brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
 .b-card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:5px;overflow:hidden;cursor:pointer;transition:transform .28s,border-color .28s}
 .b-card:hover{transform:translateY(-4px);border-color:rgba(201,168,76,.45)}
 .bc-top{padding:22px 16px 14px;text-align:center}
 .bc-logo{width:80px;height:58px;object-fit:contain;margin:0 auto 10px;display:block}
 .bc-name{font-family:var(--serif);font-size:.98rem;font-weight:700;margin-bottom:4px}
 .bc-sector{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
-.bc-founded{font-size:.6rem;color:rgba(242,237,228,.3);font-weight:300}
+.bc-founded{font-size:.6rem;color:rgba(242,237,228,.3)}
 .bc-bottom{padding:10px 16px;border-top:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
 .bc-stars{font-size:.7rem;color:var(--gold)}
 .bc-read{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(201,168,76,.55)}
-/* HOW/ABOUT */
+/* info sections */
 .info-section{margin-top:60px;padding-top:40px;border-top:1px solid var(--border)}
 .info-title{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:6px}
 .info-sub{font-size:.82rem;color:var(--muted);font-weight:300;margin-bottom:32px}
@@ -110,30 +99,24 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .step-icon{font-size:1.6rem;margin-bottom:14px}
 .step-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;margin-bottom:9px}
 .step-desc{font-size:.76rem;color:var(--muted);line-height:1.78;font-weight:300}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
-.about-card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:5px;padding:22px}
-.about-card-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;margin-bottom:10px;color:var(--gold-l)}
-.about-card-text{font-size:.78rem;color:var(--muted);line-height:1.8;font-weight:300}
-/* PANELS */
+/* panels */
 .panel-ov{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:flex-end;padding:64px 16px 0}
 .panel-ov.open{display:flex}
 .panel-box{background:#16161E;border:1px solid var(--border);border-radius:8px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;animation:ddIn .25s ease}
-.panel-head{padding:18px 20px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.panel-head{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
 .panel-title{font-family:var(--serif);font-size:1.15rem;font-weight:700}
-.panel-x{background:none;border:none;color:rgba(242,237,228,.3);font-size:1.4rem;cursor:pointer;line-height:1;transition:color .2s}
+.panel-x{background:none;border:none;color:rgba(242,237,228,.3);font-size:1.4rem;cursor:pointer;line-height:1}
 .panel-x:hover{color:var(--cream)}
 .panel-body{padding:20px}
 .pfield{margin-bottom:16px}
 .pfield label{display:block;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,237,228,.38);margin-bottom:6px}
-.pfield input,.pfield select,.pfield textarea{width:100%;padding:10px 13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.84rem;outline:none;transition:border-color .2s}
-.pfield input:focus,.pfield select:focus,.pfield textarea:focus{border-color:var(--gold)}
+.pfield input,.pfield textarea{width:100%;padding:10px 13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.84rem;outline:none;transition:border-color .2s}
+.pfield input:focus,.pfield textarea:focus{border-color:var(--gold)}
 .pfield textarea{resize:vertical;min-height:80px}
-.pbtn{padding:10px 22px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .2s}
-.pbtn:hover{background:var(--gold-l)}
+.pbtn{padding:10px 22px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer}
 .pbtn-o{padding:10px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:var(--sans);font-size:.75rem;text-transform:uppercase;cursor:pointer;margin-left:8px}
 .pinfo{font-size:.78rem;color:var(--muted);line-height:1.8;margin-bottom:14px}
-.pinfo strong{color:var(--cream)}
-.notif-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border2)}
+.notif-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
 .notif-item:last-child{border-bottom:none}
 .ni-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px}
 .ni-dot.read{background:rgba(242,237,228,.2)}
@@ -142,15 +125,13 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .lang-opt{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border:1px solid var(--border2);border-radius:4px;margin-bottom:8px;cursor:pointer;transition:all .2s;font-size:.8rem}
 .lang-opt:hover,.lang-opt.sel{border-color:var(--gold);background:rgba(201,168,76,.07);color:var(--cream)}
 .lang-opt.sel::after{content:'✓';color:var(--gold)}
-.tos-text{font-size:.76rem;color:var(--muted);line-height:1.88;font-weight:300}
-.tos-text h3{font-family:var(--serif);font-size:1rem;color:var(--cream);margin:18px 0 8px}
-.tos-text h3:first-child{margin-top:0}
-/* INVITE CODE */
 .invite-box{background:rgba(201,168,76,.07);border:1px solid var(--border);border-radius:4px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
 .invite-code{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--gold-l);letter-spacing:.1em}
-.invite-copy{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);cursor:pointer;padding:4px 10px;border:1px solid var(--border);border-radius:3px;transition:all .2s}
-.invite-copy:hover{background:var(--gold-d)}
-/* CHAT */
+.invite-copy{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);cursor:pointer;padding:4px 10px;border:1px solid var(--border);border-radius:3px;background:none}
+.tos-text{font-size:.76rem;color:var(--muted);line-height:1.88}
+.tos-text h3{font-family:var(--serif);font-size:1rem;color:var(--cream);margin:18px 0 8px}
+.tos-text h3:first-child{margin-top:0}
+/* chat */
 .chat-panel{display:flex;flex-direction:column;height:70vh}
 .chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
 .chat-msg{max-width:80%;padding:9px 13px;border-radius:10px;font-size:.8rem;line-height:1.5}
@@ -158,41 +139,42 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 .chat-msg.care{background:rgba(255,255,255,.05);border:1px solid var(--border2);align-self:flex-start;color:var(--muted)}
 .chat-msg.care .sender{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
 .chat-msg .msg-time{font-size:.58rem;color:rgba(242,237,228,.25);margin-top:4px;text-align:right}
-.chat-empty{text-align:center;padding:40px 20px;font-size:.78rem;color:rgba(242,237,228,.3)}
 .chat-input-row{display:flex;gap:8px;padding:14px;border-top:1px solid var(--border2)}
-.chat-input{flex:1;padding:9px 13px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:20px;color:var(--cream);font-family:var(--sans);font-size:.82rem;outline:none;transition:border-color .2s}
+.chat-input{flex:1;padding:9px 13px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:20px;color:var(--cream);font-family:var(--sans);font-size:.82rem;outline:none}
 .chat-input:focus{border-color:var(--gold)}
-.chat-send{padding:9px 18px;background:var(--gold);color:var(--black);border:none;border-radius:20px;font-family:var(--sans);font-size:.75rem;font-weight:600;cursor:pointer;transition:background .2s}
-.chat-send:hover{background:var(--gold-l)}
-/* BRAND MODAL */
-.modal-ov{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.9);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:24px}
+.chat-send{padding:9px 18px;background:var(--gold);color:var(--black);border:none;border-radius:20px;font-family:var(--sans);font-size:.75rem;font-weight:600;cursor:pointer}
+/* brand modal */
+.modal-ov{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:24px}
 .modal-ov.open{display:flex}
-.modal-box{background:var(--dark);border:1px solid var(--border);border-radius:8px;width:100%;max-width:620px;max-height:88vh;overflow-y:auto;position:relative;animation:mIn .3s ease}
+.modal-box{background:var(--dark);border:1px solid var(--border);border-radius:8px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative;animation:mIn .3s ease}
 @keyframes mIn{from{opacity:0;transform:scale(.95)}}
-.modal-x{position:absolute;top:14px;right:16px;background:none;border:none;color:rgba(242,237,228,.28);font-size:1.5rem;cursor:pointer;z-index:10;transition:color .2s;line-height:1}
+.modal-x{position:absolute;top:14px;right:16px;background:none;border:none;color:rgba(242,237,228,.3);font-size:1.5rem;cursor:pointer;z-index:10;line-height:1}
 .modal-x:hover{color:var(--cream)}
-.modal-hdr{height:165px;position:relative;overflow:hidden;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center}
-.modal-hdr-bg{position:absolute;inset:0;filter:blur(40px) brightness(.2);transform:scale(3);background-size:contain;background-repeat:no-repeat;background-position:center}
-.modal-hdr-logo{position:relative;z-index:1;width:125px;height:85px;object-fit:contain}
+.modal-hdr{height:170px;position:relative;overflow:hidden;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center}
+.modal-hdr-bg{position:absolute;inset:0;filter:blur(40px) brightness(.18);transform:scale(3);background-size:contain;background-repeat:no-repeat;background-position:center}
+.modal-hdr-logo{position:relative;z-index:1;width:130px;height:90px;object-fit:contain}
 .modal-body{padding:24px 28px 28px}
 .modal-name{font-family:var(--serif);font-size:1.85rem;font-weight:700;margin-bottom:3px}
 .modal-meta{font-size:.63rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
 .modal-founded{font-size:.72rem;color:var(--muted);margin-bottom:12px}
 .modal-stars{color:var(--gold);font-size:.98rem;margin-bottom:3px}
 .modal-reviews{font-size:.62rem;color:var(--muted);margin-bottom:16px}
-.modal-story{font-size:.81rem;color:rgba(242,237,228,.58);line-height:1.92;font-weight:300;padding-top:14px;border-top:1px solid var(--border);margin-bottom:20px}
+.modal-story{font-size:.81rem;color:rgba(242,237,228,.58);line-height:1.92;font-weight:300;padding-top:14px;border-top:1px solid var(--border);margin-bottom:16px}
+.modal-product{border-radius:6px;overflow:hidden;margin-bottom:18px;background:rgba(255,255,255,.03);border:1px solid var(--border2)}
+.modal-product img{width:100%;height:180px;object-fit:cover;display:block}
+.modal-product-label{padding:8px 12px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .modal-acts{display:flex;gap:10px}
 .btn-rate-m{padding:10px 24px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;text-decoration:none}
-.btn-close-m{padding:10px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:var(--sans);font-size:.73rem;text-transform:uppercase;letter-spacing:.08em;cursor:pointer}
+.btn-close-m{padding:10px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:var(--sans);font-size:.73rem;text-transform:uppercase;cursor:pointer}
 @media(max-width:860px){
   .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
-  .main{margin-left:0}.mob-menu-btn{display:block}
+  .main{margin-left:0}.mob-btn{display:block}
   .qs{grid-template-columns:1fr 1fr}.content{padding:18px 16px 40px}
   .filter-row{flex-direction:column;align-items:flex-start}.search-bar{width:100%}
   .brands-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-  .how-steps{grid-template-columns:1fr}.about-grid{grid-template-columns:1fr}
-  .modal-body{padding:18px 20px 22px}.tb-greet{display:none}
+  .how-steps{grid-template-columns:1fr}
   .panel-ov{padding:56px 12px 0}.panel-box{max-width:100%}
+  .modal-box{max-width:100%}
 }
   </style>
 </head>
@@ -204,9 +186,9 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
       <div><div class="sb-name">Global Brands</div><div class="sb-tag">Rate the World's Greatest</div></div>
     </a>
     <nav class="sb-nav">
-      <a href="home.html" class="nav-item active" data-t="home">🏠 Home</a>
-      <a href="rate.html" class="nav-item" data-t="rateBrands">⭐ Rate Brands</a>
-      <a href="wallet.html" class="nav-item" data-t="wallet">💰 Wallet</a>
+      <a href="home.html" class="nav-item active">🏠 Home</a>
+      <a href="rate.html" class="nav-item">⭐ Rate Brands</a>
+      <a href="wallet.html" class="nav-item">💰 Wallet</a>
     </nav>
     <div class="sb-foot">
       <div class="u-chip" onclick="openPanel('profilePanel')">
@@ -219,113 +201,102 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
   <div class="main">
     <div class="topbar">
       <div class="tb-left">
-        <button class="mob-menu-btn" onclick="toggleSidebar()">☰</button>
-        <span class="tb-title" data-t="home">Home</span>
+        <button class="mob-btn" onclick="toggleSidebar()">☰</button>
+        <span class="tb-title">Home</span>
       </div>
       <div class="tb-right">
-        <span class="tb-greet" id="tbGreet"></span>
-        <a href="rate.html" class="btn-sm btn-g-sm" data-t="startRating">Start Rating →</a>
-
+        <span style="font-size:.78rem;color:var(--muted)" id="tbGreet"></span>
+        <a href="rate.html" class="btn-sm btn-g-sm">Start Rating →</a>
         <!-- Language -->
         <div class="lang-dd-wrap">
           <div class="icon-btn" onclick="toggleLangDD()" title="Language">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           </div>
-          <div class="lang-dd" id="langDD" style="min-width:180px">
-            <button class="lang-dd-item" onclick="setLang('en')"><span class="lf">🇬🇧</span> English</button>
-            <button class="lang-dd-item" onclick="setLang('sw')"><span class="lf">🇰🇪</span> Kiswahili</button>
-            <button class="lang-dd-item" onclick="setLang('fr')"><span class="lf">🇫🇷</span> Français</button>
-            <button class="lang-dd-item" onclick="setLang('es')"><span class="lf">🇪🇸</span> Español</button>
-            <button class="lang-dd-item" onclick="setLang('ar')"><span class="lf">🇸🇦</span> العربية</button>
-            <button class="lang-dd-item" onclick="setLang('pl')"><span class="lf">🇵🇱</span> Polski</button>
-            <button class="lang-dd-item" onclick="setLang('pt')"><span class="lf">🇵🇹</span> Português</button>
+          <div class="lang-dd" id="langDD">
+            <button class="lang-dd-item" onclick="setLang('en')">🇬🇧 English</button>
+            <button class="lang-dd-item" onclick="setLang('sw')">🇰🇪 Kiswahili</button>
+            <button class="lang-dd-item" onclick="setLang('fr')">🇫🇷 Français</button>
+            <button class="lang-dd-item" onclick="setLang('es')">🇪🇸 Español</button>
+            <button class="lang-dd-item" onclick="setLang('ar')">🇸🇦 العربية</button>
+            <button class="lang-dd-item" onclick="setLang('pl')">🇵🇱 Polski</button>
+            <button class="lang-dd-item" onclick="setLang('pt')">🇵🇹 Português</button>
           </div>
         </div>
-
         <!-- Bell -->
-        <div class="icon-btn" onclick="openPanel('notifPanel')" title="Notifications">
+        <div class="icon-btn" onclick="openPanel('notifPanel')">
           <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           <div class="notif-dot"></div>
         </div>
-
         <!-- Chat -->
-        <div class="icon-btn" onclick="openPanel('chatPanel')" title="Live Chat" id="chatIconBtn">
+        <div class="icon-btn" onclick="openPanel('chatPanel')" id="chatIconBtn">
           <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           <div class="chat-dot" id="chatDot"></div>
         </div>
-
         <!-- Three dots -->
-        <div class="dropdown-wrap">
-          <div class="icon-btn" onclick="toggleDropdown()" title="Menu">
+        <div class="dd-wrap">
+          <div class="icon-btn" onclick="toggleDD()">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
           </div>
-          <div class="dropdown" id="mainDropdown">
+          <div class="dropdown" id="mainDD">
             <div class="dd-user">
               <img class="dd-av" id="ddAv" src="" alt=""/>
-              <div><div class="dd-uname" id="ddName">User</div><div class="dd-uemail" id="ddEmail">user@email.com</div></div>
+              <div><div class="dd-uname" id="ddName">User</div><div class="dd-uemail" id="ddEmail"></div></div>
             </div>
-            <button class="dd-item" onclick="closeDD();openPanel('profilePanel')"><span class="di">👤</span> <span data-t="myProfile">My Profile</span></button>
-            <button class="dd-item" onclick="closeDD();openPanel('settingsPanel')"><span class="di">⚙️</span> <span data-t="accountSettings">Account Settings</span></button>
-            <button class="dd-item" onclick="closeDD();openPanel('chatPanel')"><span class="di">💬</span> <span data-t="chat">Live Chat</span></button>
+            <button class="dd-item" onclick="closeDD();openPanel('profilePanel')"><span class="di">👤</span> My Profile</button>
+            <button class="dd-item" onclick="closeDD();openPanel('settingsPanel')"><span class="di">⚙️</span> Account Settings</button>
+            <button class="dd-item" onclick="closeDD();openPanel('chatPanel')"><span class="di">💬</span> Live Chat</button>
             <div class="dd-sep"></div>
-            <button class="dd-item" onclick="closeDD();openPanel('supportPanel')"><span class="di">❓</span> <span data-t="helpSupport">Help / Support</span></button>
-            <button class="dd-item" onclick="closeDD();openPanel('contactPanel')"><span class="di">📞</span> <span data-t="contactUs">Contact Us</span></button>
-            <button class="dd-item" onclick="closeDD();openPanel('aboutPanel')"><span class="di">ℹ️</span> <span data-t="aboutUs">About Us</span></button>
+            <button class="dd-item" onclick="closeDD();openPanel('supportPanel')"><span class="di">❓</span> Help / Support</button>
+            <button class="dd-item" onclick="closeDD();openPanel('contactPanel')"><span class="di">📞</span> Contact Us</button>
+            <button class="dd-item" onclick="closeDD();openPanel('aboutPanel')"><span class="di">ℹ️</span> About Us</button>
             <div class="dd-sep"></div>
-            <button class="dd-item" onclick="closeDD();openPanel('tosPanel')"><span class="di">📄</span> <span data-t="termsOfService">Terms of Service</span></button>
-            <button class="dd-item" onclick="closeDD();openPanel('privacyPanel')"><span class="di">🔒</span> <span data-t="privacyPolicy">Privacy Policy</span></button>
+            <button class="dd-item" onclick="closeDD();openPanel('tosPanel')"><span class="di">📄</span> Terms of Service</button>
+            <button class="dd-item" onclick="closeDD();openPanel('privacyPanel')"><span class="di">🔒</span> Privacy Policy</button>
             <div class="dd-sep"></div>
-            <button class="dd-item danger" onclick="logout()"><span class="di">🚪</span> <span data-t="logOut">Log Out</span></button>
+            <button class="dd-item danger" onclick="logout()"><span class="di">🚪</span> Log Out</button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="content">
-      <div class="welcome-banner">
-        <div class="wb-left"><h2 id="wbName">Welcome!</h2><p>Explore 96 iconic global brands. Click any to read their full story, then head to Rate Brands to start earning.</p></div>
-        <div class="wb-right"><div class="wb-label" data-t="balance">Balance</div><div class="wb-amount" id="wbBal">0.00</div><div class="wb-note">Tap Wallet to withdraw</div></div>
-      </div>
-      <div class="qs">
-        <div class="qs-card"><div class="qs-label" data-t="brandsRated">Brands Rated</div><div class="qs-val" id="qsRated">0</div><div class="qs-sub">out of 96</div></div>
-        <div class="qs-card"><div class="qs-label" data-t="totalEarned">Total Earned</div><div class="qs-val" id="qsEarned">0.00</div><div class="qs-sub">Withdrawable</div></div>
-        <div class="qs-card"><div class="qs-label" data-t="welcomeBonus">Welcome Bonus</div><div class="qs-val" id="qsBonus">0.00</div><div class="qs-sub">Remaining</div></div>
-        <div class="qs-card"><div class="qs-label" data-t="todayRound">Today's Round</div><div class="qs-val" id="qsRound">1</div><div class="qs-sub">of 3 rounds</div></div>
-      </div>
-      <div class="filter-row">
-        <div class="filters">
-          <button class="fb active" onclick="filterB('all',this)">All 96</button>
-          <button class="fb" onclick="filterB('Technology',this)">Tech</button>
-          <button class="fb" onclick="filterB('Fashion',this)">Fashion</button>
-          <button class="fb" onclick="filterB('Luxury',this)">Luxury</button>
-          <button class="fb" onclick="filterB('Beverages',this)">Beverages</button>
-          <button class="fb" onclick="filterB('Automotive',this)">Auto</button>
-          <button class="fb" onclick="filterB('Food',this)">Food</button>
+      <div id="loadingBanner" style="text-align:center;padding:40px;color:var(--muted);font-size:.84rem">Loading your account...</div>
+      <div id="mainContent" style="display:none">
+        <div class="welcome-banner">
+          <div class="wb-left"><h2 id="wbName">Welcome!</h2><p>Explore 96 iconic global brands. Click any to read their story, then head to Rate Brands to start earning.</p></div>
+          <div class="wb-right"><div class="wb-label">Balance</div><div class="wb-amount" id="wbBal">0.00</div><div style="font-size:.62rem;color:rgba(242,237,228,.3)">Tap Wallet to withdraw</div></div>
         </div>
-        <input class="search-bar" id="searchBar" placeholder="Search brands..." oninput="renderBrands()">
-      </div>
-      <div class="sec-header">
-        <h2 class="sec-title-h">All 96 Global Brands</h2>
-        <span class="sec-count" id="secCount">96 brands</span>
-      </div>
-      <div class="brands-grid" id="brandsGrid"></div>
-
-      <div class="info-section">
-        <h2 class="info-title">How It Works</h2>
-        <p class="info-sub">Three simple steps to rate brands and earn real rewards every day.</p>
-        <div class="how-steps">
-          <div class="h-step"><div class="step-n">01</div><div class="step-icon">🎁</div><div class="step-title">Welcome Bonus</div><div class="step-desc">Your welcome bonus is credited to your account the moment you sign up. No deposit is required. Simply start rating global brands today.</div></div>
-          <div class="h-step"><div class="step-n">02</div><div class="step-icon">⭐</div><div class="step-title">Rate and Earn</div><div class="step-desc">Rate 96 iconic global brands across 3 daily rounds. Read each brand's story, submit your honest rating, and earn a reward instantly with every submission.</div></div>
-          <div class="h-step"><div class="step-n">03</div><div class="step-icon">💸</div><div class="step-title">Withdraw Earnings</div><div class="step-desc">Withdraw your earned balance directly to your preferred local payment method. Processed within 24 hours every day.</div></div>
+        <div class="qs">
+          <div class="qs-card"><div class="qs-label">Brands Rated</div><div class="qs-val" id="qsRated">0</div><div class="qs-sub">out of 96</div></div>
+          <div class="qs-card"><div class="qs-label">Total Earned</div><div class="qs-val" id="qsEarned">0.00</div><div class="qs-sub">Withdrawable</div></div>
+          <div class="qs-card"><div class="qs-label">Welcome Bonus</div><div class="qs-val" id="qsBonus">0.00</div><div class="qs-sub">Remaining</div></div>
+          <div class="qs-card"><div class="qs-label">Today's Round</div><div class="qs-val" id="qsRound">1</div><div class="qs-sub">of 3 rounds</div></div>
         </div>
-      </div>
-
-      <div class="info-section">
-        <h2 class="info-title">About Global Brands</h2>
-        <p class="info-sub">The world's premier brand rating and discovery platform.</p>
-        <div class="about-grid">
-          <div class="about-card"><div class="about-card-title">Our Mission</div><div class="about-card-text">Global Brands exists to give ordinary people a voice in rating the world's most influential companies. From Apple to Zara, every iconic brand has shaped how we live, work, and communicate. We believe your opinion matters and we reward you for sharing it.</div></div>
-          <div class="about-card"><div class="about-card-title">How We Pay You</div><div class="about-card-text">We pay real rewards directly to your local payment method. Every country has its own supported option. Minimum withdrawal is the equivalent of USD 5 per day. Customer support is available 24 hours a day via WhatsApp and Telegram.</div></div>
+        <div class="filter-row">
+          <div class="filters">
+            <button class="fb active" onclick="filterB('all',this)">All 96</button>
+            <button class="fb" onclick="filterB('Technology',this)">Tech</button>
+            <button class="fb" onclick="filterB('Fashion',this)">Fashion</button>
+            <button class="fb" onclick="filterB('Luxury',this)">Luxury</button>
+            <button class="fb" onclick="filterB('Beverages',this)">Beverages</button>
+            <button class="fb" onclick="filterB('Automotive',this)">Auto</button>
+            <button class="fb" onclick="filterB('Food',this)">Food</button>
+          </div>
+          <input class="search-bar" id="searchBar" placeholder="Search brands..." oninput="renderBrands()">
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+          <h2 style="font-family:var(--serif);font-size:1.6rem;font-weight:700">All 96 Global Brands</h2>
+          <span style="font-size:.7rem;color:rgba(242,237,228,.34)" id="secCount">96 brands</span>
+        </div>
+        <div class="brands-grid" id="brandsGrid"></div>
+        <div class="info-section">
+          <h2 class="info-title">How It Works</h2>
+          <p class="info-sub">Three simple steps to rate brands and earn real rewards every day.</p>
+          <div class="how-steps">
+            <div class="h-step"><div class="step-n">01</div><div class="step-icon">🎁</div><div class="step-title">Welcome Bonus</div><div class="step-desc">Your welcome bonus is credited instantly when you sign up. No deposit required to start.</div></div>
+            <div class="h-step"><div class="step-n">02</div><div class="step-icon">⭐</div><div class="step-title">Rate and Earn</div><div class="step-desc">Rate 96 iconic brands across 3 daily rounds. Earn real rewards with every honest rating you submit.</div></div>
+            <div class="h-step"><div class="step-n">03</div><div class="step-icon">💸</div><div class="step-title">Withdraw</div><div class="step-desc">Withdraw your earnings to your local payment method. Processed within 24 hours every day.</div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -336,7 +307,7 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 <div class="modal-ov" id="brandModal">
   <div class="modal-box">
     <button class="modal-x" onclick="closeModal()">×</button>
-    <div class="modal-hdr"><div class="modal-hdr-bg" id="mBg"></div><img class="modal-hdr-logo" id="mLogo" src="" alt=""></div>
+    <div class="modal-hdr"><div class="modal-hdr-bg" id="mBg"></div><img class="modal-hdr-logo" id="mLogo" src="" alt=""/></div>
     <div class="modal-body">
       <div class="modal-name" id="mName"></div>
       <div class="modal-meta" id="mMeta"></div>
@@ -344,6 +315,10 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
       <div class="modal-stars" id="mStars"></div>
       <div class="modal-reviews" id="mReviews"></div>
       <p class="modal-story" id="mStory"></p>
+      <div class="modal-product" id="mProduct" style="display:none">
+        <img id="mProductImg" src="" alt=""/>
+        <div class="modal-product-label" id="mProductLabel"></div>
+      </div>
       <div class="modal-acts">
         <a href="rate.html" class="btn-rate-m">⭐ Rate This Brand</a>
         <button class="btn-close-m" onclick="closeModal()">Close</button>
@@ -352,35 +327,35 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
   </div>
 </div>
 
-<!-- MY PROFILE -->
-<div class="panel-ov" id="profilePanel" onclick="closePanelOv(event,'profilePanel')">
+<!-- PROFILE PANEL -->
+<div class="panel-ov" id="profilePanel" onclick="closePOv(event,'profilePanel')">
   <div class="panel-box">
-    <div class="panel-head"><span class="panel-title" data-t="myProfile">My Profile</span><button class="panel-x" onclick="closePanel('profilePanel')">×</button></div>
+    <div class="panel-head"><span class="panel-title">My Profile</span><button class="panel-x" onclick="closePanel('profilePanel')">×</button></div>
     <div class="panel-body">
       <div style="text-align:center;margin-bottom:20px">
         <img id="profAv" src="" style="width:72px;height:72px;border-radius:50%;object-fit:cover;margin:0 auto 10px;display:block;border:2px solid var(--gold)"/>
-        <div style="font-family:var(--serif);font-size:1.1rem;font-weight:700" id="profName">User</div>
+        <div style="font-family:var(--serif);font-size:1.1rem;font-weight:700" id="profName"></div>
         <div style="font-size:.7rem;color:var(--muted)" id="profEmailDisp"></div>
       </div>
       <div class="invite-box">
-        <div><div style="font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,237,228,.38);margin-bottom:3px" data-t="inviteCode">Invite Code</div><div class="invite-code" id="profInvite">GB-XXXXXX</div></div>
+        <div><div style="font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,237,228,.38);margin-bottom:3px">Invite Code</div><div class="invite-code" id="profInvite"></div></div>
         <button class="invite-copy" onclick="copyInvite()">Copy</button>
       </div>
       <div class="pfield"><label>Full Name</label><input type="text" id="profNameInput"/></div>
       <div class="pfield"><label>Email</label><input type="email" id="profEmailInput" readonly style="opacity:.5;cursor:not-allowed"/></div>
       <div class="pfield"><label>Phone</label><input type="tel" id="profPhone"/></div>
       <div style="padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;margin-bottom:14px;font-size:.76rem;color:var(--muted);line-height:1.7" id="profAccInfo"></div>
-      <div style="display:flex"><button class="pbtn" onclick="saveProfile()" data-t="saveChanges">Save Changes</button><button class="pbtn-o" onclick="closePanel('profilePanel')" data-t="cancel">Cancel</button></div>
+      <div style="display:flex"><button class="pbtn" onclick="saveProfile()">Save Changes</button><button class="pbtn-o" onclick="closePanel('profilePanel')">Cancel</button></div>
     </div>
   </div>
 </div>
 
-<!-- ACCOUNT SETTINGS -->
-<div class="panel-ov" id="settingsPanel" onclick="closePanelOv(event,'settingsPanel')">
+<!-- SETTINGS PANEL -->
+<div class="panel-ov" id="settingsPanel" onclick="closePOv(event,'settingsPanel')">
   <div class="panel-box">
-    <div class="panel-head"><span class="panel-title" data-t="accountSettings">Account Settings</span><button class="panel-x" onclick="closePanel('settingsPanel')">×</button></div>
+    <div class="panel-head"><span class="panel-title">Account Settings</span><button class="panel-x" onclick="closePanel('settingsPanel')">×</button></div>
     <div class="panel-body">
-      <p class="pinfo">Manage your account security and preferences.</p>
+      <p class="pinfo">Update your password below.</p>
       <div class="pfield"><label>New Password</label><input type="password" id="newPwd" placeholder="New password"/></div>
       <div class="pfield"><label>Confirm Password</label><input type="password" id="confPwd" placeholder="Repeat password"/></div>
       <button class="pbtn" onclick="saveSettings()" style="width:100%">Update Password</button>
@@ -388,230 +363,214 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
   </div>
 </div>
 
-<!-- LIVE CHAT -->
-<div class="panel-ov" id="chatPanel" onclick="closePanelOv(event,'chatPanel')">
+<!-- CHAT PANEL -->
+<div class="panel-ov" id="chatPanel" onclick="closePOv(event,'chatPanel')">
   <div class="panel-box" style="display:flex;flex-direction:column;max-height:85vh;height:85vh">
-    <div class="panel-head"><span class="panel-title">💬 <span data-t="customerCare">Customer Care</span></span><button class="panel-x" onclick="closePanel('chatPanel')">×</button></div>
-    <div style="padding:10px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:8px">
-      <div style="width:8px;height:8px;border-radius:50%;background:#4CAF50;box-shadow:0 0 6px rgba(76,175,80,.5)"></div>
+    <div class="panel-head"><span class="panel-title">💬 Customer Care</span><button class="panel-x" onclick="closePanel('chatPanel')">×</button></div>
+    <div style="padding:8px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:8px">
+      <div style="width:8px;height:8px;border-radius:50%;background:#4CAF50"></div>
       <span style="font-size:.72rem;color:var(--muted)">Global Brands Support · Online 24/7</span>
     </div>
     <div class="chat-messages" id="chatMessages">
       <div class="chat-msg care"><div class="sender">Customer Care</div>👋 Hello! Welcome to Global Brands support. How can we help you today?<div class="msg-time">Support</div></div>
     </div>
     <div class="chat-input-row">
-      <input class="chat-input" id="chatInput" placeholder="Type a message..." data-t-attr="placeholder" data-t="typeMessage" onkeydown="if(event.key==='Enter')sendChat()"/>
-      <button class="chat-send" onclick="sendChat()" data-t="send">Send</button>
+      <input class="chat-input" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()"/>
+      <button class="chat-send" onclick="sendChat()">Send</button>
     </div>
   </div>
 </div>
 
-<!-- NOTIFICATIONS -->
-<div class="panel-ov" id="notifPanel" onclick="closePanelOv(event,'notifPanel')">
-  <div class="panel-box"><div class="panel-head"><span class="panel-title" data-t="notifications">Notifications</span><button class="panel-x" onclick="closePanel('notifPanel')">×</button></div>
-  <div class="panel-body">
-    <div class="notif-item"><div class="ni-dot"></div><div><div class="ni-text">Complete your rating rounds to unlock full earnings today.</div><div class="ni-time">Today</div></div></div>
-    <div class="notif-item"><div class="ni-dot"></div><div><div class="ni-text">Your welcome bonus has been credited. Start rating to convert it into withdrawable earnings.</div><div class="ni-time">Today</div></div></div>
-    <div class="notif-item"><div class="ni-dot read"></div><div><div class="ni-text">Global Brands now supports over 160 countries worldwide.</div><div class="ni-time">Yesterday</div></div></div>
-  </div></div>
-</div>
-
-<!-- HELP -->
-<div class="panel-ov" id="supportPanel" onclick="closePanelOv(event,'supportPanel')">
-  <div class="panel-box"><div class="panel-head"><span class="panel-title" data-t="helpSupport">Help / Support</span><button class="panel-x" onclick="closePanel('supportPanel')">×</button></div>
-  <div class="panel-body">
-    <p class="pinfo">Common questions and direct support.</p>
-    <div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--cream)">How do I withdraw?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Go to Wallet, select Withdraw, choose your payment method and submit. Processed within 24 hours.</div></div>
-    <div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--cream)">Why did my balance go negative in Round 2?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Round 2 has special brands that require a minimum balance. Rating them deducts that amount. Deposit to clear the balance and unlock multiplied earnings.</div></div>
-    <div style="display:flex;gap:10px;margin-top:6px"><a href="https://wa.me/254759485490" target="_blank" class="pbtn" style="text-decoration:none;display:flex;align-items:center;gap:6px">💬 WhatsApp</a><a href="https://t.me/customercare_afriqueguide" target="_blank" class="pbtn" style="text-decoration:none;background:rgba(0,136,204,.8);display:flex;align-items:center;gap:6px">✈️ Telegram</a></div>
-  </div></div>
-</div>
-
-<!-- CONTACT -->
-<div class="panel-ov" id="contactPanel" onclick="closePanelOv(event,'contactPanel')">
-  <div class="panel-box"><div class="panel-head"><span class="panel-title" data-t="contactUs">Contact Us</span><button class="panel-x" onclick="closePanel('contactPanel')">×</button></div>
-  <div class="panel-body">
-    <p class="pinfo">Our team is available 24/7.</p>
-    <div class="pfield"><label>Subject</label><input type="text" id="ctSubject" placeholder="How can we help?"/></div>
-    <div class="pfield"><label>Message</label><textarea id="ctMsg" placeholder="Describe your issue..."></textarea></div>
-    <button class="pbtn" onclick="sendContact()" style="width:100%;margin-bottom:12px">Send via WhatsApp</button>
-    <a href="https://t.me/customercare_afriqueguide" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(0,136,204,.1);border:1px solid rgba(0,136,204,.2);border-radius:3px;color:#0088CC;font-size:.74rem;text-decoration:none">✈️ Telegram Support</a>
-  </div></div>
-</div>
-
-<!-- ABOUT -->
-<div class="panel-ov" id="aboutPanel" onclick="closePanelOv(event,'aboutPanel')">
-  <div class="panel-box"><div class="panel-head"><span class="panel-title" data-t="aboutUs">About Us</span><button class="panel-x" onclick="closePanel('aboutPanel')">×</button></div>
-  <div class="panel-body">
-    <div style="text-align:center;margin-bottom:18px"><div style="font-size:2.5rem">🌍</div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;margin:8px 0 4px">Global Brands</div><div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">Rate the World's Greatest</div></div>
-    <p class="pinfo">Global Brands is the world's premier brand rating and discovery platform. We connect consumers across the globe with 96 of the most iconic and influential brands in history.</p>
-    <p class="pinfo">We reward every honest rating with real earnings paid directly to your local payment method.</p>
-  </div></div>
-</div>
-
-<!-- TOS -->
-<div class="panel-ov" id="tosPanel" onclick="closePanelOv(event,'tosPanel')">
-  <div class="panel-box"><div class="panel-head"><span class="panel-title" data-t="termsOfService">Terms of Service</span><button class="panel-x" onclick="closePanel('tosPanel')">×</button></div>
-  <div class="panel-body"><div class="tos-text"><h3>1. Acceptance</h3>By using Global Brands, you agree to these terms.<h3>2. Eligibility</h3>You must be at least 18 years old.<h3>3. Earnings</h3>Earnings are generated by completing brand rating tasks. Withdrawals are processed within 24 hours.<h3>4. Prohibited Conduct</h3>No fraudulent ratings or multiple accounts.<h3>5. Modifications</h3>Terms may be updated at any time.</div></div>
+<!-- NOTIF PANEL -->
+<div class="panel-ov" id="notifPanel" onclick="closePOv(event,'notifPanel')">
+  <div class="panel-box">
+    <div class="panel-head"><span class="panel-title">Notifications</span><button class="panel-x" onclick="closePanel('notifPanel')">×</button></div>
+    <div class="panel-body">
+      <div class="notif-item"><div class="ni-dot"></div><div><div class="ni-text">Complete your rating rounds to unlock full earnings today.</div><div class="ni-time">Today</div></div></div>
+      <div class="notif-item"><div class="ni-dot read"></div><div><div class="ni-text">Your welcome bonus has been credited. Start rating to earn.</div><div class="ni-time">Today</div></div></div>
+    </div>
   </div>
 </div>
 
-<!-- PRIVACY -->
-<div class="panel-ov" id="privacyPanel" onclick="closePanelOv(event,'privacyPanel')">
-  <div class="panel-box"><div class="panel-head"><span class="panel-title" data-t="privacyPolicy">Privacy Policy</span><button class="panel-x" onclick="closePanel('privacyPanel')">×</button></div>
-  <div class="panel-body"><div class="tos-text"><h3>1. Data We Collect</h3>Name, email, phone, country, and activity.<h3>2. Usage</h3>To operate accounts, process payments, and provide support. We do not sell data.<h3>3. Security</h3>Data stored securely using industry-standard measures.<h3>4. Your Rights</h3>Request access, correction, or deletion by contacting support.</div></div>
+<!-- SUPPORT PANEL -->
+<div class="panel-ov" id="supportPanel" onclick="closePOv(event,'supportPanel')">
+  <div class="panel-box">
+    <div class="panel-head"><span class="panel-title">Help / Support</span><button class="panel-x" onclick="closePanel('supportPanel')">×</button></div>
+    <div class="panel-body">
+      <div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px">How do I withdraw?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Go to Wallet, select Withdraw, choose your method and submit. Processed within 24 hours.</div></div>
+      <div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px">Why did my balance go negative?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Round 2 has special brands requiring a minimum balance. Deposit to clear the negative and unlock multiplied earnings.</div></div>
+      <div style="display:flex;gap:10px"><a href="https://wa.me/254759485490" target="_blank" class="pbtn" style="text-decoration:none">💬 WhatsApp</a><a href="https://t.me/customercare_afriqueguide" target="_blank" class="pbtn" style="text-decoration:none;background:rgba(0,136,204,.8)">✈️ Telegram</a></div>
+    </div>
   </div>
 </div>
+
+<!-- CONTACT PANEL -->
+<div class="panel-ov" id="contactPanel" onclick="closePOv(event,'contactPanel')">
+  <div class="panel-box">
+    <div class="panel-head"><span class="panel-title">Contact Us</span><button class="panel-x" onclick="closePanel('contactPanel')">×</button></div>
+    <div class="panel-body">
+      <div class="pfield"><label>Subject</label><input type="text" id="ctSubject" placeholder="How can we help?"/></div>
+      <div class="pfield"><label>Message</label><textarea id="ctMsg" placeholder="Describe your issue..."></textarea></div>
+      <button class="pbtn" onclick="sendContact()" style="width:100%;margin-bottom:10px">Send via WhatsApp</button>
+      <a href="https://t.me/customercare_afriqueguide" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(0,136,204,.1);border:1px solid rgba(0,136,204,.2);border-radius:3px;color:#0088CC;font-size:.74rem;text-decoration:none">✈️ Telegram</a>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT PANEL -->
+<div class="panel-ov" id="aboutPanel" onclick="closePOv(event,'aboutPanel')">
+  <div class="panel-box">
+    <div class="panel-head"><span class="panel-title">About Us</span><button class="panel-x" onclick="closePanel('aboutPanel')">×</button></div>
+    <div class="panel-body">
+      <div style="text-align:center;margin-bottom:18px"><div style="font-size:2.5rem">🌍</div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;margin:8px 0 4px">Global Brands</div><div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">Rate the World's Greatest</div></div>
+      <p class="pinfo">Global Brands connects consumers across the globe with 96 of the most iconic brands in history. Rate them, learn their stories, and earn real rewards.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TOS / PRIVACY -->
+<div class="panel-ov" id="tosPanel" onclick="closePOv(event,'tosPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Terms of Service</span><button class="panel-x" onclick="closePanel('tosPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Acceptance</h3>By using Global Brands you agree to these terms.<h3>2. Eligibility</h3>You must be at least 18 years old.<h3>3. Earnings</h3>Earnings come from completing brand ratings. Withdrawals are processed within 24 hours.<h3>4. Conduct</h3>No fraudulent ratings or multiple accounts.<h3>5. Changes</h3>Terms may be updated at any time.</div></div></div></div>
+<div class="panel-ov" id="privacyPanel" onclick="closePOv(event,'privacyPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Privacy Policy</span><button class="panel-x" onclick="closePanel('privacyPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Data Collected</h3>Name, email, phone, country, and activity data.<h3>2. Usage</h3>To operate accounts and process payments. We do not sell your data.<h3>3. Security</h3>Stored securely in Supabase with industry-standard protections.<h3>4. Your Rights</h3>Request access or deletion by contacting support.</div></div></div></div>
 
 <script src="brands.js"></script>
 <script src="gb_shared.js"></script>
+<script src="supabase.js"></script>
 <script>
+// Product images for featured brands (using Unsplash)
+const PRODUCT_IMGS = {
+  1:  {url:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600&q=80', label:'iPhone — Apple'},
+  2:  {url:'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&q=80', label:'Google Workspace'},
+  3:  {url:'https://images.unsplash.com/photo-1624393353444-6476d8ad2966?w=600&q=80', label:'Microsoft Surface'},
+  4:  {url:'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&q=80', label:'Samsung Galaxy'},
+  6:  {url:'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=600&q=80', label:'Amazon Delivery'},
+  7:  {url:'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&q=80', label:'Netflix Original Series'},
+  8:  {url:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&q=80', label:'Tesla Model S'},
+  9:  {url:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80', label:'Spotify on Mobile'},
+  13: {url:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80', label:'Nike Running Shoes'},
+  14: {url:'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80', label:'Adidas Sneakers'},
+  20: {url:'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=600&q=80', label:'Coca-Cola Classic'},
+  21: {url:'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=600&q=80', label:'Pepsi Can'},
+  22: {url:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80', label:'Starbucks Coffee'},
+  23: {url:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80', label:"McDonald's Big Mac"},
+  28: {url:'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&q=80', label:'Toyota Corolla'},
+  29: {url:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80', label:'BMW M Series'},
+  30: {url:'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80', label:'Mercedes-Benz GLE'},
+  31: {url:'https://images.unsplash.com/photo-1632245889029-e406faaa34cd?w=600&q=80', label:'Ferrari 488'},
+  44: {url:'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&q=80', label:'Emirates First Class'},
+  47: {url:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80', label:'Airbus A380'},
+  48: {url:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80', label:'Airbnb Home'},
+  56: {url:'https://images.unsplash.com/photo-1619468129361-605ebea04b44?w=600&q=80', label:'LEGO Bricks'},
+};
+
 let user={},activeFilter='all';
 
-function init(){
-  if(!localStorage.getItem('gb_login')){location.href='index.html';return}
-  user=JSON.parse(localStorage.getItem('gb_user')||'{}');
-  user.lastSeen=new Date().toISOString();
-  // Generate avatar/invite if missing
-  if(!user.inviteCode){user.inviteCode=gbGenInviteCode();}
-  if(!user.avatar){const av=gbGenAvatar(user.name||'GB',Math.floor(Math.random()*10));user.avatar=av.svg;user.avatarColor=av.color;user.avatarInitials=av.initials;}
+async function init(){
+  if(!localStorage.getItem('gb_login')){location.href='index.html';return;}
+  const cached=JSON.parse(localStorage.getItem('gb_user')||'{}');
+  if(!cached.email){location.href='index.html';return;}
+  // Always fetch latest from Supabase
+  const fresh=await sb.getUser(cached.email);
+  if(!fresh){location.href='index.html';return;}
+  user=fresh;
   localStorage.setItem('gb_user',JSON.stringify(user));
-  const users=JSON.parse(localStorage.getItem('gb_users')||'[]');
-  const idx=users.findIndex(u=>u.email===user.email);
-  if(idx>=0){users[idx]={...user};localStorage.setItem('gb_users',JSON.stringify(users));}
+  await sb.updateUser(user.email,{last_seen:new Date().toISOString()});
+  populateUI();
+  renderBrands();
+  loadChatDot();
+  document.getElementById('loadingBanner').style.display='none';
+  document.getElementById('mainContent').style.display='block';
+}
 
-  const fmt=n=>gbFmt(n,user);
-  // Set avatars everywhere
-  document.getElementById('uAv').src=user.avatar;
-  document.getElementById('ddAv').src=user.avatar;
-  document.getElementById('profAv').src=user.avatar;
+function fmt(n){return gbFmt(n,user);}
+
+function populateUI(){
+  const av=user.avatar||gbGenAvatar(user.name||'GB',0).svg;
+  ['uAv','ddAv','profAv'].forEach(id=>{const el=document.getElementById(id);if(el)el.src=av;});
   document.getElementById('uName').textContent=user.name||'User';
   document.getElementById('uCur').textContent=user.currency||'KES';
   document.getElementById('ddName').textContent=user.name||'User';
   document.getElementById('ddEmail').textContent=user.email||'';
   document.getElementById('profName').textContent=user.name||'User';
   document.getElementById('profEmailDisp').textContent=user.email||'';
-  document.getElementById('profInvite').textContent=user.inviteCode||'GB-XXXXXX';
+  document.getElementById('profInvite').textContent=user.invite_code||'GB-XXXXXX';
   document.getElementById('profNameInput').value=user.name||'';
   document.getElementById('profEmailInput').value=user.email||'';
   document.getElementById('profPhone').value=user.phone||'';
-  document.getElementById('profAccInfo').innerHTML=`Country: <strong>${user.country||'N/A'}</strong> &nbsp;·&nbsp; Currency: <strong>${user.currency||'KES'}</strong> &nbsp;·&nbsp; Joined: <strong>${user.joinedAt?new Date(user.joinedAt).toLocaleDateString():'N/A'}</strong>`;
+  document.getElementById('profAccInfo').innerHTML=`Country: <strong>${user.country||'N/A'}</strong> &nbsp;·&nbsp; Currency: <strong>${user.currency||'KES'}</strong> &nbsp;·&nbsp; Year of Birth: <strong>${user.year_of_birth||'N/A'}</strong> &nbsp;·&nbsp; Joined: <strong>${user.joined_at?new Date(user.joined_at).toLocaleDateString():'N/A'}</strong>`;
   document.getElementById('wbName').textContent='Welcome, '+(user.name||'there')+'!';
   document.getElementById('wbBal').textContent=fmt(user.earnings);
-  document.getElementById('qsRated').textContent=user.tasksCompleted||0;
+  document.getElementById('qsRated').textContent=user.tasks_completed||0;
   document.getElementById('qsEarned').textContent=fmt(user.earnings);
-  document.getElementById('qsBonus').textContent=fmt(user.bonusRemaining);
-  const tc=user.tasksCompleted||0;
+  document.getElementById('qsBonus').textContent=fmt(user.bonus_remaining);
+  const tc=user.tasks_completed||0;
   document.getElementById('qsRound').textContent=tc<32?1:tc<64?2:3;
   const h=new Date().getHours();
-  const g=h<12?gbT('goodMorning'):h<17?gbT('goodAfternoon'):gbT('goodEvening');
+  const g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
   document.getElementById('tbGreet').textContent=g+(user.name?', '+user.name:'')+'!';
-  // Apply language
-  gbApplyLang();
-  highlightActiveLang();
-  renderBrands();
-  loadChat();
 }
 
-// ── LANGUAGE ──
-function toggleLangDD(){
-  document.getElementById('langDD').classList.toggle('open');
-  document.getElementById('mainDropdown').classList.remove('open');
-}
-function setLang(code){
-  gbSetLang(code);
-  document.getElementById('langDD').classList.remove('open');
-  highlightActiveLang();
-  // Re-render greet
-  const h=new Date().getHours();
-  const g=h<12?gbT('goodMorning'):h<17?gbT('goodAfternoon'):gbT('goodEvening');
-  document.getElementById('tbGreet').textContent=g+(user.name?', '+user.name:'')+'!';
-}
-function highlightActiveLang(){
-  const cur=gbLang();
-  document.querySelectorAll('.lang-dd-item').forEach(el=>{
-    const code=el.getAttribute('onclick').match(/setLang\('(\w+)'\)/)?.[1];
-    el.classList.toggle('active',code===cur);
-  });
-}
+// Language
+function toggleLangDD(){document.getElementById('langDD').classList.toggle('open');}
+function setLang(code){gbSetLang(code);document.getElementById('langDD').classList.remove('open');}
+function toggleDD(){document.getElementById('mainDD').classList.toggle('open');}
+function closeDD(){document.getElementById('mainDD').classList.remove('open');}
 document.addEventListener('click',e=>{
   if(!e.target.closest('.lang-dd-wrap'))document.getElementById('langDD').classList.remove('open');
-  if(!e.target.closest('.dropdown-wrap'))document.getElementById('mainDropdown').classList.remove('open');
+  if(!e.target.closest('.dd-wrap'))document.getElementById('mainDD').classList.remove('open');
 });
 
-// ── DROPDOWN ──
-function toggleDropdown(){document.getElementById('mainDropdown').classList.toggle('open')}
-function closeDD(){document.getElementById('mainDropdown').classList.remove('open')}
-
-// ── PANELS ──
-function openPanel(id){closeDD();document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';if(id==='chatPanel')renderChat();}
+// Panels
+function openPanel(id){closeDD();document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';if(id==='chatPanel')loadChat();}
 function closePanel(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
-function closePanelOv(e,id){if(e.target===e.currentTarget)closePanel(id);}
+function closePOv(e,id){if(e.target===e.currentTarget)closePanel(id);}
 
-// ── PROFILE ──
-function saveProfile(){
+// Profile save → Supabase
+async function saveProfile(){
   const name=document.getElementById('profNameInput').value.trim();
   const phone=document.getElementById('profPhone').value.trim();
   if(!name){alert('Name cannot be empty.');return;}
+  await sb.updateUser(user.email,{name,phone});
   user.name=name;user.phone=phone;
   localStorage.setItem('gb_user',JSON.stringify(user));
-  const users=JSON.parse(localStorage.getItem('gb_users')||'[]');
-  const idx=users.findIndex(u=>u.email===user.email);
-  if(idx>=0)users[idx]={...user};localStorage.setItem('gb_users',JSON.stringify(users));
-  alert('Profile updated.');closePanel('profilePanel');init();
+  alert('Profile updated.');closePanel('profilePanel');populateUI();
 }
-function copyInvite(){
-  navigator.clipboard.writeText(user.inviteCode||'').then(()=>alert('Invite code copied!')).catch(()=>alert(user.inviteCode));
-}
-function saveSettings(){
+function copyInvite(){navigator.clipboard.writeText(user.invite_code||'').then(()=>alert('Copied!'));}
+async function saveSettings(){
   const np=document.getElementById('newPwd').value;
   const cp=document.getElementById('confPwd').value;
-  if(!np){alert('Enter a new password.');return;}
+  if(!np){alert('Enter a password.');return;}
   if(np!==cp){alert('Passwords do not match.');return;}
-  alert('Password updated successfully.');closePanel('settingsPanel');
+  await sb.updateUser(user.email,{password_hash:btoa(np)});
+  alert('Password updated.');closePanel('settingsPanel');
 }
 
-// ── CHAT ──
-function loadChat(){
-  const msgs=gbGetChat(user.email);
+// Chat → Supabase
+async function loadChatDot(){
+  const msgs=await sb.getMessages(user.email);
   const unread=msgs.filter(m=>m.sender==='care'&&!m.read).length;
-  if(unread>0){document.getElementById('chatDot').style.display='block';}
+  document.getElementById('chatDot').style.display=unread>0?'block':'none';
 }
-function renderChat(){
-  const msgs=gbGetChat(user.email);
-  // Mark care messages as read
-  const updated=msgs.map(m=>m.sender==='care'?{...m,read:true}:m);
-  gbSaveChat(user.email,updated);
+async function loadChat(){
+  const msgs=await sb.getMessages(user.email);
+  await sb.markMessagesRead(user.email);
   document.getElementById('chatDot').style.display='none';
   const container=document.getElementById('chatMessages');
-  // Keep welcome message
-  const welcome=container.querySelector('.chat-msg.care');
-  container.innerHTML='';
-  if(welcome)container.appendChild(welcome);
-  updated.forEach(m=>{
-    const div=document.createElement('div');
-    div.className='chat-msg '+m.sender;
-    if(m.sender==='care')div.innerHTML=`<div class="sender">Customer Care</div>${m.text}<div class="msg-time">${new Date(m.time).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>`;
-    else div.innerHTML=`${m.text}<div class="msg-time">${new Date(m.time).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>`;
-    container.appendChild(div);
-  });
+  const welcome=`<div class="chat-msg care"><div class="sender">Customer Care</div>👋 Hello! Welcome to Global Brands support. How can we help you today?<div class="msg-time">Support</div></div>`;
+  container.innerHTML=welcome+msgs.map(m=>{
+    const t=new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    if(m.sender==='care')return `<div class="chat-msg care"><div class="sender">Customer Care</div>${m.text}<div class="msg-time">${t}</div></div>`;
+    return `<div class="chat-msg user">${m.text}<div class="msg-time">${t}</div></div>`;
+  }).join('');
   container.scrollTop=container.scrollHeight;
 }
-function sendChat(){
+async function sendChat(){
   const input=document.getElementById('chatInput');
   const text=input.value.trim();
   if(!text)return;
-  gbSendMessage(user.email,text,'user');
   input.value='';
-  renderChat();
-  // Auto-reply after 1.5s
-  setTimeout(()=>{
-    gbSendMessage(user.email,'Thank you for your message. Our team will respond shortly. For urgent matters contact us on WhatsApp at +254759485490 or Telegram @customercare_afriqueguide.','care');
-    renderChat();
-  },1500);
+  await sb.sendMessage(user.email,text,'user');
+  await loadChat();
 }
-
-// ── CONTACT ──
 function sendContact(){
   const s=document.getElementById('ctSubject').value.trim();
   const m=document.getElementById('ctMsg').value.trim();
@@ -620,69 +579,57 @@ function sendContact(){
   closePanel('contactPanel');
 }
 
-// ── BRANDS ──
-function filterB(f,btn){
-  activeFilter=f;
-  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderBrands();
-}
+// Brands
+function filterB(f,btn){activeFilter=f;document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBrands();}
 function renderBrands(){
   const q=(document.getElementById('searchBar').value||'').toLowerCase();
   const filtered=BRANDS.filter(b=>{
     const mf=activeFilter==='all'||b.sector.toLowerCase().includes(activeFilter.toLowerCase());
-    const mq=!q||b.name.toLowerCase().includes(q)||b.sector.toLowerCase().includes(q)||b.founded.toLowerCase().includes(q);
+    const mq=!q||b.name.toLowerCase().includes(q)||b.sector.toLowerCase().includes(q);
     return mf&&mq;
   });
-  document.getElementById('secCount').textContent=filtered.length+' brand'+(filtered.length!==1?'s':'');
-  const grid=document.getElementById('brandsGrid');
-  grid.innerHTML='';
+  document.getElementById('secCount').textContent=filtered.length+' brands';
+  const grid=document.getElementById('brandsGrid');grid.innerHTML='';
   filtered.forEach(b=>{
     const stars='★'.repeat(Math.round(b.rating))+'☆'.repeat(5-Math.round(b.rating));
-    const card=document.createElement('div');
-    card.className='b-card';
-    // FIX: use onclick directly, no href to avoid navigation issues
-    card.innerHTML=`
-      <div class="bc-top">
-        <img class="bc-logo" src="${b.logo}" alt="${b.name}" onerror="logoFail(this,'${b.fallback}','${b.color}','${b.initials}')">
-        <div class="bc-name">${b.name}</div>
-        <div class="bc-sector">${b.sector}</div>
-        <div class="bc-founded">${gbT('foundedIn')} ${b.year} · ${b.founded}</div>
-      </div>
-      <div class="bc-bottom">
-        <span class="bc-stars">${stars} ${b.rating}</span>
-        <span class="bc-read">${gbT('readMore')}</span>
-      </div>`;
+    const card=document.createElement('div');card.className='b-card';
+    card.innerHTML=`<div class="bc-top"><img class="bc-logo" src="${b.logo}" alt="${b.name}" onerror="logoFail(this,'${b.fallback}','${b.color}','${b.initials}')"><div class="bc-name">${b.name}</div><div class="bc-sector">${b.sector}</div><div class="bc-founded">Founded ${b.year} · ${b.founded}</div></div><div class="bc-bottom"><span class="bc-stars">${stars} ${b.rating}</span><span class="bc-read">Read More →</span></div>`;
     card.addEventListener('click',()=>openBrandModal(b));
     grid.appendChild(card);
   });
 }
 
-// ── BRAND MODAL (FIXED) ──
+// Brand modal with product image
 function openBrandModal(b){
   const stars='★'.repeat(Math.round(b.rating))+'☆'.repeat(5-Math.round(b.rating));
   document.getElementById('mLogo').src=b.logo;
-  document.getElementById('mLogo').onerror=function(){logoFail(this,b.fallback,b.color,b.initials)};
+  document.getElementById('mLogo').onerror=function(){logoFail(this,b.fallback,b.color,b.initials);};
   document.getElementById('mBg').style.backgroundImage=`url('${b.logo}')`;
   document.getElementById('mName').textContent=b.name;
   document.getElementById('mMeta').textContent=b.sector;
-  document.getElementById('mFounded').textContent=gbT('foundedIn')+' '+b.year+' · '+b.founded;
+  document.getElementById('mFounded').textContent='Founded '+b.year+' · '+b.founded;
   document.getElementById('mStars').textContent=stars+' '+b.rating;
   document.getElementById('mReviews').textContent=b.reviews.toLocaleString()+' reviews';
   document.getElementById('mStory').textContent=b.story;
+  // Product image
+  const prod=PRODUCT_IMGS[b.id];
+  const prodEl=document.getElementById('mProduct');
+  if(prod){
+    document.getElementById('mProductImg').src=prod.url;
+    document.getElementById('mProductImg').alt=prod.label;
+    document.getElementById('mProductLabel').textContent=prod.label;
+    prodEl.style.display='block';
+  } else {
+    prodEl.style.display='none';
+  }
   document.getElementById('brandModal').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function closeModal(){
-  document.getElementById('brandModal').classList.remove('open');
-  document.body.style.overflow='';
-}
-document.getElementById('brandModal').addEventListener('click',e=>{
-  if(e.target===document.getElementById('brandModal'))closeModal();
-});
+function closeModal(){document.getElementById('brandModal').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('brandModal').addEventListener('click',e=>{if(e.target===document.getElementById('brandModal'))closeModal();});
 
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
-function logout(){localStorage.removeItem('gb_login');location.href='index.html'}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
+function logout(){localStorage.removeItem('gb_login');localStorage.removeItem('gb_user');location.href='index.html';}
 init();
 </script>
 </body>
