@@ -453,30 +453,54 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 <script src="gb_shared.js"></script>
 <script src="supabase.js"></script>
 <script>
-// Product images for featured brands (using Unsplash)
+// Product images — correctly matched to each brand
 const PRODUCT_IMGS = {
-  1:  {url:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600&q=80', label:'iPhone — Apple'},
-  2:  {url:'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=600&q=80', label:'Google Workspace'},
-  3:  {url:'https://images.unsplash.com/photo-1624393353444-6476d8ad2966?w=600&q=80', label:'Microsoft Surface'},
-  4:  {url:'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600&q=80', label:'Samsung Galaxy'},
-  6:  {url:'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=600&q=80', label:'Amazon Delivery'},
-  7:  {url:'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=600&q=80', label:'Netflix Original Series'},
-  8:  {url:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&q=80', label:'Tesla Model S'},
-  9:  {url:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80', label:'Spotify on Mobile'},
-  13: {url:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80', label:'Nike Running Shoes'},
-  14: {url:'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80', label:'Adidas Sneakers'},
-  20: {url:'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=600&q=80', label:'Coca-Cola Classic'},
-  21: {url:'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=600&q=80', label:'Pepsi Can'},
-  22: {url:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80', label:'Starbucks Coffee'},
-  23: {url:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80', label:"McDonald's Big Mac"},
-  28: {url:'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&q=80', label:'Toyota Corolla'},
-  29: {url:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80', label:'BMW M Series'},
-  30: {url:'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80', label:'Mercedes-Benz GLE'},
-  31: {url:'https://images.unsplash.com/photo-1632245889029-e406faaa34cd?w=600&q=80', label:'Ferrari 488'},
-  44: {url:'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&q=80', label:'Emirates First Class'},
-  47: {url:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80', label:'Airbus A380'},
-  48: {url:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80', label:'Airbnb Home'},
-  56: {url:'https://images.unsplash.com/photo-1619468129361-605ebea04b44?w=600&q=80', label:'LEGO Bricks'},
+  // Technology
+  1:  {url:'https://images.unsplash.com/photo-1696446701796-da61339df4a6?w=700&q=85', label:'iPhone 16 Pro Max — Apple'},
+  2:  {url:'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=700&q=85', label:'Google Search — Google'},
+  3:  {url:'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=700&q=85', label:'Microsoft Surface Laptop — Microsoft'},
+  4:  {url:'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=700&q=85', label:'Samsung Galaxy S24 Ultra — Samsung'},
+  5:  {url:'https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=700&q=85', label:'Meta Quest 3 — Meta'},
+  6:  {url:'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=700&q=85', label:'Amazon Delivery — Amazon'},
+  7:  {url:'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=700&q=85', label:'Netflix on TV — Netflix'},
+  8:  {url:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=700&q=85', label:'Tesla Model 3 — Tesla'},
+  9:  {url:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=700&q=85', label:'Spotify Mobile App — Spotify'},
+  10: {url:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=700&q=85', label:'MacBook Pro — Apple'},
+  // Fashion
+  13: {url:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&q=85', label:'Nike Air Max — Nike'},
+  14: {url:'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=700&q=85', label:'Adidas Ultra Boost — Adidas'},
+  15: {url:'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=700&q=85', label:'Zara Store — Zara'},
+  16: {url:'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=700&q=85', label:'H&M Fashion — H&M'},
+  // Luxury
+  17: {url:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&q=85', label:'Louis Vuitton Bag — Louis Vuitton'},
+  18: {url:'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=700&q=85', label:'Gucci Sneakers — Gucci'},
+  19: {url:'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=700&q=85', label:'Rolex Submariner — Rolex'},
+  // Beverages
+  20: {url:'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=700&q=85', label:'Coca-Cola Classic — Coca-Cola'},
+  21: {url:'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=700&q=85', label:'Pepsi Can — Pepsi'},
+  22: {url:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=700&q=85', label:'Starbucks Latte — Starbucks'},
+  23: {url:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=700&q=85', label:'Nescafé — Nescafé'},
+  // Food
+  24: {url:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=700&q=85', label:"Big Mac — McDonald's"},
+  25: {url:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=85', label:'KFC Bucket — KFC'},
+  26: {url:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=700&q=85', label:'Pizza Hut — Pizza Hut'},
+  27: {url:'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=700&q=85', label:'Nestlé Products — Nestlé'},
+  // Automotive — CORRECTLY matched, no cross-brand errors
+  28: {url:'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=700&q=85', label:'Toyota Corolla — Toyota'},
+  29: {url:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=700&q=85', label:'BMW M4 Coupé — BMW'},
+  30: {url:'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=700&q=85', label:'Mercedes GLE — Mercedes-Benz'},
+  31: {url:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=700&q=85', label:'Ferrari Roma — Ferrari'},
+  32: {url:'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=700&q=85', label:'Porsche 911 — Porsche'},
+  33: {url:'https://images.unsplash.com/photo-1471079485782-dc00f6bdf77b?w=700&q=85', label:'Honda Civic — Honda'},
+  34: {url:'https://images.unsplash.com/photo-1551830820-330a71b99659?w=700&q=85', label:'Ford Mustang — Ford'},
+  35: {url:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=700&q=85', label:'Audi RS6 Avant — Audi'},
+  // Aviation & Travel
+  44: {url:'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=700&q=85', label:'Emirates First Class — Emirates'},
+  47: {url:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=85', label:'Airbus A380 — Airbus'},
+  48: {url:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=85', label:'Airbnb Home — Airbnb'},
+  // Entertainment
+  56: {url:'https://images.unsplash.com/photo-1619468129361-605ebea04b44?w=700&q=85', label:'LEGO City Set — LEGO'},
+  57: {url:'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=700&q=85', label:'PlayStation 5 — Sony'},
 };
 
 let user={},activeFilter='all';
@@ -490,6 +514,13 @@ async function init(){
   if(!fresh){location.href='index.html';return;}
   user=fresh;
   localStorage.setItem('gb_user',JSON.stringify(user));
+  // Regenerate avatar using brand-logo system if user has old style avatar
+  if(!user.avatar || user.avatar.includes('Arial Black') && !user.avatar.includes('simpleicons')){
+    const av=gbGenAvatar(user.name||'GB',0);
+    user.avatar=av.svg;user.avatar_color=av.color;user.avatar_initials=av.initials;
+    await sb.updateUser(user.email,{avatar:av.svg,avatar_color:av.color,avatar_initials:av.initials});
+    localStorage.setItem('gb_user',JSON.stringify(user));
+  }
   await sb.updateUser(user.email,{last_seen:new Date().toISOString()});
   populateUI();
   renderBrands();
@@ -660,7 +691,7 @@ function initSlideshow(){
   // Build slides
   SLIDES.forEach((s,i)=>{
     const div=document.createElement('div');
-    div.style.cssText=`position:absolute;inset:0;background:url('${s.img}') center/cover no-repeat;transition:opacity 1.2s ease;opacity:${i===0?1:0};filter:blur(3px) brightness(.45) saturate(1.3)`;
+    div.style.cssText=`position:absolute;inset:0;background:url('${s.img}') center/cover no-repeat;transition:opacity 1.2s ease;opacity:${i===0?1:0}`;
     div.id='slide-'+i;
     ss.appendChild(div);
     const dot=document.createElement('div');

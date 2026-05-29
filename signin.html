@@ -11,7 +11,7 @@
 html,body{height:100%}
 body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden}
 .bg-slide{position:fixed;inset:0;z-index:0}
-.bg-overlay{position:fixed;inset:0;z-index:1;background:rgba(4,4,10,.82)}
+.bg-overlay{position:fixed;inset:0;z-index:1;background:rgba(4,4,10,.38)}
 .bg-grid{position:fixed;inset:0;z-index:2;pointer-events:none;background-image:linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);background-size:80px 80px}
 .card{position:relative;z-index:10;background:rgba(10,10,18,.92);border:1px solid var(--border);border-radius:8px;padding:44px 48px;width:100%;max-width:420px;backdrop-filter:blur(24px)}
 .logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:32px}
@@ -89,7 +89,7 @@ async function handleSignin(){
 document.addEventListener('keydown',e=>{if(e.key==='Enter')handleSignin()});
 // Background
 const bgSlide=document.getElementById('bgSlide');
-const bgImgs=Array.from({length:8},(_,i)=>{const img=document.createElement('img');const positions=[{top:'5%',left:'3%'},{top:'5%',right:'4%'},{top:'42%',left:'1%'},{top:'42%',right:'1%'},{bottom:'10%',left:'8%'},{bottom:'10%',right:'8%'},{top:'3%',left:'44%'},{bottom:'8%',left:'38%'}];const sizes=['260px,180px','240px,160px','220px,150px','220px,150px','200px,140px','200px,140px','230px,160px','190px,130px'];const[w,h]=sizes[i].split(',');const p=positions[i];let s=`position:absolute;object-fit:contain;pointer-events:none;filter:blur(32px) brightness(.28) saturate(1.8);transition:opacity 1.4s ease;opacity:0;width:${w};height:${h};`;Object.entries(p).forEach(([k,v])=>s+=`${k}:${v};`);img.style.cssText=s;bgSlide.appendChild(img);return img;});
+const bgImgs=Array.from({length:8},(_,i)=>{const img=document.createElement('img');const positions=[{top:'5%',left:'3%'},{top:'5%',right:'4%'},{top:'42%',left:'1%'},{top:'42%',right:'1%'},{bottom:'10%',left:'8%'},{bottom:'10%',right:'8%'},{top:'3%',left:'44%'},{bottom:'8%',left:'38%'}];const sizes=['260px,180px','240px,160px','220px,150px','220px,150px','200px,140px','200px,140px','230px,160px','190px,130px'];const[w,h]=sizes[i].split(',');const p=positions[i];let s=`position:absolute;object-fit:contain;pointer-events:none;filter:blur(5px) brightness(.65) saturate(1.6);transition:opacity 1.4s ease;opacity:0;width:${w};height:${h};`;Object.entries(p).forEach(([k,v])=>s+=`${k}:${v};`);img.style.cssText=s;bgSlide.appendChild(img);return img;});
 function setBg(){const sh=[...BRANDS].sort(()=>Math.random()-.5).slice(0,8);sh.forEach((b,i)=>{bgImgs[i].src=b.logo;bgImgs[i].onerror=()=>logoFail(bgImgs[i],b.fallback,b.color,b.initials);});}
 setBg();setTimeout(()=>bgImgs.forEach(img=>img.style.opacity='1'),300);
 setInterval(()=>{bgImgs.forEach(img=>img.style.opacity='0');setTimeout(()=>{setBg();bgImgs.forEach(img=>img.style.opacity='1');},1500);},5000);
