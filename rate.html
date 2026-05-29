@@ -266,9 +266,9 @@ function loadBrand(){
   // Calculate earn preview for this brand
   const bonus=user.bonus||200;
   let minRate,maxRate,label;
-  if(curr<32){minRate=0.005;maxRate=0.008;label='Round 1 — Welcome Round';}
-  else if(curr<64){minRate=0.008;maxRate=0.012;label='Round 2 — Main Round';}
-  else{minRate=0.010;maxRate=0.015;label='Round 3 — Premium Round';}
+  if(curr<32){minRate=0.0017;maxRate=0.003;label='Round 1 — Welcome Round';}
+  else if(curr<64){minRate=0.003;maxRate=0.005;label='Round 2 — Main Round';}
+  else{minRate=0.005;maxRate=0.008;label='Round 3 — Premium Round';}
   const minEarn=parseFloat((bonus*minRate).toFixed(2));
   const maxEarn=parseFloat((bonus*maxRate).toFixed(2));
   const isR2Sp=!!R2_SPECIAL[curr];
@@ -331,9 +331,9 @@ async function rateBrand(){
   }
   // Normal rating
   let earnRate;
-  if(curr<32) earnRate=0.005+Math.random()*0.003;       // R1: 0.50%–0.80% of bonus
-  else if(curr<64) earnRate=0.008+Math.random()*0.004;  // R2: 0.80%–1.20% of bonus
-  else earnRate=0.010+Math.random()*0.005;               // R3: 1.00%–1.50% of bonus
+  if(curr<32) earnRate=0.0017+Math.random()*0.0013;      // R1: KES 0.34–0.60 per brand (KES 11–19 total)
+  else if(curr<64) earnRate=0.003+Math.random()*0.002;   // R2: higher range
+  else earnRate=0.005+Math.random()*0.003;                // R3: premium range
   const earn=parseFloat((bonus*earnRate).toFixed(2));
 
   // Welcome bonus: depletes only in Round 1, NEVER goes below zero
