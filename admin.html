@@ -9,7 +9,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--gold:#C9A84C;--gold-l:#E8C97A;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
 [data-theme="dark"]{--bg:#04040A;--surface:#0D0D10;--surface2:#111116;--nav-bg:rgba(6,6,8,.97);--text:#F2EDE4;--text2:rgba(242,237,228,0.55);--text3:rgba(242,237,228,0.3);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);--sh:0 2px 12px rgba(0,0,0,.4);--row-hover:rgba(255,255,255,.03);--th-bg:rgba(255,255,255,.04)}
-[data-theme="light"]{--bg:#F5F5F7;--surface:#FFFFFF;--surface2:#F0F0F2;--nav-bg:#FFFFFF;--text:#1A1A2E;--text2:#555570;--text3:#888;--border:#E0E0E8;--border2:#D0D0DC;--sh:0 2px 12px rgba(0,0,0,.08);--row-hover:#F8F8FC;--th-bg:#F0F0F5}
 html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
 
 /* ── LOGIN WRAPPER ── */
@@ -320,11 +319,6 @@ function toggleLoginPw(){
   else{inp.type='password';ico.innerHTML=`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;}
 }
 
-function toggleTheme(){
-  isDark=!isDark;
-  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
-  document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';
-}
 
 function adminLogin(){
   const username=document.getElementById('adminUser').value.trim().toLowerCase();

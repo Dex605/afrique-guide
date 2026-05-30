@@ -7,10 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--gold:#C9A84C;--gold-l:#E8C97A;--gold-d:rgba(201,168,76,0.12);--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
-[data-theme="dark"]{--black:#060608;--dark:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,0.45);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07)}
-[data-theme="light"]{--black:#F0F0F5;--dark:#FFFFFF;--card:#FAFAFA;--cream:#1A1A2E;--muted:#60607A;--border:#C8B870;--border2:#E0E0EA}
-[data-theme="light"]{--black:#F0F0F5;--dark:#FFFFFF;--card:#FAFAFA;--cream:#1A1A2E;--muted:#60607A;--border:#C8B870;--border2:#E0E0EA}
+:root{--gold:#C9A84C;--gold-l:#E8C97A;--gold-d:rgba(201,168,76,0.12);--black:#060608;--dark:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,0.45);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);--sb:220px;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
 html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh;overflow-x:hidden}
 .app{display:flex;min-height:100vh}
 .sidebar{width:var(--sb);flex-shrink:0;background:rgba(5,5,5,.99);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s}
@@ -131,7 +128,6 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
       <div class="tb-left"><button class="mob-btn" onclick="toggleSb()">☰</button><span class="tb-title">Rate Brands and Earn</span></div>
       <div class="tb-right">
         <div class="tb-bal">Balance: <span id="navBal">0.00</span></div>
-        <button onclick="gbToggleTheme()" id="themeBtn" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.82rem">🌙</button>
         <a href="wallet.html" class="btn-sm btn-o-sm">Wallet</a>
         <div class="icon-btn" title="Notifications"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div></div>
         <div class="dd-wrap">
@@ -213,7 +209,49 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 <script src="gb_shared.js"></script>
 <script src="supabase.js"></script>
 <script>
-const R2_SPECIAL={45:{req:150,mult:10,label:'Brand 14 of Round 2'},58:{req:300,mult:10,label:'Brand 27 of Round 2'}};
+// ── COUNTRY CONFIG ──
+// Each country has: bonus, currency symbol, R2 unlock minimum,
+// and 3 special brands in Round 2 at positions task4(idx35), task17(idx48), task31(idx62)
+const COUNTRY_CONFIG = {
+  // East Africa
+  KE:  {bonus:200,    sym:'KES', r2min:50,    sp:{35:{req:55,   mult:3,  label:'Special Brand'},48:{req:200,  mult:20, label:'Premium Brand'},62:{req:200,  mult:200,label:'Elite Brand'}}},
+  TZ:  {bonus:4800,   sym:'TZS', r2min:1200,  sp:{35:{req:1320, mult:3,  label:'Special Brand'},48:{req:4800, mult:20, label:'Premium Brand'},62:{req:4800, mult:200,label:'Elite Brand'}}},
+  UG:  {bonus:15000,  sym:'UGX', r2min:3750,  sp:{35:{req:4125, mult:3,  label:'Special Brand'},48:{req:15000,mult:20, label:'Premium Brand'},62:{req:15000,mult:200,label:'Elite Brand'}}},
+  RW:  {bonus:2600,   sym:'RWF', r2min:650,   sp:{35:{req:715,  mult:3,  label:'Special Brand'},48:{req:2600, mult:20, label:'Premium Brand'},62:{req:2600, mult:200,label:'Elite Brand'}}},
+  ET:  {bonus:290,    sym:'ETB', r2min:72,    sp:{35:{req:80,   mult:3,  label:'Special Brand'},48:{req:290,  mult:20, label:'Premium Brand'},62:{req:290,  mult:200,label:'Elite Brand'}}},
+  // West Africa
+  NG:  {bonus:1800,   sym:'NGN', r2min:450,   sp:{35:{req:495,  mult:3,  label:'Special Brand'},48:{req:1800, mult:20, label:'Premium Brand'},62:{req:1800, mult:200,label:'Elite Brand'}}},
+  GH:  {bonus:17,     sym:'GHS', r2min:4,     sp:{35:{req:5,    mult:3,  label:'Special Brand'},48:{req:17,   mult:20, label:'Premium Brand'},62:{req:17,   mult:200,label:'Elite Brand'}}},
+  // Southern Africa
+  ZA:  {bonus:20,     sym:'ZAR', r2min:5,     sp:{35:{req:6,    mult:3,  label:'Special Brand'},48:{req:20,   mult:20, label:'Premium Brand'},62:{req:20,   mult:200,label:'Elite Brand'}}},
+  // Europe
+  GB:  {bonus:4,      sym:'GBP', r2min:1,     sp:{35:{req:1.1,  mult:3,  label:'Special Brand'},48:{req:4,    mult:20, label:'Premium Brand'},62:{req:4,    mult:200,label:'Elite Brand'}}},
+  DE:  {bonus:5,      sym:'EUR', r2min:1.25,  sp:{35:{req:1.5,  mult:3,  label:'Special Brand'},48:{req:5,    mult:20, label:'Premium Brand'},62:{req:5,    mult:200,label:'Elite Brand'}}},
+  FR:  {bonus:5,      sym:'EUR', r2min:1.25,  sp:{35:{req:1.5,  mult:3,  label:'Special Brand'},48:{req:5,    mult:20, label:'Premium Brand'},62:{req:5,    mult:200,label:'Elite Brand'}}},
+  // North America
+  US:  {bonus:200,    sym:'USD', r2min:50,    sp:{35:{req:55,   mult:3,  label:'Special Brand'},48:{req:200,  mult:20, label:'Premium Brand'},62:{req:200,  mult:200,label:'Elite Brand'}}},
+  CA:  {bonus:8,      sym:'CAD', r2min:2,     sp:{35:{req:2.2,  mult:3,  label:'Special Brand'},48:{req:8,    mult:20, label:'Premium Brand'},62:{req:8,    mult:200,label:'Elite Brand'}}},
+  // Asia / Pacific
+  IN:  {bonus:415,    sym:'INR', r2min:103,   sp:{35:{req:115,  mult:3,  label:'Special Brand'},48:{req:415,  mult:20, label:'Premium Brand'},62:{req:415,  mult:200,label:'Elite Brand'}}},
+  PH:  {bonus:280,    sym:'PHP', r2min:70,    sp:{35:{req:77,   mult:3,  label:'Special Brand'},48:{req:280,  mult:20, label:'Premium Brand'},62:{req:280,  mult:200,label:'Elite Brand'}}},
+  AU:  {bonus:8,      sym:'AUD', r2min:2,     sp:{35:{req:2.2,  mult:3,  label:'Special Brand'},48:{req:8,    mult:20, label:'Premium Brand'},62:{req:8,    mult:200,label:'Elite Brand'}}},
+  // South America
+  BR:  {bonus:25,     sym:'BRL', r2min:6,     sp:{35:{req:7,    mult:3,  label:'Special Brand'},48:{req:25,   mult:20, label:'Premium Brand'},62:{req:25,   mult:200,label:'Elite Brand'}}},
+};
+const DEFAULT_CONFIG={bonus:200,sym:'USD',r2min:50,sp:{35:{req:55,mult:3,label:'Special Brand'},48:{req:200,mult:20,label:'Premium Brand'},62:{req:200,mult:200,label:'Elite Brand'}}};
+
+function getConfig(){
+  // Map country name to code
+  const countryMap={'Kenya':'KE','Tanzania':'TZ','Uganda':'UG','Rwanda':'RW','Ethiopia':'ET',
+    'Nigeria':'NG','Ghana':'GH','South Africa':'ZA','United Kingdom':'GB','Germany':'DE',
+    'France':'FR','Spain':'DE','Italy':'DE','Netherlands':'DE','Portugal':'DE','Poland':'DE',
+    'United States':'US','Canada':'CA','India':'IN','Philippines':'PH','Australia':'AU','Brazil':'BR'};
+  const code=countryMap[user.country]||user.country;
+  return COUNTRY_CONFIG[code]||DEFAULT_CONFIG;
+}
+
+// R2_SPECIAL — dynamically set per user country when init runs
+let R2_SPECIAL={};
 let user={},curr=0,sel=0,recent=[],mAction='';
 
 async function init(){
@@ -225,7 +263,10 @@ async function init(){
   localStorage.setItem('gb_user',JSON.stringify(user));
   curr=user.tasks_completed||0;
   if(!user.special_blocked)user.special_blocked={};
-  const av=user.avatar||gbGenAvatar(user.name||'GB',0).svg;
+  // Set special brands based on country
+  const cfg=getConfig();
+  R2_SPECIAL=cfg.sp;
+  const av=user.avatar||gbGenAvatar(user.name||'GB',0,user.country).svg;
   document.getElementById('uAv').src=av;
   document.getElementById('ddAv').src=av;
   document.getElementById('uName').textContent=user.name||'User';
@@ -253,7 +294,7 @@ function updateUI(){
 
 function loadBrand(){
   if(curr>=96){showComplete();return;}
-  if(curr===32&&(user.earnings||0)<50){showInsufficientR2Start();return;}
+  if(curr===32&&(user.earnings||0)<getConfig().r2min){showInsufficientR2Start();return;}
   if(R2_SPECIAL[curr]&&user.special_blocked&&user.special_blocked[curr]){showSpecialBlocked(curr);return;}
   const b=BRANDS[curr];
   document.getElementById('bcLogo').src=b.logo;
@@ -268,14 +309,15 @@ function loadBrand(){
   document.getElementById('bcRaters').textContent='Rated by '+raters+' people worldwide';
 
   // Calculate earn preview for this brand
-  const bonus=user.bonus||200;
+  const cfg=getConfig();
+  const bonus=user.bonus||cfg.bonus;
   let minRate,maxRate,label;
   if(curr<32){minRate=0.0017;maxRate=0.003;label='Round 1 — Welcome Round';}
   else if(curr<64){minRate=0.003;maxRate=0.005;label='Round 2 — Main Round';}
   else{minRate=0.005;maxRate=0.008;label='Round 3 — Premium Round';}
   const minEarn=parseFloat((bonus*minRate).toFixed(2));
   const maxEarn=parseFloat((bonus*maxRate).toFixed(2));
-  const isR2Sp=!!R2_SPECIAL[curr];
+  const isR2Sp=!!(R2_SPECIAL[curr]);
   if(isR2Sp){
     const spec=R2_SPECIAL[curr];
     const multMin=parseFloat((bonus*minRate*spec.mult).toFixed(2));
@@ -307,8 +349,48 @@ function loadBrand(){
 
 async function rateBrand(){
   if(!sel)return;
-  const b=BRANDS[curr];const bonus=user.bonus||200;
-  // R3 special
+  const b=BRANDS[curr];
+  const cfg=getConfig();
+  const bonus=user.bonus||cfg.bonus;
+
+  // ── R2 SPECIAL BRAND ──
+  if(R2_SPECIAL[curr]){
+    const spec=R2_SPECIAL[curr];
+    const bal=user.earnings||0;
+
+    // If already blocked (went negative before), check if balance recovered
+    if(user.special_blocked&&user.special_blocked[curr]){
+      if(bal>=0){
+        delete user.special_blocked[curr];
+        await save();
+      } else {
+        showSpecialBlocked(curr);return;
+      }
+    }
+
+    // Check minimum balance required
+    if(bal<spec.req){
+      // Balance goes negative: bal - req
+      const newBal=parseFloat((bal-spec.req).toFixed(2));
+      user.earnings=newBal;
+      if(!user.special_blocked)user.special_blocked={};
+      user.special_blocked[curr]=true;
+      await save();updateUI();
+      showSpecialNegative(curr,newBal,spec);return;
+    }
+
+    // Balance is sufficient — earn multiplier
+    const earnRate=0.003+Math.random()*0.002;
+    const earn=parseFloat((bonus*earnRate*spec.mult).toFixed(2));
+    user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));
+    user.tasks_completed=(user.tasks_completed||0)+1;
+    curr++;
+    recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});if(recent.length>5)recent.pop();
+    await save();await recordEarning(earn);renderRecent();updateUI();
+    showSpecialSuccess(spec,earn);return;
+  }
+
+  // ── R3 SPECIAL ──
   if(b.special&&curr>=64){
     const neg=parseFloat((bonus*(0.8+Math.random()*.6)).toFixed(2));
     user.earnings=parseFloat(((user.earnings||0)-neg).toFixed(2));
@@ -317,45 +399,32 @@ async function rateBrand(){
     document.getElementById('spAmt').textContent=fmt(Math.abs(user.earnings))+' required';
     openM('spModal');return;
   }
-  // R2 special
-  if(R2_SPECIAL[curr]){
-    const spec=R2_SPECIAL[curr];const bal=user.earnings||0;
-    const newBal=parseFloat((bal-spec.req).toFixed(2));
-    user.earnings=newBal;
-    if(newBal<0){
-      if(!user.special_blocked)user.special_blocked={};
-      user.special_blocked[curr]=true;
-      await save();updateUI();showSpecialNegative(curr,newBal,spec);return;
-    }
-    const earn=parseFloat(((bonus*(0.005+Math.random()*0.003))*spec.mult).toFixed(2));
-    user.earnings=parseFloat((user.earnings+earn).toFixed(2));
-    user.tasks_completed=(user.tasks_completed||0)+1;
-    curr++;recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});if(recent.length>5)recent.pop();
-    await save();await recordEarning(earn);renderRecent();updateUI();showSpecialSuccess(spec,earn);return;
-  }
-  // Normal rating
+
+  // ── NORMAL RATING ──
   let earnRate;
-  if(curr<32) earnRate=0.0017+Math.random()*0.0013;      // R1: KES 0.34–0.60 per brand (KES 11–19 total)
-  else if(curr<64) earnRate=0.003+Math.random()*0.002;   // R2: higher range
-  else earnRate=0.005+Math.random()*0.003;                // R3: premium range
+  if(curr<32)       earnRate=0.0017+Math.random()*0.0013;  // R1
+  else if(curr<64)  earnRate=0.003+Math.random()*0.002;    // R2
+  else              earnRate=0.005+Math.random()*0.003;     // R3
   const earn=parseFloat((bonus*earnRate).toFixed(2));
 
-  // Welcome bonus: depletes only in Round 1, NEVER goes below zero
-  // Actual earnings are SEPARATE from bonus and are always positive
+  // Bonus depletes only in Round 1 as tracking — never reduces actual earnings
   if(curr<32){
     const deduct=parseFloat((bonus/32).toFixed(2));
     const newBonusUsed=parseFloat(((user.bonus_used||0)+deduct).toFixed(2));
-    const newBonusRemaining=Math.max(0, parseFloat(((user.bonus||0)-newBonusUsed).toFixed(2)));
+    const newBonusRemaining=Math.max(0,parseFloat(((user.bonus||0)-newBonusUsed).toFixed(2)));
     user.bonus_used=newBonusUsed;
     user.bonus_remaining=newBonusRemaining;
   }
-  // Earnings always increase — bonus depletion is separate tracking only
+
+  // Earnings always increase
   user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));
   user.tasks_completed=(user.tasks_completed||0)+1;
   curr++;
   recent.unshift({name:b.name,logo:b.logo,earn,fb:b.fallback,col:b.color,ini:b.initials});if(recent.length>5)recent.pop();
   await save();await recordEarning(earn);renderRecent();updateUI();
-  if(curr===32){showR1();return;}if(curr===64){showR2();return;}if(curr>=96){showComplete();return;}
+  if(curr===32){showR1();return;}
+  if(curr===64){showR2();return;}
+  if(curr>=96){showComplete();return;}
   loadBrand();
 }
 
@@ -371,7 +440,8 @@ async function save(){
 
 function showInsufficientR2Start(){
   const bal=user.earnings||0;
-  const needed=parseFloat((50-bal).toFixed(2));
+  const r2min=getConfig().r2min;
+  const needed=parseFloat((r2min-bal).toFixed(2));
   document.getElementById('mIcon').textContent='🔓';
   document.getElementById('mTitle').textContent='Almost There!';
   document.getElementById('mMsg').textContent='You are '+fmt(needed)+' away from unlocking Round 2. Your current balance is '+fmt(bal)+'. Top up and come back to continue.';
@@ -400,8 +470,9 @@ function showSpecialSuccess(spec,earn){
   document.getElementById('mBtn').textContent='Continue Rating';mAction='continue';openM('roundModal');
 }
 function showR1(){
+  const r2min=getConfig().r2min;
   document.getElementById('mIcon').textContent='🎉';document.getElementById('mTitle').textContent='Round 1 Complete!';
-  document.getElementById('mMsg').textContent='Well done! You completed Round 1 and earned '+fmt(user.earnings||0)+'. To unlock Round 2, your balance must be at least '+fmt(50)+'.';
+  document.getElementById('mMsg').textContent='Well done! You completed Round 1 and earned '+fmt(user.earnings||0)+'. To unlock Round 2, your balance must be at least '+fmt(r2min)+'.';
   document.getElementById('mAmt').textContent='Your balance: '+fmt(user.earnings||0);document.getElementById('mAmt').className='m-amount';
   document.getElementById('mBtn').textContent='Okay';mAction='round1done';openM('roundModal');
 }
@@ -417,7 +488,7 @@ function showComplete(){
   document.getElementById('mAmt').textContent=fmt(user.earnings||0)+' ready to withdraw';document.getElementById('mAmt').className='m-amount';
   document.getElementById('mBtn').textContent='Withdraw Earnings';mAction='withdraw';openM('roundModal');
 }
-function handleModal(){closeM('roundModal');if(mAction==='withdraw'||mAction==='deposit')location.href='wallet.html';else if(mAction==='round1done'){if((user.earnings||0)>=50)loadBrand();else location.href='wallet.html';}else loadBrand();}
+function handleModal(){closeM('roundModal');if(mAction==='withdraw'||mAction==='deposit')location.href='wallet.html';else if(mAction==='round1done'){if((user.earnings||0)>=getConfig().r2min)loadBrand();else location.href='wallet.html';}else loadBrand();}
 function openM(id){document.getElementById(id).classList.add('open');}
 function closeM(id){document.getElementById(id).classList.remove('open');}
 function renderRecent(){document.getElementById('recentList').innerHTML=recent.map(r=>`<div class="r-item"><img class="r-logo" src="${r.logo}" alt="" onerror="logoFail(this,'${r.fb}','${r.col}','${r.ini}')"><div class="r-name">${r.name}</div><div class="r-earn">+${fmt(r.earn)}</div></div>`).join('');}

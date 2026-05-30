@@ -9,7 +9,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--gold:#C9A84C;--gold-l:#E8C97A;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
 [data-theme="dark"]{--bg:#060608;--surface:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,.45);--border:rgba(201,168,76,.15);--border2:rgba(255,255,255,.07);--nav:rgba(6,6,8,.96)}
-[data-theme="light"]{--bg:#F2F2F7;--surface:#FFFFFF;--card:#FAFAFA;--cream:#1A1A2E;--muted:#60607A;--border:#C8B870;--border2:#E0E0EA;--nav:rgba(255,255,255,.97)}
 html,body{font-family:var(--sans);background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
 .app{display:flex;min-height:100vh}
 /* ─── SIDEBAR ─── */
@@ -522,7 +521,6 @@ const PRODUCT_IMGS = {
 
 let user={},activeFilter='all';
 
-function toggleTheme(){ gbToggleTheme(); }
 
 async function init(){
   if(!localStorage.getItem('gb_login')){location.href='index.html';return;}
