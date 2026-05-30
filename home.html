@@ -9,11 +9,12 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--gold:#C9A84C;--gold-l:#E8C97A;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
 [data-theme="dark"]{--bg:#060608;--surface:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,.45);--border:rgba(201,168,76,.15);--border2:rgba(255,255,255,.07);--nav:rgba(6,6,8,.96)}
-html,body{font-family:var(--sans);background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
-body::before{content:'';position:fixed;inset:0;z-index:-1;background:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80') center/cover no-repeat;filter:blur(6px) brightness(.45) saturate(1.3);transform:scale(1.05)}
+html,body{font-family:var(--sans);background:transparent;color:var(--cream);min-height:100vh;overflow-x:hidden;transition:color .3s}
+body::before{content:'';position:fixed;inset:0;z-index:-2;background:url('https://images.unsplash.com/photo-1569629743817-70d8db6c323b?w=1600&q=85') center/cover no-repeat;filter:blur(4px) brightness(.5) saturate(1.4);transform:scale(1.06)}
+body::after{content:'';position:fixed;inset:0;z-index:-1;background:rgba(4,4,10,.55)}
 .app{display:flex;min-height:100vh}
 /* ─── SIDEBAR ─── */
-.sidebar{width:220px;flex-shrink:0;background:rgba(5,5,5,.99);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s}
+.sidebar{width:220px;flex-shrink:0;background:rgba(5,5,5,.85);backdrop-filter:blur(12px);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s}
 [data-theme="light"] .sidebar{background:#fff}
 .sb-top{padding:18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;text-decoration:none}
 .sb-globe{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08);flex-shrink:0}
@@ -64,8 +65,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;background:url('https:
 .dd-uemail{font-size:.62rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
 
 /* ─── CONTENT ─── */
-.content{padding:26px 30px 64px;max-width:1440px;margin:0 auto}
-/* product banner */
+.content{padding:26px 30px 64px;max-width:1440px;margin:0 auto}/* product banner */
 .prod-banner{position:relative;height:220px;border-radius:8px;overflow:hidden;margin-bottom:24px;border:1px solid var(--border2)}
 .prod-slides{position:absolute;inset:0;background:var(--card)}
 .prod-grad{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,6,8,.82) 0%,rgba(6,6,8,.25) 50%,rgba(6,6,8,.82) 100%);z-index:2}
@@ -98,7 +98,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;background:url('https:
 .search-bar:focus{border-color:var(--gold)}
 /* brands grid */
 .brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:14px}
-.b-card{background:var(--card);border:1px solid var(--border2);border-radius:6px;overflow:hidden;cursor:pointer;transition:all .25s}
+.b-card{background:rgba(17,17,22,.82);backdrop-filter:blur(4px);border:1px solid var(--border2);border-radius:6px;overflow:hidden;cursor:pointer;transition:all .25s}
 .b-card:hover{transform:translateY(-3px);border-color:var(--border);box-shadow:0 10px 28px rgba(0,0,0,.3)}
 .bc-top{padding:16px 14px 10px;text-align:center}
 .bc-logo{width:76px;height:54px;object-fit:contain;margin:0 auto 8px;display:block}
@@ -671,11 +671,16 @@ function renderBrands(){
   });
   document.getElementById('secCount').textContent=filtered.length+' brands';
   const grid=document.getElementById('brandsGrid');grid.innerHTML='';
-  filtered.forEach(b=>{
+  filtered.forEach((b,idx)=>{
     const stars='★'.repeat(Math.round(b.rating))+'☆'.repeat(5-Math.round(b.rating));
     const card=document.createElement('div');card.className='b-card';
+    card.dataset.brandId=b.id;
     card.innerHTML=`<div class="bc-top"><img class="bc-logo" src="${b.logo}" alt="${b.name}" onerror="logoFail(this,'${b.fallback}','${b.color}','${b.initials}')"><div class="bc-name">${b.name}</div><div class="bc-sector">${b.sector}</div><div class="bc-founded">Founded ${b.year} · ${b.founded}</div></div><div class="bc-bottom"><span class="bc-stars">${stars} ${b.rating}</span><span class="bc-read">Read More →</span></div>`;
-    card.addEventListener('click',()=>openBrandModal(b));
+    card.addEventListener('click',function(e){
+      e.stopPropagation();
+      const brand=BRANDS.find(x=>x.id===parseInt(this.dataset.brandId));
+      if(brand)openBrandModal(brand);
+    });
     grid.appendChild(card);
   });
 }
@@ -713,9 +718,19 @@ function closeModal(){
 // Product slideshow — no blur, crisp images
 const SLIDES=[
   {img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=1200&q=90',title:'iPhone 16 Pro',sub:'Apple · The most powerful iPhone ever made'},
-  {img:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=90',title:'MacBook Pro',sub:'Apple · Power for the pros'},
+  {img:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=90',title:'BMW M4 Coupé',sub:'BMW · The Ultimate Driving Machine'},
   {img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=90',title:'Nike Air Max',sub:'Nike · Just Do It'},
   {img:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1200&q=90',title:'Tesla Model S',sub:'Tesla · Accelerating sustainable energy'},
+  {img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1200&q=90',title:'Louis Vuitton',sub:'Louis Vuitton · The Art of Travel'},
+  {img:'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=1200&q=90',title:'Coca-Cola',sub:'Coca-Cola · Open Happiness'},
+  {img:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&q=90',title:'Ferrari Roma',sub:'Ferrari · The Prancing Horse'},
+  {img:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=90',title:'MacBook Pro',sub:'Apple · Power for the pros'},
+  {img:'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=90',title:'Rolex Submariner',sub:'Rolex · A Crown for Every Achievement'},
+  {img:'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=1200&q=90',title:'Adidas Ultra Boost',sub:'Adidas · Impossible is Nothing'},
+  {img:'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=1200&q=90',title:'Toyota Corolla',sub:'Toyota · Let\'s Go Places'},
+  {img:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=1200&q=90',title:'Starbucks',sub:'Starbucks · The Third Place'},
+  {img:'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=1200&q=90',title:'Samsung Galaxy',sub:'Samsung · Do What You Can\'t'},
+  {img:'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1200&q=90',title:'Porsche 911',sub:'Porsche · There is no substitute'},
 ];
 let slideIdx=0,slideTimer=null;
 function initSlideshow(){
