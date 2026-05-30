@@ -350,25 +350,29 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background:rgba(4,4,10,
 </div>
 </div>
 
-<!-- BRAND MODAL -->
-<div class="modal-ov" id="brandModal" onclick="if(event.target===this)closeModal()">
-  <div class="modal-box">
-    <div class="modal-hdr"><div class="modal-hdr-bg" id="mBg"></div><img class="modal-hdr-logo" id="mLogo" src="" alt=""/></div>
-    <button class="modal-x" onclick="closeModal()">×</button>
-    <div class="modal-body">
-      <div class="modal-name" id="mName"></div>
-      <div class="modal-meta" id="mMeta"></div>
-      <div class="modal-founded" id="mFounded"></div>
-      <div class="modal-stars" id="mStars"></div>
-      <div class="modal-reviews" id="mReviews"></div>
-      <p class="modal-story" id="mStory"></p>
-      <div class="modal-product" id="mProduct" style="display:none">
-        <img id="mProductImg" src="" alt=""/>
-        <div class="modal-product-label" id="mProductLabel"></div>
+<!-- BRAND MODAL — bulletproof inline styles -->
+<div id="brandModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9999;overflow-y:auto;padding:20px;" onclick="if(event.target===this)closeBrandModal()">
+  <div style="background:#111116;border:1px solid rgba(201,168,76,.2);border-radius:10px;max-width:660px;margin:40px auto;position:relative;overflow:hidden;">
+    <div style="height:90px;position:relative;overflow:hidden;background:#0a0a0f;">
+      <div id="mBg" style="position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(20px) brightness(.35);transform:scale(1.1)"></div>
+      <img id="mLogo" src="" alt="" style="position:absolute;bottom:-18px;left:22px;width:54px;height:54px;object-fit:contain;background:#0D0D10;border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:7px;z-index:2"/>
+    </div>
+    <button onclick="closeBrandModal()" style="position:absolute;top:10px;right:12px;background:rgba(0,0,0,.6);border:none;color:#F2EDE4;width:30px;height:30px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:10;">×</button>
+    <div style="padding:28px 24px 22px;">
+      <div id="mName" style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#F2EDE4;margin-bottom:3px;margin-top:10px;"></div>
+      <div id="mMeta" style="font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:4px;"></div>
+      <div id="mFounded" style="font-size:.7rem;color:rgba(242,237,228,.45);margin-bottom:8px;"></div>
+      <div id="mStars" style="font-size:.82rem;color:#C9A84C;margin-bottom:2px;"></div>
+      <div id="mReviews" style="font-size:.7rem;color:rgba(242,237,228,.45);margin-bottom:16px;"></div>
+      <div style="height:1px;background:rgba(255,255,255,.07);margin-bottom:16px;"></div>
+      <p id="mStory" style="font-size:.82rem;line-height:1.75;color:rgba(242,237,228,.65);margin-bottom:18px;"></p>
+      <div id="mProduct" style="display:none;margin-bottom:18px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.07);">
+        <img id="mProductImg" src="" alt="" style="width:100%;height:200px;object-fit:cover;display:block;"/>
+        <div id="mProductLabel" style="padding:8px 12px;font-size:.66rem;color:rgba(242,237,228,.45);text-align:center;background:rgba(0,0,0,.3);"></div>
       </div>
-      <div class="modal-acts">
-        <a href="rate.html" class="btn-rate-m">⭐ Rate This Brand</a>
-        <button class="btn-close-m" onclick="closeModal()">Close</button>
+      <div style="display:flex;gap:10px;">
+        <a href="rate.html" style="flex:1;padding:12px;background:#C9A84C;color:#000;border:none;border-radius:4px;font-family:'Outfit',sans-serif;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;">&#11088; Rate This Brand</a>
+        <button onclick="closeBrandModal()" style="padding:12px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(242,237,228,.6);border-radius:4px;font-family:'Outfit',sans-serif;font-size:.74rem;cursor:pointer;">Close</button>
       </div>
     </div>
   </div>
@@ -479,9 +483,9 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background:rgba(4,4,10,
 <div class="panel-ov" id="tosPanel" onclick="closePOv(event,'tosPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Terms of Service</span><button class="panel-x" onclick="closePanel('tosPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Acceptance</h3>By using Global Brands you agree to these terms.<h3>2. Eligibility</h3>You must be at least 18 years old.<h3>3. Earnings</h3>Earnings come from completing brand ratings. Withdrawals are processed within 24 hours.<h3>4. Conduct</h3>No fraudulent ratings or multiple accounts.<h3>5. Changes</h3>Terms may be updated at any time.</div></div></div></div>
 <div class="panel-ov" id="privacyPanel" onclick="closePOv(event,'privacyPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Privacy Policy</span><button class="panel-x" onclick="closePanel('privacyPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Data Collected</h3>Name, email, phone, country, and activity data.<h3>2. Usage</h3>To operate accounts and process payments. We do not sell your data.<h3>3. Security</h3>Stored securely in Supabase with industry-standard protections.<h3>4. Your Rights</h3>Request access or deletion by contacting support.</div></div></div></div>
 
-<script src="brands.js?v=1780156103"></script>
-<script src="gb_shared.js?v=1780156103"></script>
-<script src="supabase.js?v=1780156103"></script>
+<script src="brands.js?v=1780158448"></script>
+<script src="gb_shared.js?v=1780158448"></script>
+<script src="supabase.js?v=1780158448"></script>
 <script>
 // Product images — correctly brand-matched
 const PRODUCT_IMGS = {
@@ -678,21 +682,19 @@ function renderBrands(){
     const card=document.createElement('div');card.className='b-card';
     card.dataset.brandId=b.id;
     card.innerHTML=`<div class="bc-top"><img class="bc-logo" src="${b.logo}" alt="${b.name}" onerror="logoFail(this,'${b.fallback}','${b.color}','${b.initials}')"><div class="bc-name">${b.name}</div><div class="bc-sector">${b.sector}</div><div class="bc-founded">Founded ${b.year} · ${b.founded}</div></div><div class="bc-bottom"><span class="bc-stars">${stars} ${b.rating}</span><span class="bc-read">Read More →</span></div>`;
-    card.addEventListener('click',function(e){
-      e.stopPropagation();
+    card.onclick=function(){
       const brand=BRANDS.find(x=>x.id===parseInt(this.dataset.brandId));
       if(brand)openBrandModal(brand);
-    });
+    };
     grid.appendChild(card);
   });
 }
 
-// Brand modal
+// Brand modal — using display style, not classList
 function openBrandModal(b){
   const stars='★'.repeat(Math.round(b.rating))+'☆'.repeat(5-Math.round(b.rating));
+  document.getElementById('mBg').style.backgroundImage="url('"+b.logo+"')";
   document.getElementById('mLogo').src=b.logo;
-  document.getElementById('mLogo').onerror=function(){logoFail(this,b.fallback,b.color,b.initials);};
-  document.getElementById('mBg').style.backgroundImage=`url('${b.logo}')`;
   document.getElementById('mName').textContent=b.name;
   document.getElementById('mMeta').textContent=b.sector;
   document.getElementById('mFounded').textContent='Founded '+b.year+' · '+b.founded;
@@ -708,14 +710,17 @@ function openBrandModal(b){
   } else {
     document.getElementById('mProduct').style.display='none';
   }
-  document.getElementById('brandModal').classList.add('open');
+  const modal=document.getElementById('brandModal');
+  modal.style.display='block';
   document.body.style.overflow='hidden';
+  modal.scrollTop=0;
 }
-function closeModal(){
-  const m=document.getElementById('brandModal');
-  if(m)m.classList.remove('open');
+function closeBrandModal(){
+  document.getElementById('brandModal').style.display='none';
   document.body.style.overflow='';
 }
+// keep old name as alias
+function closeModal(){ closeBrandModal(); }
 
 // Product slideshow — no blur, crisp images
 const SLIDES=[
