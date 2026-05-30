@@ -162,8 +162,7 @@ function gbSetLang(code){
   gbApplyLang();
 }
 
-// ── AVATAR — Country flag based on user's country ──
-// Maps country name to flag emoji
+// ── AVATAR — Emoji based on country ──
 const COUNTRY_FLAGS = {
   'Kenya':'🇰🇪','Tanzania':'🇹🇿','Uganda':'🇺🇬','Nigeria':'🇳🇬','Ghana':'🇬🇭',
   'South Africa':'🇿🇦','Ethiopia':'🇪🇹','Rwanda':'🇷🇼','Egypt':'🇪🇬','Morocco':'🇲🇦',
@@ -175,28 +174,30 @@ const COUNTRY_FLAGS = {
   'Japan':'🇯🇵','China':'🇨🇳','South Korea':'🇰🇷','Singapore':'🇸🇬','Malaysia':'🇲🇾',
   'Saudi Arabia':'🇸🇦','UAE':'🇦🇪','Turkey':'🇹🇷','Pakistan':'🇵🇰','Bangladesh':'🇧🇩',
 };
-
-const AVATAR_BG_COLORS = [
-  '#1C69D4','#CC0000','#1A8C2E','#8B0000','#005BAA',
-  '#C9A84C','#9B1C1C','#1E5AA8','#2D6A2D','#6B2D8B'
-];
+// Country code to name map
+const CODE_TO_COUNTRY = {
+  KE:'Kenya',TZ:'Tanzania',UG:'Uganda',NG:'Nigeria',GH:'Ghana',ZA:'South Africa',
+  ET:'Ethiopia',RW:'Rwanda',EG:'Egypt',MA:'Morocco',CM:'Cameroon',CI:'Ivory Coast',
+  SN:'Senegal',ZM:'Zambia',ZW:'Zimbabwe',GB:'United Kingdom',DE:'Germany',FR:'France',
+  ES:'Spain',IT:'Italy',NL:'Netherlands',PT:'Portugal',PL:'Poland',SE:'Sweden',NO:'Norway',
+  US:'United States',CA:'Canada',AU:'Australia',NZ:'New Zealand',IN:'India',PH:'Philippines',
+  BR:'Brazil',MX:'Mexico',AR:'Argentina',JP:'Japan',CN:'China',KR:'South Korea',
+  SG:'Singapore',MY:'Malaysia',SA:'Saudi Arabia',AE:'UAE',TR:'Turkey',PK:'Pakistan',BD:'Bangladesh',
+};
+const BG_COLORS=['#1C69D4','#CC0000','#1A8C2E','#8B0000','#005BAA','#C9A84C','#9B1C1C','#1E5AA8','#2D6A2D','#6B2D8B'];
 
 function gbGenAvatar(name, seed, country){
-  const flag = country ? (COUNTRY_FLAGS[country] || null) : null;
+  // Resolve country to flag emoji
+  const countryName = country ? (CODE_TO_COUNTRY[country] || country) : null;
+  const flag = countryName ? (COUNTRY_FLAGS[countryName] || null) : null;
   const initials = name ? name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : 'GB';
-  const bgColor = AVATAR_BG_COLORS[(seed||0) % AVATAR_BG_COLORS.length] || '#C9A84C';
-
-  let svgContent;
-  if(flag){
-    // Flag emoji on colored circle
-    svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${bgColor}"/><text x="32" y="40" font-size="30" text-anchor="middle" dominant-baseline="middle">${flag}</text></svg>`;
-  } else {
-    // Initials fallback
-    svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${bgColor}"/><text x="32" y="38" font-family="Arial Black,sans-serif" font-weight="900" font-size="${initials.length>1?20:26}" fill="white" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`;
-  }
+  const bgColor = BG_COLORS[(seed||0) % BG_COLORS.length];
+  const display = flag || initials;
+  const fontSize = flag ? 28 : (initials.length > 1 ? 20 : 26);
+  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${bgColor}"/><text x="32" y="40" font-size="${fontSize}" text-anchor="middle" dominant-baseline="middle" font-family="Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif">${display}</text></svg>`;
   return {color:bgColor, initials, flag, svg:`data:image/svg+xml,${encodeURIComponent(svgContent)}`};
 }
-function gbAvatarSvg(initials,color){
+function gbAvatarSvg(initials, color){
   return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${color}"/><text x="32" y="38" font-family="Arial Black,sans-serif" font-weight="900" font-size="${initials.length>1?20:26}" fill="white" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`)}`;
 }
 

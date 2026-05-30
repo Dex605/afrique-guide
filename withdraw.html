@@ -80,7 +80,7 @@ select option{background:#111}
       <input type="tel" id="mobileInput" placeholder="e.g. 0712345678"/>
     </div>
     <div class="form-group account-field" id="walletField">
-      <label>Crypto Wallet Address</label>
+      <label id="walletLabel">Crypto Wallet Address</label>
       <input type="text" id="walletInput" placeholder="Your wallet address"/>
     </div>
     <div class="form-group">
@@ -116,7 +116,7 @@ const payMethods={
   GB:{methods:['Bank Transfer','Wallet Address'],info:'UK: Bank Transfer (Sort Code + Account) or Wallet.',types:{'Bank Transfer':'iban','Wallet Address':'wallet'}},
   DE:{methods:['Bank Transfer','Wallet Address'],info:'Germany: SEPA Bank Transfer or Wallet.',types:{'Bank Transfer':'iban','Wallet Address':'wallet'}},
   IN:{methods:['UPI','Bank Transfer','Wallet Address'],info:'India: UPI ID, Bank, or Wallet.',types:{'UPI':'mobile','Bank Transfer':'iban','Wallet Address':'wallet'}},
-  US:{methods:['Bank Transfer','Wallet Address'],info:'USA: ACH Bank Transfer or Wallet.',types:{'Bank Transfer':'iban','Wallet Address':'wallet'}},
+  US:{methods:['Bank Transfer','USDT (TRC20)','USDT (ERC20)','Bitcoin (BTC)','Ethereum (ETH)','USDC','BNB (BEP20)'],info:'USA: ACH Bank Transfer or any Crypto Wallet.',types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','USDT (ERC20)':'wallet','Bitcoin (BTC)':'wallet','Ethereum (ETH)':'wallet','USDC':'wallet','BNB (BEP20)':'wallet'}},
   AU:{methods:['PayID','Bank Transfer','Wallet Address'],info:'Australia: PayID, Bank, or Wallet.',types:{'PayID':'mobile','Bank Transfer':'iban','Wallet Address':'wallet'}},
   BR:{methods:['PIX','Wallet Address'],info:'Brazil: PIX key or Wallet.',types:{'PIX':'mobile','Wallet Address':'wallet'}},
   PH:{methods:['GCash','Maya','Wallet Address'],info:'Philippines: GCash, Maya, or Wallet.',types:{'GCash':'mobile','Maya':'mobile','Wallet Address':'wallet'}},
@@ -148,6 +148,10 @@ function onMethodChange(){
   document.getElementById('ibanField').classList.toggle('show',type==='iban');
   document.getElementById('mobileField').classList.toggle('show',type==='mobile');
   document.getElementById('walletField').classList.toggle('show',type==='wallet');
+  if(type==='wallet'){
+    document.getElementById('walletLabel').textContent=method+' Wallet Address';
+    document.getElementById('walletInput').placeholder='Enter your '+method+' wallet address';
+  }
 }
 
 async function proceedWithdraw(){

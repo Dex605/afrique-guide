@@ -221,7 +221,7 @@ async function handleSignup(){
   if(existing){errEl.textContent='An account with this email already exists.';errEl.style.display='block';btn.disabled=false;btn.textContent='Create Account';return;}
   const c=countries[countryCode]||{currency:'USD',symbol:'$',bonus:5};
   const inviteCode=gbGenInviteCode();
-  const country=document.getElementById('country').value;
+  const country=document.getElementById('countrySelect').value;
   const av=gbGenAvatar(name,Math.floor(Math.random()*10),country);
   const user={
     email,name,phone,country:countryCode,year_of_birth:yearOfBirth,
