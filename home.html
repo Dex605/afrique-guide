@@ -1,320 +1,317 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Home — Global Brands</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--gold:#C9A84C;--gold-l:#E8C97A;--gold-d:rgba(201,168,76,0.12);--black:#060608;--dark:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,0.45);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);--sb:220px;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
-html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh;overflow-x:hidden}
-.app{display:flex;min-height:100vh}
-.sidebar{width:var(--sb);flex-shrink:0;background:rgba(5,5,5,.99);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s}
-.sb-top{padding:18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;text-decoration:none}
-.sb-name{font-family:var(--serif);font-size:.95rem;color:var(--cream);font-weight:700}
-.sb-tag{font-size:.48rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
-.sb-nav{flex:1;padding:12px 0;overflow-y:auto}
-.nav-item{display:flex;align-items:center;gap:11px;padding:11px 18px;color:rgba(242,237,228,.46);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;transition:all .2s;border-left:3px solid transparent;text-decoration:none}
-.nav-item:hover{color:var(--cream);background:rgba(255,255,255,.03)}
-.nav-item.active{color:var(--cream);border-left-color:var(--gold);background:rgba(201,168,76,.07)}
-.sb-foot{padding:14px;border-top:1px solid var(--border)}
-.u-chip{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px;cursor:pointer}
-.u-av{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0}
-.u-name{font-size:.72rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.u-id{font-size:.54rem;color:rgba(242,237,228,.35)}
-.main{margin-left:var(--sb);flex:1}
-.topbar{padding:12px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(6,6,8,.9);backdrop-filter:blur(14px);position:sticky;top:0;z-index:40}
-.tb-left{display:flex;align-items:center;gap:12px}
-.mob-btn{display:none;background:none;border:none;color:var(--cream);font-size:1.2rem;cursor:pointer}
-.tb-title{font-family:var(--serif);font-size:1rem;font-weight:700}
-.tb-right{display:flex;align-items:center;gap:8px}
-.btn-sm{padding:7px 16px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;cursor:pointer;font-family:var(--sans);text-decoration:none;transition:all .2s;border:1px solid}
-.btn-g-sm{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:600}
-.btn-g-sm:hover{background:var(--gold-l)}
-.icon-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;flex-shrink:0}
+:root{--gold:#C9A84C;--gold-l:#E8C97A;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
+[data-theme="dark"]{--bg:#060608;--surface:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,.45);--border:rgba(201,168,76,.15);--border2:rgba(255,255,255,.07);--nav:rgba(6,6,8,.96)}
+[data-theme="light"]{--bg:#F2F2F7;--surface:#FFFFFF;--card:#FAFAFA;--cream:#1A1A2E;--muted:#60607A;--border:#C8B870;--border2:#E0E0EA;--nav:rgba(255,255,255,.97)}
+html,body{font-family:var(--sans);background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+
+/* ─── TOP NAV ─── */
+.topbar{height:52px;padding:0 18px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);background:var(--nav);backdrop-filter:blur(14px);position:sticky;top:0;z-index:100}
+.tb-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;margin-right:6px}
+.tb-globe{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
+.tb-globe svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.tb-brand{font-family:var(--serif);font-size:.9rem;font-weight:700;color:var(--cream)}
+.tb-nav{display:flex;align-items:center;gap:3px;flex:1}
+.tn{padding:6px 12px;border-radius:4px;font-size:.67rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;text-decoration:none;color:var(--muted);border:1px solid transparent;white-space:nowrap;transition:all .2s}
+.tn:hover{color:var(--cream);background:rgba(255,255,255,.05)}
+.tn.active{color:var(--cream);background:rgba(201,168,76,.08);border-color:var(--border)}
+.tn.rate{background:var(--gold);color:#000;border-color:var(--gold)}
+.tn.rate:hover{background:var(--gold-l)}
+.tn.wallet{background:rgba(76,175,80,.1);color:#4caf50;border-color:rgba(76,175,80,.2)}
+.tb-right{display:flex;align-items:center;gap:5px;margin-left:auto;flex-shrink:0}
+.icon-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;flex-shrink:0}
 .icon-btn:hover{background:rgba(201,168,76,.1);border-color:var(--border)}
-.icon-btn svg{width:16px;height:16px;stroke:var(--cream);fill:none;stroke-width:1.8}
-.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#FF5B5B;border:1.5px solid var(--black)}
-.chat-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#4CAF50;border:1.5px solid var(--black);display:none}
-/* lang dropdown */
-.lang-dd-wrap{position:relative}
-.lang-dd{position:absolute;top:calc(100% + 8px);right:0;width:190px;background:#16161E;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:200;display:none}
-.lang-dd.open{display:block}
-.lang-dd-item{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:.76rem;color:rgba(242,237,228,.65);cursor:pointer;transition:background .15s;border:none;background:none;width:100%;font-family:var(--sans)}
-.lang-dd-item:hover{background:rgba(255,255,255,.05);color:var(--cream)}
+.icon-btn svg{width:14px;height:14px;stroke:var(--cream);fill:none;stroke-width:1.8}
+.notif-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#FF5B5B;border:1.5px solid var(--bg)}
+.chat-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#4CAF50;border:1.5px solid var(--bg);display:none}
+.theme-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.82rem;transition:all .2s;flex-shrink:0}
+.theme-btn:hover{border-color:var(--gold)}
+.u-chip{display:flex;align-items:center;gap:6px;padding:4px 9px 4px 4px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;cursor:pointer;transition:all .2s}
+.u-chip:hover{border-color:var(--gold)}
+.u-av{width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.u-name{font-size:.64rem;font-weight:600;color:var(--cream);max-width:70px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* dropdowns */
+.lang-dd-wrap,.dd-wrap{position:relative}
+.lang-dd,.dropdown{position:absolute;top:calc(100% + 6px);right:0;background:#16161E;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:200;display:none;animation:ddIn .2s ease;min-width:190px}
+[data-theme="light"] .lang-dd,[data-theme="light"] .dropdown{background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.lang-dd.open,.dropdown.open{display:block}
+@keyframes ddIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.lang-dd-item,.dd-item{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:.76rem;color:var(--muted);cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:var(--sans);transition:background .15s}
+.lang-dd-item:hover,.dd-item:hover{background:rgba(255,255,255,.05);color:var(--cream)}
 .lang-dd-item.active{color:var(--gold)}
-/* main dropdown */
-.dd-wrap{position:relative}
-.dropdown{position:absolute;top:calc(100% + 8px);right:0;width:230px;background:#16161E;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:200;display:none;animation:ddIn .2s ease}
-.dropdown.open{display:block}
-@keyframes ddIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-.dd-user{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px}
-.dd-av{width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0}
-.dd-uname{font-size:.82rem;font-weight:600;color:var(--cream)}
-.dd-uemail{font-size:.62rem;color:rgba(242,237,228,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
-.dd-item{display:flex;align-items:center;gap:12px;padding:11px 16px;font-size:.76rem;color:rgba(242,237,228,.65);cursor:pointer;transition:background .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--sans)}
-.dd-item:hover{background:rgba(255,255,255,.05);color:var(--cream)}
 .dd-item .di{width:18px;text-align:center;font-size:.85rem;flex-shrink:0}
 .dd-item.danger{color:#ff7070}
 .dd-item.danger:hover{background:rgba(255,80,80,.08)}
-.dd-sep{height:1px;background:rgba(255,255,255,.06);margin:4px 0}
-/* content */
-.content{padding:28px 32px 64px}
-.welcome-banner{background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.04));border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:22px 26px;margin-bottom:26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-.wb-left h2{font-family:var(--serif);font-size:1.5rem;font-weight:700;margin-bottom:4px}
-.wb-left p{font-size:.78rem;color:var(--muted);font-weight:300}
-.wb-right{text-align:right}
-.wb-label{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
-.wb-amount{font-family:var(--serif);font-size:1.8rem;color:var(--gold-l);font-weight:700}
-.qs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
-.qs-card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;padding:16px 18px}
-.qs-label{font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,237,228,.34);margin-bottom:6px}
-.qs-val{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--gold-l)}
-.qs-sub{font-size:.6rem;color:rgba(242,237,228,.26);margin-top:2px}
-.filter-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.filters{display:flex;gap:8px;flex-wrap:wrap}
-.fb{padding:6px 16px;border:1px solid var(--border2);background:transparent;color:rgba(242,237,228,.5);border-radius:2px;font-family:var(--sans);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
-.fb.active,.fb:hover{background:var(--gold);color:var(--black);border-color:var(--gold)}
-.search-bar{padding:7px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.78rem;outline:none;width:220px;transition:border-color .2s}
+.dd-sep{height:1px;background:var(--border2);margin:4px 0}
+.dd-user{padding:14px 16px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px}
+.dd-av{width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.dd-uname{font-size:.82rem;font-weight:600;color:var(--cream)}
+.dd-uemail{font-size:.62rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
+
+/* ─── CONTENT ─── */
+.content{padding:26px 30px 64px;max-width:1440px;margin:0 auto}
+/* product banner */
+.prod-banner{position:relative;height:220px;border-radius:8px;overflow:hidden;margin-bottom:24px;border:1px solid var(--border2)}
+.prod-slides{position:absolute;inset:0;background:var(--card)}
+.prod-grad{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,6,8,.82) 0%,rgba(6,6,8,.25) 50%,rgba(6,6,8,.82) 100%);z-index:2}
+.prod-info{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:center;padding:28px 32px}
+.prod-eyebrow{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.prod-title{font-family:var(--serif);font-size:1.6rem;font-weight:700;margin-bottom:4px}
+.prod-sub{font-size:.76rem;color:var(--muted)}
+.prod-dots{position:absolute;bottom:14px;right:18px;z-index:4;display:flex;gap:5px}
+/* quick stats */
+.qs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px}
+.qc{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:5px;padding:14px 16px}
+[data-theme="light"] .qc{background:#fff;border-color:#E0E0EA;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.qc-label{font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.qc-val{font-family:var(--serif);font-size:1.4rem;font-weight:700;color:var(--gold-l)}
+.qc-sub{font-size:.58rem;color:var(--muted);margin-top:2px}
+/* welcome */
+.welcome{background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.04));border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.welcome h2{font-family:var(--serif);font-size:1.4rem;font-weight:700;margin-bottom:3px}
+.welcome p{font-size:.76rem;color:var(--muted)}
+.welcome-bal{text-align:right}
+.wb-label{font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.wb-amount{font-family:var(--serif);font-size:1.7rem;color:var(--gold-l);font-weight:700}
+/* filters */
+.filter-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.fb{padding:5px 14px;border:1px solid var(--border2);background:transparent;color:var(--muted);border-radius:2px;font-family:var(--sans);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.fb.active,.fb:hover{background:var(--gold);color:#000;border-color:var(--gold)}
+.search-bar{padding:7px 13px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.78rem;outline:none;width:210px}
+[data-theme="light"] .search-bar{background:#fff;border-color:#D0D0DC;color:#1A1A2E}
 .search-bar:focus{border-color:var(--gold)}
-.brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
-.b-card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:5px;overflow:hidden;cursor:pointer;transition:transform .28s,border-color .28s}
-.b-card:hover{transform:translateY(-4px);border-color:rgba(201,168,76,.45)}
-.bc-top{padding:22px 16px 14px;text-align:center}
-.bc-logo{width:80px;height:58px;object-fit:contain;margin:0 auto 10px;display:block}
-.bc-name{font-family:var(--serif);font-size:.98rem;font-weight:700;margin-bottom:4px}
-.bc-sector{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
-.bc-founded{font-size:.6rem;color:rgba(242,237,228,.3)}
-.bc-bottom{padding:10px 16px;border-top:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
-.bc-stars{font-size:.7rem;color:var(--gold)}
-.bc-read{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(201,168,76,.55)}
-/* info sections */
-.info-section{margin-top:60px;padding-top:40px;border-top:1px solid var(--border)}
-.info-title{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:6px}
-.info-sub{font-size:.82rem;color:var(--muted);font-weight:300;margin-bottom:32px}
-.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.h-step{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:5px;padding:26px 20px;position:relative;overflow:hidden}
-.step-n{font-family:var(--serif);font-size:4rem;font-weight:900;color:rgba(201,168,76,.07);position:absolute;top:8px;right:14px;line-height:1}
-.step-icon{font-size:1.6rem;margin-bottom:14px}
-.step-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;margin-bottom:9px}
-.step-desc{font-size:.76rem;color:var(--muted);line-height:1.78;font-weight:300}
+/* brands grid */
+.brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:14px}
+.b-card{background:var(--card);border:1px solid var(--border2);border-radius:6px;overflow:hidden;cursor:pointer;transition:all .25s}
+.b-card:hover{transform:translateY(-3px);border-color:var(--border);box-shadow:0 10px 28px rgba(0,0,0,.3)}
+.bc-top{padding:16px 14px 10px;text-align:center}
+.bc-logo{width:76px;height:54px;object-fit:contain;margin:0 auto 8px;display:block}
+.bc-name{font-size:.82rem;font-weight:600;margin-bottom:2px}
+.bc-sector{font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.bc-founded{font-size:.56rem;color:var(--muted)}
+.bc-bottom{padding:9px 13px 11px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border2)}
+.bc-stars{font-size:.68rem;color:var(--gold)}
+.bc-read{font-size:.6rem;color:var(--muted)}
+/* info */
+.info-section{margin-top:46px;padding-top:30px;border-top:1px solid var(--border2)}
+.info-title{font-family:var(--serif);font-size:1.7rem;font-weight:700;margin-bottom:5px}
+.info-sub{font-size:.78rem;color:var(--muted);margin-bottom:26px}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.h-step{background:var(--card);border:1px solid var(--border2);border-radius:6px;padding:20px 18px}
+.step-n{font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.step-icon{font-size:1.4rem;margin-bottom:7px}
+.step-title{font-family:var(--serif);font-size:.96rem;font-weight:700;margin-bottom:5px}
+.step-desc{font-size:.72rem;color:var(--muted);line-height:1.6}
 /* panels */
-.panel-ov{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:flex-end;padding:64px 16px 0}
+.panel-ov{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:flex-end;padding:52px 12px 0}
 .panel-ov.open{display:flex}
-.panel-box{background:#16161E;border:1px solid var(--border);border-radius:8px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;animation:ddIn .25s ease}
-.panel-head{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
-.panel-title{font-family:var(--serif);font-size:1.15rem;font-weight:700}
-.panel-x{background:none;border:none;color:rgba(242,237,228,.3);font-size:1.4rem;cursor:pointer;line-height:1}
+.panel-box{background:#16161E;border:1px solid var(--border);border-radius:8px;width:100%;max-width:420px;max-height:86vh;overflow-y:auto;animation:ddIn .25s ease}
+[data-theme="light"] .panel-box{background:#fff}
+.panel-head{padding:15px 17px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:inherit;z-index:2}
+.panel-title{font-family:var(--serif);font-size:1.05rem;font-weight:700}
+.panel-x{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;line-height:1}
 .panel-x:hover{color:var(--cream)}
-.panel-body{padding:20px}
-.pfield{margin-bottom:16px}
-.pfield label{display:block;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,237,228,.38);margin-bottom:6px}
-.pfield input,.pfield textarea{width:100%;padding:10px 13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:3px;color:var(--cream);font-family:var(--sans);font-size:.84rem;outline:none;transition:border-color .2s}
-.pfield input:focus,.pfield textarea:focus{border-color:var(--gold)}
-.pfield textarea{resize:vertical;min-height:80px}
-.pbtn{padding:10px 22px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer}
-.pbtn-o{padding:10px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:var(--sans);font-size:.75rem;text-transform:uppercase;cursor:pointer;margin-left:8px}
-.pinfo{font-size:.78rem;color:var(--muted);line-height:1.8;margin-bottom:14px}
-.notif-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.notif-item:last-child{border-bottom:none}
-.ni-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px}
-.ni-dot.read{background:rgba(242,237,228,.2)}
-.ni-text{font-size:.78rem;color:var(--muted);line-height:1.6}
-.ni-time{font-size:.62rem;color:rgba(242,237,228,.25);margin-top:3px}
-.lang-opt{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border:1px solid var(--border2);border-radius:4px;margin-bottom:8px;cursor:pointer;transition:all .2s;font-size:.8rem}
-.lang-opt:hover,.lang-opt.sel{border-color:var(--gold);background:rgba(201,168,76,.07);color:var(--cream)}
-.lang-opt.sel::after{content:'✓';color:var(--gold)}
-.invite-box{background:rgba(201,168,76,.07);border:1px solid var(--border);border-radius:4px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
-.invite-code{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--gold-l);letter-spacing:.1em}
-.invite-copy{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);cursor:pointer;padding:4px 10px;border:1px solid var(--border);border-radius:3px;background:none}
-.tos-text{font-size:.76rem;color:var(--muted);line-height:1.88}
-.tos-text h3{font-family:var(--serif);font-size:1rem;color:var(--cream);margin:18px 0 8px}
-.tos-text h3:first-child{margin-top:0}
+.panel-body{padding:16px}
 /* chat */
-.chat-panel{display:flex;flex-direction:column;height:70vh}
-.chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.chat-msg{max-width:80%;padding:9px 13px;border-radius:10px;font-size:.8rem;line-height:1.5}
-.chat-msg.user{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.2);align-self:flex-end;color:var(--cream)}
-.chat-msg.care{background:rgba(255,255,255,.05);border:1px solid var(--border2);align-self:flex-start;color:var(--muted)}
-.chat-msg.care .sender{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
-.chat-msg .msg-time{font-size:.58rem;color:rgba(242,237,228,.25);margin-top:4px;text-align:right}
-.chat-input-row{display:flex;gap:8px;padding:14px;border-top:1px solid var(--border2)}
-.chat-input{flex:1;padding:9px 13px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:20px;color:var(--cream);font-family:var(--sans);font-size:.82rem;outline:none}
+.chat-msgs{height:310px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:10px;background:rgba(0,0,0,.15);border-radius:4px;margin-bottom:10px}
+[data-theme="light"] .chat-msgs{background:rgba(0,0,0,.04)}
+.chat-msg{max-width:80%;padding:8px 12px;border-radius:8px;font-size:.75rem;line-height:1.5}
+.chat-msg.care{background:rgba(255,255,255,.06);border:1px solid var(--border2);align-self:flex-start;color:var(--muted)}
+[data-theme="light"] .chat-msg.care{background:rgba(0,0,0,.04)}
+.chat-msg.user{background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.2);align-self:flex-end;color:var(--cream)}
+.chat-msg .sender{font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.msg-time{font-size:.5rem;color:var(--muted);margin-top:4px;text-align:right}
+.chat-row{display:flex;gap:8px}
+.chat-input{flex:1;padding:8px 13px;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:20px;color:var(--cream);font-family:var(--sans);font-size:.78rem;outline:none}
+[data-theme="light"] .chat-input{background:#F5F5F8;color:#1A1A2E}
 .chat-input:focus{border-color:var(--gold)}
-.chat-send{padding:9px 18px;background:var(--gold);color:var(--black);border:none;border-radius:20px;font-family:var(--sans);font-size:.75rem;font-weight:600;cursor:pointer}
-/* brand modal */
-.modal-ov{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:24px}
+.chat-send{padding:8px 17px;background:var(--gold);color:#000;border:none;border-radius:20px;font-family:var(--sans);font-size:.72rem;font-weight:700;cursor:pointer}
+/* modal */
+.modal-ov{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
 .modal-ov.open{display:flex}
-.modal-box{background:var(--dark);border:1px solid var(--border);border-radius:8px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative;animation:mIn .3s ease}
-@keyframes mIn{from{opacity:0;transform:scale(.95)}}
-.modal-x{position:absolute;top:14px;right:16px;background:none;border:none;color:rgba(242,237,228,.3);font-size:1.5rem;cursor:pointer;z-index:10;line-height:1}
-.modal-x:hover{color:var(--cream)}
-.modal-hdr{height:170px;position:relative;overflow:hidden;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center}
-.modal-hdr-bg{position:absolute;inset:0;filter:blur(40px) brightness(.18);transform:scale(3);background-size:contain;background-repeat:no-repeat;background-position:center}
-.modal-hdr-logo{position:relative;z-index:1;width:130px;height:90px;object-fit:contain}
-.modal-body{padding:24px 28px 28px}
-.modal-name{font-family:var(--serif);font-size:1.85rem;font-weight:700;margin-bottom:3px}
-.modal-meta{font-size:.63rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
-.modal-founded{font-size:.72rem;color:var(--muted);margin-bottom:12px}
-.modal-stars{color:var(--gold);font-size:.98rem;margin-bottom:3px}
-.modal-reviews{font-size:.62rem;color:var(--muted);margin-bottom:16px}
-.modal-story{font-size:.81rem;color:rgba(242,237,228,.58);line-height:1.92;font-weight:300;padding-top:14px;border-top:1px solid var(--border);margin-bottom:16px}
-.modal-product{border-radius:6px;overflow:hidden;margin-bottom:18px;background:rgba(255,255,255,.03);border:1px solid var(--border2)}
-.modal-product img{width:100%;height:180px;object-fit:cover;display:block}
-.modal-product-label{padding:8px 12px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative;animation:ddIn .3s ease}
+.modal-hdr{height:100px;position:relative;overflow:hidden}
+.modal-hdr-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(16px) brightness(.4);transform:scale(1.1)}
+.modal-hdr-logo{position:absolute;bottom:-20px;left:24px;width:58px;height:58px;object-fit:contain;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px}
+.modal-x{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.5);border:none;color:var(--cream);width:28px;height:28px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
+.modal-body{padding:28px 24px 22px}
+.modal-name{font-family:var(--serif);font-size:1.35rem;font-weight:700;margin-bottom:3px}
+.modal-meta{font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.modal-founded{font-size:.68rem;color:var(--muted);margin-bottom:4px}
+.modal-stars{font-size:.78rem;color:var(--gold);margin-bottom:2px}
+.modal-reviews{font-size:.68rem;color:var(--muted);margin-bottom:14px}
+.modal-story{font-size:.78rem;line-height:1.7;color:var(--muted);margin-bottom:14px}
+.modal-product{margin-bottom:16px;border-radius:6px;overflow:hidden;border:1px solid var(--border2)}
+.modal-product img{width:100%;height:210px;object-fit:cover;display:block}
+.modal-product-label{padding:7px 12px;font-size:.64rem;color:var(--muted);text-align:center}
 .modal-acts{display:flex;gap:10px}
-.btn-rate-m{padding:10px 24px;background:var(--gold);color:var(--black);border:none;border-radius:3px;font-family:var(--sans);font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;cursor:pointer;text-decoration:none}
-.btn-close-m{padding:10px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:var(--sans);font-size:.73rem;text-transform:uppercase;cursor:pointer}
-@media(max-width:860px){
-  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
-  .main{margin-left:0}.mob-btn{display:block}
-  .qs{grid-template-columns:1fr 1fr}.content{padding:18px 16px 40px}
-  .filter-row{flex-direction:column;align-items:flex-start}.search-bar{width:100%}
-  .brands-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-  .how-steps{grid-template-columns:1fr}
-  .panel-ov{padding:56px 12px 0}.panel-box{max-width:100%}
-  .modal-box{max-width:100%}
-}
+.btn-rate-m{flex:1;padding:12px;background:var(--gold);color:#000;border:none;border-radius:4px;font-family:var(--sans);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.btn-rate-m:hover{background:var(--gold-l)}
+.btn-close-m{padding:12px 17px;background:rgba(255,255,255,.06);border:1px solid var(--border2);color:var(--muted);border-radius:4px;font-family:var(--sans);font-size:.72rem;cursor:pointer}
+/* form helpers */
+.pfield{margin-bottom:13px}
+.pfield label{display:block;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.pfield input,.pfield textarea{width:100%;padding:9px 12px;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:4px;color:var(--cream);font-family:var(--sans);font-size:.8rem;outline:none}
+[data-theme="light"] .pfield input,[data-theme="light"] .pfield textarea{background:#F5F5F8;color:#1A1A2E;border-color:#D0D0DC}
+.pfield input:focus,.pfield textarea:focus{border-color:var(--gold)}
+.pfield textarea{height:78px;resize:vertical}
+.pinfo{font-size:.75rem;color:var(--muted);line-height:1.6;margin-bottom:13px}
+.invite-box{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:4px;margin-bottom:13px}
+.invite-code{font-family:var(--serif);font-size:.96rem;font-weight:700;color:var(--gold);letter-spacing:.08em}
+.invite-copy{padding:5px 12px;background:var(--gold);color:#000;border:none;border-radius:3px;font-family:var(--sans);font-size:.64rem;font-weight:700;cursor:pointer}
+.pbtn{padding:9px 17px;background:rgba(201,168,76,.1);border:1px solid var(--border);color:var(--gold);border-radius:4px;font-family:var(--sans);font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s}
+.pbtn:hover{background:rgba(201,168,76,.2)}
+.pbtn-o{padding:9px 17px;background:transparent;border:1px solid var(--border2);color:var(--muted);border-radius:4px;font-family:var(--sans);font-size:.7rem;cursor:pointer;margin-left:8px}
+.notif-item{display:flex;align-items:flex-start;gap:9px;padding:11px 0;border-bottom:1px solid var(--border2)}
+.ni-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px;background:var(--gold)}
+.ni-dot.read{background:rgba(255,255,255,.2)}
+.ni-text{font-size:.74rem;color:var(--cream);margin-bottom:2px}
+.ni-time{font-size:.6rem;color:var(--muted)}
+.tos-text{font-size:.74rem;color:var(--muted);line-height:1.8}
+.tos-text h3{color:var(--cream);margin:13px 0 3px;font-size:.82rem}
+@media(max-width:960px){.tb-nav{display:none}.content{padding:16px 14px 48px}.qs{grid-template-columns:1fr 1fr}.how-steps{grid-template-columns:1fr}.brands-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}}
+@media(max-width:580px){.qs{grid-template-columns:1fr 1fr}.brands-grid{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
-<div class="app">
-  <aside class="sidebar" id="sidebar">
-    <a href="home.html" class="sb-top">
-      <span style="font-size:1.3rem">🌍</span>
-      <div><div class="sb-name">Global Brands</div><div class="sb-tag">Rate the World's Greatest</div></div>
-    </a>
-    <nav class="sb-nav">
-      <a href="home.html" class="nav-item active">🏠 Home</a>
-      <a href="rate.html" class="nav-item">⭐ Rate Brands</a>
-      <a href="deposit.html" class="nav-item">💰 Deposit</a>
-      <a href="withdraw.html" class="nav-item">💸 Withdraw</a>
-      <a href="wallet.html" class="nav-item">📊 Wallet</a>
-    </nav>
-    <div class="sb-foot">
-      <div class="u-chip" onclick="openPanel('profilePanel')">
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <a href="home.html" class="tb-logo">
+    <div class="tb-globe"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div>
+    <span class="tb-brand">Global Brands</span>
+  </a>
+  <div class="tb-nav">
+    <a href="home.html" class="tn active">🏠 Home</a>
+    <a href="rate.html" class="tn rate">⭐ Rate Brands</a>
+    <a href="wallet.html" class="tn wallet">📊 Wallet</a>
+  </div>
+  <div class="tb-right">
+    <!-- Theme toggle -->
+    <div class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle mode">🌙</div>
+    <!-- Language -->
+    <div class="lang-dd-wrap">
+      <div class="icon-btn" onclick="toggleLangDD()" title="Language">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <div class="lang-dd" id="langDD">
+        <button class="lang-dd-item" onclick="setLang('en')">🇬🇧 English</button>
+        <button class="lang-dd-item" onclick="setLang('sw')">🇰🇪 Kiswahili</button>
+        <button class="lang-dd-item" onclick="setLang('fr')">🇫🇷 Français</button>
+        <button class="lang-dd-item" onclick="setLang('es')">🇪🇸 Español</button>
+        <button class="lang-dd-item" onclick="setLang('ar')">🇸🇦 العربية</button>
+        <button class="lang-dd-item" onclick="setLang('pl')">🇵🇱 Polski</button>
+        <button class="lang-dd-item" onclick="setLang('pt')">🇵🇹 Português</button>
+      </div>
+    </div>
+    <!-- Bell -->
+    <div class="icon-btn" onclick="openPanel('notifPanel')">
+      <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div class="notif-dot"></div>
+    </div>
+    <!-- Chat -->
+    <div class="icon-btn" onclick="openPanel('chatPanel')" id="chatIconBtn">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div class="chat-dot" id="chatDot"></div>
+    </div>
+    <!-- Avatar / menu -->
+    <div class="dd-wrap">
+      <div class="u-chip" onclick="toggleDD()">
         <img class="u-av" id="uAv" src="" alt=""/>
-        <div><div class="u-name" id="uName">Loading</div><div class="u-id" id="uCur">USD</div></div>
+        <span class="u-name" id="uName">Me</span>
+      </div>
+      <div class="dropdown" id="mainDD" style="width:230px">
+        <div class="dd-user">
+          <img class="dd-av" id="ddAv" src="" alt=""/>
+          <div><div class="dd-uname" id="ddName">User</div><div class="dd-uemail" id="ddEmail"></div></div>
+        </div>
+        <button class="dd-item" onclick="closeDD();openPanel('profilePanel')"><span class="di">👤</span> My Profile</button>
+        <button class="dd-item" onclick="closeDD();openPanel('settingsPanel')"><span class="di">⚙️</span> Account Settings</button>
+        <button class="dd-item" onclick="closeDD();openPanel('chatPanel')"><span class="di">💬</span> Live Chat</button>
+        <div class="dd-sep"></div>
+        <button class="dd-item" onclick="closeDD();openPanel('supportPanel')"><span class="di">❓</span> Help / Support</button>
+        <button class="dd-item" onclick="closeDD();openPanel('contactPanel')"><span class="di">📞</span> Contact Us</button>
+        <button class="dd-item" onclick="closeDD();openPanel('aboutPanel')"><span class="di">ℹ️</span> About Us</button>
+        <div class="dd-sep"></div>
+        <button class="dd-item" onclick="closeDD();openPanel('tosPanel')"><span class="di">📄</span> Terms of Service</button>
+        <button class="dd-item" onclick="closeDD();openPanel('privacyPanel')"><span class="di">🔒</span> Privacy Policy</button>
+        <div class="dd-sep"></div>
+        <button class="dd-item danger" onclick="logout()"><span class="di">🚪</span> Log Out</button>
       </div>
     </div>
-  </aside>
+  </div>
+</nav>
 
-  <div class="main">
-    <div class="topbar">
-      <div class="tb-left">
-        <button class="mob-btn" onclick="toggleSidebar()">☰</button>
-        <span class="tb-title">Home</span>
+<!-- MAIN CONTENT -->
+<div class="content">
+  <div id="loadingBanner" style="text-align:center;padding:40px;color:var(--muted);font-size:.84rem">Loading your account...</div>
+  <div id="mainContent" style="display:none">
+
+    <!-- PRODUCT BANNER -->
+    <div class="prod-banner">
+      <div class="prod-slides" id="prodSlides"></div>
+      <div class="prod-grad"></div>
+      <div class="prod-info">
+        <div class="prod-eyebrow">Featured Products</div>
+        <div class="prod-title" id="slideTitle">World's Greatest Brands</div>
+        <div class="prod-sub" id="slideSub">Rate them. Earn real rewards.</div>
       </div>
-      <div class="tb-right">
-        <span style="font-size:.78rem;color:var(--muted)" id="tbGreet"></span>
-        <a href="rate.html" class="btn-sm btn-g-sm">Start Rating →</a>
-        <a href="deposit.html" class="btn-sm" style="background:rgba(76,175,80,.1);color:#4caf50;border:1px solid rgba(76,175,80,.2);font-size:.68rem;padding:7px 16px;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;text-decoration:none">+ Deposit</a>
-        <!-- Language -->
-        <div class="lang-dd-wrap">
-          <div class="icon-btn" onclick="toggleLangDD()" title="Language">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </div>
-          <div class="lang-dd" id="langDD">
-            <button class="lang-dd-item" onclick="setLang('en')">🇬🇧 English</button>
-            <button class="lang-dd-item" onclick="setLang('sw')">🇰🇪 Kiswahili</button>
-            <button class="lang-dd-item" onclick="setLang('fr')">🇫🇷 Français</button>
-            <button class="lang-dd-item" onclick="setLang('es')">🇪🇸 Español</button>
-            <button class="lang-dd-item" onclick="setLang('ar')">🇸🇦 العربية</button>
-            <button class="lang-dd-item" onclick="setLang('pl')">🇵🇱 Polski</button>
-            <button class="lang-dd-item" onclick="setLang('pt')">🇵🇹 Português</button>
-          </div>
-        </div>
-        <!-- Bell -->
-        <div class="icon-btn" onclick="openPanel('notifPanel')">
-          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          <div class="notif-dot"></div>
-        </div>
-        <!-- Chat -->
-        <div class="icon-btn" onclick="openPanel('chatPanel')" id="chatIconBtn">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <div class="chat-dot" id="chatDot"></div>
-        </div>
-        <!-- Three dots -->
-        <div class="dd-wrap">
-          <div class="icon-btn" onclick="toggleDD()">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
-          </div>
-          <div class="dropdown" id="mainDD">
-            <div class="dd-user">
-              <img class="dd-av" id="ddAv" src="" alt=""/>
-              <div><div class="dd-uname" id="ddName">User</div><div class="dd-uemail" id="ddEmail"></div></div>
-            </div>
-            <button class="dd-item" onclick="closeDD();openPanel('profilePanel')"><span class="di">👤</span> My Profile</button>
-            <button class="dd-item" onclick="closeDD();openPanel('settingsPanel')"><span class="di">⚙️</span> Account Settings</button>
-            <button class="dd-item" onclick="closeDD();openPanel('chatPanel')"><span class="di">💬</span> Live Chat</button>
-            <div class="dd-sep"></div>
-            <button class="dd-item" onclick="closeDD();openPanel('supportPanel')"><span class="di">❓</span> Help / Support</button>
-            <button class="dd-item" onclick="closeDD();openPanel('contactPanel')"><span class="di">📞</span> Contact Us</button>
-            <button class="dd-item" onclick="closeDD();openPanel('aboutPanel')"><span class="di">ℹ️</span> About Us</button>
-            <div class="dd-sep"></div>
-            <button class="dd-item" onclick="closeDD();openPanel('tosPanel')"><span class="di">📄</span> Terms of Service</button>
-            <button class="dd-item" onclick="closeDD();openPanel('privacyPanel')"><span class="di">🔒</span> Privacy Policy</button>
-            <div class="dd-sep"></div>
-            <button class="dd-item danger" onclick="logout()"><span class="di">🚪</span> Log Out</button>
-          </div>
-        </div>
+      <div class="prod-dots" id="slideDots"></div>
+    </div>
+
+    <!-- WELCOME -->
+    <div class="welcome">
+      <div><h2 id="wbName">Welcome!</h2><p>Explore 96 iconic global brands. Click any to read their story, then head to Rate Brands to start earning.</p></div>
+      <div class="welcome-bal">
+        <div class="wb-label">Balance</div>
+        <div class="wb-amount" id="wbBal">0.00</div>
+        <div style="font-size:.6rem;color:var(--muted);margin-top:2px"><a href="wallet.html" style="color:var(--gold);text-decoration:none">Wallet →</a></div>
       </div>
     </div>
 
-    <div class="content">
-      <div id="loadingBanner" style="text-align:center;padding:40px;color:var(--muted);font-size:.84rem">Loading your account...</div>
-      <div id="mainContent" style="display:none">
-        <!-- PRODUCT SHOWCASE BANNER -->
-        <div style="position:relative;height:220px;border-radius:8px;overflow:hidden;margin-bottom:24px;border:1px solid var(--border2)">
-          <div id="productSlideshow" style="position:absolute;inset:0;background:var(--card)">
-            <!-- Slides injected by JS -->
-          </div>
-          <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,6,8,.85) 0%,rgba(6,6,8,.3) 40%,rgba(6,6,8,.3) 60%,rgba(6,6,8,.85) 100%);z-index:2"></div>
-          <div style="position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:center;padding:28px 32px">
-            <div style="font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Featured Products</div>
-            <div style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--cream);margin-bottom:4px" id="slideTitle">World's Greatest Brands</div>
-            <div style="font-size:.78rem;color:var(--muted);font-weight:300" id="slideSubtitle">Rate them. Earn real rewards.</div>
-          </div>
-          <!-- Slide dots -->
-          <div style="position:absolute;bottom:14px;right:20px;z-index:4;display:flex;gap:6px" id="slideDots"></div>
-        </div>
-        <div class="welcome-banner">
-          <div class="wb-left"><h2 id="wbName">Welcome!</h2><p>Explore 96 iconic global brands. Click any to read their story, then head to Rate Brands to start earning.</p></div>
-          <div class="wb-right"><div class="wb-label">Balance</div><div class="wb-amount" id="wbBal">0.00</div><div style="font-size:.62rem;color:rgba(242,237,228,.3)"><a href="withdraw.html" style="color:var(--gold);text-decoration:none">Withdraw →</a></div></div>
-        </div>
-        <div class="qs">
-          <div class="qs-card"><div class="qs-label">Brands Rated</div><div class="qs-val" id="qsRated">0</div><div class="qs-sub">out of 96</div></div>
-          <div class="qs-card"><div class="qs-label">Total Earned</div><div class="qs-val" id="qsEarned">0.00</div><div class="qs-sub">Withdrawable</div></div>
-          <div class="qs-card"><div class="qs-label">Welcome Bonus</div><div class="qs-val" id="qsBonus">0.00</div><div class="qs-sub">Remaining</div></div>
-          <div class="qs-card"><div class="qs-label">Today's Round</div><div class="qs-val" id="qsRound">1</div><div class="qs-sub">of 3 rounds</div></div>
-        </div>
-        <div class="filter-row">
-          <div class="filters">
-            <button class="fb active" onclick="filterB('all',this)">All 96</button>
-            <button class="fb" onclick="filterB('Technology',this)">Tech</button>
-            <button class="fb" onclick="filterB('Fashion',this)">Fashion</button>
-            <button class="fb" onclick="filterB('Luxury',this)">Luxury</button>
-            <button class="fb" onclick="filterB('Beverages',this)">Beverages</button>
-            <button class="fb" onclick="filterB('Automotive',this)">Auto</button>
-            <button class="fb" onclick="filterB('Food',this)">Food</button>
-          </div>
-          <input class="search-bar" id="searchBar" placeholder="Search brands..." oninput="renderBrands()">
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-          <h2 style="font-family:var(--serif);font-size:1.6rem;font-weight:700">All 96 Global Brands</h2>
-          <span style="font-size:.7rem;color:rgba(242,237,228,.34)" id="secCount">96 brands</span>
-        </div>
-        <div class="brands-grid" id="brandsGrid"></div>
-        <div class="info-section">
-          <h2 class="info-title">How It Works</h2>
-          <p class="info-sub">Three simple steps to rate brands and earn real rewards every day.</p>
-          <div class="how-steps">
-            <div class="h-step"><div class="step-n">01</div><div class="step-icon">🎁</div><div class="step-title">Welcome Bonus</div><div class="step-desc">Your welcome bonus is credited instantly when you sign up. No deposit required to start.</div></div>
-            <div class="h-step"><div class="step-n">02</div><div class="step-icon">⭐</div><div class="step-title">Rate and Earn</div><div class="step-desc">Rate 96 iconic brands across 3 daily rounds. Earn real rewards with every honest rating you submit.</div></div>
-            <div class="h-step"><div class="step-n">03</div><div class="step-icon">💸</div><div class="step-title">Withdraw</div><div class="step-desc">Withdraw your earnings to your local payment method. Processed within 24 hours every day.</div></div>
-          </div>
-        </div>
+    <!-- QUICK STATS -->
+    <div class="qs">
+      <div class="qc"><div class="qc-label">Brands Rated</div><div class="qc-val" id="qsRated">0</div><div class="qc-sub">out of 96</div></div>
+      <div class="qc"><div class="qc-label">Total Earned</div><div class="qc-val" id="qsEarned">0.00</div><div class="qc-sub">Withdrawable</div></div>
+      <div class="qc"><div class="qc-label">Welcome Bonus</div><div class="qc-val" id="qsBonus">0.00</div><div class="qc-sub">Remaining</div></div>
+      <div class="qc"><div class="qc-label">Today's Round</div><div class="qc-val" id="qsRound">1</div><div class="qc-sub">of 3 rounds</div></div>
+    </div>
+
+    <!-- FILTERS + SEARCH -->
+    <div class="filter-row">
+      <div class="filters">
+        <button class="fb active" onclick="filterB('all',this)">All 96</button>
+        <button class="fb" onclick="filterB('Technology',this)">Tech</button>
+        <button class="fb" onclick="filterB('Fashion',this)">Fashion</button>
+        <button class="fb" onclick="filterB('Luxury',this)">Luxury</button>
+        <button class="fb" onclick="filterB('Beverages',this)">Beverages</button>
+        <button class="fb" onclick="filterB('Automotive',this)">Auto</button>
+        <button class="fb" onclick="filterB('Food',this)">Food</button>
+      </div>
+      <input class="search-bar" id="searchBar" placeholder="Search brands..." oninput="renderBrands()">
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:700">All 96 Global Brands</h2>
+      <span style="font-size:.68rem;color:var(--muted)" id="secCount">96 brands</span>
+    </div>
+    <div class="brands-grid" id="brandsGrid"></div>
+
+    <!-- HOW IT WORKS -->
+    <div class="info-section">
+      <h2 class="info-title">How It Works</h2>
+      <p class="info-sub">Three simple steps to rate brands and earn real rewards every day.</p>
+      <div class="how-steps">
+        <div class="h-step"><div class="step-n">01</div><div class="step-icon">🎁</div><div class="step-title">Welcome Bonus</div><div class="step-desc">Your welcome bonus is credited instantly when you sign up. No deposit required to start.</div></div>
+        <div class="h-step"><div class="step-n">02</div><div class="step-icon">⭐</div><div class="step-title">Rate and Earn</div><div class="step-desc">Rate 96 iconic brands across 3 daily rounds. Earn real rewards with every honest rating you submit.</div></div>
+        <div class="h-step"><div class="step-n">03</div><div class="step-icon">💸</div><div class="step-title">Withdraw</div><div class="step-desc">Withdraw your earnings to your local payment method. Processed within 24 hours every day.</div></div>
       </div>
     </div>
   </div>
@@ -323,8 +320,8 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 <!-- BRAND MODAL -->
 <div class="modal-ov" id="brandModal">
   <div class="modal-box">
-    <button class="modal-x" onclick="closeModal()">×</button>
     <div class="modal-hdr"><div class="modal-hdr-bg" id="mBg"></div><img class="modal-hdr-logo" id="mLogo" src="" alt=""/></div>
+    <button class="modal-x" onclick="closeModal()">×</button>
     <div class="modal-body">
       <div class="modal-name" id="mName"></div>
       <div class="modal-meta" id="mMeta"></div>
@@ -349,19 +346,19 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
   <div class="panel-box">
     <div class="panel-head"><span class="panel-title">My Profile</span><button class="panel-x" onclick="closePanel('profilePanel')">×</button></div>
     <div class="panel-body">
-      <div style="text-align:center;margin-bottom:20px">
-        <img id="profAv" src="" style="width:72px;height:72px;border-radius:50%;object-fit:cover;margin:0 auto 10px;display:block;border:2px solid var(--gold)"/>
-        <div style="font-family:var(--serif);font-size:1.1rem;font-weight:700" id="profName"></div>
-        <div style="font-size:.7rem;color:var(--muted)" id="profEmailDisp"></div>
+      <div style="text-align:center;margin-bottom:18px">
+        <img id="profAv" src="" style="width:70px;height:70px;border-radius:50%;object-fit:cover;margin:0 auto 9px;display:block;border:2px solid var(--gold)"/>
+        <div style="font-family:var(--serif);font-size:1.05rem;font-weight:700" id="profName"></div>
+        <div style="font-size:.68rem;color:var(--muted)" id="profEmailDisp"></div>
       </div>
       <div class="invite-box">
-        <div><div style="font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,237,228,.38);margin-bottom:3px">Invite Code</div><div class="invite-code" id="profInvite"></div></div>
+        <div><div style="font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Invite Code</div><div class="invite-code" id="profInvite"></div></div>
         <button class="invite-copy" onclick="copyInvite()">Copy</button>
       </div>
       <div class="pfield"><label>Full Name</label><input type="text" id="profNameInput"/></div>
       <div class="pfield"><label>Email</label><input type="email" id="profEmailInput" readonly style="opacity:.5;cursor:not-allowed"/></div>
       <div class="pfield"><label>Phone</label><input type="tel" id="profPhone"/></div>
-      <div style="padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;margin-bottom:14px;font-size:.76rem;color:var(--muted);line-height:1.7" id="profAccInfo"></div>
+      <div style="padding:10px 13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;margin-bottom:13px;font-size:.74rem;color:var(--muted);line-height:1.7" id="profAccInfo"></div>
       <div style="display:flex"><button class="pbtn" onclick="saveProfile()">Save Changes</button><button class="pbtn-o" onclick="closePanel('profilePanel')">Cancel</button></div>
     </div>
   </div>
@@ -382,16 +379,16 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 
 <!-- CHAT PANEL -->
 <div class="panel-ov" id="chatPanel" onclick="closePOv(event,'chatPanel')">
-  <div class="panel-box" style="display:flex;flex-direction:column;max-height:85vh;height:85vh">
+  <div class="panel-box" style="display:flex;flex-direction:column;height:82vh">
     <div class="panel-head"><span class="panel-title">💬 Customer Care</span><button class="panel-x" onclick="closePanel('chatPanel')">×</button></div>
-    <div style="padding:8px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:8px">
-      <div style="width:8px;height:8px;border-radius:50%;background:#4CAF50"></div>
-      <span style="font-size:.72rem;color:var(--muted)">Global Brands Support · Online 24/7</span>
+    <div style="padding:7px 13px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:7px">
+      <div style="width:7px;height:7px;border-radius:50%;background:#4CAF50"></div>
+      <span style="font-size:.7rem;color:var(--muted)">Global Brands Support · Online 24/7</span>
     </div>
-    <div class="chat-messages" id="chatMessages">
+    <div class="chat-msgs" id="chatMessages" style="flex:1">
       <div class="chat-msg care"><div class="sender">Customer Care</div>👋 Hello! Welcome to Global Brands support. How can we help you today?<div class="msg-time">Support</div></div>
     </div>
-    <div class="chat-input-row">
+    <div class="chat-row" style="padding:10px">
       <input class="chat-input" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()"/>
       <button class="chat-send" onclick="sendChat()">Send</button>
     </div>
@@ -414,9 +411,9 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
   <div class="panel-box">
     <div class="panel-head"><span class="panel-title">Help / Support</span><button class="panel-x" onclick="closePanel('supportPanel')">×</button></div>
     <div class="panel-body">
-      <div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px">How do I withdraw?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Go to Wallet, select Withdraw, choose your method and submit. Processed within 24 hours.</div></div>
-      <div style="margin-bottom:12px;padding:13px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.8rem;font-weight:600;margin-bottom:5px">Why did my balance go negative?</div><div style="font-size:.75rem;color:var(--muted);line-height:1.7">Round 2 has special brands requiring a minimum balance. Deposit to clear the negative and unlock multiplied earnings.</div></div>
-      <div style="display:flex;gap:10px"><a href="https://wa.me/254759485490" target="_blank" class="pbtn" style="text-decoration:none">💬 WhatsApp</a><a href="https://t.me/customercare_afriqueguide" target="_blank" class="pbtn" style="text-decoration:none;background:rgba(0,136,204,.8)">✈️ Telegram</a></div>
+      <div style="margin-bottom:11px;padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.78rem;font-weight:600;margin-bottom:4px">How do I withdraw?</div><div style="font-size:.73rem;color:var(--muted);line-height:1.7">Go to Wallet, select Withdraw, choose your method and submit. Processed within 24 hours.</div></div>
+      <div style="margin-bottom:13px;padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px"><div style="font-size:.78rem;font-weight:600;margin-bottom:4px">Why did my balance go negative?</div><div style="font-size:.73rem;color:var(--muted);line-height:1.7">Round 2 has special brands requiring a minimum balance. Deposit to clear the negative and unlock multiplied earnings.</div></div>
+      <div style="display:flex;gap:9px"><a href="https://wa.me/254759485490" target="_blank" class="pbtn" style="text-decoration:none">💬 WhatsApp</a><a href="https://t.me/customercare_afriqueguide" target="_blank" class="pbtn" style="text-decoration:none;background:rgba(0,136,204,.15);border-color:rgba(0,136,204,.3);color:#0088CC">✈️ Telegram</a></div>
     </div>
   </div>
 </div>
@@ -428,8 +425,8 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
     <div class="panel-body">
       <div class="pfield"><label>Subject</label><input type="text" id="ctSubject" placeholder="How can we help?"/></div>
       <div class="pfield"><label>Message</label><textarea id="ctMsg" placeholder="Describe your issue..."></textarea></div>
-      <button class="pbtn" onclick="sendContact()" style="width:100%;margin-bottom:10px">Send via WhatsApp</button>
-      <a href="https://t.me/customercare_afriqueguide" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(0,136,204,.1);border:1px solid rgba(0,136,204,.2);border-radius:3px;color:#0088CC;font-size:.74rem;text-decoration:none">✈️ Telegram</a>
+      <button class="pbtn" onclick="sendContact()" style="width:100%;margin-bottom:9px">Send via WhatsApp</button>
+      <a href="https://t.me/customercare_afriqueguide" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(0,136,204,.1);border:1px solid rgba(0,136,204,.2);border-radius:3px;color:#0088CC;font-size:.72rem;text-decoration:none">✈️ Telegram</a>
     </div>
   </div>
 </div>
@@ -439,7 +436,7 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
   <div class="panel-box">
     <div class="panel-head"><span class="panel-title">About Us</span><button class="panel-x" onclick="closePanel('aboutPanel')">×</button></div>
     <div class="panel-body">
-      <div style="text-align:center;margin-bottom:18px"><div style="font-size:2.5rem">🌍</div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;margin:8px 0 4px">Global Brands</div><div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">Rate the World's Greatest</div></div>
+      <div style="text-align:center;margin-bottom:16px"><div style="font-size:2.4rem">🌍</div><div style="font-family:var(--serif);font-size:1.25rem;font-weight:700;margin:7px 0 3px">Global Brands</div><div style="font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">Rate the World's Greatest</div></div>
       <p class="pinfo">Global Brands connects consumers across the globe with 96 of the most iconic brands in history. Rate them, learn their stories, and earn real rewards.</p>
     </div>
   </div>
@@ -453,80 +450,89 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 <script src="gb_shared.js"></script>
 <script src="supabase.js"></script>
 <script>
-// Product images — correctly matched to each brand
+// Product images — correctly brand-matched
 const PRODUCT_IMGS = {
-  // Technology
-  1:  {url:'https://images.unsplash.com/photo-1696446701796-da61339df4a6?w=700&q=85', label:'iPhone 16 Pro Max — Apple'},
-  2:  {url:'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=700&q=85', label:'Google Search — Google'},
-  3:  {url:'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=700&q=85', label:'Microsoft Surface Laptop — Microsoft'},
-  4:  {url:'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=700&q=85', label:'Samsung Galaxy S24 Ultra — Samsung'},
-  5:  {url:'https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=700&q=85', label:'Meta Quest 3 — Meta'},
-  6:  {url:'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=700&q=85', label:'Amazon Delivery — Amazon'},
-  7:  {url:'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=700&q=85', label:'Netflix on TV — Netflix'},
-  8:  {url:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=700&q=85', label:'Tesla Model 3 — Tesla'},
-  9:  {url:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=700&q=85', label:'Spotify Mobile App — Spotify'},
-  10: {url:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=700&q=85', label:'MacBook Pro — Apple'},
-  // Fashion
-  13: {url:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&q=85', label:'Nike Air Max — Nike'},
-  14: {url:'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=700&q=85', label:'Adidas Ultra Boost — Adidas'},
-  15: {url:'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=700&q=85', label:'Zara Store — Zara'},
-  16: {url:'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=700&q=85', label:'H&M Fashion — H&M'},
-  // Luxury
-  17: {url:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&q=85', label:'Louis Vuitton Bag — Louis Vuitton'},
-  18: {url:'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=700&q=85', label:'Gucci Sneakers — Gucci'},
-  19: {url:'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=700&q=85', label:'Rolex Submariner — Rolex'},
-  // Beverages
-  20: {url:'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=700&q=85', label:'Coca-Cola Classic — Coca-Cola'},
-  21: {url:'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=700&q=85', label:'Pepsi Can — Pepsi'},
-  22: {url:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=700&q=85', label:'Starbucks Latte — Starbucks'},
-  23: {url:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=700&q=85', label:'Nescafé — Nescafé'},
-  // Food
-  24: {url:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=700&q=85', label:"Big Mac — McDonald's"},
-  25: {url:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=85', label:'KFC Bucket — KFC'},
-  26: {url:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=700&q=85', label:'Pizza Hut — Pizza Hut'},
-  27: {url:'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=700&q=85', label:'Nestlé Products — Nestlé'},
-  // Automotive — CORRECTLY matched, no cross-brand errors
-  28: {url:'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=700&q=85', label:'Toyota Corolla — Toyota'},
-  29: {url:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=700&q=85', label:'BMW M4 Coupé — BMW'},
-  30: {url:'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=700&q=85', label:'Mercedes GLE — Mercedes-Benz'},
-  31: {url:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=700&q=85', label:'Ferrari Roma — Ferrari'},
-  32: {url:'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=700&q=85', label:'Porsche 911 — Porsche'},
-  33: {url:'https://images.unsplash.com/photo-1471079485782-dc00f6bdf77b?w=700&q=85', label:'Honda Civic — Honda'},
-  34: {url:'https://images.unsplash.com/photo-1551830820-330a71b99659?w=700&q=85', label:'Ford Mustang — Ford'},
-  35: {url:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=700&q=85', label:'Audi RS6 Avant — Audi'},
-  // Aviation & Travel
-  44: {url:'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=700&q=85', label:'Emirates First Class — Emirates'},
-  47: {url:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=85', label:'Airbus A380 — Airbus'},
-  48: {url:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=85', label:'Airbnb Home — Airbnb'},
-  // Entertainment
-  56: {url:'https://images.unsplash.com/photo-1619468129361-605ebea04b44?w=700&q=85', label:'LEGO City Set — LEGO'},
-  57: {url:'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=700&q=85', label:'PlayStation 5 — Sony'},
+  1:  {url:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&q=85', label:'iPhone 16 Pro — Apple'},
+  2:  {url:'https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=800&q=85', label:'Google Search — Google'},
+  3:  {url:'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=85', label:'Microsoft Surface Laptop — Microsoft'},
+  4:  {url:'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&q=85', label:'Samsung Galaxy S24 Ultra — Samsung'},
+  5:  {url:'https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=800&q=85', label:'Meta Quest 3 — Meta'},
+  6:  {url:'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=800&q=85', label:'Amazon Delivery — Amazon'},
+  7:  {url:'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&q=85', label:'Netflix on TV — Netflix'},
+  8:  {url:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&q=85', label:'Tesla Model 3 — Tesla'},
+  9:  {url:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=85', label:'Spotify Mobile App — Spotify'},
+  10: {url:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=85', label:'MacBook Pro — Apple'},
+  13: {url:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=85', label:'Nike Air Max — Nike'},
+  14: {url:'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=85', label:'Adidas Ultra Boost — Adidas'},
+  15: {url:'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&q=85', label:'Zara Store — Zara'},
+  16: {url:'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=800&q=85', label:'H&M Fashion — H&M'},
+  17: {url:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=85', label:'Louis Vuitton Bag — Louis Vuitton'},
+  18: {url:'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=85', label:'Gucci Sneakers — Gucci'},
+  19: {url:'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=800&q=85', label:'Rolex Submariner — Rolex'},
+  20: {url:'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=800&q=85', label:'Coca-Cola Classic — Coca-Cola'},
+  21: {url:'https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=800&q=85', label:'Pepsi Can — Pepsi'},
+  22: {url:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=85', label:'Starbucks Latte — Starbucks'},
+  23: {url:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=85', label:'Nescafé — Nescafé'},
+  24: {url:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&q=85', label:"Big Mac — McDonald's"},
+  25: {url:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=85', label:'KFC Bucket — KFC'},
+  26: {url:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=85', label:'Pizza Hut — Pizza Hut'},
+  27: {url:'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=800&q=85', label:'Nestlé Products — Nestlé'},
+  28: {url:'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800&q=85', label:'Toyota Corolla — Toyota'},
+  29: {url:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=85', label:'BMW M4 Coupé — BMW'},
+  30: {url:'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=85', label:'Mercedes GLE — Mercedes-Benz'},
+  31: {url:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=85', label:'Ferrari Roma — Ferrari'},
+  32: {url:'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=85', label:'Porsche 911 — Porsche'},
+  33: {url:'https://images.unsplash.com/photo-1471079485782-dc00f6bdf77b?w=800&q=85', label:'Honda Civic — Honda'},
+  34: {url:'https://images.unsplash.com/photo-1551830820-330a71b99659?w=800&q=85', label:'Ford Mustang — Ford'},
+  35: {url:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&q=85', label:'Audi RS6 Avant — Audi'},
+  44: {url:'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=85', label:'Emirates First Class — Emirates'},
+  47: {url:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=85', label:'Airbus A380 — Airbus'},
+  48: {url:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=85', label:'Airbnb Home — Airbnb'},
+  56: {url:'https://images.unsplash.com/photo-1619468129361-605ebea04b44?w=800&q=85', label:'LEGO City Set — LEGO'},
+  57: {url:'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=800&q=85', label:'PlayStation 5 — Sony'},
 };
 
 let user={},activeFilter='all';
+let isDark=true;
+
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('gb_theme',isDark?'dark':'light');
+}
 
 async function init(){
+  // Restore theme
+  const savedTheme=localStorage.getItem('gb_theme')||'dark';
+  isDark=savedTheme==='dark';
+  document.documentElement.setAttribute('data-theme',savedTheme);
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+
   if(!localStorage.getItem('gb_login')){location.href='index.html';return;}
   const cached=JSON.parse(localStorage.getItem('gb_user')||'{}');
-  if(!cached.email){location.href='index.html';return;}
-  // Always fetch latest from Supabase
-  const fresh=await sb.getUser(cached.email);
-  if(!fresh){location.href='index.html';return;}
-  user=fresh;
-  localStorage.setItem('gb_user',JSON.stringify(user));
-  // Regenerate avatar using brand-logo system if user has old style avatar
-  if(!user.avatar || user.avatar.includes('Arial Black') && !user.avatar.includes('simpleicons')){
-    const av=gbGenAvatar(user.name||'GB',0);
-    user.avatar=av.svg;user.avatar_color=av.color;user.avatar_initials=av.initials;
-    await sb.updateUser(user.email,{avatar:av.svg,avatar_color:av.color,avatar_initials:av.initials});
-    localStorage.setItem('gb_user',JSON.stringify(user));
-  }
-  await sb.updateUser(user.email,{last_seen:new Date().toISOString()});
+  if(!cached.email){location.href='signin.html';return;}
+  user=cached;
   populateUI();
-  renderBrands();
-  loadChatDot();
   document.getElementById('loadingBanner').style.display='none';
   document.getElementById('mainContent').style.display='block';
+  initSlideshow();
+  renderBrands();
+  loadChatDot();
+  // Fetch fresh from Supabase
+  const fresh=await sb.getUser(user.email);
+  if(fresh){
+    // Regenerate avatar to brand logo system if old style
+    if(!fresh.avatar||(!fresh.avatar.includes('simpleicons')&&!fresh.avatar.includes('data:image'))){
+      const av=gbGenAvatar(fresh.name||'GB',0);
+      fresh.avatar=av.svg;fresh.avatar_color=av.color;fresh.avatar_initials=av.initials;
+      await sb.updateUser(fresh.email,{avatar:av.svg,avatar_color:av.color,avatar_initials:av.initials});
+    }
+    user=fresh;
+    localStorage.setItem('gb_user',JSON.stringify(user));
+    await sb.updateUser(user.email,{last_seen:new Date().toISOString()});
+    populateUI();
+  }
 }
 
 function fmt(n){return gbFmt(n,user);}
@@ -534,8 +540,7 @@ function fmt(n){return gbFmt(n,user);}
 function populateUI(){
   const av=user.avatar||gbGenAvatar(user.name||'GB',0).svg;
   ['uAv','ddAv','profAv'].forEach(id=>{const el=document.getElementById(id);if(el)el.src=av;});
-  document.getElementById('uName').textContent=user.name||'User';
-  document.getElementById('uCur').textContent=user.currency||'KES';
+  document.getElementById('uName').textContent=(user.name||'Me').split(' ')[0];
   document.getElementById('ddName').textContent=user.name||'User';
   document.getElementById('ddEmail').textContent=user.email||'';
   document.getElementById('profName').textContent=user.name||'User';
@@ -544,17 +549,15 @@ function populateUI(){
   document.getElementById('profNameInput').value=user.name||'';
   document.getElementById('profEmailInput').value=user.email||'';
   document.getElementById('profPhone').value=user.phone||'';
-  document.getElementById('profAccInfo').innerHTML=`Country: <strong>${user.country||'N/A'}</strong> &nbsp;·&nbsp; Currency: <strong>${user.currency||'KES'}</strong> &nbsp;·&nbsp; Year of Birth: <strong>${user.year_of_birth||'N/A'}</strong> &nbsp;·&nbsp; Joined: <strong>${user.joined_at?new Date(user.joined_at).toLocaleDateString():'N/A'}</strong>`;
+  document.getElementById('profAccInfo').innerHTML=`Country: <strong>${user.country||'N/A'}</strong> &nbsp;·&nbsp; Currency: <strong>${user.currency||'KES'}</strong> &nbsp;·&nbsp; Year: <strong>${user.year_of_birth||'N/A'}</strong> &nbsp;·&nbsp; Joined: <strong>${user.joined_at?new Date(user.joined_at).toLocaleDateString():'N/A'}</strong>`;
   document.getElementById('wbName').textContent='Welcome, '+(user.name||'there')+'!';
-  document.getElementById('wbBal').textContent=fmt(user.earnings);
+  document.getElementById('wbBal').textContent=fmt(user.earnings||0);
   document.getElementById('qsRated').textContent=user.tasks_completed||0;
-  document.getElementById('qsEarned').textContent=fmt(user.earnings);
-  document.getElementById('qsBonus').textContent=fmt(user.bonus_remaining);
+  document.getElementById('qsEarned').textContent=fmt(user.earnings||0);
+  // Welcome bonus remaining — synced from Supabase
+  document.getElementById('qsBonus').textContent=fmt(user.bonus_remaining!=null?user.bonus_remaining:(user.bonus||0));
   const tc=user.tasks_completed||0;
   document.getElementById('qsRound').textContent=tc<32?1:tc<64?2:3;
-  const h=new Date().getHours();
-  const g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
-  document.getElementById('tbGreet').textContent=g+(user.name?', '+user.name:'')+'!';
 }
 
 // Language
@@ -572,7 +575,7 @@ function openPanel(id){closeDD();document.getElementById(id).classList.add('open
 function closePanel(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
 function closePOv(e,id){if(e.target===e.currentTarget)closePanel(id);}
 
-// Profile save → Supabase
+// Profile
 async function saveProfile(){
   const name=document.getElementById('profNameInput').value.trim();
   const phone=document.getElementById('profPhone').value.trim();
@@ -580,19 +583,18 @@ async function saveProfile(){
   await sb.updateUser(user.email,{name,phone});
   user.name=name;user.phone=phone;
   localStorage.setItem('gb_user',JSON.stringify(user));
-  alert('Profile updated.');closePanel('profilePanel');populateUI();
+  populateUI();alert('Profile updated!');closePanel('profilePanel');
 }
-function copyInvite(){navigator.clipboard.writeText(user.invite_code||'').then(()=>alert('Copied!'));}
+function copyInvite(){navigator.clipboard.writeText(user.invite_code||'').then(()=>alert('Invite code copied!'));}
 async function saveSettings(){
-  const np=document.getElementById('newPwd').value;
-  const cp=document.getElementById('confPwd').value;
-  if(!np){alert('Enter a password.');return;}
+  const np=document.getElementById('newPwd').value;const cp=document.getElementById('confPwd').value;
+  if(!np){alert('Enter a new password.');return;}
   if(np!==cp){alert('Passwords do not match.');return;}
   await sb.updateUser(user.email,{password_hash:btoa(np)});
   alert('Password updated.');closePanel('settingsPanel');
 }
 
-// Chat → Supabase
+// Chat
 async function loadChatDot(){
   const msgs=await sb.getMessages(user.email);
   const unread=msgs.filter(m=>m.sender==='care'&&!m.read).length;
@@ -606,28 +608,43 @@ async function loadChat(){
   const welcome=`<div class="chat-msg care"><div class="sender">Customer Care</div>👋 Hello! Welcome to Global Brands support. How can we help you today?<div class="msg-time">Support</div></div>`;
   container.innerHTML=welcome+msgs.map(m=>{
     const t=new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    if(m.sender==='care')return `<div class="chat-msg care"><div class="sender">Customer Care</div>${m.text}<div class="msg-time">${t}</div></div>`;
+    if(m.sender==='care')return `<div class="chat-msg care"><div class="sender">${m.admin_name||'Customer Care'}</div>${m.text}<div class="msg-time">${t}</div></div>`;
     return `<div class="chat-msg user">${m.text}<div class="msg-time">${t}</div></div>`;
   }).join('');
   container.scrollTop=container.scrollHeight;
 }
 async function sendChat(){
   const input=document.getElementById('chatInput');
-  const text=input.value.trim();
-  if(!text)return;
+  const text=input.value.trim();if(!text)return;
   input.value='';
+  const existing=await sb.getMessages(user.email);
+  const isFirstEver=existing.filter(m=>m.sender==='user').length===0;
   await sb.sendMessage(user.email,text,'user');
+  if(isFirstEver){
+    setTimeout(async()=>{
+      await sb.sendMessage(user.email,'Thank you for reaching out to Global Brands support! 😊 Our team will get back to you shortly. You can also contact us via WhatsApp or Telegram for faster assistance.','care');
+      await loadChat();
+    },1200);
+  }
   await loadChat();
 }
 function sendContact(){
-  const s=document.getElementById('ctSubject').value.trim();
-  const m=document.getElementById('ctMsg').value.trim();
+  const s=document.getElementById('ctSubject').value.trim();const m=document.getElementById('ctMsg').value.trim();
   if(!s||!m){alert('Please fill all fields.');return;}
   window.open('https://wa.me/254759485490?text='+encodeURIComponent('Subject: '+s+'\nMessage: '+m),'_blank');
   closePanel('contactPanel');
 }
 
 // Brands
+function logoFail(img,fb,col,ini){
+  if(fb&&fb.startsWith('http')){img.src=fb;img.onerror=()=>{img.replaceWith(makeSvgIcon(ini,col));};return;}
+  img.replaceWith(makeSvgIcon(ini,col));
+}
+function makeSvgIcon(ini,col){
+  const d=document.createElement('div');
+  d.style.cssText=`width:76px;height:54px;border-radius:4px;background:${col||'#C9A84C'};display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#fff;font-family:Arial Black;margin:0 auto 8px`;
+  d.textContent=ini||'?';return d;
+}
 function filterB(f,btn){activeFilter=f;document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBrands();}
 function renderBrands(){
   const q=(document.getElementById('searchBar').value||'').toLowerCase();
@@ -647,7 +664,7 @@ function renderBrands(){
   });
 }
 
-// Brand modal with product image
+// Brand modal
 function openBrandModal(b){
   const stars='★'.repeat(Math.round(b.rating))+'☆'.repeat(5-Math.round(b.rating));
   document.getElementById('mLogo').src=b.logo;
@@ -659,16 +676,14 @@ function openBrandModal(b){
   document.getElementById('mStars').textContent=stars+' '+b.rating;
   document.getElementById('mReviews').textContent=b.reviews.toLocaleString()+' reviews';
   document.getElementById('mStory').textContent=b.story;
-  // Product image
   const prod=PRODUCT_IMGS[b.id];
-  const prodEl=document.getElementById('mProduct');
   if(prod){
     document.getElementById('mProductImg').src=prod.url;
     document.getElementById('mProductImg').alt=prod.label;
     document.getElementById('mProductLabel').textContent=prod.label;
-    prodEl.style.display='block';
+    document.getElementById('mProduct').style.display='block';
   } else {
-    prodEl.style.display='none';
+    document.getElementById('mProduct').style.display='none';
   }
   document.getElementById('brandModal').classList.add('open');
   document.body.style.overflow='hidden';
@@ -676,45 +691,39 @@ function openBrandModal(b){
 function closeModal(){document.getElementById('brandModal').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('brandModal').addEventListener('click',e=>{if(e.target===document.getElementById('brandModal'))closeModal();});
 
-// Product slideshow
-const SLIDES = [
-  { img:'https://images.unsplash.com/photo-1696446701796-da61339df4a6?w=900&q=80', title:'iPhone 16 Pro Max', subtitle:'Apple · The most powerful iPhone ever made' },
-  { img:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&q=80', title:'MacBook Pro', subtitle:'Apple · Power for the pros' },
-  { img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=80', title:'Nike Air Max', subtitle:'Nike · Just Do It' },
-  { img:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=900&q=80', title:'Tesla Model S', subtitle:'Tesla · Accelerating the world to sustainable energy' },
+// Product slideshow — no blur, crisp images
+const SLIDES=[
+  {img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=1200&q=90',title:'iPhone 16 Pro',sub:'Apple · The most powerful iPhone ever made'},
+  {img:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=90',title:'MacBook Pro',sub:'Apple · Power for the pros'},
+  {img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=90',title:'Nike Air Max',sub:'Nike · Just Do It'},
+  {img:'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1200&q=90',title:'Tesla Model S',sub:'Tesla · Accelerating sustainable energy'},
 ];
 let slideIdx=0,slideTimer=null;
 function initSlideshow(){
-  const ss=document.getElementById('productSlideshow');
+  const ss=document.getElementById('prodSlides');
   const dots=document.getElementById('slideDots');
   if(!ss)return;
-  // Build slides
   SLIDES.forEach((s,i)=>{
     const div=document.createElement('div');
     div.style.cssText=`position:absolute;inset:0;background:url('${s.img}') center/cover no-repeat;transition:opacity 1.2s ease;opacity:${i===0?1:0}`;
-    div.id='slide-'+i;
-    ss.appendChild(div);
+    div.id='sl-'+i;ss.appendChild(div);
     const dot=document.createElement('div');
     dot.style.cssText=`width:${i===0?18:7}px;height:7px;border-radius:4px;background:${i===0?'var(--gold)':'rgba(242,237,228,.3)'};cursor:pointer;transition:all .3s`;
-    dot.onclick=()=>goSlide(i);
-    dot.id='dot-'+i;
-    dots.appendChild(dot);
+    dot.onclick=()=>goSlide(i);dot.id='dt-'+i;dots.appendChild(dot);
   });
   slideTimer=setInterval(()=>goSlide((slideIdx+1)%SLIDES.length),4000);
 }
 function goSlide(idx){
   const prev=slideIdx;slideIdx=idx;
-  document.getElementById('slide-'+prev).style.opacity='0';
-  document.getElementById('slide-'+idx).style.opacity='1';
+  document.getElementById('sl-'+prev).style.opacity='0';
+  document.getElementById('sl-'+idx).style.opacity='1';
   document.getElementById('slideTitle').textContent=SLIDES[idx].title;
-  document.getElementById('slideSubtitle').textContent=SLIDES[idx].subtitle;
-  document.getElementById('dot-'+prev).style.cssText=`width:7px;height:7px;border-radius:4px;background:rgba(242,237,228,.3);cursor:pointer;transition:all .3s`;
-  document.getElementById('dot-'+idx).style.cssText=`width:18px;height:7px;border-radius:4px;background:var(--gold);cursor:pointer;transition:all .3s`;
+  document.getElementById('slideSub').textContent=SLIDES[idx].sub;
+  document.getElementById('dt-'+prev).style.cssText='width:7px;height:7px;border-radius:4px;background:rgba(242,237,228,.3);cursor:pointer;transition:all .3s';
+  document.getElementById('dt-'+idx).style.cssText='width:18px;height:7px;border-radius:4px;background:var(--gold);cursor:pointer;transition:all .3s';
   clearInterval(slideTimer);slideTimer=setInterval(()=>goSlide((slideIdx+1)%SLIDES.length),4000);
 }
-initSlideshow();
 
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
 function logout(){localStorage.removeItem('gb_login');localStorage.removeItem('gb_user');location.href='index.html';}
 init();
 </script>

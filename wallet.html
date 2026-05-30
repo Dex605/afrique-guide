@@ -84,46 +84,18 @@ select option{background:#111}
     <p class="page-sub">Manage your balance, bonus, deposits, and withdrawals</p>
     <div class="wallet-cards">
       <div class="wc gold"><div class="wc-label">Account Balance</div><div class="wc-amount" id="wBal">0.00</div><div class="wc-sub" id="wCur">Available</div></div>
-      <div class="wc bonus"><div class="wc-label">Welcome Bonus</div><div class="wc-amount purple" id="wBonus">0.00</div><div class="wc-sub">Original bonus</div></div>
+      <div class="wc bonus"><div class="wc-label">Welcome Bonus</div><div class="wc-amount purple" id="wBonus">0.00</div><div class="wc-sub">Remaining bonus</div></div>
       <div class="wc pend-d"><div class="wc-label">Pending Deposit</div><div class="wc-amount green" id="wPendDep">0.00</div><div class="wc-sub">Awaiting confirmation</div></div>
       <div class="wc pend-w"><div class="wc-label">Pending Withdrawal</div><div class="wc-amount orange" id="wPendWd">0.00</div><div class="wc-sub">Being processed</div></div>
     </div>
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('deposit',this)">Deposit</button>
-      <button class="tab-btn" onclick="switchTab('withdraw',this)">Withdraw</button>
-      <button class="tab-btn" onclick="switchTab('history',this)">History</button>
-    </div>
-    <!-- DEPOSIT -->
-    <div class="tab-content active" id="tab-deposit">
-      <div id="depForm">
-        <div class="payment-info" id="payInfo">Loading payment methods...</div>
-        <div class="form-group"><label>Payment Method</label><select id="payMethod"><option value="">Select method</option></select></div>
-        <div class="form-group"><label>Amount</label><input type="number" id="depAmount" placeholder="Enter amount" min="1"/></div>
-        <button class="btn-primary" onclick="proceedDeposit()">Proceed to Deposit</button>
-      </div>
-      <div class="contact-box" id="contactBox">
-        <div class="cc-title">Contact Customer Care</div>
-        <div class="cc-sub">Your deposit request is received. Contact our team to complete it. Your balance will update once confirmed.</div>
-        <div class="cc-amount" id="ccAmt"></div>
-        <div class="cc-btns">
-          <a class="cc-btn fc-wa" id="waLink" href="#" target="_blank">💬 WhatsApp</a>
-          <a class="cc-btn fc-tg" href="https://t.me/customercare_afriqueguide" target="_blank">✈️ Telegram</a>
-        </div>
-        <br><button class="btn-primary" style="background:transparent;border:1px solid var(--border2);color:var(--muted)" onclick="resetDep()">New Deposit</button>
-      </div>
-    </div>
-    <!-- WITHDRAW -->
-    <div class="tab-content" id="tab-withdraw">
-      <div class="payment-info" id="wdInfo">Loading withdrawal methods...</div>
-      <div class="form-group"><label>Withdrawal Method</label><select id="wdMethod"><option value="">Select method</option></select></div>
-      <div class="form-group"><label>Account Number or Wallet Address</label><input type="text" id="wdAccount" placeholder="Account number or wallet address"/></div>
-      <div class="form-group"><label id="wdAmtLbl">Amount (Min: 10)</label><input type="number" id="wdAmount" placeholder="Enter amount" min="10"/></div>
-      <button class="btn-primary" onclick="proceedWd()">Request Withdrawal</button>
+    <!-- DEPOSIT / WITHDRAW BUTTONS → separate pages -->
+    <div style="display:flex;gap:12px;margin-bottom:22px">
+      <a href="deposit.html" style="flex:1;padding:14px;background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.25);color:#4caf50;border-radius:6px;font-family:var(--sans);font-size:.76rem;font-weight:600;text-align:center;text-decoration:none;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:7px">💰 Deposit</a>
+      <a href="withdraw.html" style="flex:1;padding:14px;background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.25);color:#FFA500;border-radius:6px;font-family:var(--sans);font-size:.76rem;font-weight:600;text-align:center;text-decoration:none;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:7px">💸 Withdraw</a>
     </div>
     <!-- HISTORY -->
-    <div class="tab-content" id="tab-history">
-      <div id="historyList"><div style="text-align:center;padding:30px;color:var(--muted);font-size:.8rem">Loading history...</div></div>
-    </div>
+    <div style="font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-weight:600">Transaction History</div>
+    <div id="historyList"><div style="text-align:center;padding:30px;color:var(--muted);font-size:.8rem">Loading history...</div></div>
   </div>
 </div>
 
@@ -157,7 +129,7 @@ async function init(){
   user=fresh;localStorage.setItem('gb_user',JSON.stringify(user));
   const fmt=n=>gbFmt(n,user);
   document.getElementById('wBal').textContent=fmt(user.earnings);
-  document.getElementById('wBonus').textContent=fmt(user.bonus);
+  document.getElementById('wBonus').textContent=fmt(user.bonus_remaining!=null?user.bonus_remaining:(user.bonus||0));
   document.getElementById('wPendDep').textContent=fmt(user.pending_deposit||0);
   document.getElementById('wPendWd').textContent=fmt(user.pending_withdrawal||0);
   document.getElementById('wCur').textContent=(user.currency||'KES')+' account';
