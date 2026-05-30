@@ -111,6 +111,11 @@ select option{background:#111;color:var(--cream)}
       </button>
     </div>
   </div>
+  <div class="form-group" style="margin-bottom:18px">
+    <label>Invitation Code <span style="color:#ff6b6b">*</span></label>
+    <input type="text" id="inviteInput" placeholder="Enter your invitation code" style="text-transform:uppercase;letter-spacing:.1em" oninput="this.value=this.value.toUpperCase()"/>
+    <div style="font-size:.62rem;color:rgba(242,237,228,.35);margin-top:5px">Required to create an account. Contact support if you need one.</div>
+  </div>
   <button class="btn-submit" id="submitBtn" onclick="handleSignup()">Create Account</button>
   <div class="alt-link">Already have an account? <a href="signin.html">Sign In</a></div>
 </div>
@@ -191,6 +196,9 @@ function togglePw(inputId,iconId){
   else{inp.type='password';ico.innerHTML=`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;}
 }
 
+// ── VALID INVITATION CODES ──
+const VALID_INVITE_CODES = ['GB-ALPHA7','GB-BRAVO3','GB-DELTA9','GB-ECHO42','GB-ZETA88'];
+
 async function handleSignup(){
   const name=document.getElementById('fullName').value.trim();
   const email=document.getElementById('email').value.trim();
@@ -199,10 +207,13 @@ async function handleSignup(){
   const phone=document.getElementById('phoneCode').value+document.getElementById('phone').value.trim();
   const pwd=document.getElementById('password').value;
   const cpwd=document.getElementById('confirmPassword').value;
+  const enteredCode=document.getElementById('inviteInput').value.trim().toUpperCase();
   const errEl=document.getElementById('errMsg');
   errEl.style.display='none';
   if(!name||!email||!countryCode||!yearOfBirth||!phone||!pwd){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
   if(pwd!==cpwd){errEl.textContent='Passwords do not match.';errEl.style.display='block';return;}
+  if(!enteredCode){errEl.textContent='Please enter an invitation code.';errEl.style.display='block';return;}
+  if(!VALID_INVITE_CODES.includes(enteredCode)){errEl.textContent='Invalid invitation code. Please check and try again.';errEl.style.display='block';return;}
   const btn=document.getElementById('submitBtn');
   btn.disabled=true;btn.textContent='Creating account...';
   // Check if email exists
@@ -217,16 +228,14 @@ async function handleSignup(){
     currency:c.currency,symbol:c.symbol,bonus:c.bonus,
     earnings:0,bonus_remaining:c.bonus,bonus_used:0,tasks_completed:0,
     invite_code:inviteCode,avatar:av.svg,avatar_color:av.color,avatar_initials:av.initials,
-    password_hash:btoa(pwd), // basic encoding — not production-grade
+    password_hash:btoa(pwd),
     pending_deposit:0,pending_withdrawal:0,special_blocked:{},
     joined_at:new Date().toISOString(),last_seen:new Date().toISOString()
   };
   const created=await sb.createUser(user);
   if(!created||created.code){errEl.textContent='Error creating account. Please try again.';errEl.style.display='block';btn.disabled=false;btn.textContent='Create Account';return;}
-  // Save session locally
   localStorage.setItem('gb_user',JSON.stringify({...user,...created}));
   localStorage.setItem('gb_login','true');
-  // Add welcome bonus transaction
   await sb.addTransaction({user_email:email,type:'bonus',label:'Welcome Bonus',amount:c.bonus,status:'completed'});
   window.location.href='home.html';
 }
