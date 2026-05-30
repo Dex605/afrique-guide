@@ -100,9 +100,9 @@ select option{background:#111}
   </div>
 </div>
 
-<script src="brands.js?v=1780149500"></script>
-<script src="gb_shared.js?v=1780149500"></script>
-<script src="supabase.js?v=1780149500"></script>
+<script src="brands.js?v=1780154906"></script>
+<script src="gb_shared.js?v=1780154906"></script>
+<script src="supabase.js?v=1780154906"></script>
 <script>
 const payMethods={
   KE:{deposit:['M-Pesa','Wallet Address'],withdraw:['M-Pesa','Wallet Address'],info:'Kenya: M-Pesa or Wallet Address'},
@@ -143,10 +143,12 @@ async function loadHistory(){
   const txs=await sb.getTransactions(user.email);
   const fmt=n=>gbFmt(n,user);
   const list=document.getElementById('historyList');
-  if(!txs||txs.length===0){list.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:.8rem">No transactions yet</div>';return;}
-  list.innerHTML=txs.map(tx=>{
-    const isWd=tx.type==='withdrawal';const isEarn=tx.type==='earning'||tx.type==='bonus';
-    const icon=tx.type==='bonus'?'🎁':isEarn?'⭐':isWd?'💸':'💰';
+  // Only show deposits, withdrawals and bonuses — NOT individual earning records
+  const filtered=(txs||[]).filter(tx=>tx.type==='deposit'||tx.type==='withdrawal'||tx.type==='bonus');
+  if(filtered.length===0){list.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:.8rem">No deposit or withdrawal history yet</div>';return;}
+  list.innerHTML=filtered.map(tx=>{
+    const isWd=tx.type==='withdrawal';
+    const icon=tx.type==='bonus'?'🎁':isWd?'💸':'💰';
     const amtClass=isWd?'hi-orange':'hi-green';const sign=isWd?'-':'+';
     const badge=tx.status==='pending'?'<span class="hi-badge pending">Pending</span>':'<span class="hi-badge done">Completed</span>';
     const date=new Date(tx.created_at).toLocaleDateString();

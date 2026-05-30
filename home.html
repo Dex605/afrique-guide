@@ -145,7 +145,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background:rgba(4,4,10,
 /* modal */
 .modal-ov{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
 .modal-ov.open{display:flex}
-.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative;animation:ddIn .3s ease}
+.modal-box{background:#0D0D10;border:1px solid var(--border);border-radius:8px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative;animation:ddIn .3s ease}
 .modal-hdr{height:100px;position:relative;overflow:hidden}
 .modal-hdr-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(16px) brightness(.4);transform:scale(1.1)}
 .modal-hdr-logo{position:absolute;bottom:-20px;left:24px;width:58px;height:58px;object-fit:contain;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px}
@@ -203,6 +203,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background:rgba(4,4,10,
   <nav class="sb-nav">
     <a href="home.html" class="nav-item active">🏠 Home</a>
     <a href="rate.html" class="nav-item">⭐ Rate Brands</a>
+    <a href="records.html" class="nav-item">📋 Rating History</a>
     <a href="wallet.html" class="nav-item">📊 Wallet
       <span style="margin-left:auto;display:flex;flex-direction:column;gap:2px;align-items:flex-end">
         <span style="font-size:.52rem;color:rgba(201,168,76,.6)">Deposit · Withdraw</span>
@@ -476,9 +477,9 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background:rgba(4,4,10,
 <div class="panel-ov" id="tosPanel" onclick="closePOv(event,'tosPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Terms of Service</span><button class="panel-x" onclick="closePanel('tosPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Acceptance</h3>By using Global Brands you agree to these terms.<h3>2. Eligibility</h3>You must be at least 18 years old.<h3>3. Earnings</h3>Earnings come from completing brand ratings. Withdrawals are processed within 24 hours.<h3>4. Conduct</h3>No fraudulent ratings or multiple accounts.<h3>5. Changes</h3>Terms may be updated at any time.</div></div></div></div>
 <div class="panel-ov" id="privacyPanel" onclick="closePOv(event,'privacyPanel')"><div class="panel-box"><div class="panel-head"><span class="panel-title">Privacy Policy</span><button class="panel-x" onclick="closePanel('privacyPanel')">×</button></div><div class="panel-body"><div class="tos-text"><h3>1. Data Collected</h3>Name, email, phone, country, and activity data.<h3>2. Usage</h3>To operate accounts and process payments. We do not sell your data.<h3>3. Security</h3>Stored securely in Supabase with industry-standard protections.<h3>4. Your Rights</h3>Request access or deletion by contacting support.</div></div></div></div>
 
-<script src="brands.js?v=1780152113"></script>
-<script src="gb_shared.js?v=1780152113"></script>
-<script src="supabase.js?v=1780152113"></script>
+<script src="brands.js?v=1780154906"></script>
+<script src="gb_shared.js?v=1780154906"></script>
+<script src="supabase.js?v=1780154906"></script>
 <script>
 // Product images — correctly brand-matched
 const PRODUCT_IMGS = {
