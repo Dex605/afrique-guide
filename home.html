@@ -11,21 +11,33 @@
 [data-theme="dark"]{--bg:#060608;--surface:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,.45);--border:rgba(201,168,76,.15);--border2:rgba(255,255,255,.07);--nav:rgba(6,6,8,.96)}
 [data-theme="light"]{--bg:#F2F2F7;--surface:#FFFFFF;--card:#FAFAFA;--cream:#1A1A2E;--muted:#60607A;--border:#C8B870;--border2:#E0E0EA;--nav:rgba(255,255,255,.97)}
 html,body{font-family:var(--sans);background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
-
-/* ─── TOP NAV ─── */
-.topbar{height:52px;padding:0 18px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);background:var(--nav);backdrop-filter:blur(14px);position:sticky;top:0;z-index:100}
-.tb-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;margin-right:6px}
-.tb-globe{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
-.tb-globe svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:1.5}
-.tb-brand{font-family:var(--serif);font-size:.9rem;font-weight:700;color:var(--cream)}
-.tb-nav{display:flex;align-items:center;gap:3px;flex:1}
-.tn{padding:6px 12px;border-radius:4px;font-size:.67rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;text-decoration:none;color:var(--muted);border:1px solid transparent;white-space:nowrap;transition:all .2s}
-.tn:hover{color:var(--cream);background:rgba(255,255,255,.05)}
-.tn.active{color:var(--cream);background:rgba(201,168,76,.08);border-color:var(--border)}
-.tn.rate{background:var(--gold);color:#000;border-color:var(--gold)}
-.tn.rate:hover{background:var(--gold-l)}
-.tn.wallet{background:rgba(76,175,80,.1);color:#4caf50;border-color:rgba(76,175,80,.2)}
-.tb-right{display:flex;align-items:center;gap:5px;margin-left:auto;flex-shrink:0}
+.app{display:flex;min-height:100vh}
+/* ─── SIDEBAR ─── */
+.sidebar{width:220px;flex-shrink:0;background:rgba(5,5,5,.99);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s}
+[data-theme="light"] .sidebar{background:#fff}
+.sb-top{padding:18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;text-decoration:none}
+.sb-globe{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08);flex-shrink:0}
+.sb-globe svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.sb-name{font-family:var(--serif);font-size:.9rem;color:var(--cream);font-weight:700}
+.sb-tag{font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.sb-nav{flex:1;padding:10px 0;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 18px;color:var(--muted);font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;transition:all .2s;border-left:3px solid transparent;text-decoration:none}
+.nav-item:hover{color:var(--cream);background:rgba(255,255,255,.03)}
+.nav-item.active{color:var(--cream);border-left-color:var(--gold);background:rgba(201,168,76,.07)}
+.sb-foot{padding:13px;border-top:1px solid var(--border)}
+.u-chip{display:flex;align-items:center;gap:8px;padding:9px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px;cursor:pointer}
+[data-theme="light"] .u-chip{background:rgba(0,0,0,.03)}
+.u-av{width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.u-name{font-size:.7rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--cream)}
+.u-id{font-size:.52rem;color:var(--muted)}
+/* ─── MAIN ─── */
+.main{margin-left:220px;flex:1}
+/* ─── TOP BAR ─── */
+.topbar{height:50px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--nav);backdrop-filter:blur(14px);position:sticky;top:0;z-index:40}
+.tb-left{display:flex;align-items:center;gap:10px}
+.mob-btn{display:none;background:none;border:none;color:var(--cream);font-size:1.2rem;cursor:pointer;padding:4px}
+.tb-title{font-family:var(--serif);font-size:.96rem;font-weight:700}
+.tb-right{display:flex;align-items:center;gap:6px}
 .icon-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;flex-shrink:0}
 .icon-btn:hover{background:rgba(201,168,76,.1);border-color:var(--border)}
 .icon-btn svg{width:14px;height:14px;stroke:var(--cream);fill:none;stroke-width:1.8}
@@ -33,10 +45,6 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--cream);min-he
 .chat-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#4CAF50;border:1.5px solid var(--bg);display:none}
 .theme-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.82rem;transition:all .2s;flex-shrink:0}
 .theme-btn:hover{border-color:var(--gold)}
-.u-chip{display:flex;align-items:center;gap:6px;padding:4px 9px 4px 4px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;cursor:pointer;transition:all .2s}
-.u-chip:hover{border-color:var(--gold)}
-.u-av{width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0}
-.u-name{font-size:.64rem;font-weight:600;color:var(--cream);max-width:70px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* dropdowns */
 .lang-dd-wrap,.dd-wrap{position:relative}
 .lang-dd,.dropdown{position:absolute;top:calc(100% + 6px);right:0;background:#16161E;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:200;display:none;animation:ddIn .2s ease;min-width:190px}
@@ -177,22 +185,43 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--cream);min-he
 .ni-time{font-size:.6rem;color:var(--muted)}
 .tos-text{font-size:.74rem;color:var(--muted);line-height:1.8}
 .tos-text h3{color:var(--cream);margin:13px 0 3px;font-size:.82rem}
-@media(max-width:960px){.tb-nav{display:none}.content{padding:16px 14px 48px}.qs{grid-template-columns:1fr 1fr}.how-steps{grid-template-columns:1fr}.brands-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}}
+@media(max-width:960px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mob-btn{display:flex}.content{padding:16px 14px 48px}.qs{grid-template-columns:1fr 1fr}.how-steps{grid-template-columns:1fr}.brands-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}}
 @media(max-width:580px){.qs{grid-template-columns:1fr 1fr}.brands-grid{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
 
-<!-- TOP NAV -->
-<nav class="topbar">
-  <a href="home.html" class="tb-logo">
-    <div class="tb-globe"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div>
-    <span class="tb-brand">Global Brands</span>
+<!-- APP WRAPPER -->
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <a href="home.html" class="sb-top">
+    <div class="sb-globe"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div>
+    <div><div class="sb-name">Global Brands</div><div class="sb-tag">Rate the World's Greatest</div></div>
   </a>
-  <div class="tb-nav">
-    <a href="home.html" class="tn active">🏠 Home</a>
-    <a href="rate.html" class="tn rate">⭐ Rate Brands</a>
-    <a href="wallet.html" class="tn wallet">📊 Wallet</a>
+  <nav class="sb-nav">
+    <a href="home.html" class="nav-item active">🏠 Home</a>
+    <a href="rate.html" class="nav-item">⭐ Rate Brands</a>
+    <a href="deposit.html" class="nav-item">💰 Deposit</a>
+    <a href="withdraw.html" class="nav-item">💸 Withdraw</a>
+    <a href="wallet.html" class="nav-item">📊 Wallet</a>
+  </nav>
+  <div class="sb-foot">
+    <div class="u-chip" onclick="openPanel('profilePanel')">
+      <img class="u-av" id="uAv" src="" alt=""/>
+      <div><div class="u-name" id="uName">Loading</div><div class="u-id" id="uCur">KES</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+<!-- TOP BAR -->
+<nav class="topbar">
+  <div class="tb-left">
+    <button class="mob-btn" onclick="toggleSidebar()">☰</button>
+    <span class="tb-title">Home</span>
   </div>
   <div class="tb-right">
     <!-- Theme toggle -->
@@ -222,11 +251,10 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--cream);min-he
       <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       <div class="chat-dot" id="chatDot"></div>
     </div>
-    <!-- Avatar / menu -->
+    <!-- Menu -->
     <div class="dd-wrap">
-      <div class="u-chip" onclick="toggleDD()">
-        <img class="u-av" id="uAv" src="" alt=""/>
-        <span class="u-name" id="uName">Me</span>
+      <div class="icon-btn" onclick="toggleDD()">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
       </div>
       <div class="dropdown" id="mainDD" style="width:230px">
         <div class="dd-user">
@@ -493,22 +521,10 @@ const PRODUCT_IMGS = {
 };
 
 let user={},activeFilter='all';
-let isDark=true;
 
-function toggleTheme(){
-  isDark=!isDark;
-  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
-  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
-  localStorage.setItem('gb_theme',isDark?'dark':'light');
-}
+function toggleTheme(){ gbToggleTheme(); }
 
 async function init(){
-  // Restore theme
-  const savedTheme=localStorage.getItem('gb_theme')||'dark';
-  isDark=savedTheme==='dark';
-  document.documentElement.setAttribute('data-theme',savedTheme);
-  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
-
   if(!localStorage.getItem('gb_login')){location.href='index.html';return;}
   const cached=JSON.parse(localStorage.getItem('gb_user')||'{}');
   if(!cached.email){location.href='signin.html';return;}
@@ -519,12 +535,11 @@ async function init(){
   initSlideshow();
   renderBrands();
   loadChatDot();
-  // Fetch fresh from Supabase
   const fresh=await sb.getUser(user.email);
   if(fresh){
-    // Regenerate avatar to brand logo system if old style
-    if(!fresh.avatar||(!fresh.avatar.includes('simpleicons')&&!fresh.avatar.includes('data:image'))){
-      const av=gbGenAvatar(fresh.name||'GB',0);
+    // Regenerate avatar with country flag if old style
+    if(!fresh.avatar||fresh.avatar.indexOf('data-theme')>-1||fresh.avatar.length<50){
+      const av=gbGenAvatar(fresh.name||'GB',0,fresh.country);
       fresh.avatar=av.svg;fresh.avatar_color=av.color;fresh.avatar_initials=av.initials;
       await sb.updateUser(fresh.email,{avatar:av.svg,avatar_color:av.color,avatar_initials:av.initials});
     }
@@ -540,7 +555,8 @@ function fmt(n){return gbFmt(n,user);}
 function populateUI(){
   const av=user.avatar||gbGenAvatar(user.name||'GB',0).svg;
   ['uAv','ddAv','profAv'].forEach(id=>{const el=document.getElementById(id);if(el)el.src=av;});
-  document.getElementById('uName').textContent=(user.name||'Me').split(' ')[0];
+  document.getElementById('uName').textContent=(user.name||'User').split(' ')[0];
+  document.getElementById('uCur').textContent=user.currency||'KES';
   document.getElementById('ddName').textContent=user.name||'User';
   document.getElementById('ddEmail').textContent=user.email||'';
   document.getElementById('profName').textContent=user.name||'User';
@@ -724,6 +740,7 @@ function goSlide(idx){
   clearInterval(slideTimer);slideTimer=setInterval(()=>goSlide((slideIdx+1)%SLIDES.length),4000);
 }
 
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
 function logout(){localStorage.removeItem('gb_login');localStorage.removeItem('gb_user');location.href='index.html';}
 init();
 </script>

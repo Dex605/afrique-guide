@@ -162,62 +162,62 @@ function gbSetLang(code){
   gbApplyLang();
 }
 
-// ── AVATAR — Brand logo based on first letter of name ──
-// A=Apple, B=BMW, C=Coca-Cola, D=Dell, E=Emirates, F=Ferrari,
-// G=Google, H=Honda, I=Intel, J=Jeep, K=KFC, L=LG,
-// M=McDonald's, N=Nike, O=Oracle, P=Pepsi, Q=Qualcomm, R=Red Bull,
-// S=Samsung, T=Tesla, U=Uber, V=Volkswagen, W=Walmart, X=Xbox,
-// Y=YouTube, Z=Zara
-
-const LETTER_BRAND_LOGOS = {
-  A:'https://cdn.simpleicons.org/apple/ffffff',
-  B:'https://cdn.simpleicons.org/bmw/ffffff',
-  C:'https://cdn.simpleicons.org/cocacola/ffffff',
-  D:'https://cdn.simpleicons.org/dell/ffffff',
-  E:'https://cdn.simpleicons.org/emirates/ffffff',
-  F:'https://cdn.simpleicons.org/ferrari/ffffff',
-  G:'https://cdn.simpleicons.org/google/ffffff',
-  H:'https://cdn.simpleicons.org/honda/ffffff',
-  I:'https://cdn.simpleicons.org/intel/ffffff',
-  J:'https://cdn.simpleicons.org/jeep/ffffff',
-  K:'https://cdn.simpleicons.org/kfc/ffffff',
-  L:'https://cdn.simpleicons.org/lg/ffffff',
-  M:'https://cdn.simpleicons.org/mcdonalds/ffffff',
-  N:'https://cdn.simpleicons.org/nike/ffffff',
-  O:'https://cdn.simpleicons.org/oracle/ffffff',
-  P:'https://cdn.simpleicons.org/pepsi/ffffff',
-  Q:'https://cdn.simpleicons.org/qualcomm/ffffff',
-  R:'https://cdn.simpleicons.org/redbull/ffffff',
-  S:'https://cdn.simpleicons.org/samsung/ffffff',
-  T:'https://cdn.simpleicons.org/tesla/ffffff',
-  U:'https://cdn.simpleicons.org/uber/ffffff',
-  V:'https://cdn.simpleicons.org/volkswagen/ffffff',
-  W:'https://cdn.simpleicons.org/walmart/ffffff',
-  X:'https://cdn.simpleicons.org/xbox/ffffff',
-  Y:'https://cdn.simpleicons.org/youtube/ffffff',
-  Z:'https://cdn.simpleicons.org/zara/ffffff',
-};
-const LETTER_BRAND_COLORS = {
-  A:'#1A1A1A',B:'#1C69D4',C:'#F40009',D:'#007DB8',E:'#C60C30',
-  F:'#FF2800',G:'#4285F4',H:'#CC0000',I:'#0068B5',J:'#AA0000',
-  K:'#F40027',L:'#A50034',M:'#DA291C',N:'#111111',O:'#F80000',
-  P:'#004B93',Q:'#3253DC',R:'#CC0000',S:'#1428A0',T:'#CC0000',
-  U:'#000000',V:'#1E3A5F',W:'#0071CE',X:'#107C10',Y:'#FF0000',Z:'#000000',
+// ── AVATAR — Country flag based on user's country ──
+// Maps country name to flag emoji
+const COUNTRY_FLAGS = {
+  'Kenya':'🇰🇪','Tanzania':'🇹🇿','Uganda':'🇺🇬','Nigeria':'🇳🇬','Ghana':'🇬🇭',
+  'South Africa':'🇿🇦','Ethiopia':'🇪🇹','Rwanda':'🇷🇼','Egypt':'🇪🇬','Morocco':'🇲🇦',
+  'Cameroon':'🇨🇲','Ivory Coast':'🇨🇮','Senegal':'🇸🇳','Zambia':'🇿🇲','Zimbabwe':'🇿🇼',
+  'United Kingdom':'🇬🇧','Germany':'🇩🇪','France':'🇫🇷','Spain':'🇪🇸','Italy':'🇮🇹',
+  'Netherlands':'🇳🇱','Portugal':'🇵🇹','Poland':'🇵🇱','Sweden':'🇸🇪','Norway':'🇳🇴',
+  'United States':'🇺🇸','Canada':'🇨🇦','Australia':'🇦🇺','New Zealand':'🇳🇿',
+  'India':'🇮🇳','Philippines':'🇵🇭','Brazil':'🇧🇷','Mexico':'🇲🇽','Argentina':'🇦🇷',
+  'Japan':'🇯🇵','China':'🇨🇳','South Korea':'🇰🇷','Singapore':'🇸🇬','Malaysia':'🇲🇾',
+  'Saudi Arabia':'🇸🇦','UAE':'🇦🇪','Turkey':'🇹🇷','Pakistan':'🇵🇰','Bangladesh':'🇧🇩',
 };
 
-function gbGenAvatar(name, seed){
-  const letter=(name||'G')[0].toUpperCase();
-  const logoUrl=LETTER_BRAND_LOGOS[letter];
-  const bgColor=LETTER_BRAND_COLORS[letter]||'#C9A84C';
-  const initials=name?name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2):'GB';
-  const svgContent=logoUrl
-    ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${bgColor}"/><image href="${logoUrl}" x="14" y="14" width="36" height="36" preserveAspectRatio="xMidYMid meet"/></svg>`
-    : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${bgColor}"/><text x="32" y="38" font-family="Arial Black,sans-serif" font-weight="900" font-size="${initials.length>1?20:26}" fill="white" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`;
-  return {color:bgColor,initials,svg:`data:image/svg+xml,${encodeURIComponent(svgContent)}`};
+const AVATAR_BG_COLORS = [
+  '#1C69D4','#CC0000','#1A8C2E','#8B0000','#005BAA',
+  '#C9A84C','#9B1C1C','#1E5AA8','#2D6A2D','#6B2D8B'
+];
+
+function gbGenAvatar(name, seed, country){
+  const flag = country ? (COUNTRY_FLAGS[country] || null) : null;
+  const initials = name ? name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : 'GB';
+  const bgColor = AVATAR_BG_COLORS[(seed||0) % AVATAR_BG_COLORS.length] || '#C9A84C';
+
+  let svgContent;
+  if(flag){
+    // Flag emoji on colored circle
+    svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${bgColor}"/><text x="32" y="40" font-size="30" text-anchor="middle" dominant-baseline="middle">${flag}</text></svg>`;
+  } else {
+    // Initials fallback
+    svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${bgColor}"/><text x="32" y="38" font-family="Arial Black,sans-serif" font-weight="900" font-size="${initials.length>1?20:26}" fill="white" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`;
+  }
+  return {color:bgColor, initials, flag, svg:`data:image/svg+xml,${encodeURIComponent(svgContent)}`};
 }
 function gbAvatarSvg(initials,color){
   return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${color}"/><text x="32" y="38" font-family="Arial Black,sans-serif" font-weight="900" font-size="${initials.length>1?20:26}" fill="white" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`)}`;
 }
+
+// ── THEME (shared across all pages) ──
+function gbApplyTheme(){
+  const t = localStorage.getItem('gb_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('themeBtn');
+  if(btn) btn.textContent = t==='dark' ? '🌙' : '☀️';
+}
+function gbToggleTheme(){
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('gb_theme', next);
+  gbApplyTheme();
+}
+// Auto-apply theme and language on every page load
+document.addEventListener('DOMContentLoaded', ()=>{
+  gbApplyTheme();
+  gbApplyLang();
+});
 
 // ── INVITE CODE ──
 function gbGenInviteCode(){

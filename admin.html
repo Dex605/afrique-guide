@@ -539,14 +539,35 @@ async function adminReply(){
   const input=document.getElementById('adminReplyInput');
   if(!input||!activeChatEmail)return;
   const text=input.value.trim();if(!text)return;
-  // Send with admin name stored
-  await fetch(`https://qnggcickewzxjeudjysr.supabase.co/rest/v1/gb_messages`,{
-    method:'POST',
-    headers:{'Content-Type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM','Prefer':'return=representation'},
-    body:JSON.stringify({user_email:activeChatEmail,text,sender:'care',read:false,admin_name:currentAdmin.name})
-  });
   input.value='';
-  openAdminChat(activeChatEmail,activeChatEmail);
+  input.disabled=true;
+  try{
+    // Use supabase.js sendMessage then patch admin_name
+    const SUPA_URL='https://qnggcickewzxjeudjysr.supabase.co';
+    const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM';
+    const res=await fetch(`${SUPA_URL}/rest/v1/gb_messages`,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':SUPA_KEY,
+        'Authorization':'Bearer '+SUPA_KEY,
+        'Prefer':'return=representation'
+      },
+      body:JSON.stringify({
+        user_email:activeChatEmail,
+        text,
+        sender:'care',
+        read:false,
+        admin_name:currentAdmin?currentAdmin.name:'Admin'
+      })
+    });
+    if(!res.ok){const err=await res.text();console.error('Reply failed:',err);alert('Failed to send reply. Check console.');input.disabled=false;return;}
+  }catch(e){console.error('Reply error:',e);alert('Network error sending reply.');input.disabled=false;return;}
+  input.disabled=false;
+  // Reload the conversation
+  const u=allUsers.find(u=>u.email===activeChatEmail);
+  const name=u?u.name:activeChatEmail;
+  openAdminChat(activeChatEmail,name);
 }
 
 // ── LOGIN BACKGROUND SLIDESHOW ──

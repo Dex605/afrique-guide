@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Sign Up — Global Brands</title>
@@ -210,7 +210,8 @@ async function handleSignup(){
   if(existing){errEl.textContent='An account with this email already exists.';errEl.style.display='block';btn.disabled=false;btn.textContent='Create Account';return;}
   const c=countries[countryCode]||{currency:'USD',symbol:'$',bonus:5};
   const inviteCode=gbGenInviteCode();
-  const av=gbGenAvatar(name,Math.floor(Math.random()*10));
+  const country=document.getElementById('country').value;
+  const av=gbGenAvatar(name,Math.floor(Math.random()*10),country);
   const user={
     email,name,phone,country:countryCode,year_of_birth:yearOfBirth,
     currency:c.currency,symbol:c.symbol,bonus:c.bonus,
