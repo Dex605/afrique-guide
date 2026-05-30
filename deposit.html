@@ -183,7 +183,7 @@ async function proceedDeposit(){
   user.pending_deposit=newPend;localStorage.setItem('gb_user',JSON.stringify(user));
   // WhatsApp message
   const msg=encodeURIComponent(`Hello Global Brands Support,\n\nDeposit Request:\nName: ${user.name}\nEmail: ${user.email}\nAmount: ${amtFmt}\nMethod: ${method}${accountDetail?'\nAccount: '+accountDetail:''}\n\nPlease confirm my deposit.`);
-  document.getElementById('waLink').href='https://wa.me/254759485490?text='+msg;
+  document.getElementById('waLink').href='https://wa.me/15814309193?text='+msg;
   document.getElementById('scAmt').textContent=amtFmt;
   document.getElementById('depForm').style.display='none';
   document.getElementById('successBox').classList.add('show');

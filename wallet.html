@@ -169,7 +169,7 @@ async function proceedDeposit(){
   const fmt=n=>gbFmt(n,user);const amtFmt=fmt(amount);
   document.getElementById('ccAmt').textContent=amtFmt;
   const msg=encodeURIComponent('Hello, I want to deposit '+amtFmt+' via '+method+' on Global Brands. My email: '+user.email);
-  document.getElementById('waLink').href='https://wa.me/254759485490?text='+msg;
+  document.getElementById('waLink').href='https://wa.me/15814309193?text='+msg;
   // Record pending deposit in Supabase
   const newPend=(user.pending_deposit||0)+amount;
   await sb.updateUser(user.email,{pending_deposit:newPend});
