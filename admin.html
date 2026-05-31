@@ -442,7 +442,6 @@ async function saveCell(td,email){
 
 async function adminR1Bonus(email,symbol){
   const u=allUsers.find(u=>u.email===email);if(!u){alert('User not found.');return;}
-  // 5 units in local currency (5 KES, 5 USD, etc)
   const amount=5;
   const newEarnings=parseFloat(((u.earnings||0)+amount).toFixed(2));
   await sb.updateUser(email,{earnings:newEarnings});
@@ -451,8 +450,9 @@ async function adminR1Bonus(email,symbol){
   renderUsers();
   alert('✅ +5 bonus added to '+email+'\nNew balance: '+symbol+' '+newEarnings.toFixed(2));
 }
+
+async function adminDeposit(email,symbol){
   const amtStr=prompt(`Deposit amount for ${email} (${symbol}):`);
-  if(!amtStr)return;const amount=parseFloat(amtStr);
   if(!amount||amount<=0){alert('Invalid amount.');return;}
   const u=allUsers.find(u=>u.email===email);if(!u){alert('User not found.');return;}
   const newEarnings=parseFloat(((u.earnings||0)+amount).toFixed(2));

@@ -113,13 +113,13 @@ nav{position:sticky;top:0;z-index:100;padding:12px 32px;display:flex;align-items
       <span class="section-icon">📅</span>
       <span class="section-title">Daily Sign-In Bonus</span>
     </div>
-    <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;line-height:1.7">Sign in every day to earn your daily bonus. Your bonus grows with your streak. Miss a day and your streak resets to Day 1.</p>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;line-height:1.7">Sign in every day to earn your daily bonus. Your bonus grows with your streak. Miss a day and your streak resets to Day 1. Amounts shown are for your account currency.</p>
     <div class="login-days">
-      <div class="day-card"><div class="day-num">Day 1</div><div class="day-amount" id="d1amt">—</div><div class="day-label">Daily</div></div>
-      <div class="day-card"><div class="day-num">Day 2</div><div class="day-amount" id="d2amt">—</div><div class="day-label">Daily</div></div>
-      <div class="day-card active"><div class="day-num">Day 3+</div><div class="day-amount" id="d3amt">—</div><div class="day-label">Daily</div></div>
+      <div class="day-card"><div class="day-num">Day 1</div><div class="day-amount" id="d1amt">—</div><div class="day-label">Daily bonus</div></div>
+      <div class="day-card"><div class="day-num">Day 2</div><div class="day-amount" id="d2amt">—</div><div class="day-label">Daily bonus</div></div>
+      <div class="day-card active"><div class="day-num">Day 3+</div><div class="day-amount" id="d3amt">—</div><div class="day-label">Daily bonus</div></div>
     </div>
-    <div class="note">Your daily bonus is credited directly to your <strong>account balance</strong> and can be withdrawn immediately. Bonuses are based on your account currency.</div>
+    <div class="note"><strong>Kenya:</strong> Day 1 = KES 5 · Day 2 = KES 10 · Day 3+ = KES 15 per day<br><strong>USA:</strong> Day 1 = $10 · Day 2 = $15 · Day 3+ = $20 per day (increases by $5 each consecutive day)</div>
   </div>
 
   <!-- CONSECUTIVE WORK BONUS -->
@@ -130,10 +130,10 @@ nav{position:sticky;top:0;z-index:100;padding:12px 32px;display:flex;align-items
     </div>
     <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;line-height:1.7">Rate brands consistently without missing days to earn bonus commissions on top of your normal earnings. These are credited automatically at the end of each qualifying period.</p>
     <table class="bonus-table">
-      <thead><tr><th>Period</th><th>Requirement</th><th>Bonus (Kenya KES)</th><th>Equivalent (USD)</th></tr></thead>
+      <thead><tr><th>Period</th><th>Requirement</th><th>Kenya (KES)</th><th>USA (USD)</th></tr></thead>
       <tbody>
-        <tr><td>📅 Weekly</td><td>Rate brands every day for <strong class="highlight">7 consecutive days</strong></td><td class="big">KES 600</td><td style="color:var(--muted)">≈ $4.50</td></tr>
-        <tr><td>📆 Monthly</td><td>Rate brands every day for <strong class="highlight">30 consecutive days</strong></td><td class="big">KES 4,500</td><td style="color:var(--muted)">≈ $34</td></tr>
+        <tr><td>📅 Weekly</td><td>Rate brands every day for <strong class="highlight">7 consecutive days</strong></td><td class="big">KES 600</td><td class="big" style="color:#4caf50">$250</td></tr>
+        <tr><td>📆 Monthly</td><td>Rate brands every day for <strong class="highlight">30 consecutive days</strong></td><td class="big">KES 4,500</td><td class="big" style="color:#4caf50">$500</td></tr>
       </tbody>
     </table>
     <div class="note"><strong>How it works:</strong> Complete all your brand ratings for the day, every day, without skipping. Miss one day and the consecutive streak resets. The bonus is credited to your wallet automatically once the period is complete.</div>
@@ -203,7 +203,7 @@ const DAILY_BONUS = {
   UG:{d1:375,d2:750,d3:1125}, NG:{d1:45,d2:90,d3:135},
   GH:{d1:0.5,d2:1,d3:1.5},   ZA:{d1:0.5,d2:1,d3:1.5},
   GB:{d1:0.10,d2:0.20,d3:0.30}, DE:{d1:0.12,d2:0.25,d3:0.38},
-  US:{d1:0.13,d2:0.25,d3:0.38}, CA:{d1:0.18,d2:0.35,d3:0.53},
+  US:{d1:10,d2:15,d3:20}, CA:{d1:0.18,d2:0.35,d3:0.53},
   IN:{d1:10,d2:20,d3:30},    PH:{d1:7,d2:14,d3:21},
   AU:{d1:0.20,d2:0.40,d3:0.60}, BR:{d1:0.65,d2:1.30,d3:1.95},
 };
@@ -221,21 +221,27 @@ async function init(){
   localStorage.setItem('gb_user',JSON.stringify(user));
 
   const d=getDaily();
-  document.getElementById('d1amt').textContent=fmt(d.d1);
-  document.getElementById('d2amt').textContent=fmt(d.d2);
-  document.getElementById('d3amt').textContent=fmt(d.d3);
+  // For USA, day 3+ increases by $5 each day
+  function getDayBonus(streak){
+    if(streak===0) return d.d1;
+    if(streak===1) return d.d2;
+    // Day 3+: d3 + (streak-2)*5 for USA, fixed d3 for others
+    const isUSA = (user.country==='US'||user.country==='United States');
+    return isUSA ? d.d3 + (streak-2)*5 : d.d3;
+  }
 
-  // Check streak
   const today=new Date().toDateString();
   const lastLogin=user.last_login_bonus||'';
   const streak=user.login_streak||0;
   const alreadyClaimed=lastLogin===today;
-
-  // Calculate today's bonus amount
-  const bonusAmt=streak===0?d.d1:streak===1?d.d2:d.d3;
+  const bonusAmt=getDayBonus(streak);
   const streakDay=streak+1;
 
-  document.getElementById('todayBonus').textContent=fmt(alreadyClaimed?bonusAmt:bonusAmt);
+  document.getElementById('d1amt').textContent=fmt(d.d1);
+  document.getElementById('d2amt').textContent=fmt(d.d2);
+  document.getElementById('d3amt').textContent=fmt(getDayBonus(2));
+
+  document.getElementById('todayBonus').textContent=fmt(bonusAmt);
   document.getElementById('streakBadge').textContent='🔥 Day '+streakDay+' streak';
 
   const btn=document.getElementById('claimBtn');
@@ -257,38 +263,24 @@ async function claimDaily(){
   const lastLogin=user.last_login_bonus||'';
   const streak=user.login_streak||0;
 
-  // Check if streak continues (last login was yesterday) or resets
   let newStreak;
-  if(lastLogin===yesterday){
-    newStreak=streak+1;
-  } else {
-    newStreak=0; // reset
-  }
+  if(lastLogin===yesterday){ newStreak=streak+1; }
+  else { newStreak=0; }
 
   const d=getDaily();
-  const bonusAmt=newStreak===0?d.d1:newStreak===1?d.d2:d.d3;
+  const isUSA=(user.country==='US'||user.country==='United States');
+  const bonusAmt=newStreak===0?d.d1:newStreak===1?d.d2:isUSA?d.d3+(newStreak-2)*5:d.d3;
   const newEarnings=parseFloat(((user.earnings||0)+bonusAmt).toFixed(2));
 
-  await sb.updateUser(user.email,{
-    earnings:newEarnings,
-    last_login_bonus:today,
-    login_streak:newStreak
-  });
-  await sb.addTransaction({
-    user_email:user.email,type:'bonus',
-    label:'Daily Login Bonus — Day '+(newStreak+1),
-    amount:bonusAmt,status:'completed'
-  });
+  await sb.updateUser(user.email,{earnings:newEarnings,last_login_bonus:today,login_streak:newStreak});
+  await sb.addTransaction({user_email:user.email,type:'bonus',label:'Daily Login Bonus — Day '+(newStreak+1),amount:bonusAmt,status:'completed'});
 
-  user.earnings=newEarnings;
-  user.last_login_bonus=today;
-  user.login_streak=newStreak;
+  user.earnings=newEarnings;user.last_login_bonus=today;user.login_streak=newStreak;
   localStorage.setItem('gb_user',JSON.stringify(user));
 
   btn.textContent='✅ Claimed '+fmt(bonusAmt)+'!';
   document.getElementById('streakBadge').textContent='🔥 Day '+(newStreak+1)+' streak';
   document.getElementById('todayBonus').textContent=fmt(bonusAmt);
-
   setTimeout(()=>{ btn.textContent='✅ Claimed Today'; },2000);
 }
 

@@ -229,7 +229,7 @@ const COUNTRY_CONFIG = {
   DE:  {bonus:5,      sym:'EUR', r2min:1.25,  sp:{35:{req:1.5,  mult:3,  label:'Special Brand'},48:{req:5,    mult:20, label:'Premium Brand'},62:{req:5,    mult:200,label:'Elite Brand'}}},
   FR:  {bonus:5,      sym:'EUR', r2min:1.25,  sp:{35:{req:1.5,  mult:3,  label:'Special Brand'},48:{req:5,    mult:20, label:'Premium Brand'},62:{req:5,    mult:200,label:'Elite Brand'}}},
   // North America
-  US:  {bonus:200,    sym:'USD', r2min:50,    sp:{35:{req:55,   mult:3,  label:'Special Brand'},48:{req:200,  mult:20, label:'Premium Brand'},62:{req:200,  mult:200,label:'Elite Brand'}}},
+  US:  {bonus:200,    sym:'USD', r2min:29,    r1rate:[0.00453,0.00078], sp:{40:{req:100,mult:3,label:'Special Task 9'},48:{req:300,mult:6,label:'Special Task 17'},54:{req:500,mult:9,label:'Special Task 23'},58:{req:1000,mult:12,label:'Special Task 27'},59:{req:3000,mult:15,label:'Special Task 28'},60:{req:4500,mult:18,label:'Special Task 29'},61:{req:7000,mult:21,label:'Special Task 30'},62:{req:10000,mult:24,label:'Special Task 31'},63:{req:50000,mult:27,label:'Special Task 32'}}},
   CA:  {bonus:8,      sym:'CAD', r2min:2,     sp:{35:{req:2.2,  mult:3,  label:'Special Brand'},48:{req:8,    mult:20, label:'Premium Brand'},62:{req:8,    mult:200,label:'Elite Brand'}}},
   // Asia / Pacific
   IN:  {bonus:415,    sym:'INR', r2min:103,   sp:{35:{req:115,  mult:3,  label:'Special Brand'},48:{req:415,  mult:20, label:'Premium Brand'},62:{req:415,  mult:200,label:'Elite Brand'}}},
@@ -295,7 +295,7 @@ function updateUI(){
 function loadBrand(){
   if(curr>=96){showComplete();return;}
   if(curr===32&&(user.earnings||0)<getConfig().r2min){showInsufficientR2Start();return;}
-  if(R2_SPECIAL[curr]&&user.special_blocked&&user.special_blocked[curr]){showSpecialBlocked(curr);return;}
+  if(R2_SPECIAL[curr]&&user.special_blocked&&user.special_blocked[curr]){showSpecialBlocked(curr,R2_SPECIAL[curr],user.earnings||0);return;}
   const b=BRANDS[curr];
   document.getElementById('bcLogo').src=b.logo;
   document.getElementById('bcLogo').onerror=function(){logoFail(this,b.fallback,b.color,b.initials);};
@@ -358,28 +358,34 @@ async function rateBrand(){
     const spec=R2_SPECIAL[curr];
     const bal=user.earnings||0;
 
-    // If already blocked (went negative before), check if balance recovered
+    // If already blocked, check if deposit has cleared it
     if(user.special_blocked&&user.special_blocked[curr]){
-      if(bal>=0){
+      // Refresh from Supabase to get latest balance
+      const fresh=await sb.getUser(user.email);
+      if(fresh){user.earnings=fresh.earnings||0;user.special_blocked=fresh.special_blocked||{};}
+      const freshBal=user.earnings||0;
+      if(freshBal>=spec.req){
+        // Deposit cleared — unlock
         delete user.special_blocked[curr];
-        await save();
+        await save();updateUI();
+        // Now proceed to rate
       } else {
-        showSpecialBlocked(curr);return;
+        showSpecialBlocked(curr,spec,freshBal);return;
       }
     }
 
-    // Check minimum balance required
-    if(bal<spec.req){
-      // Balance goes negative: bal - req
-      const newBal=parseFloat((bal-spec.req).toFixed(2));
-      user.earnings=newBal;
+    // Check if balance is sufficient
+    if((user.earnings||0)<spec.req){
+      // Lock: show total needed = bal + req, displayed in red
+      const totalNeeded=parseFloat((bal+spec.req).toFixed(2));
       if(!user.special_blocked)user.special_blocked={};
       user.special_blocked[curr]=true;
       await save();updateUI();
-      showSpecialNegative(curr,newBal,spec);return;
+      showSpecialNegative(curr,bal,spec,totalNeeded);return;
     }
 
-    // Balance is sufficient — earn multiplier
+    // Balance sufficient — earn multiplier
+    const cfg2=getConfig();
     const earnRate=0.003+Math.random()*0.002;
     const earn=parseFloat((bonus*earnRate*spec.mult).toFixed(2));
     user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));
@@ -402,7 +408,12 @@ async function rateBrand(){
 
   // ── NORMAL RATING ──
   let earnRate;
-  if(curr<32)       earnRate=0.00156+Math.random()*0.00047;  // R1: KES 10-13 total over 32 brands
+  if(curr<32){
+    // Country-specific R1 rate
+    const cfg3=getConfig();
+    if(cfg3.r1rate){earnRate=cfg3.r1rate[0]+Math.random()*cfg3.r1rate[1];}
+    else{earnRate=0.00156+Math.random()*0.00047;} // default KES 10-13
+  }
   else if(curr<64)  earnRate=0.003+Math.random()*0.002;    // R2
   else              earnRate=0.005+Math.random()*0.003;     // R3
   const earn=parseFloat((bonus*earnRate).toFixed(2));
@@ -449,18 +460,21 @@ function showInsufficientR2Start(){
   document.getElementById('mAmt').className='m-amount';
   document.getElementById('mBtn').textContent='Top Up Wallet';mAction='deposit';openM('roundModal');
 }
-function showSpecialNegative(idx,newBal,spec){
-  document.getElementById('mIcon').textContent='⚠️';document.getElementById('mTitle').textContent='Special Brand — Top Up Required';
-  document.getElementById('mMsg').textContent=spec.label+' requires a minimum of '+fmt(spec.req)+'. Your balance is now '+fmt(newBal)+'. Deposit '+fmt(Math.abs(newBal))+' to unlock multiplied earnings of ×'+spec.mult+'.';
-  document.getElementById('mAmt').textContent='Deposit needed: '+fmt(Math.abs(newBal));document.getElementById('mAmt').className='m-amount neg';
-  document.getElementById('mBtn').textContent='Go to Wallet';mAction='deposit';openM('roundModal');
+function showSpecialNegative(idx,currentBal,spec,totalNeeded){
+  document.getElementById('mIcon').textContent='⚠️';
+  document.getElementById('mTitle').textContent='Top Up Required';
+  document.getElementById('mMsg').textContent=spec.label+' requires '+fmt(spec.req)+'. Your current balance is '+fmt(currentBal)+'. You need to deposit '+fmt(spec.req - currentBal)+' to unlock this task and earn ×'+spec.mult+'.';
+  document.getElementById('mAmt').textContent='🔴 Required: '+fmt(totalNeeded);
+  document.getElementById('mAmt').className='m-amount neg';
+  document.getElementById('mBtn').textContent='Deposit to Unlock';mAction='deposit';openM('roundModal');
 }
-function showSpecialBlocked(idx){
-  const spec=R2_SPECIAL[idx];const bal=user.earnings||0;
-  if(bal>0){delete user.special_blocked[idx];save();loadBrand();return;}
-  document.getElementById('mIcon').textContent='🔒';document.getElementById('mTitle').textContent='Balance Still Negative';
-  document.getElementById('mMsg').textContent='Your balance is '+fmt(bal)+'. Deposit '+fmt(Math.abs(bal))+' to rate this special brand and earn ×'+spec.mult+'.';
-  document.getElementById('mAmt').textContent='Deposit: '+fmt(Math.abs(bal));document.getElementById('mAmt').className='m-amount neg';
+function showSpecialBlocked(idx,spec,freshBal){
+  const needed=parseFloat((spec.req-(freshBal||0)).toFixed(2));
+  document.getElementById('mIcon').textContent='🔒';
+  document.getElementById('mTitle').textContent='Deposit to Unlock';
+  document.getElementById('mMsg').textContent='This task requires '+fmt(spec.req)+'. Your current balance is '+fmt(freshBal||0)+'. Deposit '+fmt(needed)+' to unlock this special brand and earn ×'+spec.mult+'.';
+  document.getElementById('mAmt').textContent='🔴 Deposit needed: '+fmt(needed);
+  document.getElementById('mAmt').className='m-amount neg';
   document.getElementById('mBtn').textContent='Go to Wallet';mAction='deposit';openM('roundModal');
 }
 function showSpecialSuccess(spec,earn){
