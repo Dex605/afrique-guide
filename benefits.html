@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Benefits & Rules — Global Brands</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#C9A84C;--gold-l:#E8C97A;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif;--black:#060608;--dark:#0D0D10;--card:#111116;--cream:#F2EDE4;--muted:rgba(242,237,228,0.45);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07)}
+body{font-family:var(--sans);background:var(--black);color:var(--cream);min-height:100vh}
+nav{position:sticky;top:0;z-index:100;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,6,8,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.nav-name{font-family:var(--serif);font-size:.96rem;color:var(--cream);font-weight:700}
+.nav-right{display:flex;gap:8px}
+.btn-sm{padding:6px 14px;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;cursor:pointer;font-family:var(--sans);text-decoration:none;border:1px solid var(--border2);color:var(--muted);background:transparent;transition:all .2s}
+.btn-sm:hover{border-color:var(--gold);color:var(--gold)}
+.main{max-width:820px;margin:0 auto;padding:40px 28px 80px}
+/* Hero */
+.hero{text-align:center;padding:48px 0 36px}
+.hero-icon{font-size:3rem;margin-bottom:14px}
+.hero h1{font-family:var(--serif);font-size:2.4rem;font-weight:700;margin-bottom:10px}
+.hero p{font-size:.86rem;color:var(--muted);line-height:1.7;max-width:540px;margin:0 auto}
+/* section */
+.section{margin-bottom:40px}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.section-icon{font-size:1.4rem}
+.section-title{font-family:var(--serif);font-size:1.35rem;font-weight:700}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:14px}
+.card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:8px;padding:18px 16px}
+.card.gold{background:rgba(201,168,76,.07);border-color:rgba(201,168,76,.2)}
+.card.green{background:rgba(37,174,99,.06);border-color:rgba(37,174,99,.18)}
+.card.blue{background:rgba(82,113,224,.06);border-color:rgba(82,113,224,.18)}
+.card-icon{font-size:1.5rem;margin-bottom:8px}
+.card-title{font-size:.82rem;font-weight:700;color:var(--cream);margin-bottom:5px}
+.card-desc{font-size:.74rem;color:var(--muted);line-height:1.6}
+.card-amount{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--gold-l);margin-top:6px}
+/* bonus table */
+.bonus-table{width:100%;border-collapse:collapse;border-radius:6px;overflow:hidden;border:1px solid var(--border2)}
+.bonus-table th{background:rgba(201,168,76,.1);padding:10px 14px;text-align:left;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;border-bottom:1px solid var(--border2)}
+.bonus-table td{padding:11px 14px;font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--border2)}
+.bonus-table tr:last-child td{border-bottom:none}
+.bonus-table tr:hover td{background:rgba(255,255,255,.02)}
+.bonus-table .highlight{color:var(--gold-l);font-weight:600}
+.bonus-table .big{font-family:var(--serif);font-size:1rem;color:#4caf50;font-weight:700}
+/* daily login */
+.login-days{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.day-card{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:6px;padding:12px 14px;text-align:center;min-width:80px;flex:1}
+.day-card.active{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3)}
+.day-num{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.day-amount{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--gold-l)}
+.day-label{font-size:.58rem;color:var(--muted);margin-top:3px}
+/* rules list */
+.rules-list{display:flex;flex-direction:column;gap:10px}
+.rule-item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:6px}
+.rule-num{width:26px;height:26px;border-radius:50%;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:var(--gold);flex-shrink:0;margin-top:1px}
+.rule-text{font-size:.78rem;color:var(--muted);line-height:1.65}
+.rule-text strong{color:var(--cream)}
+/* highlight note */
+.note{background:rgba(201,168,76,.06);border-left:3px solid var(--gold);padding:12px 16px;border-radius:0 6px 6px 0;font-size:.76rem;color:var(--muted);line-height:1.7;margin-top:14px}
+.note strong{color:var(--gold-l)}
+/* daily login claim button */
+.claim-banner{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.claim-left h3{font-family:var(--serif);font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.claim-left p{font-size:.74rem;color:var(--muted)}
+.claim-btn{padding:12px 24px;background:var(--gold);color:#000;border:none;border-radius:4px;font-family:var(--sans);font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap}
+.claim-btn:hover{background:var(--gold-l)}
+.claim-btn:disabled{background:rgba(201,168,76,.3);cursor:not-allowed}
+.streak-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.25);border-radius:20px;font-size:.7rem;color:#FFA500;font-weight:600;margin-top:6px}
+@media(max-width:600px){.cards{grid-template-columns:1fr}.login-days{gap:6px}.day-card{min-width:60px}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="home.html" class="nav-logo">
+    <span style="font-size:1.2rem">🎁</span>
+    <span class="nav-name">Benefits & Rules</span>
+  </a>
+  <div class="nav-right">
+    <a href="home.html" class="btn-sm">Home</a>
+    <a href="rate.html" class="btn-sm" style="background:rgba(201,168,76,.1);color:var(--gold);border-color:var(--border)">Rate Brands</a>
+    <a href="wallet.html" class="btn-sm">Wallet</a>
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-icon">🌟</div>
+    <h1>Benefits & Rewards</h1>
+    <p>Everything you earn on Global Brands — daily bonuses, streak rewards, consecutive work bonuses, and the rules that keep it fair for everyone.</p>
+  </div>
+
+  <!-- DAILY LOGIN CLAIM -->
+  <div class="claim-banner">
+    <div class="claim-left">
+      <h3>🔥 Daily Login Bonus</h3>
+      <p>Sign in every day to claim your bonus. The longer your streak, the more you earn.</p>
+      <div class="streak-badge" id="streakBadge">🔥 Loading streak...</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--gold-l)" id="todayBonus">—</div>
+      <div style="font-size:.62rem;color:var(--muted);margin-bottom:10px">Today's bonus</div>
+      <button class="claim-btn" id="claimBtn" onclick="claimDaily()" disabled>Loading...</button>
+    </div>
+  </div>
+
+  <!-- DAILY LOGIN BONUS SECTION -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">📅</span>
+      <span class="section-title">Daily Sign-In Bonus</span>
+    </div>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;line-height:1.7">Sign in every day to earn your daily bonus. Your bonus grows with your streak. Miss a day and your streak resets to Day 1.</p>
+    <div class="login-days">
+      <div class="day-card"><div class="day-num">Day 1</div><div class="day-amount" id="d1amt">—</div><div class="day-label">Daily</div></div>
+      <div class="day-card"><div class="day-num">Day 2</div><div class="day-amount" id="d2amt">—</div><div class="day-label">Daily</div></div>
+      <div class="day-card active"><div class="day-num">Day 3+</div><div class="day-amount" id="d3amt">—</div><div class="day-label">Daily</div></div>
+    </div>
+    <div class="note">Your daily bonus is credited directly to your <strong>account balance</strong> and can be withdrawn immediately. Bonuses are based on your account currency.</div>
+  </div>
+
+  <!-- CONSECUTIVE WORK BONUS -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">💼</span>
+      <span class="section-title">Consecutive Work Bonus</span>
+    </div>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;line-height:1.7">Rate brands consistently without missing days to earn bonus commissions on top of your normal earnings. These are credited automatically at the end of each qualifying period.</p>
+    <table class="bonus-table">
+      <thead><tr><th>Period</th><th>Requirement</th><th>Bonus (Kenya KES)</th><th>Equivalent (USD)</th></tr></thead>
+      <tbody>
+        <tr><td>📅 Weekly</td><td>Rate brands every day for <strong class="highlight">7 consecutive days</strong></td><td class="big">KES 600</td><td style="color:var(--muted)">≈ $4.50</td></tr>
+        <tr><td>📆 Monthly</td><td>Rate brands every day for <strong class="highlight">30 consecutive days</strong></td><td class="big">KES 4,500</td><td style="color:var(--muted)">≈ $34</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>How it works:</strong> Complete all your brand ratings for the day, every day, without skipping. Miss one day and the consecutive streak resets. The bonus is credited to your wallet automatically once the period is complete.</div>
+  </div>
+
+  <!-- EARNING OVERVIEW -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">⭐</span>
+      <span class="section-title">Rating Earnings</span>
+    </div>
+    <div class="cards">
+      <div class="card gold">
+        <div class="card-icon">🎁</div>
+        <div class="card-title">Round 1 — Welcome Round</div>
+        <div class="card-desc">Rate 32 brands using your welcome bonus as the earning base.</div>
+        <div class="card-amount">0.17% – 0.30%</div>
+        <div style="font-size:.62rem;color:var(--muted);margin-top:2px">per brand of your bonus</div>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">Round 2 — Main Round</div>
+        <div class="card-desc">Higher rates. 3 special brands with multipliers ×3, ×20, and ×200.</div>
+        <div class="card-amount">0.30% – 0.50%</div>
+        <div style="font-size:.62rem;color:var(--muted);margin-top:2px">per brand + special multipliers</div>
+      </div>
+      <div class="card" style="background:rgba(156,52,224,.06);border-color:rgba(156,52,224,.18)">
+        <div class="card-icon">💎</div>
+        <div class="card-title">Round 3 — Premium Round</div>
+        <div class="card-desc">The highest earning tier for members who complete both previous rounds.</div>
+        <div class="card-amount">0.50% – 0.80%</div>
+        <div style="font-size:.62rem;color:var(--muted);margin-top:2px">per brand rated</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RULES -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">📋</span>
+      <span class="section-title">Platform Rules</span>
+    </div>
+    <div class="rules-list">
+      <div class="rule-item"><div class="rule-num">1</div><div class="rule-text"><strong>One account per person.</strong> Creating multiple accounts to claim duplicate bonuses will result in permanent suspension of all accounts and forfeiture of all earnings.</div></div>
+      <div class="rule-item"><div class="rule-num">2</div><div class="rule-text"><strong>Ratings must be honest.</strong> Submitting random or fraudulent ratings to speed through rounds is prohibited. Accounts showing suspicious patterns will be reviewed and may be suspended.</div></div>
+      <div class="rule-item"><div class="rule-num">3</div><div class="rule-text"><strong>Withdrawals are processed within 30 minutes.</strong> All withdrawal requests are reviewed by our customer care team. Ensure your payment details are correct before submitting — incorrect details cause delays.</div></div>
+      <div class="rule-item"><div class="rule-num">4</div><div class="rule-text"><strong>Special brand mechanics.</strong> Round 2 contains 3 special brands that require a minimum balance to unlock. If your balance is insufficient, it will go negative. You must deposit the deficit to continue and unlock the multiplied earnings.</div></div>
+      <div class="rule-item"><div class="rule-num">5</div><div class="rule-text"><strong>Daily bonuses require sign-in.</strong> The daily login bonus is only credited when you sign in. Missing a day resets your streak to Day 1 and you forfeit that day's bonus.</div></div>
+      <div class="rule-item"><div class="rule-num">6</div><div class="rule-text"><strong>Consecutive work bonuses are automatic.</strong> You do not need to apply for the weekly or monthly bonus. It is credited automatically once the qualifying period is completed without any missed days.</div></div>
+      <div class="rule-item"><div class="rule-num">7</div><div class="rule-text"><strong>Earnings are real and withdrawable.</strong> All amounts shown in your wallet are real and can be withdrawn to your local payment method. Minimum withdrawal is 10 in your account currency.</div></div>
+      <div class="rule-item"><div class="rule-num">8</div><div class="rule-text"><strong>Invitation code required.</strong> New accounts require a valid invitation code. Codes are distributed by existing members and our customer care team.</div></div>
+      <div class="rule-item"><div class="rule-num">9</div><div class="rule-text"><strong>Support is available 24/7.</strong> Contact our customer care team via WhatsApp or Telegram for any issues. Response time is typically under 30 minutes.</div></div>
+      <div class="rule-item"><div class="rule-num">10</div><div class="rule-text"><strong>Global Brands reserves the right</strong> to adjust bonus rates, round requirements, and platform rules. Members will be notified of any significant changes through the platform.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="gb_shared.js?v=1780158448"></script>
+<script src="supabase.js?v=1780158448"></script>
+<script>
+let user = {};
+
+// Daily bonus amounts per country (base = KES 5/10/15 scaled)
+const DAILY_BONUS = {
+  KE:{d1:5,d2:10,d3:15},   TZ:{d1:120,d2:240,d3:360},
+  UG:{d1:375,d2:750,d3:1125}, NG:{d1:45,d2:90,d3:135},
+  GH:{d1:0.5,d2:1,d3:1.5},   ZA:{d1:0.5,d2:1,d3:1.5},
+  GB:{d1:0.10,d2:0.20,d3:0.30}, DE:{d1:0.12,d2:0.25,d3:0.38},
+  US:{d1:0.13,d2:0.25,d3:0.38}, CA:{d1:0.18,d2:0.35,d3:0.53},
+  IN:{d1:10,d2:20,d3:30},    PH:{d1:7,d2:14,d3:21},
+  AU:{d1:0.20,d2:0.40,d3:0.60}, BR:{d1:0.65,d2:1.30,d3:1.95},
+};
+const DEFAULT_DAILY={d1:5,d2:10,d3:15};
+
+function fmt(n){ return gbFmt(n,user); }
+function getDaily(){ return DAILY_BONUS[user.country]||DEFAULT_DAILY; }
+
+async function init(){
+  const cached=JSON.parse(localStorage.getItem('gb_user')||'{}');
+  if(!cached.email){ location.href='signin.html'; return; }
+  const fresh=await sb.getUser(cached.email);
+  if(!fresh){ location.href='signin.html'; return; }
+  user=fresh;
+  localStorage.setItem('gb_user',JSON.stringify(user));
+
+  const d=getDaily();
+  document.getElementById('d1amt').textContent=fmt(d.d1);
+  document.getElementById('d2amt').textContent=fmt(d.d2);
+  document.getElementById('d3amt').textContent=fmt(d.d3);
+
+  // Check streak
+  const today=new Date().toDateString();
+  const lastLogin=user.last_login_bonus||'';
+  const streak=user.login_streak||0;
+  const alreadyClaimed=lastLogin===today;
+
+  // Calculate today's bonus amount
+  const bonusAmt=streak===0?d.d1:streak===1?d.d2:d.d3;
+  const streakDay=streak+1;
+
+  document.getElementById('todayBonus').textContent=fmt(alreadyClaimed?bonusAmt:bonusAmt);
+  document.getElementById('streakBadge').textContent='🔥 Day '+streakDay+' streak';
+
+  const btn=document.getElementById('claimBtn');
+  if(alreadyClaimed){
+    btn.textContent='✅ Claimed Today';
+    btn.disabled=true;
+  } else {
+    btn.textContent='Claim '+fmt(bonusAmt);
+    btn.disabled=false;
+  }
+}
+
+async function claimDaily(){
+  const btn=document.getElementById('claimBtn');
+  btn.disabled=true; btn.textContent='Claiming...';
+
+  const today=new Date().toDateString();
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  const lastLogin=user.last_login_bonus||'';
+  const streak=user.login_streak||0;
+
+  // Check if streak continues (last login was yesterday) or resets
+  let newStreak;
+  if(lastLogin===yesterday){
+    newStreak=streak+1;
+  } else {
+    newStreak=0; // reset
+  }
+
+  const d=getDaily();
+  const bonusAmt=newStreak===0?d.d1:newStreak===1?d.d2:d.d3;
+  const newEarnings=parseFloat(((user.earnings||0)+bonusAmt).toFixed(2));
+
+  await sb.updateUser(user.email,{
+    earnings:newEarnings,
+    last_login_bonus:today,
+    login_streak:newStreak
+  });
+  await sb.addTransaction({
+    user_email:user.email,type:'bonus',
+    label:'Daily Login Bonus — Day '+(newStreak+1),
+    amount:bonusAmt,status:'completed'
+  });
+
+  user.earnings=newEarnings;
+  user.last_login_bonus=today;
+  user.login_streak=newStreak;
+  localStorage.setItem('gb_user',JSON.stringify(user));
+
+  btn.textContent='✅ Claimed '+fmt(bonusAmt)+'!';
+  document.getElementById('streakBadge').textContent='🔥 Day '+(newStreak+1)+' streak';
+  document.getElementById('todayBonus').textContent=fmt(bonusAmt);
+
+  setTimeout(()=>{ btn.textContent='✅ Claimed Today'; },2000);
+}
+
+init();
+</script>
+</body>
+</html>

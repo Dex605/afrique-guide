@@ -312,7 +312,7 @@ function loadBrand(){
   const cfg=getConfig();
   const bonus=user.bonus||cfg.bonus;
   let minRate,maxRate,label;
-  if(curr<32){minRate=0.0017;maxRate=0.003;label='Round 1 — Welcome Round';}
+  if(curr<32){minRate=0.00156;maxRate=0.00203;label='Round 1 — Welcome Round';}
   else if(curr<64){minRate=0.003;maxRate=0.005;label='Round 2 — Main Round';}
   else{minRate=0.005;maxRate=0.008;label='Round 3 — Premium Round';}
   const minEarn=parseFloat((bonus*minRate).toFixed(2));
@@ -402,7 +402,7 @@ async function rateBrand(){
 
   // ── NORMAL RATING ──
   let earnRate;
-  if(curr<32)       earnRate=0.0017+Math.random()*0.0013;  // R1
+  if(curr<32)       earnRate=0.00156+Math.random()*0.00047;  // R1: KES 10-13 total over 32 brands
   else if(curr<64)  earnRate=0.003+Math.random()*0.002;    // R2
   else              earnRate=0.005+Math.random()*0.003;     // R3
   const earn=parseFloat((bonus*earnRate).toFixed(2));

@@ -232,7 +232,7 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
             <tr>
               <th>#</th><th>User</th><th>Phone</th><th>Country</th><th>Year of Birth</th>
               <th>Invite Code</th><th>Password</th><th>Currency</th><th>Balance</th>
-              <th>Deposit +</th><th>Rated / Round</th><th>Special Brand</th>
+              <th>Deposit +</th><th>R1 Bonus +5</th><th>Rated / Round</th><th>Special Brand</th>
               <th>Pend. Deposit</th><th>Pend. Withdrawal</th><th>Status</th><th>Joined</th>
             </tr>
           </thead>
@@ -413,10 +413,11 @@ function renderUsers(){
       <td style="font-size:.72rem">${u.currency||'KES'} (${u.symbol||'KES'})</td>
       <td class="${balClass}" contenteditable="true" data-field="earnings" onblur="saveCell(this,'${u.email}')">${bal.toFixed(2)}</td>
       <td><button class="dep-btn" onclick="adminDeposit('${u.email}','${u.symbol||'KES'}')">+ Deposit</button></td>
+      <td><button class="dep-btn" style="background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--gold)" onclick="adminR1Bonus('${u.email}','${u.symbol||'KES'}')">+ Bonus</button></td>
       <td>${tc} / 96<br><span style="font-size:.58rem;color:var(--gold);font-weight:600">Round ${round}</span></td>
       <td>${spStatus}</td>
-      <td style="color:#2e7d32;font-size:.72rem">${pendDep>0?'+'+fmt(pendDep):'<span style="color:var(--text3)">—</span>'}</td>
-      <td style="color:#b35c00;font-size:.72rem">${pendWd>0?fmt(pendWd):'<span style="color:var(--text3)">—</span>'}</td>
+      <td contenteditable="true" data-field="pending_deposit" onblur="saveCell(this,'${u.email}')" style="color:#2e7d32;font-size:.72rem">${pendDep.toFixed(2)}</td>
+      <td contenteditable="true" data-field="pending_withdrawal" onblur="saveCell(this,'${u.email}')" style="color:#b35c00;font-size:.72rem">${pendWd.toFixed(2)}</td>
       <td><span class="badge ${isOnline?'badge-online':'badge-offline'}"><span class="status-dot ${isOnline?'online':'offline'}"></span>${isOnline?'Online':'Offline'}</span></td>
       <td style="color:var(--text3);font-size:.68rem">${joined}</td>
     </tr>`;
@@ -439,7 +440,17 @@ async function saveCell(td,email){
   const u=allUsers.find(u=>u.email===email);if(u)u[field]=val;
 }
 
-async function adminDeposit(email,symbol){
+async function adminR1Bonus(email,symbol){
+  const u=allUsers.find(u=>u.email===email);if(!u){alert('User not found.');return;}
+  // 5 units in local currency (5 KES, 5 USD, etc)
+  const amount=5;
+  const newEarnings=parseFloat(((u.earnings||0)+amount).toFixed(2));
+  await sb.updateUser(email,{earnings:newEarnings});
+  await sb.addTransaction({user_email:email,type:'bonus',label:'Round 1 Completion Bonus',amount,status:'completed'});
+  u.earnings=newEarnings;
+  renderUsers();
+  alert('✅ +5 bonus added to '+email+'\nNew balance: '+symbol+' '+newEarnings.toFixed(2));
+}
   const amtStr=prompt(`Deposit amount for ${email} (${symbol}):`);
   if(!amtStr)return;const amount=parseFloat(amtStr);
   if(!amount||amount<=0){alert('Invalid amount.');return;}
