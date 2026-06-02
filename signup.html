@@ -227,7 +227,8 @@ async function handleSignup(){
     email,name,phone,country:countryCode,year_of_birth:yearOfBirth,
     currency:c.currency,symbol:c.symbol,bonus:c.bonus,
     earnings:0,bonus_remaining:c.bonus,bonus_used:0,tasks_completed:0,
-    invite_code:inviteCode,avatar:av.svg,avatar_color:av.color,avatar_initials:av.initials,
+    invite_code:inviteCode,referred_by:enteredCode,
+    avatar:av.svg,avatar_color:av.color,avatar_initials:av.initials,
     password_hash:btoa(pwd),
     pending_deposit:0,pending_withdrawal:0,special_blocked:{},
     joined_at:new Date().toISOString(),last_seen:new Date().toISOString()

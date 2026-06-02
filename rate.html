@@ -294,7 +294,8 @@ function updateUI(){
 
 function loadBrand(){
   if(curr>=96){showComplete();return;}
-  if(curr===32&&(user.earnings||0)<getConfig().r2min){showInsufficientR2Start();return;}
+  // Block Round 2 entry if balance insufficient — check on entire R2 range not just entry point
+  if(curr>=32&&curr<64&&(user.earnings||0)<getConfig().r2min){showInsufficientR2Start();return;}
   if(R2_SPECIAL[curr]&&user.special_blocked&&user.special_blocked[curr]){showSpecialBlocked(curr,R2_SPECIAL[curr],user.earnings||0);return;}
   const b=BRANDS[curr];
   document.getElementById('bcLogo').src=b.logo;

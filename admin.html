@@ -231,7 +231,7 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
           <thead>
             <tr>
               <th>#</th><th>User</th><th>Phone</th><th>Country</th><th>Year of Birth</th>
-              <th>Invite Code</th><th>Password</th><th>Currency</th><th>Balance</th>
+              <th>Invite Code</th><th>Joined With</th><th>Password</th><th>Currency</th><th>Balance</th>
               <th>Deposit +</th><th>R1 Bonus +5</th><th>Rated / Round</th><th>Special Brand</th>
               <th>Pend. Deposit</th><th>Pend. Withdrawal</th><th>Status</th><th>Joined</th>
             </tr>
@@ -402,6 +402,7 @@ function renderUsers(){
       <td contenteditable="true" data-field="country" onblur="saveCell(this,'${u.email}')">${u.country||'—'}</td>
       <td contenteditable="true" data-field="year_of_birth" onblur="saveCell(this,'${u.email}')">${u.year_of_birth||'—'}</td>
       <td><span class="inv-code">${u.invite_code||'—'}</span></td>
+      <td><span style="font-size:.7rem;color:rgba(201,168,76,.7);letter-spacing:.06em">${u.referred_by||'—'}</span></td>
       <td>
         <div class="pwd-cell">
           <span class="pwd-text" id="${pwdId}" data-plain="${pwdPlain}" data-hidden="true">••••••••</span>
