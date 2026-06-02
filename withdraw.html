@@ -161,23 +161,24 @@ h1{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:5px}
 // ── PAYMENT METHODS PER COUNTRY ──
 const PAY_METHODS = {
   KE: {info:'Kenya — M-Pesa or Crypto Wallet', min:15,  methods:['M-Pesa','USDT (TRC20)','Bitcoin (BTC)','USDT (ERC20)'], types:{'M-Pesa':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet','USDT (ERC20)':'wallet'}},
-  TZ: {info:'Tanzania — M-Pesa or Crypto Wallet', min:10, methods:['M-Pesa','USDT (TRC20)','Bitcoin (BTC)'], types:{'M-Pesa':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  UG: {info:'Uganda — MTN MoMo, Airtel Money, or Crypto Wallet', min:10, methods:['MTN MoMo','Airtel Money','USDT (TRC20)','Bitcoin (BTC)'], types:{'MTN MoMo':'mobile','Airtel Money':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  NG: {info:'Nigeria — Bank Transfer or Crypto Wallet', min:10,  methods:['Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  GH: {info:'Ghana — MTN MoMo or Crypto Wallet', min:10,   methods:['MTN MoMo','USDT (TRC20)','Bitcoin (BTC)'], types:{'MTN MoMo':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  ZA: {info:'South Africa — Bank Transfer or Crypto Wallet', min:10,   methods:['Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  ET: {info:'Ethiopia — Telebirr or Crypto Wallet', min:10,  methods:['Telebirr','USDT (TRC20)','Bitcoin (BTC)'], types:{'Telebirr':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  RW: {info:'Rwanda — MTN MoMo or Crypto Wallet', min:10,  methods:['MTN MoMo','USDT (TRC20)','Bitcoin (BTC)'], types:{'MTN MoMo':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  GB: {info:'United Kingdom — Bank Transfer or Crypto Wallet', min:10,    methods:['Bank Transfer','USDT (TRC20)','Bitcoin (BTC)','Ethereum (ETH)','USDC'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet','Ethereum (ETH)':'wallet','USDC':'wallet'}},
-  DE: {info:'Germany — SEPA Bank Transfer or Crypto Wallet', min:10,    methods:['Bank Transfer','USDT (TRC20)','Bitcoin (BTC)','Ethereum (ETH)','USDC'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet','Ethereum (ETH)':'wallet','USDC':'wallet'}},
+  TZ: {info:'Tanzania — M-Pesa or Crypto Wallet', min:850, methods:['M-Pesa','USDT (TRC20)','Bitcoin (BTC)'], types:{'M-Pesa':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  UG: {info:'Uganda — MTN MoMo, Airtel Money, or Crypto Wallet', min:1400, methods:['MTN MoMo','Airtel Money','USDT (TRC20)','Bitcoin (BTC)'], types:{'MTN MoMo':'mobile','Airtel Money':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  NG: {info:'Nigeria — Bank Transfer or Crypto Wallet', min:250,  methods:['Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  GH: {info:'Ghana — MTN MoMo or Crypto Wallet', min:3,   methods:['MTN MoMo','USDT (TRC20)','Bitcoin (BTC)'], types:{'MTN MoMo':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  ZA: {info:'South Africa — Bank Transfer or Crypto Wallet', min:4,   methods:['Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  ET: {info:'Ethiopia — Telebirr or Crypto Wallet', min:30,  methods:['Telebirr','USDT (TRC20)','Bitcoin (BTC)'], types:{'Telebirr':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  RW: {info:'Rwanda — MTN MoMo or Crypto Wallet', min:400,  methods:['MTN MoMo','USDT (TRC20)','Bitcoin (BTC)'], types:{'MTN MoMo':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  GB: {info:'United Kingdom — Bank Transfer or Crypto Wallet', min:10,    methods:['Bank Transfer','USDT (TRC20)','USDT (ERC20)','Bitcoin (BTC)','Ethereum (ETH)','USDC','BNB (BEP20)'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','USDT (ERC20)':'wallet','Bitcoin (BTC)':'wallet','Ethereum (ETH)':'wallet','USDC':'wallet','BNB (BEP20)':'wallet'}},
+  DE: {info:'Germany — SEPA Bank Transfer or Crypto Wallet', min:10,    methods:['Bank Transfer','USDT (TRC20)','USDT (ERC20)','Bitcoin (BTC)','Ethereum (ETH)','USDC','BNB (BEP20)'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','USDT (ERC20)':'wallet','Bitcoin (BTC)':'wallet','Ethereum (ETH)':'wallet','USDC':'wallet','BNB (BEP20)':'wallet'}},
+  SY: {info:'Syria — Crypto Wallet only', min:65000, methods:['USDT (TRC20)','Bitcoin (BTC)','Ethereum (ETH)'], types:{'USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet','Ethereum (ETH)':'wallet'}},
   US: {info:'United States — Bank Transfer or Crypto Wallet', min:100,   methods:['Bank Transfer','USDT (TRC20)','USDT (ERC20)','Bitcoin (BTC)','Ethereum (ETH)','USDC','BNB (BEP20)'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','USDT (ERC20)':'wallet','Bitcoin (BTC)':'wallet','Ethereum (ETH)':'wallet','USDC':'wallet','BNB (BEP20)':'wallet'}},
   CA: {info:'Canada — Interac or Crypto Wallet', min:10,    methods:['Interac','Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'Interac':'mobile','Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  IN: {info:'India — UPI, Bank Transfer, or Crypto Wallet', min:10,   methods:['UPI','Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'UPI':'mobile','Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  PH: {info:'Philippines — GCash, Maya, or Crypto Wallet', min:10,   methods:['GCash','Maya','USDT (TRC20)','Bitcoin (BTC)'], types:{'GCash':'mobile','Maya':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  IN: {info:'India — UPI, Bank Transfer, or Crypto Wallet', min:30,   methods:['UPI','Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'UPI':'mobile','Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  PH: {info:'Philippines — GCash, Maya, or Crypto Wallet', min:20,   methods:['GCash','Maya','USDT (TRC20)','Bitcoin (BTC)'], types:{'GCash':'mobile','Maya':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
   AU: {info:'Australia — PayID, Bank Transfer, or Crypto Wallet', min:10,    methods:['PayID','Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'PayID':'mobile','Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
-  BR: {info:'Brazil — PIX or Crypto Wallet', min:10,    methods:['PIX','USDT (TRC20)','Bitcoin (BTC)'], types:{'PIX':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
+  BR: {info:'Brazil — PIX or Crypto Wallet', min:2,    methods:['PIX','USDT (TRC20)','Bitcoin (BTC)'], types:{'PIX':'mobile','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}},
 };
-const DEFAULT_PAY = {info:'Bank Transfer or Crypto Wallet', min:10, methods:['Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}};
+const DEFAULT_PAY = {info:'Bank Transfer or Crypto Wallet', min:50, methods:['Bank Transfer','USDT (TRC20)','Bitcoin (BTC)'], types:{'Bank Transfer':'iban','USDT (TRC20)':'wallet','Bitcoin (BTC)':'wallet'}};
 
 let user = {};
 

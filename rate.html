@@ -213,30 +213,51 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 // Each country has: bonus, currency symbol, R2 unlock minimum,
 // and 3 special brands in Round 2 at positions task4(idx35), task17(idx48), task31(idx62)
 const COUNTRY_CONFIG = {
-  // East Africa
+  // East Africa — same structure as Kenya, amounts scaled to local currency
   KE:  {bonus:200,    sym:'KES', r2min:50,    sp:{35:{req:55,   mult:3,  label:'Special Brand'},48:{req:200,  mult:20, label:'Premium Brand'},62:{req:200,  mult:200,label:'Elite Brand'}}},
-  TZ:  {bonus:4800,   sym:'TZS', r2min:1200,  sp:{35:{req:1320, mult:3,  label:'Special Brand'},48:{req:4800, mult:20, label:'Premium Brand'},62:{req:4800, mult:200,label:'Elite Brand'}}},
-  UG:  {bonus:15000,  sym:'UGX', r2min:3750,  sp:{35:{req:4125, mult:3,  label:'Special Brand'},48:{req:15000,mult:20, label:'Premium Brand'},62:{req:15000,mult:200,label:'Elite Brand'}}},
-  RW:  {bonus:2600,   sym:'RWF', r2min:650,   sp:{35:{req:715,  mult:3,  label:'Special Brand'},48:{req:2600, mult:20, label:'Premium Brand'},62:{req:2600, mult:200,label:'Elite Brand'}}},
-  ET:  {bonus:290,    sym:'ETB', r2min:72,    sp:{35:{req:80,   mult:3,  label:'Special Brand'},48:{req:290,  mult:20, label:'Premium Brand'},62:{req:290,  mult:200,label:'Elite Brand'}}},
+  TZ:  {bonus:4800,   sym:'TZS', r2min:900,   sp:{35:{req:935,  mult:3,  label:'Special Brand'},48:{req:3400, mult:20, label:'Premium Brand'},62:{req:3400, mult:200,label:'Elite Brand'}}},
+  UG:  {bonus:15000,  sym:'UGX', r2min:1500,  sp:{35:{req:1540, mult:3,  label:'Special Brand'},48:{req:5600, mult:20, label:'Premium Brand'},62:{req:5600, mult:200,label:'Elite Brand'}}},
+  RW:  {bonus:2600,   sym:'RWF', r2min:400,   sp:{35:{req:440,  mult:3,  label:'Special Brand'},48:{req:1600, mult:20, label:'Premium Brand'},62:{req:1600, mult:200,label:'Elite Brand'}}},
+  ET:  {bonus:290,    sym:'ETB', r2min:30,    sp:{35:{req:33,   mult:3,  label:'Special Brand'},48:{req:120,  mult:20, label:'Premium Brand'},62:{req:120,  mult:200,label:'Elite Brand'}}},
   // West Africa
-  NG:  {bonus:1800,   sym:'NGN', r2min:450,   sp:{35:{req:495,  mult:3,  label:'Special Brand'},48:{req:1800, mult:20, label:'Premium Brand'},62:{req:1800, mult:200,label:'Elite Brand'}}},
-  GH:  {bonus:17,     sym:'GHS', r2min:4,     sp:{35:{req:5,    mult:3,  label:'Special Brand'},48:{req:17,   mult:20, label:'Premium Brand'},62:{req:17,   mult:200,label:'Elite Brand'}}},
+  NG:  {bonus:1800,   sym:'NGN', r2min:250,   sp:{35:{req:275,  mult:3,  label:'Special Brand'},48:{req:1000, mult:20, label:'Premium Brand'},62:{req:1000, mult:200,label:'Elite Brand'}}},
+  GH:  {bonus:17,     sym:'GHS', r2min:3,     sp:{35:{req:3.3,  mult:3,  label:'Special Brand'},48:{req:12,   mult:20, label:'Premium Brand'},62:{req:12,   mult:200,label:'Elite Brand'}}},
   // Southern Africa
-  ZA:  {bonus:20,     sym:'ZAR', r2min:5,     sp:{35:{req:6,    mult:3,  label:'Special Brand'},48:{req:20,   mult:20, label:'Premium Brand'},62:{req:20,   mult:200,label:'Elite Brand'}}},
-  // Europe
-  GB:  {bonus:4,      sym:'GBP', r2min:1,     sp:{35:{req:1.1,  mult:3,  label:'Special Brand'},48:{req:4,    mult:20, label:'Premium Brand'},62:{req:4,    mult:200,label:'Elite Brand'}}},
-  DE:  {bonus:5,      sym:'EUR', r2min:1.25,  sp:{35:{req:1.5,  mult:3,  label:'Special Brand'},48:{req:5,    mult:20, label:'Premium Brand'},62:{req:5,    mult:200,label:'Elite Brand'}}},
-  FR:  {bonus:5,      sym:'EUR', r2min:1.25,  sp:{35:{req:1.5,  mult:3,  label:'Special Brand'},48:{req:5,    mult:20, label:'Premium Brand'},62:{req:5,    mult:200,label:'Elite Brand'}}},
+  ZA:  {bonus:20,     sym:'ZAR', r2min:4,     sp:{35:{req:4.4,  mult:3,  label:'Special Brand'},48:{req:16,   mult:20, label:'Premium Brand'},62:{req:16,   mult:200,label:'Elite Brand'}}},
+  // Europe — same payment structure as USA (Bank Transfer + all crypto)
+  GB:  {bonus:4,      sym:'GBP', r2min:0.30,  sp:{35:{req:0.33, mult:3,  label:'Special Brand'},48:{req:1.2,  mult:20, label:'Premium Brand'},62:{req:1.2,  mult:200,label:'Elite Brand'}}},
+  DE:  {bonus:5,      sym:'EUR', r2min:0.35,  sp:{35:{req:0.39, mult:3,  label:'Special Brand'},48:{req:1.4,  mult:20, label:'Premium Brand'},62:{req:1.4,  mult:200,label:'Elite Brand'}}},
+  FR:  {bonus:5,      sym:'EUR', r2min:0.35,  sp:{35:{req:0.39, mult:3,  label:'Special Brand'},48:{req:1.4,  mult:20, label:'Premium Brand'},62:{req:1.4,  mult:200,label:'Elite Brand'}}},
+  ES:  {bonus:5,      sym:'EUR', r2min:0.35,  sp:{35:{req:0.39, mult:3,  label:'Special Brand'},48:{req:1.4,  mult:20, label:'Premium Brand'},62:{req:1.4,  mult:200,label:'Elite Brand'}}},
+  IT:  {bonus:5,      sym:'EUR', r2min:0.35,  sp:{35:{req:0.39, mult:3,  label:'Special Brand'},48:{req:1.4,  mult:20, label:'Premium Brand'},62:{req:1.4,  mult:200,label:'Elite Brand'}}},
+  NL:  {bonus:5,      sym:'EUR', r2min:0.35,  sp:{35:{req:0.39, mult:3,  label:'Special Brand'},48:{req:1.4,  mult:20, label:'Premium Brand'},62:{req:1.4,  mult:200,label:'Elite Brand'}}},
+  PT:  {bonus:5,      sym:'EUR', r2min:0.35,  sp:{35:{req:0.39, mult:3,  label:'Special Brand'},48:{req:1.4,  mult:20, label:'Premium Brand'},62:{req:1.4,  mult:200,label:'Elite Brand'}}},
+  PL:  {bonus:20,     sym:'PLN', r2min:1.5,   sp:{35:{req:1.65, mult:3,  label:'Special Brand'},48:{req:6,    mult:20, label:'Premium Brand'},62:{req:6,    mult:200,label:'Elite Brand'}}},
+  SE:  {bonus:55,     sym:'SEK', r2min:4,     sp:{35:{req:4.4,  mult:3,  label:'Special Brand'},48:{req:16,   mult:20, label:'Premium Brand'},62:{req:16,   mult:200,label:'Elite Brand'}}},
+  NO:  {bonus:55,     sym:'NOK', r2min:4,     sp:{35:{req:4.4,  mult:3,  label:'Special Brand'},48:{req:16,   mult:20, label:'Premium Brand'},62:{req:16,   mult:200,label:'Elite Brand'}}},
   // North America
   US:  {bonus:200,    sym:'USD', r2min:29,    r1rate:[0.00453,0.00078], sp:{40:{req:100,mult:3,label:'Special Task 9'},48:{req:300,mult:6,label:'Special Task 17'},54:{req:500,mult:9,label:'Special Task 23'},58:{req:1000,mult:12,label:'Special Task 27'},59:{req:3000,mult:15,label:'Special Task 28'},60:{req:4500,mult:18,label:'Special Task 29'},61:{req:7000,mult:21,label:'Special Task 30'},62:{req:10000,mult:24,label:'Special Task 31'},63:{req:50000,mult:27,label:'Special Task 32'}}},
-  CA:  {bonus:8,      sym:'CAD', r2min:2,     sp:{35:{req:2.2,  mult:3,  label:'Special Brand'},48:{req:8,    mult:20, label:'Premium Brand'},62:{req:8,    mult:200,label:'Elite Brand'}}},
+  CA:  {bonus:8,      sym:'CAD', r2min:0.50,  sp:{35:{req:0.55, mult:3,  label:'Special Brand'},48:{req:2,    mult:20, label:'Premium Brand'},62:{req:2,    mult:200,label:'Elite Brand'}}},
   // Asia / Pacific
-  IN:  {bonus:415,    sym:'INR', r2min:103,   sp:{35:{req:115,  mult:3,  label:'Special Brand'},48:{req:415,  mult:20, label:'Premium Brand'},62:{req:415,  mult:200,label:'Elite Brand'}}},
-  PH:  {bonus:280,    sym:'PHP', r2min:70,    sp:{35:{req:77,   mult:3,  label:'Special Brand'},48:{req:280,  mult:20, label:'Premium Brand'},62:{req:280,  mult:200,label:'Elite Brand'}}},
-  AU:  {bonus:8,      sym:'AUD', r2min:2,     sp:{35:{req:2.2,  mult:3,  label:'Special Brand'},48:{req:8,    mult:20, label:'Premium Brand'},62:{req:8,    mult:200,label:'Elite Brand'}}},
+  IN:  {bonus:415,    sym:'INR', r2min:30,    sp:{35:{req:33,   mult:3,  label:'Special Brand'},48:{req:120,  mult:20, label:'Premium Brand'},62:{req:120,  mult:200,label:'Elite Brand'}}},
+  PH:  {bonus:280,    sym:'PHP', r2min:20,    sp:{35:{req:22,   mult:3,  label:'Special Brand'},48:{req:80,   mult:20, label:'Premium Brand'},62:{req:80,   mult:200,label:'Elite Brand'}}},
+  AU:  {bonus:8,      sym:'AUD', r2min:0.55,  sp:{35:{req:0.60, mult:3,  label:'Special Brand'},48:{req:2.2,  mult:20, label:'Premium Brand'},62:{req:2.2,  mult:200,label:'Elite Brand'}}},
   // South America
-  BR:  {bonus:25,     sym:'BRL', r2min:6,     sp:{35:{req:7,    mult:3,  label:'Special Brand'},48:{req:25,   mult:20, label:'Premium Brand'},62:{req:25,   mult:200,label:'Elite Brand'}}},
+  BR:  {bonus:25,     sym:'BRL', r2min:2,     sp:{35:{req:2.2,  mult:3,  label:'Special Brand'},48:{req:8,    mult:20, label:'Premium Brand'},62:{req:8,    mult:200,label:'Elite Brand'}}},
+  MX:  {bonus:1000,   sym:'MXN', r2min:70,    sp:{35:{req:77,   mult:3,  label:'Special Brand'},48:{req:280,  mult:20, label:'Premium Brand'},62:{req:280,  mult:200,label:'Elite Brand'}}},
+  // Middle East
+  SY:  {bonus:130000, sym:'SYP', r2min:6500,  sp:{35:{req:7150, mult:3,  label:'Special Brand'},48:{req:26000,mult:20, label:'Premium Brand'},62:{req:26000,mult:200,label:'Elite Brand'}}},
+  SA:  {bonus:20,     sym:'SAR', r2min:1.3,   sp:{35:{req:1.43, mult:3,  label:'Special Brand'},48:{req:5.2,  mult:20, label:'Premium Brand'},62:{req:5.2,  mult:200,label:'Elite Brand'}}},
+  AE:  {bonus:18,     sym:'AED', r2min:1.2,   sp:{35:{req:1.32, mult:3,  label:'Special Brand'},48:{req:4.8,  mult:20, label:'Premium Brand'},62:{req:4.8,  mult:200,label:'Elite Brand'}}},
+  // Asia
+  JP:  {bonus:7000,   sym:'JPY', r2min:450,   sp:{35:{req:495,  mult:3,  label:'Special Brand'},48:{req:1800, mult:20, label:'Premium Brand'},62:{req:1800, mult:200,label:'Elite Brand'}}},
+  CN:  {bonus:720,    sym:'CNY', r2min:45,    sp:{35:{req:50,   mult:3,  label:'Special Brand'},48:{req:180,  mult:20, label:'Premium Brand'},62:{req:180,  mult:200,label:'Elite Brand'}}},
+  KR:  {bonus:135000, sym:'KRW', r2min:8500,  sp:{35:{req:9350, mult:3,  label:'Special Brand'},48:{req:34000,mult:20, label:'Premium Brand'},62:{req:34000,mult:200,label:'Elite Brand'}}},
+  SG:  {bonus:7,      sym:'SGD', r2min:0.45,  sp:{35:{req:0.50, mult:3,  label:'Special Brand'},48:{req:1.8,  mult:20, label:'Premium Brand'},62:{req:1.8,  mult:200,label:'Elite Brand'}}},
+  MY:  {bonus:46,     sym:'MYR', r2min:3,     sp:{35:{req:3.3,  mult:3,  label:'Special Brand'},48:{req:12,   mult:20, label:'Premium Brand'},62:{req:12,   mult:200,label:'Elite Brand'}}},
+  PK:  {bonus:1400,   sym:'PKR', r2min:88,    sp:{35:{req:97,   mult:3,  label:'Special Brand'},48:{req:350,  mult:20, label:'Premium Brand'},62:{req:350,  mult:200,label:'Elite Brand'}}},
+  BD:  {bonus:1100,   sym:'BDT', r2min:69,    sp:{35:{req:76,   mult:3,  label:'Special Brand'},48:{req:275,  mult:20, label:'Premium Brand'},62:{req:275,  mult:200,label:'Elite Brand'}}},
+  NZ:  {bonus:8,      sym:'NZD', r2min:0.50,  sp:{35:{req:0.55, mult:3,  label:'Special Brand'},48:{req:2,    mult:20, label:'Premium Brand'},62:{req:2,    mult:200,label:'Elite Brand'}}},
 };
 const DEFAULT_CONFIG={bonus:200,sym:'USD',r2min:50,sp:{35:{req:55,mult:3,label:'Special Brand'},48:{req:200,mult:20,label:'Premium Brand'},62:{req:200,mult:200,label:'Elite Brand'}}};
 
