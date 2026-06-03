@@ -214,7 +214,7 @@ html,body{font-family:var(--sans);background:var(--black);color:var(--cream);min
 // and 3 special brands in Round 2 at positions task4(idx35), task17(idx48), task31(idx62)
 const COUNTRY_CONFIG = {
   // East Africa — same structure as Kenya, amounts scaled to local currency
-  KE:  {bonus:200,    sym:'KES', r2min:50,    sp:{35:{req:55,   mult:3,  label:'Special Brand'},48:{req:200,  mult:20, label:'Premium Brand'},62:{req:200,  mult:200,label:'Elite Brand'}}},
+  KE:  {bonus:200,    sym:'KES', r2min:50,    sp:{48:{req:100,mult:3,label:'Special Task 17'},56:{req:250,mult:7,label:'Special Task 25'},61:{req:500,mult:11,label:'Special Task 30'},62:{req:1200,mult:13,label:'Special Task 31'},63:{req:3000,mult:15,label:'Special Task 32'}}},
   TZ:  {bonus:4800,   sym:'TZS', r2min:900,   sp:{35:{req:935,  mult:3,  label:'Special Brand'},48:{req:3400, mult:20, label:'Premium Brand'},62:{req:3400, mult:200,label:'Elite Brand'}}},
   UG:  {bonus:15000,  sym:'UGX', r2min:1500,  sp:{35:{req:1540, mult:3,  label:'Special Brand'},48:{req:5600, mult:20, label:'Premium Brand'},62:{req:5600, mult:200,label:'Elite Brand'}}},
   RW:  {bonus:2600,   sym:'RWF', r2min:400,   sp:{35:{req:440,  mult:3,  label:'Special Brand'},48:{req:1600, mult:20, label:'Premium Brand'},62:{req:1600, mult:200,label:'Elite Brand'}}},
@@ -380,34 +380,12 @@ async function rateBrand(){
     const spec=R2_SPECIAL[curr];
     const bal=user.earnings||0;
 
-    // If already blocked, check if deposit has cleared it
-    if(user.special_blocked&&user.special_blocked[curr]){
-      // Refresh from Supabase to get latest balance
-      const fresh=await sb.getUser(user.email);
-      if(fresh){user.earnings=fresh.earnings||0;user.special_blocked=fresh.special_blocked||{};}
-      const freshBal=user.earnings||0;
-      if(freshBal>=spec.req){
-        // Deposit cleared — unlock
-        delete user.special_blocked[curr];
-        await save();updateUI();
-        // Now proceed to rate
-      } else {
-        showSpecialBlocked(curr,spec,freshBal);return;
-      }
+    // Check if balance is sufficient — no lock, just a beautiful popup
+    if(bal<spec.req){
+      showSpecialCongrats(curr,bal,spec);return;
     }
 
-    // Check if balance is sufficient
-    if((user.earnings||0)<spec.req){
-      // Lock: show total needed = bal + req, displayed in red
-      const totalNeeded=parseFloat((bal+spec.req).toFixed(2));
-      if(!user.special_blocked)user.special_blocked={};
-      user.special_blocked[curr]=true;
-      await save();updateUI();
-      showSpecialNegative(curr,bal,spec,totalNeeded);return;
-    }
-
-    // Balance sufficient — earn multiplier
-    const cfg2=getConfig();
+    // Balance sufficient — earn multiplier and continue
     const earnRate=0.003+Math.random()*0.002;
     const earn=parseFloat((bonus*earnRate*spec.mult).toFixed(2));
     user.earnings=parseFloat(((user.earnings||0)+earn).toFixed(2));
@@ -482,22 +460,27 @@ function showInsufficientR2Start(){
   document.getElementById('mAmt').className='m-amount';
   document.getElementById('mBtn').textContent='Top Up Wallet';mAction='deposit';openM('roundModal');
 }
-function showSpecialNegative(idx,currentBal,spec,totalNeeded){
-  document.getElementById('mIcon').textContent='⚠️';
-  document.getElementById('mTitle').textContent='Top Up Required';
-  document.getElementById('mMsg').textContent=spec.label+' requires '+fmt(spec.req)+'. Your current balance is '+fmt(currentBal)+'. You need to deposit '+fmt(spec.req - currentBal)+' to unlock this task and earn ×'+spec.mult+'.';
-  document.getElementById('mAmt').textContent='🔴 Required: '+fmt(totalNeeded);
-  document.getElementById('mAmt').className='m-amount neg';
-  document.getElementById('mBtn').textContent='Deposit to Unlock';mAction='deposit';openM('roundModal');
-}
-function showSpecialBlocked(idx,spec,freshBal){
-  const needed=parseFloat((spec.req-(freshBal||0)).toFixed(2));
-  document.getElementById('mIcon').textContent='🔒';
-  document.getElementById('mTitle').textContent='Deposit to Unlock';
-  document.getElementById('mMsg').textContent='This task requires '+fmt(spec.req)+'. Your current balance is '+fmt(freshBal||0)+'. Deposit '+fmt(needed)+' to unlock this special brand and earn ×'+spec.mult+'.';
-  document.getElementById('mAmt').textContent='🔴 Deposit needed: '+fmt(needed);
-  document.getElementById('mAmt').className='m-amount neg';
-  document.getElementById('mBtn').textContent='Go to Wallet';mAction='deposit';openM('roundModal');
+function showSpecialCongrats(idx,bal,spec){
+  const needed=parseFloat((spec.req-bal).toFixed(2));
+  // Beautiful congratulations modal
+  document.getElementById('mIcon').textContent='🎉';
+  document.getElementById('mTitle').textContent='You\'ve Unlocked a Special Task!';
+  document.getElementById('mMsg').innerHTML=
+    '<div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:12px 14px;margin-bottom:12px;font-size:.8rem;line-height:1.7">'+
+    '✨ <strong>Congratulations!</strong> You are very lucky to have reached this special task.<br><br>'+
+    'This task will multiply your actual earnings by <strong style="color:#E8C97A;font-size:1rem">×'+spec.mult+'</strong> — '+
+    'turning a normal earning into a massive reward.<br><br>'+
+    '💰 To unlock <strong>'+spec.label+'</strong> and claim your multiplied earnings, '+
+    'your balance needs to reach <strong style="color:#E8C97A">'+fmt(spec.req)+'</strong>.<br><br>'+
+    'Your current balance: <strong>'+fmt(bal)+'</strong><br>'+
+    'Amount needed: <strong style="color:#ff9944">'+fmt(needed)+'</strong>'+
+    '</div>';
+  document.getElementById('mAmt').textContent='Deposit '+fmt(needed)+' to unlock ×'+spec.mult+' earnings';
+  document.getElementById('mAmt').className='m-amount';
+  document.getElementById('mAmt').style.cssText='color:#E8C97A;font-size:.82rem;text-align:center;padding:8px;background:rgba(201,168,76,.08);border-radius:4px;margin-top:4px';
+  document.getElementById('mBtn').textContent='💰 Deposit to Unlock';
+  mAction='deposit';
+  openM('roundModal');
 }
 function showSpecialSuccess(spec,earn){
   document.getElementById('mIcon').textContent='🚀';document.getElementById('mTitle').textContent='Special Brand Rated!';

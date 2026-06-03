@@ -216,6 +216,7 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
       <button class="atab active" onclick="switchATab('users',this)">Users</button>
       <button class="atab" onclick="switchATab('brands',this)">Brands</button>
       <button class="atab" onclick="switchATab('countries',this)">Countries</button>
+      <button class="atab" onclick="switchATab('transactions',this)">Withdrawals</button>
       <button class="atab" onclick="switchATab('chats',this)">Chats <span id="chatBadge" style="background:#FF5B5B;color:#fff;font-size:.52rem;padding:1px 6px;border-radius:100px;margin-left:4px;display:none">●</span></button>
     </div>
 
@@ -252,6 +253,25 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
         <table class="admin-table">
           <thead><tr><th>#</th><th>Country</th><th>Users</th><th>Total Earnings</th></tr></thead>
           <tbody id="countryTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TRANSACTIONS / WITHDRAWALS -->
+    <div class="atab-content" id="atab-transactions">
+      <div class="table-top">
+        <input class="search-input" id="txSearch" placeholder="Search by email, method, account number..." oninput="renderTransactions()"/>
+        <span class="table-count" id="txCount">—</span>
+      </div>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th><th>User</th><th>Type</th><th>Method</th>
+              <th>Account / Wallet Address</th><th>Amount</th><th>Status</th><th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="txTableBody"></tbody>
         </table>
       </div>
     </div>
@@ -486,6 +506,44 @@ function switchATab(name,btn){
   document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
   document.querySelectorAll('.atab-content').forEach(t=>t.classList.remove('active'));document.getElementById('atab-'+name).classList.add('active');
   if(name==='chats')renderChatList();
+  if(name==='transactions')renderTransactions();
+}
+
+let allTransactions=[];
+async function renderTransactions(){
+  if(allTransactions.length===0){
+    // Load all transactions from Supabase
+    const r=await fetch(`https://qnggcickewzxjeudjysr.supabase.co/rest/v1/gb_transactions?order=created_at.desc&limit=500`,{headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM'}});
+    allTransactions=await r.json();
+  }
+  const q=(document.getElementById('txSearch').value||'').toLowerCase();
+  // Show withdrawals and deposits only — not individual earning records
+  const filtered=allTransactions.filter(tx=>{
+    const isWdDep=tx.type==='withdrawal'||tx.type==='deposit';
+    const mq=!q||(tx.user_email||'').toLowerCase().includes(q)||(tx.method||'').toLowerCase().includes(q)||(tx.account||'').toLowerCase().includes(q)||(tx.label||'').toLowerCase().includes(q);
+    return isWdDep&&mq;
+  });
+  document.getElementById('txCount').textContent=filtered.length+' records';
+  const userMap={};allUsers.forEach(u=>userMap[u.email]=u);
+  document.getElementById('txTableBody').innerHTML=filtered.map((tx,i)=>{
+    const u=userMap[tx.user_email];
+    const sym=u?u.symbol:'';
+    const isWd=tx.type==='withdrawal';
+    const typeColor=isWd?'color:#FFA500':'color:#4caf50';
+    const statusColor=tx.status==='pending'?'color:#FFA500;font-weight:600':'color:#4caf50';
+    const account=tx.account||'—';
+    const date=new Date(tx.created_at).toLocaleDateString()+' '+new Date(tx.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    return `<tr>
+      <td class="row-num">${i+1}</td>
+      <td><div style="font-size:.76rem;font-weight:600;color:var(--text)">${u?u.name:'Unknown'}</div><div style="font-size:.6rem;color:var(--text3)">${tx.user_email}</div></td>
+      <td style="font-size:.72rem;font-weight:600;${typeColor};text-transform:capitalize">${tx.type}</td>
+      <td style="font-size:.72rem;color:var(--text2)">${tx.method||'—'}</td>
+      <td><div style="font-size:.74rem;color:var(--text);font-family:monospace;word-break:break-all;max-width:200px">${account}</div></td>
+      <td style="font-size:.78rem;font-weight:600;${typeColor}">${isWd?'-':'+'} ${sym} ${(tx.amount||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      <td style="font-size:.68rem;${statusColor}">${tx.status||'—'}</td>
+      <td style="font-size:.66rem;color:var(--text3)">${date}</td>
+    </tr>`;
+  }).join('');
 }
 
 let activeChatEmail=null;

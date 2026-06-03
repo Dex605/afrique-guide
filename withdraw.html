@@ -92,6 +92,12 @@ h1{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:5px}
   <div class="card" id="wdForm">
     <div class="card-title">💳 Withdrawal Details</div>
 
+    <!-- Withdrawal availability notice -->
+    <div id="wdAvailNotice" style="display:none;background:rgba(255,80,80,.07);border:1px solid rgba(255,80,80,.2);border-radius:4px;padding:12px 14px;margin-bottom:14px;font-size:.76rem;color:#ff8a8a;line-height:1.7">
+      ⚠️ <strong>Withdrawal not available yet.</strong><br>
+      You can only withdraw after completing a full set of 32 tasks.<br>
+      <span id="wdAvailMsg"></span>
+    </div>
     <!-- Country payment info -->
     <div class="pay-info" id="payInfo">Loading your available methods...</div>
 
@@ -199,6 +205,19 @@ async function init(){
   document.getElementById('curCur').textContent = (user.currency||'KES') + ' account';
   document.getElementById('curPend').textContent = fmt(user.pending_withdrawal || 0);
 
+  // Check if withdrawal is allowed
+  const tc = user.tasks_completed || 0;
+  const canWithdraw = (tc === 32 || tc === 64 || tc === 96);
+  if(!canWithdraw){
+    const inSet = tc < 32 ? 1 : tc < 64 ? 2 : 3;
+    const setDone = tc < 32 ? 0 : tc < 64 ? 32 : 64;
+    const remaining = (setDone + 32) - tc;
+    document.getElementById('wdAvailNotice').style.display='block';
+    document.getElementById('wdAvailMsg').textContent = `You are in Set ${inSet} with ${remaining} task${remaining!==1?'s':''} remaining. Complete Set ${inSet} to unlock withdrawal.`;
+    document.getElementById('wdBtn').disabled = true;
+    document.getElementById('wdBtn').textContent = `Complete Set ${inSet} First (${remaining} tasks left)`;
+  }
+
   const pm = getPM();
   document.getElementById('payInfo').textContent = pm.info;
   document.getElementById('minNote').textContent = '⚠️ Minimum withdrawal: ' + fmt(getMin()) + ' · Your balance: ' + fmt(bal);
@@ -248,6 +267,15 @@ function onMethodChange(){
 }
 
 async function proceedWithdraw(){
+  const tc = user.tasks_completed || 0;
+  // Only allow withdrawal after completing a full set (32, 64, or 96)
+  if(tc !== 32 && tc !== 64 && tc !== 96){
+    const inSet = tc < 32 ? 1 : tc < 64 ? 2 : 3;
+    const setDone = tc < 32 ? 0 : tc < 64 ? 32 : 64;
+    const remaining = (setDone + 32) - tc;
+    alert(`⚠️ Withdrawal not available yet.\n\nYou are currently in Set ${inSet} and have ${remaining} task${remaining!==1?'s':''} remaining.\n\nWithdrawals are only available after completing a full set of 32 tasks.\n\nFinish Set ${inSet} to unlock your withdrawal.`);
+    return;
+  }
   const method = document.getElementById('wdMethod').value;
   const amount = parseFloat(document.getElementById('wdAmount').value);
   const balance = user.earnings || 0;
