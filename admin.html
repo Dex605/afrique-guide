@@ -473,7 +473,8 @@ async function adminR1Bonus(email,symbol){
 }
 
 async function adminDeposit(email,symbol){
-  const amtStr=prompt(`Deposit amount for ${email} (${symbol}):`);
+  const amtStr=prompt(`Deposit amount for ${email} (${symbol}):`);if(!amtStr)return;
+  const amount=parseFloat(amtStr);
   if(!amount||amount<=0){alert('Invalid amount.');return;}
   const u=allUsers.find(u=>u.email===email);if(!u){alert('User not found.');return;}
   const newEarnings=parseFloat(((u.earnings||0)+amount).toFixed(2));

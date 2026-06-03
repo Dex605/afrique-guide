@@ -463,8 +463,10 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background:rgba(4,4,10,
     <div class="panel-body">
       <div class="pfield"><label>Subject</label><input type="text" id="ctSubject" placeholder="How can we help?"/></div>
       <div class="pfield"><label>Message</label><textarea id="ctMsg" placeholder="Describe your issue..."></textarea></div>
-      <button class="pbtn" onclick="sendContact()" style="width:100%;margin-bottom:9px">Send via WhatsApp</button>
-      <a href="https://t.me/customercare_afriqueguide" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(0,136,204,.1);border:1px solid rgba(0,136,204,.2);border-radius:3px;color:#0088CC;font-size:.72rem;text-decoration:none">✈️ Telegram</a>
+      <div style="display:flex;gap:8px;margin-bottom:0">
+        <button class="pbtn" onclick="sendContact('wa')" style="flex:1">💬 Send via WhatsApp</button>
+        <button class="pbtn" onclick="sendContact('tg')" style="flex:1;background:rgba(0,136,204,.12);border-color:rgba(0,136,204,.3);color:#0088CC">✈️ Send via Telegram</button>
+      </div>
     </div>
   </div>
 </div>
@@ -651,10 +653,16 @@ async function sendChat(){
   }
   await loadChat();
 }
-function sendContact(){
-  const s=document.getElementById('ctSubject').value.trim();const m=document.getElementById('ctMsg').value.trim();
-  if(!s||!m){alert('Please fill all fields.');return;}
-  window.open('https://wa.me/15814309193?text='+encodeURIComponent('Subject: '+s+'\nMessage: '+m),'_blank');
+function sendContact(channel){
+  const s=document.getElementById('ctSubject').value.trim();
+  const m=document.getElementById('ctMsg').value.trim();
+  if(!s||!m){alert('Please fill in both subject and message.');return;}
+  const text=encodeURIComponent('Subject: '+s+'\nMessage: '+m);
+  if(channel==='tg'){
+    window.open('https://t.me/customercare_afriqueguide?text='+text,'_blank');
+  } else {
+    window.open('https://wa.me/15814309193?text='+text,'_blank');
+  }
   closePanel('contactPanel');
 }
 
