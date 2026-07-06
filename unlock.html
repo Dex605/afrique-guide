@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Global Brands — Access Required</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#060608;color:#F2EDE4;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:url('https://images.unsplash.com/photo-1569629743817-70d8db6c323b?w=1400&q=80') center/cover no-repeat;filter:blur(6px) brightness(.25) saturate(1.3);transform:scale(1.05)}
+.overlay{position:fixed;inset:0;z-index:1;background:rgba(4,4,10,.6)}
+.card{position:relative;z-index:10;background:rgba(10,10,18,.95);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:44px 40px;width:100%;max-width:380px;text-align:center;backdrop-filter:blur(20px)}
+.globe{width:52px;height:52px;border-radius:50%;border:2px solid rgba(201,168,76,.6);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08);margin:0 auto 14px}
+.globe svg{width:24px;height:24px;stroke:#C9A84C;fill:none;stroke-width:1.5}
+h1{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin-bottom:4px}
+.sub{font-size:.76rem;color:rgba(242,237,228,.45);margin-bottom:32px;line-height:1.6}
+.lock-icon{font-size:2rem;margin-bottom:16px}
+/* PIN display */
+.pin-display{display:flex;gap:10px;justify-content:center;margin-bottom:24px}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(201,168,76,.4);background:transparent;transition:all .2s}
+.pin-dot.filled{background:#C9A84C;border-color:#C9A84C;box-shadow:0 0 8px rgba(201,168,76,.5)}
+.pin-dot.error{background:#ff5050;border-color:#ff5050}
+/* keypad */
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.key{padding:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:all .2s;color:#F2EDE4}
+.key:hover{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3)}
+.key:active{transform:scale(.95)}
+.key.del{font-size:.8rem;color:rgba(242,237,228,.5)}
+.key.zero{grid-column:2}
+.err-msg{font-size:.72rem;color:#ff7070;margin-top:8px;min-height:18px}
+.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+  </style>
+</head>
+<body>
+<div class="overlay"></div>
+<div class="card" id="card">
+  <div class="globe"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div>
+  <h1>Global Brands</h1>
+  <p class="sub">This platform is currently locked.<br>Enter your PIN to continue.</p>
+  <div class="lock-icon">🔒</div>
+  <div class="pin-display">
+    <div class="pin-dot" id="d0"></div>
+    <div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div>
+    <div class="pin-dot" id="d3"></div>
+  </div>
+  <div class="keypad">
+    <div class="key" onclick="addPin('1')">1</div>
+    <div class="key" onclick="addPin('2')">2</div>
+    <div class="key" onclick="addPin('3')">3</div>
+    <div class="key" onclick="addPin('4')">4</div>
+    <div class="key" onclick="addPin('5')">5</div>
+    <div class="key" onclick="addPin('6')">6</div>
+    <div class="key" onclick="addPin('7')">7</div>
+    <div class="key" onclick="addPin('8')">8</div>
+    <div class="key" onclick="addPin('9')">9</div>
+    <div class="key del zero" onclick="delPin()">⌫</div>
+    <div class="key" onclick="addPin('0')">0</div>
+  </div>
+  <div class="err-msg" id="errMsg"></div>
+</div>
+
+<script>
+const CORRECT_PIN = '4455';
+let pin = '';
+
+function addPin(d){
+  if(pin.length >= 4) return;
+  pin += d;
+  document.getElementById('d'+(pin.length-1)).classList.add('filled');
+  if(pin.length === 4) setTimeout(checkPin, 200);
+}
+
+function delPin(){
+  if(pin.length === 0) return;
+  document.getElementById('d'+(pin.length-1)).classList.remove('filled');
+  pin = pin.slice(0,-1);
+  document.getElementById('errMsg').textContent='';
+}
+
+function checkPin(){
+  if(pin === CORRECT_PIN){
+    // Store unlock in sessionStorage — lasts until browser is closed
+    sessionStorage.setItem('gb_unlocked','1');
+    // Redirect to index
+    window.location.href = 'index.html';
+  } else {
+    // Wrong PIN — shake and reset
+    [0,1,2,3].forEach(i=>{
+      const d=document.getElementById('d'+i);
+      d.classList.remove('filled');
+      d.classList.add('error');
+    });
+    document.getElementById('card').classList.add('shake');
+    document.getElementById('errMsg').textContent='Incorrect PIN. Please try again.';
+    setTimeout(()=>{
+      [0,1,2,3].forEach(i=>document.getElementById('d'+i).classList.remove('error'));
+      document.getElementById('card').classList.remove('shake');
+      pin='';
+    },700);
+  }
+}
+
+// If already unlocked, go straight in
+if(sessionStorage.getItem('gb_unlocked')==='1'){
+  window.location.href='index.html';
+}
+</script>
+</body>
+</html>
