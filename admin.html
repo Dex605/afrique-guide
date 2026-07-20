@@ -4,183 +4,197 @@
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Admin — Global Brands</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--gold:#C9A84C;--gold-l:#E8C97A;--serif:'Playfair Display',serif;--sans:'Outfit',sans-serif}
 [data-theme="dark"]{--bg:#04040A;--surface:#0D0D10;--surface2:#111116;--nav-bg:rgba(6,6,8,.97);--text:#F2EDE4;--text2:rgba(242,237,228,0.55);--text3:rgba(242,237,228,0.3);--border:rgba(201,168,76,0.15);--border2:rgba(255,255,255,0.07);--sh:0 2px 12px rgba(0,0,0,.4);--row-hover:rgba(255,255,255,.03);--th-bg:rgba(255,255,255,.04)}
 html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
 
-/* ── LOGIN WRAPPER ── */
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden}
-/* product slideshow behind login */
-.login-bg{position:fixed;inset:0;z-index:0}
-.login-slide{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 1.4s ease;opacity:0;filter:blur(6px) brightness(.3) saturate(1.4)}
-.login-slide.active{opacity:1}
-.login-overlay{position:fixed;inset:0;z-index:1;background:rgba(4,4,10,.65)}
-.login-grid{position:fixed;inset:0;z-index:2;pointer-events:none;background-image:linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);background-size:80px 80px}
+/* ── SLIDE BG ── */
+.slide-bg{position:fixed;inset:0;z-index:0}
+.slide{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 1.4s;opacity:0;filter:blur(6px) brightness(.28) saturate(1.4)}
+.slide.active{opacity:1}
+.slide-overlay{position:fixed;inset:0;z-index:1;background:rgba(4,4,10,.6)}
 
-.login-card{position:relative;z-index:10;background:rgba(10,10,18,.92);border:1px solid var(--border);border-radius:10px;padding:44px 50px;width:100%;max-width:420px;backdrop-filter:blur(24px)}
-.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.login-globe{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
-.login-globe svg{width:18px;height:18px}
-.login-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text)}
-.login-tag{font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
-.login-card h2{font-family:var(--serif);font-size:1.6rem;margin-bottom:6px;color:var(--text)}
-.login-sub{font-size:.78rem;color:var(--text2);margin-bottom:24px;line-height:1.6}
-.lg{margin-bottom:15px}
-.lg label{display:block;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
-.lg input{width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.86rem;outline:none;transition:border-color .2s}
-.lg input:focus{border-color:var(--gold)}
-.pw-wrap{position:relative}
-.pw-wrap input{padding-right:42px}
-.pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(242,237,228,.35);display:flex;align-items:center;padding:4px}
-.pw-eye:hover{color:var(--gold)}
-.err-msg{background:rgba(180,30,30,.15);border:1px solid rgba(180,30,30,.35);border-radius:4px;padding:9px 13px;font-size:.76rem;color:#ff8a8a;margin-bottom:14px;display:none}
-.btn-login{width:100%;padding:13px;background:var(--gold);color:#000;border:none;border-radius:4px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:background .2s}
-.btn-login:hover{background:var(--gold-l)}
+/* ── STEP PAGES ── */
+.step{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:20px}
+.step.show{display:flex}
+
+/* ── WELCOME CARD ── */
+.w-card{background:rgba(8,8,16,.96);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:48px 44px;width:100%;max-width:440px;text-align:center;backdrop-filter:blur(24px);box-shadow:0 32px 80px rgba(0,0,0,.6)}
+.w-globe{width:60px;height:60px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08);margin:0 auto 16px}
+.w-globe svg{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.w-eyebrow{font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.w-title{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:6px;line-height:1.2}
+.w-sub{font-size:.78rem;color:var(--text2);margin-bottom:32px;line-height:1.6}
+
+/* admin selector */
+.admin-selector{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.admin-option{padding:13px 18px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;text-align:left}
+.admin-option:hover{background:rgba(201,168,76,.08);border-color:var(--border)}
+.admin-option.selected{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.4)}
+.ao-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;flex-shrink:0;color:#fff}
+.ao-name{font-size:.86rem;font-weight:600;color:var(--text)}
+.ao-role{font-size:.6rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
+.ao-boss{font-size:.56rem;background:rgba(201,168,76,.15);color:var(--gold);padding:2px 7px;border-radius:10px;margin-left:auto;flex-shrink:0}
+.btn-next{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:6px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:background .2s}
+.btn-next:hover{background:var(--gold-l)}
+.btn-next:disabled{background:rgba(201,168,76,.3);cursor:not-allowed}
+
+/* ── PIN CARD ── */
+.pin-card{background:rgba(8,8,16,.96);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:40px 36px;width:100%;max-width:360px;text-align:center;backdrop-filter:blur(24px)}
+.pin-who{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.pin-title{font-family:var(--serif);font-size:1.5rem;font-weight:700;margin-bottom:4px}
+.pin-sub{font-size:.74rem;color:var(--text2);margin-bottom:24px}
+.pin-av{width:56px;height:56px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff;border:2px solid var(--gold)}
+.pin-dots{display:flex;gap:10px;justify-content:center;margin-bottom:22px}
+.pin-dot{width:13px;height:13px;border-radius:50%;border:2px solid rgba(201,168,76,.4);background:transparent;transition:all .2s}
+.pin-dot.filled{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px rgba(201,168,76,.5)}
+.pin-dot.err{background:#ff5050;border-color:#ff5050}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+.key{padding:15px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-size:1.05rem;font-weight:600;cursor:pointer;transition:all .18s;color:var(--text)}
+.key:hover{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3)}
+.key:active{transform:scale(.94)}
+.key.del{font-size:.78rem;color:var(--text2)}
+.key.zero{grid-column:2}
+.pin-err{font-size:.7rem;color:#ff7070;min-height:16px;margin-bottom:4px}
+.pin-back{font-size:.7rem;color:var(--text3);cursor:pointer;text-decoration:underline}
+.pin-back:hover{color:var(--text2)}
+/* first time setup */
+.pin-setup-msg{font-size:.72rem;color:rgba(201,168,76,.8);background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:4px;padding:8px 12px;margin-bottom:14px;line-height:1.6}
+.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
 
 /* ── ADMIN PANEL ── */
 .admin-wrap{display:none;min-height:100vh;flex-direction:column}
-.admin-nav{padding:12px 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--nav-bg);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);box-shadow:var(--sh)}
+.admin-nav{padding:11px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--nav-bg);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px)}
 .admin-logo{display:flex;align-items:center;gap:10px}
-.admin-globe{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
-.admin-globe svg{width:16px;height:16px}
-.admin-brand{font-family:var(--serif);font-size:.98rem;font-weight:700;color:var(--text)}
-.admin-tag{font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.admin-globe{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
+.admin-globe svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.admin-brand{font-family:var(--serif);font-size:.96rem;font-weight:700}
+.admin-tag{font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
 .admin-nav-right{display:flex;align-items:center;gap:8px}
-/* admin profile chip in nav */
-.admin-chip{display:flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;cursor:pointer;transition:all .2s}
+.admin-chip{display:flex;align-items:center;gap:8px;padding:5px 11px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;cursor:pointer}
 .admin-chip:hover{border-color:var(--gold)}
-.admin-chip-av{width:26px;height:26px;border-radius:50%;object-fit:cover;flex-shrink:0}
-.admin-chip-name{font-size:.72rem;font-weight:600;color:var(--text2)}
-.admin-chip-role{font-size:.54rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
-.theme-btn{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;transition:all .2s}
-.theme-btn:hover{border-color:var(--gold)}
-.refresh-btn{padding:6px 14px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:4px;font-family:var(--sans);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
-.refresh-btn:hover{border-color:var(--gold);color:var(--gold)}
-.logout-btn{padding:6px 14px;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);color:#cc3333;border-radius:4px;font-family:var(--sans);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
-
-.admin-body{padding:24px 36px;flex:1}
-.admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 18px;box-shadow:var(--sh)}
-.stat-card.gold{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border-color:rgba(201,168,76,.3)}
-.sc-label{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
-.sc-val{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--gold)}
-.sc-sub{font-size:.58rem;color:var(--text3);margin-top:2px}
-.admin-tabs{display:flex;border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:18px;width:fit-content;background:var(--surface)}
-.atab{padding:8px 20px;background:transparent;border:none;color:var(--text2);font-family:var(--sans);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-right:1px solid var(--border)}
+.admin-chip-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0}
+.admin-chip-name{font-size:.7rem;font-weight:600;color:var(--text2)}
+/* site lock toggle */
+.lock-toggle{display:flex;align-items:center;gap:8px;padding:5px 12px;border-radius:20px;border:1px solid;cursor:pointer;font-size:.68rem;font-weight:600;transition:all .2s}
+.lock-toggle.locked{background:rgba(255,80,80,.1);border-color:rgba(255,80,80,.3);color:#ff6060}
+.lock-toggle.unlocked{background:rgba(37,174,99,.1);border-color:rgba(37,174,99,.3);color:#25ae63}
+.refresh-btn{padding:5px 13px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:4px;font-family:var(--sans);font-size:.66rem;cursor:pointer}
+.logout-btn{padding:5px 13px;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);color:#cc3333;border-radius:4px;font-family:var(--sans);font-size:.66rem;cursor:pointer}
+.admin-body{padding:22px 32px;flex:1}
+.admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-bottom:20px}
+.stat-card{background:var(--surface);border:1px solid var(--border2);border-radius:7px;padding:14px 16px}
+.stat-card.gold{background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.04));border-color:rgba(201,168,76,.25)}
+.sc-label{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
+.sc-val{font-family:var(--serif);font-size:1.8rem;font-weight:700;color:var(--gold)}
+.sc-sub{font-size:.56rem;color:var(--text3);margin-top:2px}
+.admin-tabs{display:flex;border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:16px;width:fit-content;background:var(--surface)}
+.atab{padding:7px 18px;background:transparent;border:none;color:var(--text2);font-family:var(--sans);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-right:1px solid var(--border)}
 .atab:last-child{border-right:none}
 .atab.active{background:var(--gold);color:#000;font-weight:700}
 .atab-content{display:none}
 .atab-content.active{display:block}
 .table-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:12px;flex-wrap:wrap}
-.search-input{padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.78rem;outline:none;width:300px;transition:border-color .2s}
+.search-input{padding:7px 13px;background:var(--surface);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--sans);font-size:.76rem;outline:none;width:280px}
 .search-input:focus{border-color:var(--gold)}
-.table-count{font-size:.68rem;color:var(--text3);font-weight:500}
-.table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border);box-shadow:var(--sh)}
-.admin-table{width:100%;border-collapse:collapse;font-size:.76rem;background:var(--surface)}
+.table-wrap{overflow-x:auto;border-radius:7px;border:1px solid var(--border)}
+.admin-table{width:100%;border-collapse:collapse;font-size:.75rem;background:var(--surface)}
 .admin-table thead{background:var(--th-bg)}
-.admin-table th{padding:10px 13px;text-align:left;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
-.admin-table td{padding:9px 13px;border-bottom:1px solid var(--border2);color:var(--text2);vertical-align:middle}
+.admin-table th{padding:9px 12px;text-align:left;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
+.admin-table td{padding:8px 12px;border-bottom:1px solid var(--border2);color:var(--text2);vertical-align:middle}
 .admin-table tr:last-child td{border-bottom:none}
 .admin-table tbody tr:hover td{background:var(--row-hover)}
 .admin-table td[contenteditable="true"]{outline:none;cursor:text;border-bottom:1px dashed var(--gold);color:var(--text)}
-.admin-table td[contenteditable="true"]:focus{background:rgba(201,168,76,.06);border-radius:3px}
-.row-num{font-size:.7rem;font-weight:700;color:var(--gold);min-width:20px;text-align:center}
+.row-num{font-size:.68rem;font-weight:700;color:var(--gold);min-width:20px;text-align:center}
 .u-cell{display:flex;align-items:center;gap:8px}
-.u-av-img{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
-.u-uname{font-size:.78rem;font-weight:600;color:var(--text)}
-.u-email{font-size:.6rem;color:var(--text3)}
-.badge{display:inline-block;padding:2px 8px;border-radius:100px;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
-.badge-country{background:rgba(201,168,76,.12);color:#a07830;border:1px solid rgba(201,168,76,.25)}
+.u-av-img{width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
+.u-uname{font-size:.76rem;font-weight:600;color:var(--text)}
+.u-email{font-size:.58rem;color:var(--text3)}
+.badge{display:inline-block;padding:2px 7px;border-radius:100px;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
 .badge-online{background:rgba(76,175,80,.12);color:#2e7d32;border:1px solid rgba(76,175,80,.25)}
 .badge-offline{background:rgba(0,0,0,.06);color:var(--text3);border:1px solid var(--border)}
-.badge-blocked{background:rgba(255,140,0,.12);color:#b35c00;border:1px solid rgba(255,140,0,.25)}
-.status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle}
-.status-dot.online{background:#4caf50;box-shadow:0 0 5px rgba(76,175,80,.5)}
-.status-dot.offline{background:#ccc}
-.inv-code{font-family:var(--serif);font-size:.76rem;color:var(--gold);letter-spacing:.06em;font-weight:700}
-.bal-pos{color:#2e7d32;font-weight:600}
-.bal-neg{color:#cc3333;font-weight:600}
-.dep-btn{padding:3px 10px;background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);color:#4caf50;border-radius:3px;font-family:var(--sans);font-size:.62rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.inv-code{font-family:var(--serif);font-size:.74rem;color:var(--gold);letter-spacing:.06em;font-weight:700}
+.dep-btn{padding:3px 9px;background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);color:#4caf50;border-radius:3px;font-family:var(--sans);font-size:.6rem;cursor:pointer;white-space:nowrap}
 .dep-btn:hover{background:rgba(76,175,80,.25)}
-/* password cell toggle */
-.pwd-cell{display:flex;align-items:center;gap:6px}
-.pwd-text{font-size:.72rem;color:var(--text3);font-family:monospace;letter-spacing:.04em}
-.pwd-eye{background:none;border:none;cursor:pointer;color:rgba(242,237,228,.3);padding:2px;display:flex;align-items:center;transition:color .2s}
+.pwd-cell{display:flex;align-items:center;gap:5px}
+.pwd-text{font-size:.7rem;color:var(--text3);font-family:monospace}
+.pwd-eye{background:none;border:none;cursor:pointer;color:rgba(242,237,228,.3);padding:2px;display:flex;align-items:center}
 .pwd-eye:hover{color:var(--gold)}
 /* chat */
-.chat-user-item{padding:11px 13px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:10px}
+.chat-user-item{padding:10px 12px;border-bottom:1px solid var(--border2);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:9px}
 .chat-user-item:hover,.chat-user-item.sel{background:rgba(201,168,76,.08)}
-.cui-av{width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
-.cui-name{font-size:.76rem;font-weight:600;color:var(--text)}
-.cui-preview{font-size:.63rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.cui-av{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid var(--border)}
+.cui-name{font-size:.74rem;font-weight:600;color:var(--text)}
+.cui-preview{font-size:.61rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
 .cui-badge{width:7px;height:7px;border-radius:50%;background:#FF5B5B;flex-shrink:0}
-.admin-chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.acm{max-width:75%;padding:8px 13px;border-radius:10px;font-size:.76rem;line-height:1.55}
+.admin-chat-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px}
+.acm{max-width:75%;padding:8px 12px;border-radius:9px;font-size:.74rem;line-height:1.55}
 .acm.user{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);align-self:flex-end;color:var(--text)}
 .acm.care{background:var(--surface2);border:1px solid var(--border2);align-self:flex-start;color:var(--text2)}
-.acm .sndr{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
-.acm .mt{font-size:.54rem;color:var(--text3);margin-top:4px;text-align:right}
-.admin-reply-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border2)}
-.admin-reply-input{flex:1;padding:9px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:20px;color:var(--text);font-family:var(--sans);font-size:.8rem;outline:none}
+.acm .sndr{font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.acm .mt{font-size:.52rem;color:var(--text3);margin-top:4px;text-align:right}
+.admin-reply-row{display:flex;gap:8px;padding:11px;border-top:1px solid var(--border2)}
+.admin-reply-input{flex:1;padding:8px 13px;background:var(--surface2);border:1px solid var(--border2);border-radius:20px;color:var(--text);font-family:var(--sans);font-size:.78rem;outline:none}
 .admin-reply-input:focus{border-color:var(--gold)}
-.admin-reply-btn{padding:9px 20px;background:var(--gold);color:#000;border:none;border-radius:20px;font-family:var(--sans);font-size:.74rem;font-weight:700;cursor:pointer}
-.brands-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px}
-.ba-tile{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:13px 10px;text-align:center;box-shadow:var(--sh)}
-.ba-logo{width:54px;height:38px;object-fit:contain;margin:0 auto 7px;display:block}
-.ba-name{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:2px}
-.ba-sector{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
-.ba-rating{font-size:.62rem;color:var(--gold);margin-top:3px}
-/* admin profile panel */
-.profile-panel{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:flex-end;padding:60px 16px 0}
-.profile-panel.open{display:flex}
-.pp-box{background:#16161E;border:1px solid var(--border);border-radius:8px;width:100%;max-width:340px;max-height:80vh;overflow-y:auto;animation:ppIn .25s ease}
-@keyframes ppIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-.pp-head{padding:18px 20px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
-.pp-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text)}
-.pp-x{background:none;border:none;color:var(--text3);font-size:1.4rem;cursor:pointer;line-height:1}
-.pp-x:hover{color:var(--text)}
-.pp-body{padding:20px}
-.pp-av-wrap{text-align:center;margin-bottom:18px}
-.pp-av{width:72px;height:72px;border-radius:50%;object-fit:cover;margin:0 auto 10px;display:block;border:2px solid var(--gold)}
-.pp-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:3px}
-.pp-role{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-.pp-info{background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:4px;padding:12px 14px;margin-top:12px;font-size:.76rem;color:var(--text2);line-height:1.8}
-@media(max-width:900px){.admin-stats{grid-template-columns:1fr 1fr 1fr}.admin-body{padding:18px 16px}.table-wrap{overflow-x:auto}}
+.admin-reply-btn{padding:8px 18px;background:var(--gold);color:#000;border:none;border-radius:20px;font-family:var(--sans);font-size:.72rem;font-weight:700;cursor:pointer}
+/* boss section */
+.boss-section{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:20px;margin-bottom:20px}
+.boss-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.admin-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.admin-card{background:var(--surface);border:1px solid var(--border2);border-radius:7px;padding:14px;text-align:center}
+.admin-card-av{width:44px;height:44px;border-radius:50%;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:#fff}
+.admin-card-name{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.admin-card-pin{font-size:.66rem;color:var(--text3);margin-bottom:5px}
+.admin-card-status{font-size:.6rem;padding:2px 8px;border-radius:10px;display:inline-block}
+.admin-card-meta{font-size:.6rem;color:var(--text3);margin-top:5px;line-height:1.6}
+/* brands */
+.brands-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:9px}
+.ba-tile{background:var(--surface);border:1px solid var(--border2);border-radius:5px;padding:12px 9px;text-align:center}
+.ba-logo{width:50px;height:36px;object-fit:contain;margin:0 auto 6px;display:block}
+.ba-name{font-size:.76rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.ba-sector{font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+@media(max-width:900px){.admin-stats{grid-template-columns:1fr 1fr 1fr}.admin-body{padding:16px}}
   </style>
 </head>
 <body>
 
-<!-- LOGIN with product slideshow background -->
-<div class="login-wrap" id="loginWrap">
-  <div class="login-bg" id="loginBg"></div>
-  <div class="login-overlay"></div>
-  <div class="login-grid"></div>
-  <div class="login-card">
-    <div class="login-logo">
-      <div class="login-globe"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg></div>
-      <div class="login-name">Global Brands</div>
+<!-- SLIDE BACKGROUND -->
+<div class="slide-bg" id="slideBg"></div>
+<div class="slide-overlay"></div>
+
+<!-- STEP 1: PICK ADMIN NAME -->
+<div class="step show" id="stepPick">
+  <div class="w-card">
+    <div class="w-globe"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div>
+    <div class="w-eyebrow">Global Brands</div>
+    <h1 class="w-title">Admin Panel</h1>
+    <p class="w-sub">Welcome back. Select your admin account to continue.</p>
+    <div class="admin-selector" id="adminSelector"></div>
+    <button class="btn-next" id="btnNext" onclick="goToPin()" disabled>Continue →</button>
+  </div>
+</div>
+
+<!-- STEP 2: ENTER PIN -->
+<div class="step" id="stepPin">
+  <div class="pin-card" id="pinCard">
+    <div class="pin-av" id="pinAv"></div>
+    <div class="pin-who" id="pinWho"></div>
+    <div class="pin-title" id="pinTitle">Enter Your PIN</div>
+    <div class="pin-sub" id="pinSub">Enter your 6-digit PIN to sign in</div>
+    <div class="pin-setup-msg" id="pinSetupMsg" style="display:none">First time? Set a PIN you will use every time you log in.</div>
+    <div class="pin-dots" id="pinDots"></div>
+    <div class="keypad">
+      <div class="key" onclick="addKey('1')">1</div><div class="key" onclick="addKey('2')">2</div><div class="key" onclick="addKey('3')">3</div>
+      <div class="key" onclick="addKey('4')">4</div><div class="key" onclick="addKey('5')">5</div><div class="key" onclick="addKey('6')">6</div>
+      <div class="key" onclick="addKey('7')">7</div><div class="key" onclick="addKey('8')">8</div><div class="key" onclick="addKey('9')">9</div>
+      <div class="key del zero" onclick="delKey()">⌫</div><div class="key" onclick="addKey('0')">0</div>
     </div>
-    <div class="login-tag">Admin Panel</div>
-    <h2>Welcome Back</h2>
-    <p class="login-sub">Sign in with your admin credentials to access the dashboard</p>
-    <div class="err-msg" id="loginErr">Invalid credentials. Please try again.</div>
-    <div class="lg">
-      <label>Username</label>
-      <input type="text" id="adminUser" placeholder="Your admin username"/>
-    </div>
-    <div class="lg">
-      <label>Password</label>
-      <div class="pw-wrap">
-        <input type="password" id="adminPass" placeholder="Admin password"/>
-        <button class="pw-eye" type="button" onclick="toggleLoginPw()">
-          <svg id="loginEye" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
-      </div>
-    </div>
-    <button class="btn-login" onclick="adminLogin()">Sign In</button>
+    <div class="pin-err" id="pinErr"></div>
+    <div class="pin-back" onclick="backToPick()">← Choose different account</div>
   </div>
 </div>
 
@@ -188,26 +202,34 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 <div class="admin-wrap" id="adminWrap">
   <nav class="admin-nav">
     <div class="admin-logo">
-      <div class="admin-globe"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg></div>
-      <div><div class="admin-brand">Global Brands Admin</div><div class="admin-tag">Supabase · <span id="lastRefresh">Loading...</span></div></div>
+      <div class="admin-globe"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4.5" ry="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div>
+      <div><div class="admin-brand">Global Brands Admin</div><div class="admin-tag">Last refresh: <span id="lastRefresh">—</span></div></div>
     </div>
     <div class="admin-nav-right">
-      <!-- Admin profile chip -->
-      <div class="admin-chip" onclick="openProfile()">
-        <img class="admin-chip-av" id="navAdminAv" src="" alt=""/>
-        <div><div class="admin-chip-name" id="navAdminName">Admin</div><div class="admin-chip-role" id="navAdminRole">Administrator</div></div>
+      <div class="admin-chip" id="adminChip">
+        <div class="admin-chip-av" id="chipAv"></div>
+        <span class="admin-chip-name" id="chipName">Admin</span>
       </div>
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle mode">☀️</button>
+      <!-- Site lock toggle -->
+      <div class="lock-toggle locked" id="lockToggle" onclick="toggleSiteLock()">
+        <span id="lockIcon">🔒</span><span id="lockLabel">Site Locked</span>
+      </div>
       <button class="refresh-btn" onclick="refreshData()">↻ Refresh</button>
       <button class="logout-btn" onclick="adminLogout()">Log Out</button>
     </div>
   </nav>
-
   <div class="admin-body">
+
+    <!-- BOSS SECTION (Admin 1 only) -->
+    <div class="boss-section" id="bossSection" style="display:none">
+      <div class="boss-title">👑 Boss Dashboard — Admin Accounts</div>
+      <div class="admin-cards" id="adminCards"></div>
+    </div>
+
     <div class="admin-stats">
       <div class="stat-card gold"><div class="sc-label">Total Users</div><div class="sc-val" id="statTotal">—</div><div class="sc-sub">160+ countries worldwide</div></div>
       <div class="stat-card"><div class="sc-label">Online Now</div><div class="sc-val" id="statOnline">—</div><div class="sc-sub">Active ≤5 min</div></div>
-      <div class="stat-card"><div class="sc-label">Blocked Users</div><div class="sc-val" id="statBlocked">—</div><div class="sc-sub">Special brand pending</div></div>
+      <div class="stat-card"><div class="sc-label">Blocked Users</div><div class="sc-val" id="statBlocked">—</div><div class="sc-sub">Special task pending</div></div>
       <div class="stat-card"><div class="sc-label">Brands</div><div class="sc-val">96</div><div class="sc-sub">Global brands</div></div>
       <div class="stat-card"><div class="sc-label">Countries</div><div class="sc-val" id="statCountries">—</div><div class="sc-sub">Represented</div></div>
     </div>
@@ -216,25 +238,24 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
       <button class="atab active" onclick="switchATab('users',this)">Users</button>
       <button class="atab" onclick="switchATab('brands',this)">Brands</button>
       <button class="atab" onclick="switchATab('countries',this)">Countries</button>
-      <button class="atab" onclick="switchATab('transactions',this)">Withdrawals</button>
-      <button class="atab" onclick="switchATab('chats',this)">Chats <span id="chatBadge" style="background:#FF5B5B;color:#fff;font-size:.52rem;padding:1px 6px;border-radius:100px;margin-left:4px;display:none">●</span></button>
+      <button class="atab" onclick="switchATab('chats',this)">Chats <span id="chatBadge" style="background:#FF5B5B;color:#fff;font-size:.5rem;padding:1px 5px;border-radius:100px;margin-left:4px;display:none">●</span></button>
     </div>
 
     <!-- USERS -->
     <div class="atab-content active" id="atab-users">
       <div class="table-top">
-        <input class="search-input" id="userSearch" placeholder="Search by name, email, phone, country, invite code..." oninput="renderUsers()"/>
-        <span class="table-count" id="userCount">—</span>
+        <input class="search-input" id="userSearch" placeholder="Search name, email, phone, country..." oninput="renderUsers()"/>
+        <span style="font-size:.66rem;color:var(--text3)" id="userCount">—</span>
       </div>
-      <p style="font-size:.68rem;color:var(--text3);margin-bottom:10px">💡 Double-click any cell to edit. Press Enter or click away to save to Supabase instantly.</p>
+      <p style="font-size:.66rem;color:var(--text3);margin-bottom:9px">💡 Double-click any cell to edit and save instantly to Supabase.</p>
       <div class="table-wrap">
         <table class="admin-table">
           <thead>
             <tr>
-              <th>#</th><th>User</th><th>Phone</th><th>Country</th><th>Year of Birth</th>
-              <th>Invite Code</th><th>Joined With</th><th>Password</th><th>Currency</th><th>Balance</th>
-              <th>Deposit +</th><th>R1 Bonus +5</th><th>Rated / Round</th><th>Special Brand</th>
-              <th>Pend. Deposit</th><th>Pend. Withdrawal</th><th>Status</th><th>Joined</th>
+              <th>#</th><th>User</th><th>Phone</th><th>Country</th><th>Year</th>
+              <th>Invite Code</th><th>Joined With</th><th>Password</th><th>Currency</th>
+              <th>Balance</th><th>Deposit +</th><th>R1 Bonus</th>
+              <th>Rated</th><th>Pend. Deposit</th><th>Pend. Withdrawal</th><th>Status</th><th>Joined</th>
             </tr>
           </thead>
           <tbody id="userTableBody"></tbody>
@@ -257,205 +278,373 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
       </div>
     </div>
 
-    <!-- TRANSACTIONS / WITHDRAWALS -->
-    <div class="atab-content" id="atab-transactions">
-      <div class="table-top">
-        <input class="search-input" id="txSearch" placeholder="Search by email, method, account number..." oninput="renderTransactions()"/>
-        <span class="table-count" id="txCount">—</span>
-      </div>
-      <div class="table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>#</th><th>User</th><th>Type</th><th>Method</th>
-              <th>Account / Wallet Address</th><th>Amount</th><th>Status</th><th>Date</th>
-            </tr>
-          </thead>
-          <tbody id="txTableBody"></tbody>
-        </table>
-      </div>
-    </div>
-
     <!-- CHATS -->
     <div class="atab-content" id="atab-chats">
-      <div style="display:grid;grid-template-columns:280px 1fr;gap:14px;height:62vh">
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow-y:auto;box-shadow:var(--sh)">
-          <div style="padding:10px 13px;border-bottom:1px solid var(--border2);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);font-weight:600">Conversations</div>
+      <div style="display:grid;grid-template-columns:270px 1fr;gap:12px;height:62vh">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;overflow-y:auto">
+          <div style="padding:9px 12px;border-bottom:1px solid var(--border2);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);font-weight:600">Conversations</div>
           <div id="chatList"></div>
         </div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;box-shadow:var(--sh)" id="chatConvo">
-          <div style="padding:24px;text-align:center;color:var(--text3);font-size:.8rem;margin:auto">Select a conversation to view and reply</div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;display:flex;flex-direction:column" id="chatConvo">
+          <div style="padding:24px;text-align:center;color:var(--text3);font-size:.78rem;margin:auto">Select a conversation</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ADMIN PROFILE PANEL -->
-<div class="profile-panel" id="profilePanel" onclick="if(event.target===this)closeProfile()">
-  <div class="pp-box">
-    <div class="pp-head"><span class="pp-title">My Admin Profile</span><button class="pp-x" onclick="closeProfile()">×</button></div>
-    <div class="pp-body">
-      <div class="pp-av-wrap">
-        <img class="pp-av" id="ppAv" src="" alt=""/>
-        <div class="pp-name" id="ppName">Admin</div>
-        <div class="pp-role" id="ppRole">Administrator</div>
-      </div>
-      <div class="pp-info" id="ppInfo">Loading...</div>
-    </div>
-  </div>
-</div>
-
-<script src="brands.js?v=1780149500"></script>
-<script src="gb_shared.js?v=1780149500"></script>
-<script src="supabase.js?v=1780149500"></script>
+<script src="brands.js"></script>
+<script src="gb_shared.js"></script>
+<script src="supabase.js"></script>
 <script>
+const SUPA_URL='https://qnggcickewzxjeudjysr.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM';
+const SB_HEADERS={'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Prefer':'return=representation'};
+
 // ── ADMIN ACCOUNTS ──
-// Password is shared — any username with the correct password logs in
-// Each admin gets a unique avatar and display name
-const ADMIN_PASSWORD = 'Globalbrandsadmin2029';
-const ADMIN_ACCOUNTS = {
-  'admin':    { name:'Super Admin',    role:'Super Administrator', color:'#C9A84C' },
-  'admin2':   { name:'Admin Two',      role:'Administrator',       color:'#5271E0' },
-  'admin3':   { name:'Admin Three',    role:'Administrator',       color:'#E05252' },
-  'support1': { name:'Support Agent',  role:'Support Team',        color:'#52C972' },
-  'support2': { name:'Support Agent 2',role:'Support Team',        color:'#9B52E0' },
-  'manager':  { name:'Manager',        role:'Senior Admin',        color:'#E08252' },
-};
+const ADMINS=[
+  {id:'admin1',name:'Admin 1',role:'Boss Administrator',color:'#C9A84C',pin:'445545',boss:true},
+  {id:'admin2',name:'Admin 2',role:'Administrator',color:'#5271E0',pin:null,boss:false},
+  {id:'admin3',name:'Admin 3',role:'Administrator',color:'#E05252',pin:null,boss:false},
+  {id:'admin4',name:'Admin 4',role:'Administrator',color:'#52C972',pin:null,boss:false},
+  {id:'admin5',name:'Admin 5',role:'Administrator',color:'#9B52E0',pin:null,boss:false},
+];
 
-let isDark=true;
-let allUsers=[];
-let currentAdmin=null; // {username, name, role, avatar}
-
-// Generate admin avatar SVG
-function adminAvatar(name,color){
-  const initials=name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${color}"/><text x="32" y="38" font-family="Arial Black,sans-serif" font-weight="900" font-size="20" fill="white" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`)}`;
+function adminAvatar(color,name){
+  const ini=name.split(' ').map(w=>w[0]).join('').toUpperCase();
+  return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="${color}"/><text x="32" y="38" font-family="Arial Black" font-weight="900" font-size="18" fill="white" text-anchor="middle" dominant-baseline="middle">${ini}</text></svg>`)}`;
 }
 
-function toggleLoginPw(){
-  const inp=document.getElementById('adminPass'),ico=document.getElementById('loginEye');
-  if(inp.type==='password'){inp.type='text';ico.innerHTML=`<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`;}
-  else{inp.type='password';ico.innerHTML=`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;}
+// Load saved pins from localStorage
+ADMINS.forEach(a=>{
+  if(!a.boss){
+    const saved=localStorage.getItem('gbpin_'+a.id);
+    if(saved) a.pin=saved;
+  }
+});
+
+let selectedAdmin=null,pinInput='',pinMode='login',pinConfirmFirst='';
+let allUsers=[],currentAdmin=null,siteLockedState=false;
+let slideIdx=0,slideTimer=null;
+
+// ── SLIDESHOW ──
+const SLIDES=[
+  'https://images.unsplash.com/photo-1696446701796-da61339df4a6?w=1200&q=80',
+  'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=80',
+  'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1200&q=80',
+  'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=1200&q=80',
+  'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=80',
+];
+function initSlides(){
+  const bg=document.getElementById('slideBg');
+  SLIDES.forEach((url,i)=>{
+    const d=document.createElement('div');
+    d.className='slide'+(i===0?' active':'');
+    d.style.backgroundImage=`url('${url}')`;
+    bg.appendChild(d);
+  });
+  slideTimer=setInterval(()=>{
+    const slides=document.querySelectorAll('.slide');
+    slides[slideIdx].classList.remove('active');
+    slideIdx=(slideIdx+1)%slides.length;
+    slides[slideIdx].classList.add('active');
+  },4000);
+}
+initSlides();
+
+// ── STEP 1: BUILD ADMIN SELECTOR ──
+function buildSelector(){
+  const sel=document.getElementById('adminSelector');
+  sel.innerHTML='';
+  ADMINS.forEach(a=>{
+    const d=document.createElement('div');
+    d.className='admin-option';
+    d.innerHTML=`<div class="ao-av" style="background:${a.color}">${a.name.split(' ').map(w=>w[0]).join('')}</div>
+      <div><div class="ao-name">${a.name}</div><div class="ao-role">${a.role}</div></div>
+      ${a.boss?'<span class="ao-boss">👑 Boss</span>':''}`;
+    d.onclick=()=>{
+      document.querySelectorAll('.admin-option').forEach(x=>x.classList.remove('selected'));
+      d.classList.add('selected');
+      selectedAdmin=a;
+      document.getElementById('btnNext').disabled=false;
+    };
+    sel.appendChild(d);
+  });
+}
+buildSelector();
+
+function goToPin(){
+  if(!selectedAdmin)return;
+  document.getElementById('stepPick').classList.remove('show');
+  document.getElementById('stepPin').classList.add('show');
+  pinInput='';pinMode='login';pinConfirmFirst='';
+  setupPinUI();
 }
 
-
-function adminLogin(){
-  const username=document.getElementById('adminUser').value.trim().toLowerCase();
-  const pwd=document.getElementById('adminPass').value;
-  document.getElementById('loginErr').style.display='none';
-  if(pwd!==ADMIN_PASSWORD){document.getElementById('loginErr').style.display='block';return;}
-  const acct=ADMIN_ACCOUNTS[username]||{name:username.charAt(0).toUpperCase()+username.slice(1),role:'Administrator',color:'#C9A84C'};
-  const av=adminAvatar(acct.name,acct.color);
-  currentAdmin={username,name:acct.name,role:acct.role,avatar:av,color:acct.color};
-  sessionStorage.setItem('gb_admin',JSON.stringify(currentAdmin));
-  showAdmin();
+function backToPick(){
+  document.getElementById('stepPin').classList.remove('show');
+  document.getElementById('stepPick').classList.add('show');
+  selectedAdmin=null;
+  document.getElementById('btnNext').disabled=true;
+  document.querySelectorAll('.admin-option').forEach(x=>x.classList.remove('selected'));
 }
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('loginWrap').style.display!=='none')adminLogin();});
 
-function showAdmin(){
-  document.getElementById('loginWrap').style.display='none';
+// ── STEP 2: PIN UI ──
+const PIN_LEN=6;
+function setupPinUI(){
+  const a=selectedAdmin;
+  document.getElementById('pinAv').style.background=a.color;
+  document.getElementById('pinAv').textContent=a.name.split(' ').map(w=>w[0]).join('');
+  document.getElementById('pinWho').textContent=a.name+' · '+a.role;
+  const isFirst=!a.boss&&!a.pin;
+  document.getElementById('pinSetupMsg').style.display=isFirst?'block':'none';
+  document.getElementById('pinTitle').textContent=isFirst?'Set Your PIN':'Enter Your PIN';
+  document.getElementById('pinSub').textContent=isFirst?'Choose a 6-digit PIN you will use every time':'Enter your 6-digit PIN to sign in';
+  if(isFirst) pinMode='setup';
+  buildDots();
+}
+
+function buildDots(){
+  const d=document.getElementById('pinDots');
+  d.innerHTML='';
+  for(let i=0;i<PIN_LEN;i++){
+    const dot=document.createElement('div');
+    dot.className='pin-dot'+(i<pinInput.length?' filled':'');
+    d.appendChild(dot);
+  }
+}
+
+function addKey(k){
+  if(pinInput.length>=PIN_LEN)return;
+  pinInput+=k;
+  buildDots();
+  if(pinInput.length===PIN_LEN) setTimeout(checkPin,220);
+}
+
+function delKey(){
+  if(pinInput.length===0)return;
+  pinInput=pinInput.slice(0,-1);
+  buildDots();
+  document.getElementById('pinErr').textContent='';
+}
+
+function checkPin(){
+  const a=selectedAdmin;
+  if(pinMode==='setup'){
+    if(pinConfirmFirst===''){
+      pinConfirmFirst=pinInput;
+      pinInput='';
+      document.getElementById('pinTitle').textContent='Confirm Your PIN';
+      document.getElementById('pinSub').textContent='Enter the same PIN again to confirm';
+      buildDots();
+      return;
+    } else {
+      if(pinInput===pinConfirmFirst){
+        // Save PIN
+        a.pin=pinInput;
+        localStorage.setItem('gbpin_'+a.id,pinInput);
+        // Save admin account record to Supabase
+        saveAdminRecord(a,'setup');
+        loginSuccess(a);
+      } else {
+        showPinError('PINs do not match. Try again.');
+        pinConfirmFirst='';
+        pinMode='setup';
+        document.getElementById('pinTitle').textContent='Set Your PIN';
+        document.getElementById('pinSub').textContent='Choose a 6-digit PIN';
+      }
+    }
+  } else {
+    if(pinInput===a.pin){
+      saveAdminRecord(a,'login');
+      loginSuccess(a);
+    } else {
+      showPinError('Incorrect PIN. Try again.');
+    }
+  }
+}
+
+function showPinError(msg){
+  document.querySelectorAll('.pin-dot').forEach(d=>{d.classList.remove('filled');d.classList.add('err');});
+  document.getElementById('pinCard').classList.add('shake');
+  document.getElementById('pinErr').textContent=msg;
+  setTimeout(()=>{
+    document.querySelectorAll('.pin-dot').forEach(d=>d.classList.remove('err'));
+    document.getElementById('pinCard').classList.remove('shake');
+    pinInput='';buildDots();
+  },700);
+}
+
+async function saveAdminRecord(a,action){
+  const now=new Date().toISOString();
+  const rec={
+    admin_id:a.id,admin_name:a.name,admin_pin:a.pin,
+    last_seen:now,is_online:true,
+    ...(action==='setup'?{first_login:now}:{})
+  };
+  await fetch(`${SUPA_URL}/rest/v1/gb_admins`,{
+    method:'POST',headers:{...SB_HEADERS,'Prefer':'resolution=merge-duplicates'},
+    body:JSON.stringify(rec)
+  });
+}
+
+function loginSuccess(a){
+  currentAdmin=a;
+  sessionStorage.setItem('gb_admin_session',JSON.stringify({id:a.id,name:a.name,role:a.role,color:a.color}));
+  document.getElementById('stepPin').classList.remove('show');
+  showPanel();
+}
+
+function showPanel(){
   document.getElementById('adminWrap').style.display='flex';
-  // Set nav profile chip
-  document.getElementById('navAdminAv').src=currentAdmin.avatar;
-  document.getElementById('navAdminName').textContent=currentAdmin.name;
-  document.getElementById('navAdminRole').textContent=currentAdmin.role;
-  // Set profile panel
-  document.getElementById('ppAv').src=currentAdmin.avatar;
-  document.getElementById('ppName').textContent=currentAdmin.name;
-  document.getElementById('ppRole').textContent=currentAdmin.role;
-  document.getElementById('ppInfo').innerHTML=`Username: <strong>${currentAdmin.username}</strong><br>Role: <strong>${currentAdmin.role}</strong><br>Status: <strong style="color:#4caf50">● Online</strong>`;
+  const a=currentAdmin;
+  // Nav chip
+  document.getElementById('chipAv').style.background=a.color;
+  document.getElementById('chipAv').textContent=a.name.split(' ').map(w=>w[0]).join('');
+  document.getElementById('chipName').textContent=a.name;
+  // Boss section
+  if(a.boss){document.getElementById('bossSection').style.display='block';loadBossSection();}
+  // Load site lock state
+  loadSiteLockState();
   refreshData();
   setInterval(refreshData,15000);
 }
 
 function adminLogout(){
-  sessionStorage.removeItem('gb_admin');
-  document.getElementById('loginWrap').style.display='flex';
-  document.getElementById('adminWrap').style.display='none';
+  // Mark offline
+  fetch(`${SUPA_URL}/rest/v1/gb_admins?admin_id=eq.${currentAdmin.id}`,{
+    method:'PATCH',headers:SB_HEADERS,body:JSON.stringify({is_online:false,last_seen:new Date().toISOString()})
+  });
+  sessionStorage.removeItem('gb_admin_session');
   currentAdmin=null;
+  document.getElementById('adminWrap').style.display='none';
+  document.getElementById('stepPick').classList.add('show');
+  selectedAdmin=null;
+  document.getElementById('btnNext').disabled=true;
+  document.querySelectorAll('.admin-option').forEach(x=>x.classList.remove('selected'));
 }
 
-function openProfile(){document.getElementById('profilePanel').classList.add('open');}
-function closeProfile(){document.getElementById('profilePanel').classList.remove('open');}
+// ── SITE LOCK ──
+async function loadSiteLockState(){
+  const r=await fetch(`${SUPA_URL}/rest/v1/gb_settings?key=eq.site_locked`,{headers:{apikey:SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}});
+  const d=await r.json();
+  siteLockedState=d&&d[0]&&d[0].value==='true';
+  updateLockUI();
+}
 
+function updateLockUI(){
+  const btn=document.getElementById('lockToggle');
+  const icon=document.getElementById('lockIcon');
+  const label=document.getElementById('lockLabel');
+  if(siteLockedState){
+    btn.className='lock-toggle locked';icon.textContent='🔒';label.textContent='Site Locked';
+  } else {
+    btn.className='lock-toggle unlocked';icon.textContent='🔓';label.textContent='Site Open';
+  }
+}
+
+async function toggleSiteLock(){
+  siteLockedState=!siteLockedState;
+  updateLockUI();
+  await fetch(`${SUPA_URL}/rest/v1/gb_settings`,{
+    method:'POST',headers:{...SB_HEADERS,'Prefer':'resolution=merge-duplicates'},
+    body:JSON.stringify({key:'site_locked',value:String(siteLockedState)})
+  });
+}
+
+// ── BOSS SECTION ──
+async function loadBossSection(){
+  const r=await fetch(`${SUPA_URL}/rest/v1/gb_admins?order=admin_id.asc`,{headers:{apikey:SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}});
+  const admins=await r.json();
+  const colors={admin1:'#C9A84C',admin2:'#5271E0',admin3:'#E05252',admin4:'#52C972',admin5:'#9B52E0'};
+  const now=Date.now();
+  document.getElementById('adminCards').innerHTML=ADMINS.filter(a=>!a.boss).map(a=>{
+    const rec=admins?admins.find(x=>x.admin_id===a.id):null;
+    const isOnline=rec&&rec.is_online&&rec.last_seen&&(now-new Date(rec.last_seen).getTime())<300000;
+    const lastSeen=rec&&rec.last_seen?timeSince(new Date(rec.last_seen)):'Never';
+    const joined=rec&&rec.first_login?new Date(rec.first_login).toLocaleDateString():'Not yet';
+    const pin=rec&&rec.admin_pin?rec.admin_pin:'Not set';
+    return `<div class="admin-card">
+      <div class="admin-card-av" style="background:${colors[a.id]||'#555'}">${a.name.split(' ').map(w=>w[0]).join('')}</div>
+      <div class="admin-card-name">${a.name}</div>
+      <div class="admin-card-pin">PIN: <strong style="color:var(--gold)">${pin}</strong></div>
+      <span class="admin-card-status ${isOnline?'badge-online':'badge-offline'}">${isOnline?'🟢 Online':'⚫ Offline'}</span>
+      <div class="admin-card-meta">First login: ${joined}<br>Last seen: ${lastSeen}</div>
+    </div>`;
+  }).join('');
+}
+
+function timeSince(date){
+  const s=Math.floor((Date.now()-date)/1000);
+  if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m ago';
+  if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';
+}
+
+// ── DATA ──
 async function refreshData(){
-  document.getElementById('lastRefresh').textContent='Updated: '+new Date().toLocaleTimeString();
+  document.getElementById('lastRefresh').textContent=new Date().toLocaleTimeString();
   allUsers=await sb.getAllUsers();
   const now=Date.now();
   const online=allUsers.filter(u=>u.last_seen&&now-new Date(u.last_seen).getTime()<300000);
-  const blocked=allUsers.filter(u=>{const b=u.special_blocked||{};return (b[45]||b[58])&&(u.earnings||0)<=0;});
   const countries=[...new Set(allUsers.map(u=>u.country).filter(Boolean))];
   document.getElementById('statTotal').textContent=allUsers.length;
   document.getElementById('statOnline').textContent=online.length;
-  document.getElementById('statBlocked').textContent=blocked.length;
+  document.getElementById('statBlocked').textContent=allUsers.filter(u=>u.special_blocked&&Object.keys(u.special_blocked).length>0).length;
   document.getElementById('statCountries').textContent=countries.length;
   renderUsers();renderCountries();renderBrandsAdmin();
   const msgs=await sb.getAllChats();
   const unread=msgs.filter(m=>m.sender==='user'&&!m.read).length;
   const cb=document.getElementById('chatBadge');if(cb)cb.style.display=unread>0?'inline':'none';
+  if(currentAdmin&&currentAdmin.boss)loadBossSection();
 }
 
 function renderUsers(){
   const q=(document.getElementById('userSearch').value||'').toLowerCase();
   const filtered=allUsers.filter(u=>!q||(u.name||'').toLowerCase().includes(q)||(u.email||'').toLowerCase().includes(q)||(u.phone||'').toLowerCase().includes(q)||(u.country||'').toLowerCase().includes(q)||(u.invite_code||'').toLowerCase().includes(q));
-  document.getElementById('userCount').textContent=filtered.length+' user'+(filtered.length!==1?'s':'');
+  document.getElementById('userCount').textContent=filtered.length+' users';
   const now=Date.now();
   document.getElementById('userTableBody').innerHTML=filtered.map((u,i)=>{
     const isOnline=u.last_seen&&now-new Date(u.last_seen).getTime()<300000;
-    const fmt=n=>{const sym=u.symbol||'KES';const abs=Math.abs(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});return (n<0?'-':'')+sym+' '+abs;};
-    const bal=u.earnings||0;const balClass=bal<0?'bal-neg':'bal-pos';
-    const avHtml=u.avatar?`<img class="u-av-img" src="${u.avatar}" onerror="this.style.display='none'"/>`:`<div style="width:30px;height:30px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:#000;flex-shrink:0">${u.name?u.name[0].toUpperCase():'?'}</div>`;
-    const tc=u.tasks_completed||0;const round=tc<32?1:tc<64?2:3;
-    const blk=u.special_blocked||{};
-    let spStatus='<span style="color:var(--text3);font-size:.66rem">Clear</span>';
-    if((blk[45]||blk[58])&&bal<=0){const which=blk[45]?'Brand 14 R2':'Brand 27 R2';spStatus=`<span class="badge badge-blocked">⚠️ ${which}</span>`;}
+    const fmt=n=>{const sym=u.symbol||'KES';return sym+' '+(Math.abs(n||0)).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});};
+    const bal=u.earnings||0;
+    const avSrc=u.avatar||`data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#C9A84C"/><text x="32" y="38" font-family="Arial Black" font-size="22" fill="white" text-anchor="middle">${(u.name||'?')[0].toUpperCase()}</text></svg>`)}`;
+    const pwdPlain=u.password_hash?function(){try{return atob(u.password_hash);}catch{return '—';}}():'—';
+    const pwdId='pwd-'+i;
     const pendDep=u.pending_deposit||0;const pendWd=u.pending_withdrawal||0;
     const joined=u.joined_at?new Date(u.joined_at).toLocaleDateString():'—';
-    // Password — show with eye toggle
-    const pwdPlain=u.password_hash?(() => {try{return atob(u.password_hash);}catch{return '—';}})():'—';
-    const pwdId='pwd-'+i;
     return `<tr data-email="${u.email}">
       <td class="row-num">${i+1}</td>
-      <td><div class="u-cell">${avHtml}<div><div class="u-uname">${u.name||'Unknown'}</div><div class="u-email">${u.email||''}</div></div></div></td>
+      <td><div class="u-cell"><img class="u-av-img" src="${avSrc}" onerror="this.style.display='none'"/><div><div class="u-uname">${u.name||'?'}</div><div class="u-email">${u.email||''}</div></div></div></td>
       <td contenteditable="true" data-field="phone" onblur="saveCell(this,'${u.email}')">${u.phone||'—'}</td>
       <td contenteditable="true" data-field="country" onblur="saveCell(this,'${u.email}')">${u.country||'—'}</td>
       <td contenteditable="true" data-field="year_of_birth" onblur="saveCell(this,'${u.email}')">${u.year_of_birth||'—'}</td>
       <td><span class="inv-code">${u.invite_code||'—'}</span></td>
-      <td><span style="font-size:.7rem;color:rgba(201,168,76,.7);letter-spacing:.06em">${u.referred_by||'—'}</span></td>
-      <td>
-        <div class="pwd-cell">
-          <span class="pwd-text" id="${pwdId}" data-plain="${pwdPlain}" data-hidden="true">••••••••</span>
-          <button class="pwd-eye" onclick="togglePwdCell('${pwdId}')" title="Show/hide password">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-      </td>
-      <td style="font-size:.72rem">${u.currency||'KES'} (${u.symbol||'KES'})</td>
-      <td class="${balClass}" contenteditable="true" data-field="earnings" onblur="saveCell(this,'${u.email}')">${bal.toFixed(2)}</td>
+      <td style="font-size:.7rem;color:rgba(201,168,76,.7)">${u.referred_by||'—'}</td>
+      <td><div class="pwd-cell"><span class="pwd-text" id="${pwdId}" data-plain="${pwdPlain}" data-hidden="true">••••••••</span><button class="pwd-eye" onclick="togglePwd('${pwdId}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></td>
+      <td style="font-size:.7rem">${u.currency||'KES'}</td>
+      <td contenteditable="true" data-field="earnings" onblur="saveCell(this,'${u.email}')" style="${bal<0?'color:#ff6060':'color:#4caf50'};font-weight:600">${bal.toFixed(2)}</td>
       <td><button class="dep-btn" onclick="adminDeposit('${u.email}','${u.symbol||'KES'}')">+ Deposit</button></td>
-      <td><button class="dep-btn" style="background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--gold)" onclick="adminR1Bonus('${u.email}','${u.symbol||'KES'}')">+ Bonus</button></td>
-      <td>${tc} / 96<br><span style="font-size:.58rem;color:var(--gold);font-weight:600">Round ${round}</span></td>
-      <td>${spStatus}</td>
+      <td><button class="dep-btn" style="background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--gold)" onclick="adminR1Bonus('${u.email}','${u.symbol||'KES'}')">+5 Bonus</button></td>
+      <td style="font-size:.72rem">${u.tasks_completed||0}/96</td>
       <td contenteditable="true" data-field="pending_deposit" onblur="saveCell(this,'${u.email}')" style="color:#2e7d32;font-size:.72rem">${pendDep.toFixed(2)}</td>
       <td contenteditable="true" data-field="pending_withdrawal" onblur="saveCell(this,'${u.email}')" style="color:#b35c00;font-size:.72rem">${pendWd.toFixed(2)}</td>
-      <td><span class="badge ${isOnline?'badge-online':'badge-offline'}"><span class="status-dot ${isOnline?'online':'offline'}"></span>${isOnline?'Online':'Offline'}</span></td>
-      <td style="color:var(--text3);font-size:.68rem">${joined}</td>
+      <td><span class="badge ${isOnline?'badge-online':'badge-offline'}">${isOnline?'● Online':'○ Offline'}</span></td>
+      <td style="font-size:.66rem;color:var(--text3)">${joined}</td>
     </tr>`;
   }).join('');
 }
 
-function togglePwdCell(id){
+function togglePwd(id){
   const el=document.getElementById(id);if(!el)return;
   const hidden=el.getAttribute('data-hidden')==='true';
-  if(hidden){el.textContent=el.getAttribute('data-plain');el.setAttribute('data-hidden','false');}
-  else{el.textContent='••••••••';el.setAttribute('data-hidden','true');}
+  el.textContent=hidden?el.getAttribute('data-plain'):'••••••••';
+  el.setAttribute('data-hidden',hidden?'false':'true');
 }
 
 async function saveCell(td,email){
   const field=td.getAttribute('data-field');let val=td.textContent.trim();
   if(val==='—')val='';
-  if(field==='earnings')val=parseFloat(val)||0;
+  if(['earnings','pending_deposit','pending_withdrawal'].includes(field))val=parseFloat(val)||0;
   const update={};update[field]=val;
   await sb.updateUser(email,update);
   const u=allUsers.find(u=>u.email===email);if(u)u[field]=val;
@@ -467,8 +656,7 @@ async function adminR1Bonus(email,symbol){
   const newEarnings=parseFloat(((u.earnings||0)+amount).toFixed(2));
   await sb.updateUser(email,{earnings:newEarnings});
   await sb.addTransaction({user_email:email,type:'bonus',label:'Round 1 Completion Bonus',amount,status:'completed'});
-  u.earnings=newEarnings;
-  renderUsers();
+  u.earnings=newEarnings;renderUsers();
   alert('✅ +5 bonus added to '+email+'\nNew balance: '+symbol+' '+newEarnings.toFixed(2));
 }
 
@@ -483,14 +671,14 @@ async function adminDeposit(email,symbol){
   await sb.addTransaction({user_email:email,type:'deposit',label:'Admin Deposit by '+currentAdmin.name,amount,status:'completed'});
   u.earnings=newEarnings;u.pending_deposit=newPendDep;
   renderUsers();
-  alert(`✅ Deposited ${symbol} ${amount.toFixed(2)} to ${email}.\nNew balance: ${symbol} ${newEarnings.toFixed(2)}`);
+  alert('✅ Deposited '+symbol+' '+amount.toFixed(2)+' to '+email+'\nNew balance: '+symbol+' '+newEarnings.toFixed(2));
 }
 
 function renderCountries(){
   const map={};
   allUsers.forEach(u=>{const c=u.country||'Unknown';if(!map[c])map[c]={count:0,total:0,symbol:u.symbol||'KES'};map[c].count++;map[c].total+=(u.earnings||0);});
   const sorted=Object.entries(map).sort((a,b)=>b[1].count-a[1].count);
-  document.getElementById('countryTableBody').innerHTML=sorted.map(([c,d],i)=>`<tr><td class="row-num">${i+1}</td><td><span class="badge badge-country">${c}</span></td><td style="font-weight:600">${d.count}</td><td class="bal-pos">${d.symbol} ${d.total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr>`).join('');
+  document.getElementById('countryTableBody').innerHTML=sorted.map(([c,d],i)=>`<tr><td class="row-num">${i+1}</td><td><span class="badge" style="background:rgba(201,168,76,.1);color:#a07830;border:1px solid rgba(201,168,76,.2)">${c}</span></td><td style="font-weight:600">${d.count}</td><td style="color:#4caf50">${d.symbol} ${d.total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr>`).join('');
 }
 
 function renderBrandsAdmin(){
@@ -498,7 +686,7 @@ function renderBrandsAdmin(){
   BRANDS.forEach(b=>{
     const stars='★'.repeat(Math.round(b.rating))+'☆'.repeat(5-Math.round(b.rating));
     const tile=document.createElement('div');tile.className='ba-tile';
-    tile.innerHTML=`<img class="ba-logo" src="${b.logo}" alt="${b.name}" onerror="logoFail(this,'${b.fallback}','${b.color}','${b.initials}')"><div class="ba-name">${b.name}</div><div class="ba-sector">${b.sector}</div><div class="ba-rating">${stars} ${b.rating}</div>`;
+    tile.innerHTML=`<img class="ba-logo" src="${b.logo}" alt="${b.name}" onerror="this.style.display='none'"><div class="ba-name">${b.name}</div><div class="ba-sector">${b.sector}</div><div style="font-size:.6rem;color:var(--gold);margin-top:2px">${stars} ${b.rating}</div>`;
     grid.appendChild(tile);
   });
 }
@@ -507,68 +695,27 @@ function switchATab(name,btn){
   document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
   document.querySelectorAll('.atab-content').forEach(t=>t.classList.remove('active'));document.getElementById('atab-'+name).classList.add('active');
   if(name==='chats')renderChatList();
-  if(name==='transactions')renderTransactions();
-}
-
-let allTransactions=[];
-async function renderTransactions(){
-  if(allTransactions.length===0){
-    // Load all transactions from Supabase
-    const r=await fetch(`https://qnggcickewzxjeudjysr.supabase.co/rest/v1/gb_transactions?order=created_at.desc&limit=500`,{headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM'}});
-    allTransactions=await r.json();
-  }
-  const q=(document.getElementById('txSearch').value||'').toLowerCase();
-  // Show withdrawals and deposits only — not individual earning records
-  const filtered=allTransactions.filter(tx=>{
-    const isWdDep=tx.type==='withdrawal'||tx.type==='deposit';
-    const mq=!q||(tx.user_email||'').toLowerCase().includes(q)||(tx.method||'').toLowerCase().includes(q)||(tx.account||'').toLowerCase().includes(q)||(tx.label||'').toLowerCase().includes(q);
-    return isWdDep&&mq;
-  });
-  document.getElementById('txCount').textContent=filtered.length+' records';
-  const userMap={};allUsers.forEach(u=>userMap[u.email]=u);
-  document.getElementById('txTableBody').innerHTML=filtered.map((tx,i)=>{
-    const u=userMap[tx.user_email];
-    const sym=u?u.symbol:'';
-    const isWd=tx.type==='withdrawal';
-    const typeColor=isWd?'color:#FFA500':'color:#4caf50';
-    const statusColor=tx.status==='pending'?'color:#FFA500;font-weight:600':'color:#4caf50';
-    const account=tx.account||'—';
-    const date=new Date(tx.created_at).toLocaleDateString()+' '+new Date(tx.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    return `<tr>
-      <td class="row-num">${i+1}</td>
-      <td><div style="font-size:.76rem;font-weight:600;color:var(--text)">${u?u.name:'Unknown'}</div><div style="font-size:.6rem;color:var(--text3)">${tx.user_email}</div></td>
-      <td style="font-size:.72rem;font-weight:600;${typeColor};text-transform:capitalize">${tx.type}</td>
-      <td style="font-size:.72rem;color:var(--text2)">${tx.method||'—'}</td>
-      <td><div style="font-size:.74rem;color:var(--text);font-family:monospace;word-break:break-all;max-width:200px">${account}</div></td>
-      <td style="font-size:.78rem;font-weight:600;${typeColor}">${isWd?'-':'+'} ${sym} ${(tx.amount||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
-      <td style="font-size:.68rem;${statusColor}">${tx.status||'—'}</td>
-      <td style="font-size:.66rem;color:var(--text3)">${date}</td>
-    </tr>`;
-  }).join('');
 }
 
 let activeChatEmail=null;
 async function renderChatList(){
   const msgs=await sb.getAllChats();
   const byUser={};msgs.forEach(m=>{if(!byUser[m.user_email])byUser[m.user_email]=[];byUser[m.user_email].push(m);});
-  const unreadTotal=msgs.filter(m=>m.sender==='user'&&!m.read).length;
-  const cb=document.getElementById('chatBadge');if(cb)cb.style.display=unreadTotal>0?'inline':'none';
+  const unread=msgs.filter(m=>m.sender==='user'&&!m.read).length;
+  const cb=document.getElementById('chatBadge');if(cb)cb.style.display=unread>0?'inline':'none';
   const list=document.getElementById('chatList');
   const entries=Object.entries(byUser);
-  if(entries.length===0){list.innerHTML='<div style="padding:20px;text-align:center;font-size:.76rem;color:var(--text3)">No conversations yet</div>';return;}
+  if(!entries.length){list.innerHTML='<div style="padding:20px;text-align:center;font-size:.74rem;color:var(--text3)">No conversations yet</div>';return;}
   const userMap={};allUsers.forEach(u=>userMap[u.email]=u);
   list.innerHTML=entries.map(([email,userMsgs])=>{
     const last=userMsgs[userMsgs.length-1];
-    const preview=last?last.text.slice(0,40)+(last.text.length>40?'...':''):'';
+    const preview=last?last.text.slice(0,38)+(last.text.length>38?'...':''):'';
     const unread=userMsgs.filter(m=>m.sender==='user'&&!m.read).length;
     const u=userMap[email];const name=u?u.name:'Unknown';
-    const av=u&&u.avatar?u.avatar:`data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#C9A84C"/><text x="32" y="38" font-family="Arial Black" font-size="22" fill="white" text-anchor="middle">${name[0]||'?'}</text></svg>`)}`;
+    const av=u&&u.avatar?u.avatar:`data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#C9A84C"/><text x="32" y="38" font-family="Arial Black" font-size="22" fill="white" text-anchor="middle">${(name[0]||'?')}</text></svg>`)}`;
     return `<div class="chat-user-item${activeChatEmail===email?' sel':''}" onclick="openAdminChat('${email.replace(/'/g,"\\'")}','${name.replace(/'/g,"\\'")}')">
       <img class="cui-av" src="${av}"/>
-      <div style="flex:1;min-width:0">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:4px"><div class="cui-name">${name}</div>${unread>0?'<div class="cui-badge"></div>':''}</div>
-        <div class="cui-preview">${preview}</div>
-      </div>
+      <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;justify-content:space-between"><div class="cui-name">${name}</div>${unread>0?'<div class="cui-badge"></div>':''}</div><div class="cui-preview">${preview}</div></div>
     </div>`;
   }).join('');
 }
@@ -579,9 +726,7 @@ async function openAdminChat(email,name){
   const msgs=await sb.getMessages(email);
   const convo=document.getElementById('chatConvo');
   convo.innerHTML=`
-    <div style="padding:12px 16px;border-bottom:1px solid var(--border2);font-family:var(--serif);font-size:.92rem;font-weight:700;color:var(--text)">
-      💬 ${name} <span style="font-size:.6rem;font-family:var(--sans);color:var(--text3);font-weight:400">${email}</span>
-    </div>
+    <div style="padding:11px 15px;border-bottom:1px solid var(--border2);font-family:var(--serif);font-size:.9rem;font-weight:700">${name} <span style="font-size:.58rem;font-family:var(--sans);color:var(--text3)">${email}</span></div>
     <div class="admin-chat-msgs" id="adminMsgs"></div>
     <div class="admin-reply-row">
       <input class="admin-reply-input" id="adminReplyInput" placeholder="Reply as ${currentAdmin.name}..." onkeydown="if(event.key==='Enter')adminReply()"/>
@@ -590,11 +735,8 @@ async function openAdminChat(email,name){
   const container=document.getElementById('adminMsgs');
   container.innerHTML=msgs.map(m=>{
     const cls=m.sender==='care'?'care':'user';
-    // Show which admin replied
-    const senderLabel=m.sender==='care'
-      ? `<div class="sndr">${m.admin_name||'Customer Care'}</div>`
-      : `<div class="sndr">User</div>`;
-    return `<div class="acm ${cls}">${senderLabel}${m.text}<div class="mt">${new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+    const sndr=m.sender==='care'?`<div class="sndr">${m.admin_name||'Customer Care'}</div>`:`<div class="sndr">User</div>`;
+    return `<div class="acm ${cls}">${sndr}${m.text}<div class="mt">${new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div></div>`;
   }).join('');
   container.scrollTop=container.scrollHeight;
   renderChatList();
@@ -604,70 +746,30 @@ async function adminReply(){
   const input=document.getElementById('adminReplyInput');
   if(!input||!activeChatEmail)return;
   const text=input.value.trim();if(!text)return;
-  input.value='';
-  input.disabled=true;
-  try{
-    // Use supabase.js sendMessage then patch admin_name
-    const SUPA_URL='https://qnggcickewzxjeudjysr.supabase.co';
-    const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM';
-    const res=await fetch(`${SUPA_URL}/rest/v1/gb_messages`,{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'apikey':SUPA_KEY,
-        'Authorization':'Bearer '+SUPA_KEY,
-        'Prefer':'return=representation'
-      },
-      body:JSON.stringify({
-        user_email:activeChatEmail,
-        text,
-        sender:'care',
-        read:false,
-        admin_name:currentAdmin?currentAdmin.name:'Admin'
-      })
-    });
-    if(!res.ok){const err=await res.text();console.error('Reply failed:',err);alert('Failed to send reply. Check console.');input.disabled=false;return;}
-  }catch(e){console.error('Reply error:',e);alert('Network error sending reply.');input.disabled=false;return;}
-  input.disabled=false;
-  // Reload the conversation
-  const u=allUsers.find(u=>u.email===activeChatEmail);
-  const name=u?u.name:activeChatEmail;
-  openAdminChat(activeChatEmail,name);
-}
-
-// ── LOGIN BACKGROUND SLIDESHOW ──
-const LOGIN_SLIDES=[
-  'https://images.unsplash.com/photo-1696446701796-da61339df4a6?w=1200&q=80', // iPhone 16
-  'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=80',   // Nike
-  'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=1200&q=80',// Tesla
-  'https://images.unsplash.com/photo-1581098365948-6a5a912b7a49?w=1200&q=80',// Coca-Cola
-  'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=80', // MacBook
-];
-let bgSlideIdx=0;
-function initLoginBg(){
-  const bg=document.getElementById('loginBg');
-  LOGIN_SLIDES.forEach((url,i)=>{
-    const div=document.createElement('div');
-    div.className='login-slide'+(i===0?' active':'');
-    div.style.backgroundImage=`url('${url}')`;
-    bg.appendChild(div);
+  input.value='';input.disabled=true;
+  await fetch(`${SUPA_URL}/rest/v1/gb_messages`,{
+    method:'POST',headers:SB_HEADERS,
+    body:JSON.stringify({user_email:activeChatEmail,text,sender:'care',read:false,admin_name:currentAdmin.name})
   });
-  setInterval(()=>{
-    const slides=document.querySelectorAll('.login-slide');
-    slides[bgSlideIdx].classList.remove('active');
-    bgSlideIdx=(bgSlideIdx+1)%slides.length;
-    slides[bgSlideIdx].classList.add('active');
-  },4000);
+  input.disabled=false;
+  const u=allUsers.find(u=>u.email===activeChatEmail);
+  openAdminChat(activeChatEmail,u?u.name:activeChatEmail);
 }
-initLoginBg();
 
-// Also need admin_name column in Supabase messages table
-// Run: ALTER TABLE public.gb_messages ADD COLUMN IF NOT EXISTS admin_name text;
-
-// Restore session
-const saved=sessionStorage.getItem('gb_admin');
+// ── RESTORE SESSION ──
+const saved=sessionStorage.getItem('gb_admin_session');
 if(saved){
-  try{currentAdmin=JSON.parse(saved);showAdmin();}catch(e){sessionStorage.removeItem('gb_admin');}
+  try{
+    const s=JSON.parse(saved);
+    const a=ADMINS.find(x=>x.id===s.id);
+    if(a){
+      // Reload pin from localStorage
+      if(!a.boss){const p=localStorage.getItem('gbpin_'+a.id);if(p)a.pin=p;}
+      currentAdmin=a;
+      document.getElementById('stepPick').classList.remove('show');
+      showPanel();
+    }
+  }catch(e){sessionStorage.removeItem('gb_admin_session');}
 }
 </script>
 </body>

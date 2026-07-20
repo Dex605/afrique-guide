@@ -190,7 +190,18 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;background:rgba(4,4,10,
   </style>
 </head>
 <body>
-<script>if(sessionStorage.getItem('gb_unlocked')!=='1'){window.location.href='unlock.html';}</script>
+<script>
+(async function(){
+  const SUPA_URL='https://qnggcickewzxjeudjysr.supabase.co';
+  const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ2djaWNrZXd6eGpldWRqeXNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MjM4MDMsImV4cCI6MjA4NzE5OTgwM30.ULyeE4Gry6cQPczTdXZs9-R4nF80Hfvr6Z-21GIbyLM';
+  try{
+    const r=await fetch(SUPA_URL+'/rest/v1/gb_settings?key=eq.site_locked',{headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}});
+    const d=await r.json();
+    if(d&&d[0]&&d[0].value==='true'){window.location.href='unlock.html';}
+    else{sessionStorage.setItem('gb_unlocked','1');}
+  }catch(e){}
+})();
+</script>
 
 
 <!-- APP WRAPPER -->
