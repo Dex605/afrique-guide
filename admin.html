@@ -67,7 +67,7 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
 
 /* ── ADMIN PANEL ── */
-.admin-wrap{display:none;min-height:100vh;flex-direction:column}
+.admin-wrap{display:none;min-height:100vh;flex-direction:column;background:var(--bg);position:relative;z-index:50}
 .admin-nav{padding:11px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--nav-bg);position:sticky;top:0;z-index:100;backdrop-filter:blur(14px)}
 .admin-logo{display:flex;align-items:center;gap:10px}
 .admin-globe{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08)}
@@ -458,12 +458,10 @@ function checkPin(){
       return;
     } else {
       if(pinInput===pinConfirmFirst){
-        // Save PIN
         a.pin=pinInput;
         localStorage.setItem('gbpin_'+a.id,pinInput);
-        // Save admin account record to Supabase
-        saveAdminRecord(a,'setup');
         loginSuccess(a);
+        saveAdminRecord(a,'setup');
       } else {
         showPinError('PINs do not match. Try again.');
         pinConfirmFirst='';
@@ -474,8 +472,8 @@ function checkPin(){
     }
   } else {
     if(pinInput===a.pin){
+      loginSuccess(a); // login first, save record in background
       saveAdminRecord(a,'login');
-      loginSuccess(a);
     } else {
       showPinError('Incorrect PIN. Try again.');
     }
@@ -494,16 +492,18 @@ function showPinError(msg){
 }
 
 async function saveAdminRecord(a,action){
-  const now=new Date().toISOString();
-  const rec={
-    admin_id:a.id,admin_name:a.name,admin_pin:a.pin,
-    last_seen:now,is_online:true,
-    ...(action==='setup'?{first_login:now}:{})
-  };
-  await fetch(`${ADM_URL}/rest/v1/gb_admins`,{
-    method:'POST',headers:{...SB_HEADERS,'Prefer':'resolution=merge-duplicates'},
-    body:JSON.stringify(rec)
-  });
+  try{
+    const now=new Date().toISOString();
+    const rec={
+      admin_id:a.id,admin_name:a.name,admin_pin:a.pin,
+      last_seen:now,is_online:true,
+      ...(action==='setup'?{first_login:now}:{})
+    };
+    await fetch(`${ADM_URL}/rest/v1/gb_admins`,{
+      method:'POST',headers:{...SB_HEADERS,'Prefer':'resolution=merge-duplicates'},
+      body:JSON.stringify(rec)
+    });
+  }catch(e){console.log('Admin record save failed (non-critical):',e);}
 }
 
 function loginSuccess(a){
@@ -515,6 +515,10 @@ function loginSuccess(a){
 
 function showPanel(){
   document.getElementById('adminWrap').style.display='flex';
+  // Hide login background
+  document.getElementById('slideBg').style.display='none';
+  document.querySelector('.slide-overlay').style.display='none';
+  clearInterval(slideTimer);
   const a=currentAdmin;
   // Nav chip
   document.getElementById('chipAv').style.background=a.color;
