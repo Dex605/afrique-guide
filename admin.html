@@ -18,11 +18,11 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 .slide-overlay{position:fixed;inset:0;z-index:1;background:rgba(4,4,10,.6)}
 
 /* ── STEP PAGES ── */
-.step{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:20px}
+.step{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.3)}
 .step.show{display:flex}
 
 /* ── WELCOME CARD ── */
-.w-card{background:rgba(8,8,16,.96);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:48px 44px;width:100%;max-width:440px;text-align:center;backdrop-filter:blur(24px);box-shadow:0 32px 80px rgba(0,0,0,.6)}
+.w-card{background:rgba(14,14,24,.98);border:1px solid rgba(201,168,76,.3);border-radius:14px;padding:48px 44px;width:100%;max-width:440px;text-align:center;backdrop-filter:blur(24px);box-shadow:0 32px 80px rgba(0,0,0,.6)}
 .w-globe{width:60px;height:60px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08);margin:0 auto 16px}
 .w-globe svg{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.5}
 .w-eyebrow{font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
@@ -31,11 +31,11 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 
 /* admin selector */
 .admin-selector{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
-.admin-option{padding:13px 18px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;text-align:left}
+.admin-option{padding:13px 18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;text-align:left}
 .admin-option:hover{background:rgba(201,168,76,.08);border-color:var(--border)}
 .admin-option.selected{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.4)}
 .ao-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;flex-shrink:0;color:#fff}
-.ao-name{font-size:.86rem;font-weight:600;color:var(--text)}
+.ao-name{font-size:.86rem;font-weight:600;color:#F2EDE4}
 .ao-role{font-size:.6rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
 .ao-boss{font-size:.56rem;background:rgba(201,168,76,.15);color:var(--gold);padding:2px 7px;border-radius:10px;margin-left:auto;flex-shrink:0}
 .btn-next{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:6px;font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:background .2s}
@@ -43,7 +43,7 @@ html,body{font-family:var(--sans);background:var(--bg);color:var(--text);min-hei
 .btn-next:disabled{background:rgba(201,168,76,.3);cursor:not-allowed}
 
 /* ── PIN CARD ── */
-.pin-card{background:rgba(8,8,16,.96);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:40px 36px;width:100%;max-width:360px;text-align:center;backdrop-filter:blur(24px)}
+.pin-card{background:rgba(14,14,24,.98);border:1px solid rgba(201,168,76,.3);border-radius:14px;padding:40px 36px;width:100%;max-width:360px;text-align:center;backdrop-filter:blur(24px)}
 .pin-who{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
 .pin-title{font-family:var(--serif);font-size:1.5rem;font-weight:700;margin-bottom:4px}
 .pin-sub{font-size:.74rem;color:var(--text2);margin-bottom:24px}
@@ -371,6 +371,7 @@ function buildSelector(){
     sel.appendChild(d);
   });
 }
+document.addEventListener("DOMContentLoaded", buildSelector);
 buildSelector();
 
 function goToPin(){
